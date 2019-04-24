@@ -22,12 +22,12 @@ setup(
         ],
     packages=["pyvol"],
     install_requires=[
-        "bio",
-        "numpy",
-        "pandas",
-        "scipy",
-        "scikit-learn",
-        "trimesh",
+        "bio>=1.73",
+        "numpy>=1.16.1",
+        "pandas>=0.24.1",
+        "scipy>=1.2.1",
+        "scikit-learn>=0.20.2",
+        "trimesh>=2.36.29",
         ],
     entry_points={
         "console_scripts": [
