@@ -7,7 +7,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="bio-pyvol",
-    version="1.0.0",
+    version="1.0.2",
     description="a PyMOL plugin for visualization, comparison, and volume calculation for protein drug-binding sites",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -17,6 +17,8 @@ setup(
     license="MIT",
     classifiers=[
         "License :: OSI Approved :: MIT License",
+        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 2.7",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
         ],

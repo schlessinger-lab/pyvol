@@ -9,7 +9,9 @@ While the API is not guaranteed to be stable at this point, it is unlikely to ch
 PyVOL minimally requires biopython, msms, numpy, pandas, scipy, scikit-learn, and trimesh in order to run. PyVOL is available for manual installation from github, through the schlessinger conda channel, or from PyPI.
 ```bash
 conda install -c schlessinger bio-pyvol
+```
 or
+```bash
 pip install bio-pyvol
 ```
 MSMS must be installed separately. The bioconda channel provides a version for Linux and OSX:
@@ -58,6 +60,7 @@ where the coordinate is provided as three floats separated by spaces and bounded
 Alternatively, PyVOL can return the surfaces and volumes for all pockets above a minimum volume that are identified. By default, this volume cutoff is set at 200 A^3.
 ```bash
 pocket protein_selection mode=all minimum_volume=200
+```
 
 ### Extra Ligand Options
 When a ligand is provided, the atoms of the ligand can be used to identify both minimum and maximum extents of the calculated binding pocket. To include the volume of the ligand in the pocket volume (useful for when the ligand extends into bulk solvent), use the lig_incl_rad parameter:
