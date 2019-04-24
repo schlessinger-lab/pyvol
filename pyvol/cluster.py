@@ -89,7 +89,6 @@ def extract_groups(spheres, surf_radius=None):
     
 
 def hierarchically_cluster_spheres(spheres, ordered_radii=None, min_new_radius=None, min_cluster_size=10, max_clusters=None):
-
     if min_new_radius is None:
         min_new_radius = np.amin(ordered_radii)
     
@@ -178,6 +177,30 @@ def reassign_groups_to_closest(spheres, group_list, radius, iterations=None, pre
             break
 
 
+def remove_interior(spheres):
+    min_rad = np.amin(spheres.r)
+    max_rad = np.amax(spheres.r)
+
+    point_tree = scipy.spatial.cKDTree(spheres.xyz)
+    neighbors = point_tree.query_ball_tree(point_tree, r=(max_rad - min_rad))
+
+    interior_indices = []
+    for point_index, nlist in enumerate(neighbors):
+        if point_index in interior_indices:
+            continue
+        
+        if len(nlist) <= 1:
+            continue
+        
+        inclusion = spheres.r[point_index] - spheres.r[nlist].reshape(-1, 1) - scipy.spatial.distance.cdist(spheres.xyz[nlist], spheres.xyz[point_index].reshape(1, -1))
+        included_indices = np.where(inclusion > 0)[0]
+        if len(included_indices) > 0:
+            interior_indices.extend(list(np.array(nlist)[included_indices]))
+    
+    interior_indices = np.unique(interior_indices).astype(int)
+    spheres.xyzrg = np.delete(spheres.xyzrg, interior_indices, axis=0)
+    
+
 def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.02):
     groups = np.unique(spheres.g)[:-1]
     
@@ -206,7 +229,6 @@ def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.
             altered_other_indices = []
 
             for iteration in range(iterations):
-                print(radius, spacing, group, iteration)
                 overlaps = np.zeros(len(neighbors))
                 overlap_indices = -1 * np.ones(len(neighbors))
             
@@ -220,13 +242,11 @@ def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.
                         overlap_indices[group_index] = nlist[most_overlapping_index]
 
                 overlapped_group_indices = np.where(overlaps > tolerance)[0]
-                print(radius, spacing, group, iteration, len(overlapped_group_indices))
                 if len(overlapped_group_indices) == 0:
                     break
                 
                 overlaps = overlaps[overlapped_group_indices]
                 overlap_indices = overlap_indices[overlapped_group_indices].astype(int)
-
             
                 reorder = np.argsort(overlaps)[::-1]
                 overlaps = overlaps[reorder]

@@ -110,5 +110,6 @@ def subpockets(bounding_spheres, ref_spheres, min_rad, max_rad, min_subpocket_ra
 
     cluster.remove_overlap(spheres, radii=sampling_radii, spacing=sampling)
     cluster.remove_overlap(spheres)
+    cluster.remove_interior(spheres)
     grouped_list = cluster.extract_groups(spheres, surf_radius=min_rad)
     return grouped_list
