@@ -8,9 +8,9 @@ README = (HERE / "README.md").read_text()
 setup(
     name="bio-pyvol",
     version="1.0.0",
-    description="Protein binding pocket partitioning and volume calculations",
+    description="a PyMOL plugin for visualization, comparison, and volume calculation for protein drug-binding sites",
     long_description=README,
-    long_dscription_content_type="text/markdown",
+    long_description_content_type="text/markdown",
     url="https://github.com/rhs2132/pyvol",
     author="Ryan Smith",
     author_email="rhydesmith@gmail.com",

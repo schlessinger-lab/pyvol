@@ -5,7 +5,7 @@ import itertools
 import numpy as np
 
 
-def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, residue=None, min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, subdivide=None):
+def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, residue=None, min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, subdivide=None, minimum_volume=200, min_subpocket_rad=1.7, max_clusters=None):
     """
     Calculates the SES for a binding pocket
 
@@ -56,7 +56,7 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, residue=No
         pa_s = pa_s + le_bs
 
     if mode == "all":
-        return pa_s.calculate_surface(probe_radius=min_rad, all_components=True)
+        return pa_s.calculate_surface(probe_radius=min_rad, all_components=True, minimum_volume=minimum_volume)
     elif mode == "largest":
         bp_bs = pa_s.calculate_surface(probe_radius=min_rad, all_components=True, largest_only=True)[0]
     elif mode == "specific":
@@ -89,7 +89,7 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, residue=No
     else:
         all_pockets = [bp_bs]
         if subdivide is not None:
-            all_pockets.extend(subpockets(bounding_spheres = pa_s, ref_spheres = bp_bs, min_rad=min_rad, max_rad=max_rad, min_subpocket_rad=1.7))
+            all_pockets.extend(subpockets(bounding_spheres = pa_s, ref_spheres = bp_bs, min_rad=min_rad, max_rad=max_rad, min_subpocket_rad=min_subpocket_rad, max_clusters=max_clusters))
         
         return all_pockets
 

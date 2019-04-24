@@ -7,7 +7,7 @@ import shutil
 import tempfile
 
 
-def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None, name="bp", min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, display_mode="solid", color='marine', alpha=0.85, output_dir=None, subdivide=None):
+def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None, name="bp", min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, display_mode="solid", color='marine', alpha=0.85, output_dir=None, subdivide=None, minimum_volume=200):
     """
     Calculates the SES for a binding pocket and displays it
 
@@ -40,7 +40,7 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
     elif mode is None:
         mode = "largest"
 
-    spheres = identify.pocket(prot_file, mode=mode, lig_file=lig_file, coordinate=pocket_coordinate, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, subdivide=subdivide)
+    spheres = identify.pocket(prot_file, mode=mode, lig_file=lig_file, coordinate=pocket_coordinate, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, subdivide=subdivide, minimum_volume=minimum_volume)
 
     if mode in ["specific", "largest"]:
         if not subdivide:
