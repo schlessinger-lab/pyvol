@@ -29,10 +29,10 @@
       </size>
      </property>
      <property name="styleSheet">
-      <string notr="true">background-color: #000;color:white; padding: 20px</string>
+      <string notr="true">background-color: white;color:black; padding: 20px</string>
      </property>
      <property name="text">
-      <string notr="true">Some required components have not been installed yet. Sellecting install will attempt to automatically install all dependencies using calls to pip and/or conda. This can take longer than expected. Detailed manual installation instructions are available on github.</string>
+      <string notr="true">Some required components have not been installed yet. Sellecting install will attempt to automatically install all dependencies using calls to pip and conda. This can take longer than expected. On MacOS and Linux, this installation should be complete. On Windows, MSMS must be installed manually. Restart PyMOL after installation for the changes to take effect. See the github repository for further details.</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>

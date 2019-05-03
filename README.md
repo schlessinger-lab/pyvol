@@ -4,6 +4,13 @@ PyVOL is a python library for identifying protein binding pockets, partitioning 
 
 While the API is not guaranteed to be stable at this point, it is unlikely to change.
 
+## Basic PyMOL Installation
+PyVOL can be installed into PyMOL by using the plugin manager to fetch from url:
+```bash
+https://github.com/rhs2132/pyvol/blob/master/pyvol_plugin.zip
+```
+This adds a menu option under plugins "Install PyVOL." Clicking this and selecting install will download PyVOL and all its dependencies. On MacOS and Linux, this should be a complete installation. Windows currently requires independent installation of MSMS. PyVOL will be available to run once PyMOL is restarted.
+
 ## Basic Installation
 PyVOL minimally requires biopython, msms, numpy, pandas, scipy, scikit-learn, and trimesh in order to run. PyVOL is available for manual installation from github, through the schlessinger conda channel, or from PyPI.
 ```bash
@@ -25,7 +32,7 @@ Otherwise MSMS must be installed manually by downloading it from [MGLTools](http
 
 As mentioned before, visualization relies on PyMOL 2.0+. Once PyVOL is installed in the python environment used by PyMOL, the script can be installed by using the plugin manager to install the file "plugins/pyvol_plugin.py".
 
-## PyMOL Installation
+## Detailed PyMOL Installation
 Installing into PyMOL can be unexpectedly difficult due to some quirks in PyMOL's dependency management. Specifically, some versions of PyMOL 2.0+ use both pip and conda to manage dependencies which can lead to odd conflicts. The libraries managed by pip seem to take precedence over those by conda, so preferentially use the pip installation path. The pip and conda executables packaged with PyMOL are located at:
 ```bash
 <pymol_root_dir>/bin/conda
@@ -99,7 +106,7 @@ If the number of clusters must be reduced, sub-pockets are merged on the basis o
 ### Display and Output Options
 By default, PyVOL simply writes volumes to STDOUT and, when invoked through PyMOL, displays pocket boundaries as semi-translucent surfaces. This behavior can be extensively customized.
 
-The output name for all computed PyMOL objects and the base filename for any output files can be specified usingo the name option:
+The output name for all computed PyMOL objects and the base filename for any output files can be specified using the name option:
 ```python
 pocket protein_selection name=favorite_protein_1
 ```

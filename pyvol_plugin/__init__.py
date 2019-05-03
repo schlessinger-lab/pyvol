@@ -4,8 +4,6 @@ import importlib.util
 def __init_plugin__(app=None):
     print("initializing")
     pyvol_spec = importlib.util.find_spec("pyvol")
-    pyvol_spec = importlib.util.find_spec("pyvol2")
-    print(pyvol_spec)
 
     if pyvol_spec is None:
         # PyVOL is not installed; load installation options
@@ -34,6 +32,11 @@ def install_window():
         import sys
 
         subprocess.call([sys.executable, "-m", "pip", "install", "bio-pyvol"])
+        if os.name in ['posix']:
+            conda_path = os.path.join(os.path.dirname(sys.executable), "conda")
+            if not os.path.isfile(conda_path):
+                conda_path = "conda"
+            subprocess.call([conda_path, "install", "-y", "-c", "bioconda", "msms"])
         
         dialog.close()
 
