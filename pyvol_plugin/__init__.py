@@ -3,19 +3,30 @@ import importlib.util
 
 def __init_plugin__(app=None):
     print("initializing")
-    pyvol_spec = importlib.util.find_spec("pyvol")
+    # # pyvol_spec = importlib.util.find_spec("pyvol")
 
-    if pyvol_spec is None:
-        # PyVOL is not installed; load installation options
-        from pymol.plugins import addmenuitemqt
+    # if pyvol_spec is None:
+    #     print("pyvol not found--installation route")
+    #     # PyVOL is not installed; load installation options
+    #     from pymol.plugins import addmenuitemqt
 
-        addmenuitemqt('Install PyVOL', install_window)
-    else:
-        # PyVOL has been installed; load main options
+    #     addmenuitemqt('Install PyVOL', install_window)
+    # else:
+    #     print("pyvol found--extending pocket")
+    #     # PyVOL has been installed; load main options
+    #     from pymol import cmd
+    #     from pyvol import pymol_interface
+
+    #     cmd.extend('pocket', pymol_interface.pocket)
+
+    try:
         from pymol import cmd
         from pyvol import pymol_interface
-
         cmd.extend('pocket', pymol_interface.pocket)
+    except:
+        from pymol.plugins import addmenuitemqt
+        addmenuitemqt('Install PyVOL', install_window)
+        
 
 
 def install_window():
@@ -37,6 +48,10 @@ def install_window():
             if not os.path.isfile(conda_path):
                 conda_path = "conda"
             subprocess.call([conda_path, "install", "-y", "-c", "bioconda", "msms"])
+
+        from pymol import cmd
+        from pyvol import pymol_interface
+        cmd.extend('pocket', pymol_interface.pocket)
         
         dialog.close()
 

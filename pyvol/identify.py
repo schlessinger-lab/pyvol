@@ -103,7 +103,8 @@ def subpockets(bounding_spheres, ref_spheres, min_rad, max_rad, min_subpocket_ra
     nonextraneous_spheres = bounding_spheres.identify_nonextraneous(ref_spheres=ref_spheres, radius=nonextraneous_rad)
 
     sampling_radii = np.flip(np.arange(min_rad, max_subpocket_rad, sampling), axis=0)
-    unmerged_sphere_lists = [nonextraneous_spheres.calculate_surface(probe_radius=radius, all_components=True) for radius in sampling_radii]
+    # unmerged_sphere_lists = [nonextraneous_spheres.calculate_surface(probe_radius=radius, all_components=True) for radius in sampling_radii]
+    unmerged_sphere_lists = utilities.sphere_multiprocessing(nonextraneous_spheres, sampling_radii, all_components=True)
     spheres = cluster.merge_sphere_list(itertools.chain(*unmerged_sphere_lists))
 
     cluster.hierarchically_cluster_spheres(spheres, ordered_radii=sampling_radii, min_new_radius=min_subpocket_rad, min_cluster_size=min_cluster_size, max_clusters=max_clusters)

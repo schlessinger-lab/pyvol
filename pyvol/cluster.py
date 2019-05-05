@@ -69,7 +69,7 @@ def extract_groups(spheres, surf_radius=None):
 
     if surf_radius is not None:
         exterior_list = [group_spheres.calculate_surface(probe_radius=surf_radius)[0] for group_spheres in group_list]
-        reindices = np.flip(np.argsort([s.mesh.volume for s in exterior_list]))
+        reindices = np.flip(np.argsort([s.mesh.volume for s in exterior_list]), 0)
 
         new_group_list = []
         new_ext_list = []

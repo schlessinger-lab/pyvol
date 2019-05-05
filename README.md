@@ -11,7 +11,7 @@ https://github.com/rhs2132/pyvol/blob/master/pyvol_plugin.zip
 ```
 This adds a menu option under plugins "Install PyVOL." Clicking this and selecting install will download PyVOL and all its dependencies. On MacOS and Linux, this should be a complete installation. Windows currently requires independent installation of MSMS. PyVOL will be available to run once PyMOL is restarted.
 
-## Basic Installation
+## Basic Manual Installation
 PyVOL minimally requires biopython, msms, numpy, pandas, scipy, scikit-learn, and trimesh in order to run. PyVOL is available for manual installation from github, through the schlessinger conda channel, or from PyPI.
 ```bash
 conda install -c schlessinger bio-pyvol
