@@ -123,9 +123,10 @@ pocket protein_selection output_dir=foo/
 ### Command-line Interface
 PyVOL can also be run from the command-line. If installed using pip, a "pyvol" entry point should be automatically installed and made available on the path. Otherwise, manual invocation of pyvol/__main__.py should work. From the command-line, PyVOL is run with a standard configuration file.
 ```bash
-pyvol <input_parameters.cfg>
+python -m pyvol <input_parameters.cfg>
 ```
 A template configuration file with default values supplied can be generated using:
 ```bash
-pyvol -t <output_template.cfg>
+python -m pyvol -t <output_template.cfg>
 ```
+Currently, PyVOL does not output any information to stdout when run this way. So if an output directory is not provided, there is no easy way to retrieve the results.
