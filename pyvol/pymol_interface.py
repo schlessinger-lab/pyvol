@@ -7,7 +7,7 @@ import shutil
 import tempfile
 
 
-def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None, name="bp", min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, display_mode="solid", color='marine', alpha=0.85, output_dir=None, subdivide=None, minimum_volume=200):
+def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None, prefix="bp", min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, display_mode="solid", color='marine', alpha=0.85, output_dir=None, subdivide=None, minimum_volume=200):
     """
     Calculates the SES for a binding pocket and displays it
 
@@ -45,20 +45,20 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
     if mode in ["specific", "largest"]:
         if not subdivide:
             print("Pocket Volume: {0} A^3".format(format(spheres[0].mesh.volume, '.2f')))
-            pymol_utilities.display_spheres_object(spheres[0], name, state=1, color=color, alpha=alpha, mode=display_mode)
+            pymol_utilities.display_spheres_object(spheres[0], spheres[0].name, state=1, color=color, alpha=alpha, mode=display_mode)
         else:
             print("Whole Pocket Volume: {0} A^3".format(format(spheres[0].mesh.volume, '.2f')))
-            pymol_utilities.display_spheres_object(spheres[0], name, state=1, color=color, alpha=alpha, mode=display_mode)
+            pymol_utilities.display_spheres_object(spheres[0], spheres[0].name, state=1, color=color, alpha=alpha, mode=display_mode)
             palette = construct_palette(max_value=(len(spheres) -1))
             for index, sps in enumerate(spheres[1:]):
                 group = int(sps.g[0])
-                print("Subpocket {0} Volume: {1} A^3".format(group, format(sps.mesh.volume, '.2f')))
-                pymol_utilities.display_spheres_object(sps, "{0}_sp{1}".format(name, group), state=1, color=palette[index], alpha=alpha, mode=display_mode)
+                print("{0} volume: {1} A^3".format(sps.name, format(sps.mesh.volume, '.2f')))
+                pymol_utilities.display_spheres_object(sps, sps.name, state=1, color=palette[index], alpha=alpha, mode=display_mode)
     else:
         palette = pymol_utilities.construct_palette(max_value=len(spheres))
         for index, s in enumerate(spheres):
-            print("Pocket Volume {0}: {1} A^3".format(index, format(s.mesh.volume, '.2f')))
-            pymol_utilities.display_spheres_object(s, name, state=1, color=palette[index], alpha=alpha, mode=display_mode)
+            print("{0} volume: {1} A^3".format(s.name, format(s.mesh.volume, '.2f')))
+            pymol_utilities.display_spheres_object(s, s.name, state=1, color=palette[index], alpha=alpha, mode=display_mode)
 
     if output_dir is None:
         shutil.rmtree(out_dir)

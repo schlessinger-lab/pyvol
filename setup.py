@@ -7,7 +7,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="bio-pyvol",
-    version="1.0.4",
+    version="1.0.5",
     description="a PyMOL plugin for visualization, comparison, and volume calculation for protein drug-binding sites",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -34,6 +34,7 @@ setup(
         "scipy>=1.2.1",
         "scikit-learn>=0.20.2",
         "trimesh>=2.36.29",
+        "configparser"
         ],
     entry_points={
         "console_scripts": [

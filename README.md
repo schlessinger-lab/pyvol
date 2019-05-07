@@ -12,11 +12,7 @@ https://github.com/rhs2132/pyvol/blob/master/pyvol_plugin.zip
 This adds a menu option under plugins "Install PyVOL." Clicking this and selecting install will download PyVOL and all its dependencies. On MacOS and Linux, this should be a complete installation. Windows currently requires independent installation of MSMS. PyVOL will be available to run once PyMOL is restarted.
 
 ## Basic Manual Installation
-PyVOL minimally requires biopython, msms, numpy, pandas, scipy, scikit-learn, and trimesh in order to run. PyVOL is available for manual installation from github, through the schlessinger conda channel, or from PyPI.
-```bash
-conda install -c schlessinger bio-pyvol
-```
-or
+PyVOL minimally requires biopython, msms, numpy, pandas, scipy, scikit-learn, and trimesh in order to run. PyVOL is available for manual installation from github or from PyPI.
 ```bash
 pip install bio-pyvol
 ```
@@ -59,17 +55,17 @@ pocket protein_selection mode=largest
 ```
 Ligand specification:
 ```python
-pocket protein_selection mode=ligand ligand=ligand_selection
+pocket protein_selection mode=specific ligand=ligand_selection
 ```
 Residue specification:
 ```python
-pocket protein_selection mode=residue residue=A15
+pocket protein_selection mode=specific residue=A15
 ```
 where the residue is written as <Chain><Residue number>. If there is only one chain in the selection, the chain ID can be excluded.
 
 Coordinate specification:
 ```python
-pocket protein_selection mode=coordinate pocket_coordinate="5.0 10.0 15.0"
+pocket protein_selection mode=specific pocket_coordinate="5.0 10.0 15.0"
 ```
 where the coordinate is provided as three floats separated by spaces and bounded by quotation marks.
 
@@ -106,9 +102,9 @@ If the number of clusters must be reduced, sub-pockets are merged on the basis o
 ### Display and Output Options
 By default, PyVOL simply writes volumes to STDOUT and, when invoked through PyMOL, displays pocket boundaries as semi-translucent surfaces. This behavior can be extensively customized.
 
-The output name for all computed PyMOL objects and the base filename for any output files can be specified using the name option:
+The output name for all computed PyMOL objects and the base filename for any output files can be specified using the prefix option:
 ```python
-pocket protein_selection name=favorite_protein_1
+pocket protein_selection prefix=favprot
 ```
 
 Calculated surfaces can be visualized in three different ways by setting the display_mode parameter. The following three commands set the output as a solid surface with transparency, a wireframe mesh, and a collection of spheres. Color is set with the color parameter and transparency (when applicable) with the alpha parameter:
@@ -119,8 +115,17 @@ pocket protein_selection display_mode=spheres color=firebrick
 ```
 where alpha is [0, 1.0] and the color is any color defined within pymol. The presets should generally be sufficient, but custom colors can be chosen using the commands given on the PyMOL wiki.
 
-PyVOL will write a report of volumes (csv format) as well as the geometry of each surface (csv and obj formats for tangent sphere and surface representations respectively) if provided with the output_dir option:
+PyVOL will write a report of volumes (csv format) as well as the geometry of each surface (obj format) if provided with the output_dir option:
 ```python
 pocket protein_selection output_dir=foo/
 ```
 
+### Command-line Interface
+PyVOL can also be run from the command-line. If installed using pip, a "pyvol" entry point should be automatically installed and made available on the path. Otherwise, manual invocation of pyvol/__main__.py should work. From the command-line, PyVOL is run with a standard configuration file.
+```bash
+pyvol <input_parameters.cfg>
+```
+A template configuration file with default values supplied can be generated using:
+```bash
+pyvol -t <output_template.cfg>
+```

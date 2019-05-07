@@ -26,7 +26,8 @@ class Spheres(object):
                  g=None,
                  pdb=None,
                  bv=None,
-                 mesh=None):
+                 mesh=None,
+                 name=None):
         """
         A Spheres object contains a list of xyz centers with r radii and g groups. It can be defined using xyzrg, xyzr (and optionally g), xyz (and optionally r or g), a pdb file (and optionally r or g), or a list of vertices with normals bounded by the spheres (requires r and optionally includes g)
 
@@ -90,6 +91,11 @@ class Spheres(object):
             self.mesh = mesh
         else:
             self.mesh = None
+
+        if name is not None:
+            self.name = name
+        else:
+            self.name = None
 
 
     def __add__(self, other):
@@ -170,6 +176,7 @@ class Spheres(object):
         else:
             spheres_list = []
             ac_template_list = [os.path.splitext(x)[0] for x in glob.glob("{0}_*.face".format(msms_template))]
+
             largest_mesh = None
             for ac_template in ac_template_list:
                 verts_raw, vertices, faces = read_msms_output(ac_template)

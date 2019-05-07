@@ -5,7 +5,7 @@ import itertools
 import numpy as np
 
 
-def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, residue=None, min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, subdivide=None, minimum_volume=200, min_subpocket_rad=1.7, max_clusters=None):
+def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, residue=None, min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, subdivide=False, minimum_volume=200, min_subpocket_rad=1.7, max_clusters=None, prefix="pocket", output_dir=None):
     """
     Calculates the SES for a binding pocket
 
@@ -56,45 +56,54 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, residue=No
         pa_s = pa_s + le_bs
 
     if mode == "all":
-        return pa_s.calculate_surface(probe_radius=min_rad, all_components=True, minimum_volume=minimum_volume)
-    elif mode == "largest":
-        bp_bs = pa_s.calculate_surface(probe_radius=min_rad, all_components=True, largest_only=True)[0]
-    elif mode == "specific":
-        if coordinate is not None:
-            coordinate = coordinate.reshape(1, -1)                
-        elif residue is not None:
-            residue = str(residue)
-            chain = None
-            if not residue[0].isdigit():
-                chain = residue[0]
-                residue = int(residue[1:])
+        all_pockets = pa_s.calculate_surface(probe_radius=min_rad, all_components=True, minimum_volume=minimum_volume)
+        for index, pocket in enumerate(all_pockets):
+            pocket.name = "{0}_p{1}".format(prefix, index)
+    else:
+        if mode == "largest":
+            bp_bs = pa_s.calculate_surface(probe_radius=min_rad, all_components=True, largest_only=True)[0]
+        elif mode == "specific":
+            if coordinate is not None:
+                coordinate = coordinate.reshape(1, -1)                
+            elif residue is not None:
+                residue = str(residue)
+                chain = None
+                if not residue[0].isdigit():
+                    chain = residue[0]
+                    residue = int(residue[1:])
+                else:
+                    residue = int(residue)
+                res_coords = utilities.coordinates_for_residue(prot_file, residue=residue, chain=chain)
+                p_bs = p_s.calculate_surface(probe_radius=min_rad)[0]
+                coordinate = p_bs.nearest_coord_to_external(res_coords).reshape(1, -1)
+            elif l_s is not None:
+                lig_coords = l_s.xyz
+                coordinate = np.mean(l_s.xyz, axis=0).reshape(1, -1)
             else:
-                residue = int(residue)
-            res_coords = utilities.coordinates_for_residue(prot_file, residue=residue, chain=chain)
-            p_bs = p_s.calculate_surface(probe_radius=min_rad)[0]
-            coordinate = p_bs.nearest_coord_to_external(res_coords).reshape(1, -1)
-        elif l_s is not None:
-            lig_coords = l_s.xyz
-            coordinate = np.mean(l_s.xyz, axis=0).reshape(1, -1)
+                print("A coordinate, ligand, or residue must be supplied to run in specific mode")
+                return None
+            bp_bs = pa_s.calculate_surface(probe_radius=min_rad, coordinate=coordinate)[0]
         else:
-            print("A coordinate, ligand, or residue must be supplied to run in specific mode")
+            print("Error: unrecognized mode <{0}>--should be 'all', 'largest', or 'specific'".format(mode))
+
+        bp_bs.name = "{0}_p0".format(prefix)
+
+        if bp_bs.mesh.volume > pl_bs.mesh.volume:
+            print("Error: binding pocket not correctly identified--try an alternative method to specify the binding pocket")
             return None
-        bp_bs = pa_s.calculate_surface(probe_radius=min_rad, coordinate=coordinate)[0]
-    else:
-        print("Error: unrecognized mode <{0}>--should be 'all', 'largest', or 'specific'".format(mode))
+        else:
+            all_pockets = [bp_bs]
+            
+        if subdivide:
+            all_pockets.extend(subpockets(bounding_spheres = pa_s, ref_spheres = bp_bs, min_rad=min_rad, max_rad=max_rad, min_subpocket_rad=min_subpocket_rad, max_clusters=max_clusters, prefix=prefix))
 
-    if bp_bs.mesh.volume > pl_bs.mesh.volume:
-        print("Error: binding pocket not correctly identified--try an alternative method to specify the binding pocket")
-        return None
-    else:
-        all_pockets = [bp_bs]
-        if subdivide is not None:
-            all_pockets.extend(subpockets(bounding_spheres = pa_s, ref_spheres = bp_bs, min_rad=min_rad, max_rad=max_rad, min_subpocket_rad=min_subpocket_rad, max_clusters=max_clusters))
+    if output_dir is not None:
+        write_report(all_pockets, output_dir, prefix)
         
-        return all_pockets
+    return all_pockets
 
 
-def subpockets(bounding_spheres, ref_spheres, min_rad, max_rad, min_subpocket_rad=1.7, max_subpocket_rad=None, sampling=0.1, inclusion_radius_buffer=1.0, min_cluster_size=10, max_clusters=None):
+def subpockets(bounding_spheres, ref_spheres, min_rad, max_rad, min_subpocket_rad=1.7, max_subpocket_rad=None, sampling=0.1, inclusion_radius_buffer=1.0, min_cluster_size=10, max_clusters=None, prefix=None):
     
     if max_subpocket_rad is None:
         max_subpocket_rad = max_rad
@@ -103,7 +112,6 @@ def subpockets(bounding_spheres, ref_spheres, min_rad, max_rad, min_subpocket_ra
     nonextraneous_spheres = bounding_spheres.identify_nonextraneous(ref_spheres=ref_spheres, radius=nonextraneous_rad)
 
     sampling_radii = np.flip(np.arange(min_rad, max_subpocket_rad, sampling), axis=0)
-    # unmerged_sphere_lists = [nonextraneous_spheres.calculate_surface(probe_radius=radius, all_components=True) for radius in sampling_radii]
     unmerged_sphere_lists = utilities.sphere_multiprocessing(nonextraneous_spheres, sampling_radii, all_components=True)
     spheres = cluster.merge_sphere_list(itertools.chain(*unmerged_sphere_lists))
 
@@ -112,5 +120,24 @@ def subpockets(bounding_spheres, ref_spheres, min_rad, max_rad, min_subpocket_ra
     cluster.remove_overlap(spheres, radii=sampling_radii, spacing=sampling)
     cluster.remove_overlap(spheres)
     cluster.remove_interior(spheres)
-    grouped_list = cluster.extract_groups(spheres, surf_radius=min_rad)
+    grouped_list = cluster.extract_groups(spheres, surf_radius=min_rad, prefix=prefix)
     return grouped_list
+
+
+def write_report(all_pockets, output_dir, prefix):
+    import os
+    import pandas as pd
+
+    utilities.check_dir(output_dir)
+    
+    rept_list = []
+    
+    for pocket in all_pockets:
+        mesh_name = os.path.join(output_dir, "{0}.obj".format(pocket.name))
+        pocket.mesh.export(file_obj=mesh_name)        
+        rept_list.append({"name": pocket.name,
+                          "volume": pocket.mesh.volume
+                          })
+    rept_df = pd.DataFrame(rept_list)
+    rept_name = os.path.join(output_dir, "{0}_rept.csv".format(prefix))
+    rept_df.to_csv(rept_name, index=False)

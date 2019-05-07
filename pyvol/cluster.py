@@ -59,7 +59,7 @@ def cluster_improperly_grouped(spheres, radius, min_cluster_size=1, max_clusters
             reassign_groups_to_closest(spheres, np.where(group_counts > 0)[0], radius, iterations=(num_groups - max_clusters))
 
 
-def extract_groups(spheres, surf_radius=None):
+def extract_groups(spheres, surf_radius=None, prefix=None):
     groups = np.unique(spheres.g)
 
     group_list = []
@@ -80,6 +80,9 @@ def extract_groups(spheres, surf_radius=None):
             g_s.g = index
             e_s.g = index
             g_s.mesh = e_s.mesh.copy()
+
+            if prefix is not None:
+                g_s.name = "{0}_p0_sp{1}".format(prefix, index)
             new_group_list.append(g_s)
             new_ext_list.append(e_s)
 
