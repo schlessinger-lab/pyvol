@@ -5,7 +5,7 @@ PyVOL is a python library for identifying protein binding pockets, partitioning 
 While the API is not guaranteed to be stable at this point, it is unlikely to change.
 
 ## Basic PyMOL Installation
-PyVOL can be installed into PyMOL by using the plugin manager to fetch from url:
+PyVOL can be installed into PyMOL by using the plugin manager to install the zip file downloaded from:
 ```bash
 https://github.com/rhs2132/pyvol/blob/master/pyvol_plugin.zip
 ```
@@ -26,7 +26,7 @@ Otherwise MSMS must be installed manually by downloading it from [MGLTools](http
 <pymol_root_dir>/pkgs/msms-2.6.1-2/bin/msms
 ```
 
-As mentioned before, visualization relies on PyMOL 2.0+. Once PyVOL is installed in the python environment used by PyMOL, the script can be installed by using the plugin manager to install the file "plugins/pyvol_plugin.py".
+As mentioned before, visualization relies on PyMOL 2.0+. Once PyVOL is installed in the python environment used by PyMOL, the script can be installed by using the plugin manager to install the file "pyvol_plugin.zip".
 
 ## Detailed PyMOL Installation
 Installing into PyMOL can be unexpectedly difficult due to some quirks in PyMOL's dependency management. Specifically, some versions of PyMOL 2.0+ use both pip and conda to manage dependencies which can lead to odd conflicts. The libraries managed by pip seem to take precedence over those by conda, so preferentially use the pip installation path. The pip and conda executables packaged with PyMOL are located at:
