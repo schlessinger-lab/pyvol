@@ -114,7 +114,6 @@ class Spheres(object):
             if name is None:
                 name = os.path.basename(base)
 
-        print(mesh)
         if mesh is not None:
             self.mesh = mesh
         else:

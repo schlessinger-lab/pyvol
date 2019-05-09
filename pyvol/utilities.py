@@ -1,13 +1,18 @@
 
 from Bio.PDB import PDBParser
+import copy_reg
 import multiprocessing
 import numpy as np
 import os
 import subprocess
+import types
 
 def check_dir(location):
     if not os.path.isdir(location):
-        os.makedirs(location, exist_ok=True)
+        try:
+            os.makedirs(location)
+        except:
+            pass
 
 
 def coordinates_for_residue(pdb_file, residue, chain=None, model=0):
@@ -22,6 +27,13 @@ def coordinates_for_residue(pdb_file, residue, chain=None, model=0):
             print("Error: ambiguous or absent residue definition")
             return None
     return np.array([atom.get_coord() for atom in res.get_atoms()])
+
+
+def _pickle_method(m):
+    if m.im_self is None:
+        return getattr, (m.im_class, m.im_func.func_name)
+    else:
+        return getattr, (m.im_self, m.im_func.func_name)
 
 
 def run_cmd(options, in_directory=None):
@@ -57,3 +69,6 @@ def sphere_multiprocessing(spheres, radii, workers=None, **kwargs):
     results = pool.map(surface_multiprocessing, [(spheres, probe_radius, kwargs) for probe_radius in radii])
     pool.close()
     return results
+
+
+copy_reg.pickle(types.MethodType, _pickle_method)
