@@ -1,5 +1,5 @@
 
-__version__ = "1.0.8"
+__version__ = "1.0.9"
 
 def __init_plugin__(app=None):    
     from pymol import cmd
