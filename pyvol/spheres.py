@@ -27,7 +27,8 @@ class Spheres(object):
                  pdb=None,
                  bv=None,
                  mesh=None,
-                 name=None):
+                 name=None,
+                 spheres_file=None):
         """
         A Spheres object contains a list of xyz centers with r radii and g groups. It can be defined using xyzrg, xyzr (and optionally g), xyz (and optionally r or g), a pdb file (and optionally r or g), or a list of vertices with normals bounded by the spheres (requires r and optionally includes g)
 
@@ -87,6 +88,26 @@ class Spheres(object):
 
             if g is not None:
                 self.g = g
+        elif spheres_file is not None:
+            csv_file = None
+            obj_file = None
+
+            base, ext = os.path.splitext(spheres_file)
+            if ext == "csv":
+                csv_file = spheres_file
+                obj_file = "{0}.obj".format(base)
+            elif ext == "obj":
+                csv_file = "{0}.csv".format(base)
+                obj_file = spheres_file
+            else:
+                print("Invalid filename given to read in spheres object: {0}".format(spheres_file))
+            
+            self.xyzrg = pd.read_csv(csv_file)
+            self.mesh = trimesh.load_mesh(obj_file)
+
+            if name is None:
+                name = base
+                
         if mesh is not None:
             self.mesh = mesh
         else:
@@ -279,7 +300,7 @@ class Spheres(object):
         self.mesh = None
         
         
-    def write(self, filename, contents="xyzr", output_mesh=None):
+    def write(self, filename, contents="xyzrg", output_mesh=True):
         """
         Writes the contents of _xyzrg to a space delimited file 
 
@@ -296,13 +317,12 @@ class Spheres(object):
         elif contents == "xyz":
             np.savetxt(filename, self.xyz, delimiter=' ')
 
-        if output_mesh is not None:
+        if output_mesh:
             if self.mesh is None:
                 print("Cannot write out an uninitialized mesh")
             else:
-                if output_mesh == " ":
-                    output_mesh = "{0}.obj".format(os.path.splitext(filename)[0])
-                mesh.export(output_mesh)
+                output_mesh = "{0}.obj".format(os.path.splitext(filename)[0])
+                self.mesh.export(file_obj = output_mesh)
 
 
     @property

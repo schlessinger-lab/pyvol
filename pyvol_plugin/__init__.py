@@ -23,6 +23,7 @@ def __init_plugin__(app=None):
         from pymol import cmd
         from pyvol import pymol_interface
         cmd.extend('pocket', pymol_interface.pocket)
+        cmd.extend('load_spheres', pymol_interface.load_spheres)
     except:
         from pymol.plugins import addmenuitemqt
         addmenuitemqt('Install PyVOL', install_window)

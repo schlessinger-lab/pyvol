@@ -3,6 +3,7 @@ from .spheres import Spheres
 from . import cluster, utilities
 import itertools
 import numpy as np
+import os
 
 
 def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, residue=None, min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, subdivide=False, minimum_volume=200, min_subpocket_rad=1.7, max_clusters=None, prefix=None, output_dir=None):
@@ -136,8 +137,10 @@ def write_report(all_pockets, output_dir, prefix):
     rept_list = []
     
     for pocket in all_pockets:
-        mesh_name = os.path.join(output_dir, "{0}.obj".format(pocket.name))
-        pocket.mesh.export(file_obj=mesh_name)        
+        # mesh_name = os.path.join(output_dir, "{0}.obj".format(pocket.name))
+        spheres_name = os.path.join(output_dir, "{0}.csv".format(pocket.name))
+        # pocket.mesh.export(file_obj=mesh_name)
+        pocket.write(spheres_name)
         rept_list.append({"name": pocket.name,
                           "volume": pocket.mesh.volume
                           })
