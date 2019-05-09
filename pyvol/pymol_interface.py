@@ -1,7 +1,7 @@
 
 from . import identify
 from . import pymol_utilities
-from . import spheres
+from .spheres import Spheres
 from . import utilities
 import os
 from pymol import cgo, cmd, CmdException
@@ -11,9 +11,8 @@ import time
 
 
 def load_spheres(spheres_file, name=None, display_mode="solid", color='marine', alpha=0.85):
-    spheres = spheres.Spheres(spheres_file=spheres_file, name=name)
-    pymol_utilities.display_spheres_object(spheres, spheres.name, state=1, color=palette[index], alpha=alpha, mode=display_mode)
-    
+    spheres = Spheres(spheres_file=spheres_file, name=name)
+    pymol_utilities.display_spheres_object(spheres, spheres.name, state=1, color=color, alpha=alpha, mode=display_mode)
 
 
 def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None, prefix=None, min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, display_mode="solid", color='marine', alpha=0.85, output_dir=None, subdivide=None, minimum_volume=200):

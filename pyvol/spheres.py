@@ -93,21 +93,28 @@ class Spheres(object):
             obj_file = None
 
             base, ext = os.path.splitext(spheres_file)
-            if ext == "csv":
+            if ext == ".csv":
                 csv_file = spheres_file
                 obj_file = "{0}.obj".format(base)
-            elif ext == "obj":
+            elif ext == ".obj":
                 csv_file = "{0}.csv".format(base)
                 obj_file = spheres_file
             else:
                 print("Invalid filename given to read in spheres object: {0}".format(spheres_file))
-            
-            self.xyzrg = pd.read_csv(csv_file)
-            self.mesh = trimesh.load_mesh(obj_file)
+            spheres_data = np.loadtxt(csv_file, delimiter=' ')
+
+            if spheres_data.shape[1] == 5:
+                self.xyzrg = spheres_data
+            elif spheres_data.shape[1] == 4:
+                self.xyzr = spheres_data
+            else:
+                print("Spheres csv file contains the wrong number of columns")
+            mesh = trimesh.load_mesh(obj_file)
 
             if name is None:
-                name = base
-                
+                name = os.path.basename(base)
+
+        print(mesh)
         if mesh is not None:
             self.mesh = mesh
         else:
