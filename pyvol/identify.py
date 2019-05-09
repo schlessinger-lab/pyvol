@@ -5,7 +5,7 @@ import itertools
 import numpy as np
 
 
-def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, residue=None, min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, subdivide=False, minimum_volume=200, min_subpocket_rad=1.7, max_clusters=None, prefix="pocket", output_dir=None):
+def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, residue=None, min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, subdivide=False, minimum_volume=200, min_subpocket_rad=1.7, max_clusters=None, prefix=None, output_dir=None):
     """
     Calculates the SES for a binding pocket
 
@@ -28,6 +28,9 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, residue=No
     lig_incl_rad : float
         Sets an inner bounds to the solvent exposed exterior surface of the protein at a fixed radius from a provided ligand; allows the user to include a volume of solvent exposed surface in volume calculations when a ligand is known to extend into solvent; this can maintain comparability between ligand and binding pocket volume calculations
     """
+
+    if prefix is None:
+        prefix = os.path.splitext(os.path.basename(prot_file))[0]
 
     min_rad = float(min_rad)
     max_rad = float(max_rad)
