@@ -1,24 +1,6 @@
 
-import importlib.util
 
 def __init_plugin__(app=None):
-    print("initializing")
-    # # pyvol_spec = importlib.util.find_spec("pyvol")
-
-    # if pyvol_spec is None:
-    #     print("pyvol not found--installation route")
-    #     # PyVOL is not installed; load installation options
-    #     from pymol.plugins import addmenuitemqt
-
-    #     addmenuitemqt('Install PyVOL', install_window)
-    # else:
-    #     print("pyvol found--extending pocket")
-    #     # PyVOL has been installed; load main options
-    #     from pymol import cmd
-    #     from pyvol import pymol_interface
-
-    #     cmd.extend('pocket', pymol_interface.pocket)
-
     try:
         from pymol import cmd
         from pyvol import pymol_interface

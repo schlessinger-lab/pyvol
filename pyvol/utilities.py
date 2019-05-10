@@ -1,10 +1,10 @@
 
 from Bio.PDB import PDBParser
-import copy_reg
 import multiprocessing
 import numpy as np
 import os
 import subprocess
+import sys
 import types
 
 def check_dir(location):
@@ -71,4 +71,6 @@ def sphere_multiprocessing(spheres, radii, workers=None, **kwargs):
     return results
 
 
-copy_reg.pickle(types.MethodType, _pickle_method)
+if sys.version_info < (3,):
+    import copy_reg
+    copy_reg.pickle(types.MethodType, _pickle_method)

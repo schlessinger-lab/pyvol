@@ -35,6 +35,8 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, residue=No
 
     min_rad = float(min_rad)
     max_rad = float(max_rad)
+    min_subpocket_rad = float(min_subpocket_rad)
+    minimum_volume = int(minimum_volume)
 
     if min_rad < 1.2:
         print("Warning: minimum radii under 1.2 and not supported and can lead to bizarre results or crashes; setting the minimum radius to 1.2")
@@ -59,6 +61,7 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, residue=No
         le_bs = le_s.calculate_surface(probe_radius=max_rad)[0]
         pa_s = pa_s + le_bs
 
+    print(mode, residue)
     if mode == "all":
         all_pockets = pa_s.calculate_surface(probe_radius=min_rad, all_components=True, minimum_volume=minimum_volume)
         for index, pocket in enumerate(all_pockets):
@@ -140,9 +143,7 @@ def write_report(all_pockets, output_dir, prefix):
     rept_list = []
     
     for pocket in all_pockets:
-        # mesh_name = os.path.join(output_dir, "{0}.obj".format(pocket.name))
         spheres_name = os.path.join(output_dir, "{0}.csv".format(pocket.name))
-        # pocket.mesh.export(file_obj=mesh_name)
         pocket.write(spheres_name)
         rept_list.append({"name": pocket.name,
                           "volume": pocket.mesh.volume
