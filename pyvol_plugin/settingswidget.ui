@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>292</width>
+    <width>298</width>
     <height>308</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string notr="true">PyVOL Installation</string>
+   <string notr="true">PyVOL Settings</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -32,7 +32,7 @@
       <string notr="true">background-color: white;color:black; padding: 20px</string>
      </property>
      <property name="text">
-      <string notr="true">Some required components have not been installed yet. Sellecting install will attempt to automatically install all dependencies using calls to pip and conda. This can take longer than expected. On MacOS and Linux, this installation should be complete. On Windows, MSMS must be installed manually. See the github repository for further details.</string>
+      <string notr="true">PyVOL installation status:</string>
      </property>
      <property name="textFormat">
       <enum>Qt::PlainText</enum>
