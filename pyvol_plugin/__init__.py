@@ -47,7 +47,7 @@ def settings_window():
         import subprocess
         import sys
 
-        subprocess.call([sys.executable, "-m", "pip", "install", "--update", "bio-pyvol"])
+        subprocess.call([sys.executable, "-m", "pip", "install", "--upgrade", "bio-pyvol"])
         refresh_status(form)
 
     def refresh_status(form):
