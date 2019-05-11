@@ -43,7 +43,7 @@ def settings_window():
         import subprocess
         import sys
 
-        subprocess.call([sys.executable, "-m", "pip", "install", "--update", "bio-pyvol"])
+        subprocess.call([sys.executable, "-m", "pip", "install", "--upgrade", "bio-pyvol"])
         refresh_status(form)
 
     def refresh_status(form):
@@ -96,8 +96,9 @@ def settings_window():
                             "  pandas: {3}\n"
                             "  scipy: {4}\n"
                             "  sklearn: {5}\n"
-                            "  trimesh: {6}"
-        )).format(pyvol_version, biopython_version, numpy_version, pandas_version, scipy_version, sklearn_version, trimesh_version)
+                            "  trimesh: {6}\n\n"
+                            "Please be patient when installing or updating--the PyPI and conda servers can sometimes take a few minutes."
+        ).format(pyvol_version, biopython_version, numpy_version, pandas_version, scipy_version, sklearn_version, trimesh_version))
 
         if pyvol_version == "not found":
             form.button_install.setText("Install PyVOL")
