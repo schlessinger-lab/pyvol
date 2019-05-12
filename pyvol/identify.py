@@ -6,7 +6,7 @@ import numpy as np
 import os
 
 
-def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None, residue=None, min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, subdivide=False, minimum_volume=200, min_subpocket_rad=1.7, min_subpocket_surf_rad=1.0, max_clusters=None, prefix=None, output_dir=None):
+def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None, residue_coordinates=None, min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, subdivide=False, minimum_volume=200, min_subpocket_rad=1.7, min_subpocket_surf_rad=1.0, max_clusters=None, prefix=None, output_dir=None):
     """
     Calculates the SES for a binding pocket
 
@@ -61,7 +61,6 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
         le_bs = le_s.calculate_surface(probe_radius=max_rad)[0]
         pa_s = pa_s + le_bs
 
-    print(mode, residue)
     if mode == "all":
         all_pockets = pa_s.calculate_surface(probe_radius=min_rad, all_components=True, minimum_volume=minimum_volume)
         for index, pocket in enumerate(all_pockets):
@@ -75,17 +74,20 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
                     coordinate = coordinate.split()
                     coordinate = np.array([float(x) for x in coordinate])
                 coordinate = coordinate.reshape(1, -1)                
-            elif residue is not None:
-                residue = str(residue)
+            elif resid is not None:
+                resid = str(resid)
                 chain = None
-                if not residue[0].isdigit():
-                    chain = residue[0]
-                    residue = int(residue[1:])
+                if not resid[0].isdigit():
+                    chain = resid[0]
+                    resid = int(resid[1:])
                 else:
-                    residue = int(residue)
-                res_coords = utilities.coordinates_for_residue(prot_file, residue=residue, chain=chain)
+                    resid = int(resid)
+                res_coords = utilities.coordinates_for_resid(prot_file, resid=resid, chain=chain)
                 p_bs = p_s.calculate_surface(probe_radius=min_rad)[0]
                 coordinate = p_bs.nearest_coord_to_external(res_coords).reshape(1, -1)
+            elif residue_coordinates is not None:
+                p_bs = p_s.calculate_surface(probe_radius=min_rad)[0]
+                coordinate = p_bs.nearest_coord_to_external(residue_coordinates).reshape(1, -1)
             elif l_s is not None:
                 lig_coords = l_s.xyz
                 coordinate = np.mean(l_s.xyz, axis=0).reshape(1, -1)

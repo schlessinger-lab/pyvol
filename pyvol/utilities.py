@@ -15,7 +15,7 @@ def check_dir(location):
             pass
 
 
-def coordinates_for_residue(pdb_file, residue, chain=None, model=0):
+def coordinates_for_resid(pdb_file, resid, chain=None, model=0):
     p = PDBParser(PERMISSIVE=1, QUIET=True)
     structure = p.get_structure("prot", pdb_file)
 

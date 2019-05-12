@@ -15,7 +15,7 @@ def create_default_cfg(cfg_file = "defaults.cfg"):
     config.add_section("Specification")
     config.set("Specification", "mode", "largest")
     config.set("Specification", "coordinate")
-    config.set("Specification", "residue")
+    config.set("Specification", "resid")
     config.set("Specification", "lig_excl_rad")
     config.set("Specification", "lig_incl_rad")
     
@@ -44,7 +44,7 @@ def run_from_cfg(cfg_file):
 
     mode = config.get("Specification", "mode", fallback="largest")
     coordinate = config.get("Specification", "coordinate", fallback=None)
-    residue = config.get("Specification", "residue", fallback=None)
+    resid = config.get("Specification", "resid", fallback=None)
     lig_excl_rad = config.get("Specification", "lig_excl_rad", fallback=None)
     if lig_excl_rad is not None:
         lig_excl_rad = float(lig_excl_rad)
@@ -62,7 +62,7 @@ def run_from_cfg(cfg_file):
     output_dir = config.get("Output", "output_dir", fallback=None)
     prefix = config.get("Output", "prefix", fallback="pocket")
 
-    spheres = identify.pocket(prot_file, mode=mode, lig_file=lig_file, coordinate=coordinate, residue=residue, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, subdivide=subdivide, minimum_volume=minimum_volume, min_subpocket_rad=min_subpocket_rad, max_clusters=max_clusters, prefix=prefix, output_dir=output_dir)
+    spheres = identify.pocket(prot_file, mode=mode, lig_file=lig_file, coordinate=coordinate, resid=resid, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, subdivide=subdivide, minimum_volume=minimum_volume, min_subpocket_rad=min_subpocket_rad, max_clusters=max_clusters, prefix=prefix, output_dir=output_dir)
     
 
 if __name__ == "__main__":

@@ -75,7 +75,7 @@ def settings_window():
                 for package in packages:
                     if package["name"] == "bio-pyvol":
                         update_available = True
-                        pyvol_version = apply_color(pyvol_version, "blue")
+                        pyvol_version = apply_color("{0} ({1} available)".format(pyvol_version, package['latest_version']), "blue")
                         break
                 if not update_available:
                     pyvol_version = apply_color(pyvol_version, "green")
