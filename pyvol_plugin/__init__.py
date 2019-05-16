@@ -186,9 +186,9 @@ def pyvol_window():
         elif form.ligand_rbutton.isChecked():
             mode = "specific"
             ligand = form.lig_sele_ledit.text()
-            if form.lig_incl_ledit.text() != "":
+            if form.lig_incl_rad_ledit.text() != "":
                 lig_incl_rad = form.lig_incl_rad_ledit.text()
-            if form.lig_excl_ledit.text() != "":
+            if form.lig_excl_rad_ledit.text() != "":
                 lig_excl_rad = form.lig_excl_rad_ledit.text()
         elif form.residue_rbutton.isChecked():
             mode = "specific"
