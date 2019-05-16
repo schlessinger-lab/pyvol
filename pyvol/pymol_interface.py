@@ -15,7 +15,7 @@ def load_spheres(spheres_file, name=None, display_mode="solid", color='marine', 
     pymol_utilities.display_spheres_object(spheres, spheres.name, state=1, color=color, alpha=alpha, mode=display_mode)
 
 
-def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None, resid=None, prefix=None, min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, display_mode="solid", color='marine', alpha=0.85, output_dir=None, subdivide=None, minimum_volume=200, min_subpocket_rad=1.7, min_subpocket_surf_rad=1.0, max_clusters=None):
+def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None, resid=None, prefix=None, min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, display_mode="solid", color='marine', alpha=0.85, output_dir=None, subdivide=None, minimum_volume=200, min_subpocket_rad=1.7, min_subpocket_surf_rad=1.0, max_clusters=None, excl_org=False):
     """
     Calculates the SES for a binding pocket and displays it
 
@@ -29,6 +29,10 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
         output_dir = tempfile.mkdtemp()
     else:
         utilities.check_dir(output_dir)
+
+    if excl_org:
+        protein = "({0}) and (not org)".format(protein)
+        
     if ligand is not None:
         protein = "({0}) and not ({1})".format(protein, ligand)
         
@@ -51,12 +55,12 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
     if residue is not None:
         residue_coordinates = cmd.get_coords(residue, 1)
 
-    if (mode is None) and ((ligand is not None) or (pocket_coordinate is not None) or (resid is not None) or (residue_coordinates is not None):
+    if (mode is None) and ((ligand is not None) or (pocket_coordinate is not None) or (resid is not None) or (residue_coordinates is not None)):
         mode = "specific"
     elif mode is None:
         mode = "largest"
 
-    spheres = identify.pocket(prot_file, mode=mode, lig_file=lig_file, resid=resid, residue=residue, coordinate=pocket_coordinate, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, subdivide=subdivide, minimum_volume=minimum_volume, min_subpocket_rad=min_subpocket_rad, prefix=prefix, output_dir=output_dir, min_subpocket_surf_rad=min_subpocket_surf_rad, max_clusters=max_clusters)
+    spheres = identify.pocket(prot_file, mode=mode, lig_file=lig_file, resid=resid, residue_coordinates=residue_coordinates, coordinate=pocket_coordinate, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, subdivide=subdivide, minimum_volume=minimum_volume, min_subpocket_rad=min_subpocket_rad, prefix=prefix, output_dir=output_dir, min_subpocket_surf_rad=min_subpocket_surf_rad, max_clusters=max_clusters)
 
     if mode in ["specific", "largest"]:
         if not subdivide:

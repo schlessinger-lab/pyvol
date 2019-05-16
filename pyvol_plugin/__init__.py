@@ -10,17 +10,16 @@ def __init_plugin__(app=None):
         pass
     finally:
         from pymol.plugins import addmenuitemqt
-        addmenuitemqt('PyVOL Settings', settings_window)
-        
+        addmenuitemqt('PyVOL', pyvol_window)
 
 
-def settings_window():
+def pyvol_window():
     import os
     from pymol.Qt import QtWidgets
     from pymol.Qt.utils import loadUi
 
     dialog = QtWidgets.QDialog()
-    uifile = os.path.join(os.path.dirname(__file__), 'settingswidget.ui')
+    uifile = os.path.join(os.path.dirname(__file__), 'pyvolgui.ui')
     form = loadUi(uifile, dialog)
 
     def install_pyvol(form):
@@ -41,16 +40,16 @@ def settings_window():
             cmd.extend('load_spheres', pymol_interface.load_spheres)
         except:
             print("Installation still not complete")
-        refresh_status(form)
+        refresh_install_status(form)
 
     def update_pyvol(form):
         import subprocess
         import sys
 
         subprocess.call([sys.executable, "-m", "pip", "install", "--upgrade", "bio-pyvol"])
-        refresh_status(form)
+        refresh_install_status(form)
 
-    def refresh_status(form, check_for_updates=False):
+    def refresh_installation_status(form, check_for_updates=False):
         import distutils.spawn
         import json
         import subprocess
@@ -64,8 +63,12 @@ def settings_window():
             import pyvol
             pyvol_version = pyvol.__version__
             pyvol_installed = True
+            form.run_tab.setEnabled(True)
+            form.run_button.setEnabled(True)
         except:
             pyvol_version = "not_found"
+            form.run_tab.setEnabled(False)
+            form.run_button.setEnabled(False)
 
         update_available = False
         if check_for_updates:
@@ -78,19 +81,19 @@ def settings_window():
                         pyvol_version = apply_color("{0} ({1} available)".format(pyvol_version, package['latest_version']), "blue")
                         break
                 if not update_available:
-                    pyvol_version = apply_color(pyvol_version, "green")
+                    pyvol_version = apply_color("{0} (up-to-date)".format(pyvol_version), "green")
 
         if pyvol_version == "not found":
             pyvol_version = apply_color("not found", "red")
-            form.button_install.setText("Install PyVOL")
-            form.button_install.clicked.connect(lambda: install_pyvol(form))
+            form.install_button.setText("Install PyVOL")
+            form.install_button.clicked.connect(lambda: install_pyvol(form))
         else:
             if update_available == True:
-                form.button_install.setText("Update PyVOL")
-                form.button_install.clicked.connect(lambda: update_pyvol(form))
+                form.install_button.setText("Update PyVOL")
+                form.install_button.clicked.connect(lambda: update_pyvol(form))
             else:
-                form.button_install.setText("Check for Updates")
-                form.button_install.clicked.connect(lambda: refresh_status(form, check_for_updates=True))
+                form.install_button.setText("Check for Updates")
+                form.install_button.clicked.connect(lambda: refresh_installation_status(form, check_for_updates=True))
 
         try:
             import Bio
@@ -146,7 +149,7 @@ def settings_window():
         else:
             msms_exe = apply_color(msms_exe, "green")
             
-        form.label.setText(("Current installation status:<br>"
+        form.install_status_browser.setText((
                             "&nbsp;   pyvol: {0}<br>"
                             "&nbsp;   biopython: {1}<br>"
                             "&nbsp;   numpy: {2}<br>"
@@ -155,10 +158,79 @@ def settings_window():
                             "&nbsp;   sklearn: {5}<br>"
                             "&nbsp;   trimesh: {6}<br>"
                             "&nbsp;   msms exe: {7}<br><br>"
-                            "Please be patient when installing, updating, or checking for updates--the PyPI and conda servers can sometimes take a few seconds."
         ).format(pyvol_version, biopython_version, numpy_version, pandas_version, scipy_version, sklearn_version, trimesh_version, msms_exe))
 
-        form.button_close.clicked.connect(dialog.close)
+    def run_gui_pyvol(form):
+        from pyvol import pymol_interface
+        
+        # Basic Parameters
+        protein = form.prot_sele_ledit.text()
+        excl_org = form.excl_org_cbox.isChecked()
+        min_rad = form.min_rad_ledit.text()
+        max_rad = form.max_rad_ledit.text()
 
-    refresh_status(form)
+        # Pocket Selection
+        minimum_volume = None
+        ligand = None
+        lig_incl_rad = None
+        lig_excl_rad = None
+        residue = None
+        resid = None
+        pocket_coordinate = None
+        
+        if form.all_rbutton.isChecked():
+            mode = "all"
+            minimum_volume = form.min_volume_ledit.text()
+        elif form.largest_rbutton.isChecked():
+            mode = "largest"
+        elif form.ligand_rbutton.isChecked():
+            mode = "specific"
+            ligand = form.lig_sele_ledit.text()
+            if form.lig_incl_ledit.text() != "":
+                lig_incl_rad = form.lig_incl_rad_ledit.text()
+            if form.lig_excl_ledit.text() != "":
+                lig_excl_rad = form.lig_excl_rad_ledit.text()
+        elif form.residue_rbutton.isChecked():
+            mode = "specific"
+            residue = form.residue_sele_ledit.text()
+        elif form.resid_rbutton.isChecked():
+            mode = "specific"
+            resid = form.resid_ledit.text()
+        elif form.coordinate_rbutton.isChecked():
+            mode = "specific"
+            pocket_coordinate = form.coordinate_ledit.text()
+
+        # Partitioning Parameters
+        subdivide = form.subdivide_cbox.isChecked()
+        if not subdivide:
+            subdivide = None
+        max_clusters = form.max_clusters_ledit.text()
+        min_subpocket_rad = form.min_internal_rad_ledit.text()
+        min_subpocket_surf_rad = form.min_surf_rad_ledit.text()
+
+        # Display and Output Options
+        if form.solid_rbutton.isChecked():
+            display_mode = "solid"
+        elif form.mesh_rbutton.isChecked():
+            display_mode = "mesh"
+        elif form.spheres_rbutton.isChecked():
+            display_mode = "spheres"
+        color = form.color_ledit.text()
+        alpha = form.alpha_ledit.text()
+        prefix = form.prefix_ledit.text()
+        if prefix == "":
+            prefix = None
+        output_dir = form.output_dir_ledit.text()
+        if output_dir == "":
+            output_dir = None
+
+        # print(protein, mode, ligand, pocket_coordinate, residue, resid, prefix, min_rad, max_rad, lig_excl_rad, lig_incl_rad, display_mode, color, alpha, output_dir, subdivide, minimum_volume, min_subpocket_rad, min_subpocket_surf_rad, max_clusters, excl_org)
+
+        pymol_interface.pocket(protein=protein, mode=mode, ligand=ligand, pocket_coordinate=pocket_coordinate, residue=residue, resid=resid, prefix=prefix, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, display_mode=display_mode, color=color, alpha=alpha, output_dir=output_dir, subdivide=subdivide, minimum_volume=minimum_volume, min_subpocket_rad=min_subpocket_rad, min_subpocket_surf_rad=min_subpocket_surf_rad, max_clusters=max_clusters, excl_org=excl_org)
+
+    refresh_installation_status(form)
+    
+    form.close_button.clicked.connect(dialog.close)
+    form.run_button.clicked.connect(lambda: run_gui_pyvol(form))
+    
     dialog.show()

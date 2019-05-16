@@ -36,7 +36,10 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
     min_rad = float(min_rad)
     max_rad = float(max_rad)
     min_subpocket_rad = float(min_subpocket_rad)
-    minimum_volume = int(minimum_volume)
+    if minimum_volume is not None:
+        minimum_volume = int(minimum_volume)
+    if max_clusters is not None:
+        max_clusters = int(max_clusters)
 
     if min_rad < 1.2:
         print("Warning: minimum radii under 1.2 and not supported and can lead to bizarre results or crashes; setting the minimum radius to 1.2")
