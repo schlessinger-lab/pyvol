@@ -5,7 +5,7 @@ def __init_plugin__(app=None):
         from pymol import cmd
         from pyvol import pymol_interface
         cmd.extend('pocket', pymol_interface.pocket)
-        cmd.extend('load_spheres', pymol_interface.load_spheres)
+        cmd.extend('load_pocket', pymol_interface.load_pocket)
     except:
         pass
     finally:
@@ -22,6 +22,10 @@ def pyvol_window():
     uifile = os.path.join(os.path.dirname(__file__), 'pyvolgui.ui')
     form = loadUi(uifile, dialog)
 
+    def browse_pocket_file(form):
+        pocket_file_name = QtWidgets.QFileDialog.getOpenFileNames(None, 'Open file', os.getcwd(), filter='Pocket Files (*.obj *.csv)')[0][0]
+        form.pocket_file_ledit.setText(pocket_file_name)
+    
     def install_pyvol(form):
         import subprocess
         import sys
@@ -37,17 +41,17 @@ def pyvol_window():
             from pymol import cmd
             from pyvol import pymol_interface
             cmd.extend('pocket', pymol_interface.pocket)
-            cmd.extend('load_spheres', pymol_interface.load_spheres)
+            cmd.extend('load_pocket', pymol_interface.load_pocket)
         except:
             print("Installation still not complete")
-        refresh_install_status(form)
+        refresh_installation_status(form)
 
     def update_pyvol(form):
         import subprocess
         import sys
 
         subprocess.call([sys.executable, "-m", "pip", "install", "--upgrade", "bio-pyvol"])
-        refresh_install_status(form)
+        refresh_installation_status(form)
 
     def refresh_installation_status(form, check_for_updates=False):
         import distutils.spawn
@@ -65,10 +69,13 @@ def pyvol_window():
             pyvol_installed = True
             form.run_tab.setEnabled(True)
             form.run_button.setEnabled(True)
+            form.load_tab.setEnabled(True)
+            form.setWindowTitle("PyVOL v{0}".format(pyvol_version))
         except:
             pyvol_version = "not_found"
             form.run_tab.setEnabled(False)
             form.run_button.setEnabled(False)
+            form.load_tab.setEnabled(False)
 
         update_available = False
         if check_for_updates:
@@ -160,6 +167,34 @@ def pyvol_window():
                             "&nbsp;   msms exe: {7}<br><br>"
         ).format(pyvol_version, biopython_version, numpy_version, pandas_version, scipy_version, sklearn_version, trimesh_version, msms_exe))
 
+    def run_gui_load(form):
+        from pyvol import pymol_interface
+
+        # Loading Parameters
+        pocket_file = form.pocket_file_ledit.text()
+        if form.load_solid_rbutton.isChecked():
+            display_mode = "solid"
+        elif form.load_mesh_rbutton.isChecked():
+            display_mode = "mesh"
+        elif form.load_spheres_rbutton.isChecked():
+            display_mode = "spheres"
+        color = form.load_color_ledit.text()
+        alpha = form.load_alpha_ledit.text()
+        prefix = form.load_prefix_ledit.text()
+
+        if color == "":
+            color = None
+        if alpha == "":
+            alpha = None
+        if prefix == "":
+            prefix = None
+
+        if not os.path.isfile(pocket_file):
+            print("Supplied file not found: {0}".format(pocket_file))
+            return
+        else:
+            pymol_interface.load_pocket(pocket_file, name=prefix, display_mode=display_mode, color=color, alpha=alpha)
+        
     def run_gui_pyvol(form):
         from pyvol import pymol_interface
         
@@ -232,5 +267,8 @@ def pyvol_window():
     
     form.close_button.clicked.connect(dialog.close)
     form.run_button.clicked.connect(lambda: run_gui_pyvol(form))
+
+    form.browse_button.clicked.connect(lambda: browse_pocket_file(form))
+    form.load_button.clicked.connect(lambda: run_gui_load(form))
     
     dialog.show()

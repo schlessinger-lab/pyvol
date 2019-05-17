@@ -73,7 +73,7 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
             bp_bs = pa_s.calculate_surface(probe_radius=min_rad, all_components=True, largest_only=True)[0]
         elif mode == "specific":
             if coordinate is not None:
-                if isinstance(coordinate, basestring):
+                if isinstance(coordinate, ("".__class__, u"".__class__)):
                     coordinate = coordinate.split()
                     coordinate = np.array([float(x) for x in coordinate])
                 coordinate = coordinate.reshape(1, -1)                

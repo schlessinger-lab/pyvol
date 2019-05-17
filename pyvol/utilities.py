@@ -20,9 +20,9 @@ def coordinates_for_resid(pdb_file, resid, chain=None, model=0):
     structure = p.get_structure("prot", pdb_file)
 
     if chain is not None:
-        res = structure[model][chain][residue]
+        res = structure[model][chain][resid]
     else:
-        res = [r for r in structure[model].get_residues() if r[1] == residue]
+        res = [r for r in structure[model].get_residues() if r[1] == resid]
         if len(res) != 1:
             print("Error: ambiguous or absent residue definition")
             return None

@@ -10,7 +10,7 @@ import tempfile
 import time
 
 
-def load_spheres(spheres_file, name=None, display_mode="solid", color='marine', alpha=0.85):
+def load_pocket(spheres_file, name=None, display_mode="solid", color='marine', alpha=0.85):
     spheres = Spheres(spheres_file=spheres_file, name=name)
     pymol_utilities.display_spheres_object(spheres, spheres.name, state=1, color=color, alpha=alpha, mode=display_mode)
 
@@ -64,23 +64,51 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
 
     if mode in ["specific", "largest"]:
         if not subdivide:
-            print("Pocket Volume: {0} A^3".format(format(spheres[0].mesh.volume, '.2f')))
-            pymol_utilities.display_spheres_object(spheres[0], spheres[0].name, state=1, color=color, alpha=alpha, mode=display_mode)
+            try:
+                # print("Pocket Volume: {0} A^3".format(format(spheres[0].mesh.volume, '.2f')))
+                print("Pocket Volume: {0} A^3".format(round(spheres[0].mesh.volume)))
+                pymol_utilities.display_spheres_object(spheres[0], spheres[0].name, state=1, color=color, alpha=alpha, mode=display_mode)
+            except:
+                print("Volume not calculated for pocket")
+            
         else:
-            print("Whole Pocket Volume: {0} A^3".format(format(spheres[0].mesh.volume, '.2f')))
+            try:
+                print("Whole Pocket Volume: {0} A^3".format(round(spheres[0].mesh.volume)))
+            except:
+                print("Volume not calculated for the whole pocket")
             pymol_utilities.display_spheres_object(spheres[0], spheres[0].name, state=1, color=color, alpha=alpha, mode=display_mode)
+            
             palette = pymol_utilities.construct_palette(max_value=(len(spheres) -1))
             for index, sps in enumerate(spheres[1:]):
                 group = int(sps.g[0])
-                print("{0} volume: {1} A^3".format(sps.name, format(sps.mesh.volume, '.2f')))
-                pymol_utilities.display_spheres_object(sps, sps.name, state=1, color=palette[index], alpha=alpha, mode=display_mode)
-            cmd.group(spheres[0].name, "{0}*".format(spheres[0].name))
+                try:
+                    print("{0} volume: {1} A^3".format(sps.name, round(sps.mesh.volume)))
+                    pymol_utilities.display_spheres_object(sps, sps.name, state=1, color=palette[index], alpha=alpha, mode=display_mode)
+                except:
+                    print("Volume not calculated for pocket: {0}".format(sps.name))
+                
+            cmd.disable(spheres[0].name)
+            
+            if display_mode == "spheres":
+                cmd.group("{0}_sg".format(spheres[0].name), "{0}*_g".format(spheres[0].name))
+            else:
+                cmd.group("{0}_g".format(spheres[0].name), "{0}*".format(spheres[0].name))
+
     else:
         palette = pymol_utilities.construct_palette(max_value=len(spheres))
         for index, s in enumerate(spheres):
-            print("{0} volume: {1} A^3".format(s.name, format(s.mesh.volume, '.2f')))
-            pymol_utilities.display_spheres_object(s, s.name, state=1, color=palette[index], alpha=alpha, mode=display_mode)
-
+            try:
+                print("{0} volume: {1} A^3".format(s.name, round(s.mesh.volume)))
+                pymol_utilities.display_spheres_object(s, s.name, state=1, color=palette[index], alpha=alpha, mode=display_mode)
+            except:
+                print("Volume not calculated for pocket: {0}".format(s.name))
+                
+        name_template = "p".join(spheres[0].name.split("p")[:-1])
+        if display_mode == "spheres":
+            cmd.group("{0}sg".format(name_template), "{0}*_g".format(name_template))
+        else:
+            cmd.group("{0}g".format(name_template), "{0}*".format(name_template))
+            
     if output_dir is None:
         shutil.rmtree(output_dir)
     return

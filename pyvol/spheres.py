@@ -227,7 +227,7 @@ class Spheres(object):
             if largest_only:
                 return [bspheres]
             else:
-                return spheres_list
+                return sorted(spheres_list, key=lambda s: s.mesh.volume, reverse=True)
             
     
     def identify_nonextraneous(self, ref_spheres, radius):

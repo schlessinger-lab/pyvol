@@ -40,15 +40,16 @@ def display_pseudoatom_group(spheres, name, color='gray60', palette=None):
 
     if spheres is None:
         return
-    
+
     for index, xyzrg in enumerate(spheres.xyzrg):
         if palette is None:
             cmd.pseudoatom("{0}.{1}".format(name, index), pos=list(xyzrg[0:3]), vdw=float(xyzrg[3]), color=color)
         else:
             cmd.pseudoatom("{0}.{1}".format(name, index), pos=list(xyzrg[0:3]), vdw=float(xyzrg[3]), color=palette[int(xyzrg[4] - 1)])
 
-    cmd.group(name, "{0}.*".format(name))
-    cmd.show("spheres", name)  
+    group_name = "{0}_g".format(name)
+    cmd.group(group_name, "{0}.*".format(name))
+    cmd.show("spheres", group_name)  
 
 
 def display_spheres_object(spheres, name, state=1, color='marine', alpha=0.7, mode="solid", palette=None):
@@ -80,9 +81,10 @@ def display_spheres_object(spheres, name, state=1, color='marine', alpha=0.7, mo
             return
         else:
             if mode == "solid":
-                cmd.load_cgo(mesh_to_solid_CGO(spheres.mesh, color=color, alpha=alpha), cmd.get_unused_name(name), state)
+                # cmd.load_cgo(mesh_to_solid_CGO(spheres.mesh, color=color, alpha=alpha), cmd.get_unused_name(name), state)
+                cmd.load_cgo(mesh_to_solid_CGO(spheres.mesh, color=color, alpha=alpha), name, state)
             else:
-                cmd.load_cgo(mesh_to_wireframe_CGO(spheres.mesh, color=color, alpha=alpha), cmd.get_unused_name(name), state)
+                cmd.load_cgo(mesh_to_wireframe_CGO(spheres.mesh, color=color, alpha=alpha), name, state)
     elif mode == "spheres":
         display_pseudoatom_group(spheres, name, color=color, palette=None)
         
