@@ -57,7 +57,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-267</y>
             <width>688</width>
             <height>787</height>
            </rect>
@@ -606,9 +606,9 @@
            </layout>
           </item>
           <item>
-           <widget class="QLabel" name="label">
+           <widget class="QLabel" name="status_label">
             <property name="text">
-             <string>Please be patient when installing, updating, or checking for updates.</string>
+             <string/>
             </property>
            </widget>
           </item>

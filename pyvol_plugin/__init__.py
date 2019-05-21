@@ -1,5 +1,7 @@
 
 
+__version__ = "1.0.0"
+
 def __init_plugin__(app=None):
     try:
         from pymol import cmd
@@ -62,92 +64,62 @@ def pyvol_window():
         def apply_color(string, color):
             return "<font color='{0}'>{1}</font>".format(color, string)
 
+        all_pckgs = subprocess.check_output([sys.executable, "-m", "pip", "list", "--format=json"]).decode('utf-8').strip()
+        pckgs = json.loads(all_pckgs)
+
+        pyvol_version = None
+        biopython_version = None
+        numpy_version = None
+        pandas_version = None
+        scipy_version = None
+        sklearn_version = None
+        trimesh_version = None
+
         pyvol_installed = False
-        try:
-            import pyvol
-            pyvol_version = pyvol.__version__
-            pyvol_installed = True
-            form.run_tab.setEnabled(True)
-            form.run_button.setEnabled(True)
-            form.load_tab.setEnabled(True)
-            form.setWindowTitle("PyVOL v{0}".format(pyvol_version))
-        except:
-            pyvol_version = "not_found"
-            form.run_tab.setEnabled(False)
-            form.run_button.setEnabled(False)
-            form.load_tab.setEnabled(False)
+        for pckg in pckgs:
+            if pckg["name"] == "bio-pyvol":
+                pyvol_version = pckg["version"]
+                pyvol_installed = True
+        
+        for pckg in pckgs:
+            if pckg["name"] == "biopython":
+                biopython_version = pckg["version"]
+                if pyvol_installed:
+                    biopython_version = apply_color(biopython_version, "green")
+            elif pckg["name"] == "numpy":
+                numpy_version = pckg["version"]
+                if pyvol_installed:
+                    numpy_version = apply_color(numpy_version, "green")
+            elif pckg["name"] == "pandas":
+                pandas_version = pckg["version"]
+                if pyvol_installed:
+                    pandas_version = apply_color(pandas_version, "green")
+            elif pckg["name"] == "scipy":
+                scipy_version = pckg["version"]
+                if pyvol_installed:
+                    scipy_version = apply_color(scipy_version, "green")
+            elif pckg["name"] == "scikit-learn":
+                sklearn_version = pckg["version"]
+                if pyvol_installed:
+                    sklearn_version = apply_color(sklearn_version, "green")
+            elif pckg["name"] == "trimesh":
+                trimesh_version = pckg["version"]
+                if pyvol_installed:
+                    trimesh_version = apply_color(trimesh_version, "green")
 
-        update_available = False
-        if check_for_updates:
-            if pyvol_version != "not_found":
-                versions = subprocess.check_output([sys.executable, "-m", "pip", "list", "--outdated", "--format=json"]).decode('utf-8').strip()
-                packages = json.loads(versions)
-                for package in packages:
-                    if package["name"] == "bio-pyvol":
-                        update_available = True
-                        pyvol_version = apply_color("{0} ({1} available)".format(pyvol_version, package['latest_version']), "blue")
-                        break
-                if not update_available:
-                    pyvol_version = apply_color("{0} (up-to-date)".format(pyvol_version), "green")
-
-        if pyvol_version == "not found":
+        if pyvol_version is None:
             pyvol_version = apply_color("not found", "red")
-            form.install_button.setText("Install PyVOL")
-            form.install_button.clicked.connect(lambda: install_pyvol(form))
-        else:
-            if update_available == True:
-                form.install_button.setText("Update PyVOL")
-                form.install_button.clicked.connect(lambda: update_pyvol(form))
-            else:
-                form.install_button.setText("Check for Updates")
-                form.install_button.clicked.connect(lambda: refresh_installation_status(form, check_for_updates=True))
-
-        try:
-            import Bio
-            biopython_version = Bio.__version__
-            if pyvol_installed:
-                biopython_version = apply_color(biopython_version, "green")
-        except:
+        if biopython_version is None:
             biopython_version = apply_color("not found", "red")
-
-        try:
-            import numpy as np
-            numpy_version = np.__version__
-            if pyvol_installed:
-                numpy_version = apply_color(numpy_version, "green")
-        except:            
+        if numpy_version is None:
             numpy_version = apply_color("not found", "red")
-
-        try:
-            import pandas as pd
-            pandas_version = pd.__version__
-            if pyvol_installed:
-                pandas_version = apply_color(pandas_version, "green")
-        except:
+        if pandas_version is None:
             pandas_version = apply_color("not found", "red")
-
-        try:
-            import scipy
-            scipy_version = scipy.__version__
-            if pyvol_installed:
-                scipy_version = apply_color(scipy_version, "green")
-        except:
+        if scipy_version is None:
             scipy_version = apply_color("not found", "red")
-
-        try:
-            import sklearn
-            sklearn_version = sklearn.__version__
-            if pyvol_installed:
-                sklearn_version = apply_color(sklearn_version, "green")
-        except:
+        if sklearn_version is None:
             sklearn_version = apply_color("not found", "red")
-
-        try:
-            import trimesh
-            trimesh_version = trimesh.__version__
-            if pyvol_installed:
-                trimesh_version = apply_color(trimesh_version, "green")
-        except:
+        if trimesh_version is None:
             trimesh_version = apply_color("not found", "red")
 
         msms_exe = distutils.spawn.find_executable("msms")
@@ -155,17 +127,73 @@ def pyvol_window():
             msms_exe = apply_color("not found", "red")
         else:
             msms_exe = apply_color(msms_exe, "green")
-            
+
+        # check whether an update is available for PyVOL and modify the GUI appropriately
+        update_available = False
+        if pyvol_installed:
+            form.run_tab.setEnabled(True)
+            form.run_button.setEnabled(True)
+            form.load_tab.setEnabled(True)
+            form.setWindowTitle("PyVOL v{0}".format(pyvol_version))
+
+            if check_for_updates:
+                avail_pckgs = subprocess.check_output([sys.executable, "-m", "pip", "list", "--outdated", "--format=json"]).decode('utf-8').strip()
+                avail = json.loads(avail_pckgs)
+                for pckg in avail:
+                    if pckg["name"] == "bio-pyvol":
+                        update_available = True
+                        pyvol_version = apply_color("{0} ({1} available)".format(pyvol_version, package['latest_version']), "blue")
+                        break
+                    
+                if update_available:
+                    form.status_label.setText("Update available")
+                    form.install_button.setText("Update PyVOL")
+                    form.install_button.clicked.connect(lambda: update_pyvol(form))
+                else:
+                    form.status_label.setText("PyVOL is up-to-date")
+                    pyvol_version = apply_color("{0} (up-to-date)".format(pyvol_version), "green")
+                    form.install_button.setText("Check for Updates")
+                    form.install_button.clicked.connect(lambda: refresh_installation_status(form, check_for_updates=True))
+            else:
+                form.install_button.setText("Check for Updates")
+                
+                form.status_label.setText("PyVOL is installed")
+        else:
+            form.status_label.setText("PyVOL is not installed")
+            form.run_tab.setEnabled(False)
+            form.run_button.setEnabled(False)
+            form.load_tab.setEnabled(False)
+            form.install_button.setText("Install PyVOL")
+            form.install_button.clicked.connect(lambda: install_pyvol(form))
+
+        gui_version = None
+        if pyvol_installed and (not update_available):
+            expected_gui_version = None
+            try:
+                import pyvol
+                expected_gui_version = pyvol.__guiversion__
+                if __version__ == expected_gui_version:
+                    gui_version = apply_color(__version__, "green")
+                else:
+                    gui_version = apply_color("{0} ({1} expected)".format(__version__, expected_gui_version), "blue")
+                    form.status_label.setText("New GUI available--please manually reinstall PyVOL by using the plugin manager to install pyvol_plugin.zip from github.")
+            except:
+                gui_version = __version__
+        else:
+            gui_version = __version__
+
         form.install_status_browser.setText((
-                            "&nbsp;   pyvol: {0}<br>"
-                            "&nbsp;   biopython: {1}<br>"
-                            "&nbsp;   numpy: {2}<br>"
-                            "&nbsp;   pandas: {3}<br>"
-                            "&nbsp;   scipy: {4}<br>"
-                            "&nbsp;   sklearn: {5}<br>"
-                            "&nbsp;   trimesh: {6}<br>"
-                            "&nbsp;   msms exe: {7}<br><br>"
-        ).format(pyvol_version, biopython_version, numpy_version, pandas_version, scipy_version, sklearn_version, trimesh_version, msms_exe))
+            "&nbsp;   pyvol: {0}<br>"
+            "&nbsp;   pyvol gui: {8}<br>"
+            "&nbsp;   biopython: {1}<br>"
+            "&nbsp;   numpy: {2}<br>"
+            "&nbsp;   pandas: {3}<br>"
+            "&nbsp;   scipy: {4}<br>"
+            "&nbsp;   sklearn: {5}<br>"
+            "&nbsp;   trimesh: {6}<br>"
+            "&nbsp;   msms exe: {7}<br><br>"
+            "Please be patient when installing, updating, or checking for updates--the servers can sometimes be a little slow"
+        ).format(pyvol_version, biopython_version, numpy_version, pandas_version, scipy_version, sklearn_version, trimesh_version, msms_exe, gui_version))
 
     def run_gui_load(form):
         from pyvol import pymol_interface
@@ -258,8 +286,6 @@ def pyvol_window():
         output_dir = form.output_dir_ledit.text()
         if output_dir == "":
             output_dir = None
-
-        # print(protein, mode, ligand, pocket_coordinate, residue, resid, prefix, min_rad, max_rad, lig_excl_rad, lig_incl_rad, display_mode, color, alpha, output_dir, subdivide, minimum_volume, min_subpocket_rad, min_subpocket_surf_rad, max_clusters, excl_org)
 
         pymol_interface.pocket(protein=protein, mode=mode, ligand=ligand, pocket_coordinate=pocket_coordinate, residue=residue, resid=resid, prefix=prefix, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, display_mode=display_mode, color=color, alpha=alpha, output_dir=output_dir, subdivide=subdivide, minimum_volume=minimum_volume, min_subpocket_rad=min_subpocket_rad, min_subpocket_surf_rad=min_subpocket_surf_rad, max_clusters=max_clusters, excl_org=excl_org)
 
