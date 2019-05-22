@@ -32,12 +32,12 @@ def pyvol_window():
         import subprocess
         import sys
 
-        print(subprocess.check_output([sys.executable, "-m", "pip", "install", "bio-pyvol"]))
+        subprocess.check_output([sys.executable, "-m", "pip", "install", "bio-pyvol"])
         if os.name in ['posix']:
             conda_path = os.path.join(os.path.dirname(sys.executable), "conda")
             if not os.path.isfile(conda_path):
                 conda_path = "conda"
-            print(subprocess.check_output([conda_path, "install", "-y", "-c", "bioconda", "msms"]))
+            subprocess.check_output([conda_path, "install", "-y", "-c", "bioconda", "msms"])
 
         try:
             from pymol import cmd
@@ -52,7 +52,7 @@ def pyvol_window():
         import subprocess
         import sys
 
-        print(subprocess.check_output([sys.executable, "-m", "pip", "install", "--upgrade", "bio-pyvol"]))
+        subprocess.check_output([sys.executable, "-m", "pip", "install", "--upgrade", "bio-pyvol"])
         refresh_installation_status(form)
 
     def refresh_installation_status(form, check_for_updates=False):
@@ -65,7 +65,6 @@ def pyvol_window():
             return "<font color='{0}'>{1}</font>".format(color, string)
 
         all_pckgs = subprocess.check_output([sys.executable, "-m", "pip", "list", "--format=json"]).decode('utf-8').strip()
-        print(all_pckgs)
         pckgs = json.loads(all_pckgs)
 
         pyvol_version = None
