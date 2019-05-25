@@ -57,7 +57,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-267</y>
+            <y>0</y>
             <width>688</width>
             <height>787</height>
            </rect>
@@ -71,10 +71,16 @@
              <layout class="QHBoxLayout" name="horizontalLayout">
               <item>
                <layout class="QFormLayout" name="formLayout">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::ExpandingFieldsGrow</enum>
+                </property>
+                <property name="labelAlignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                </property>
                 <item row="0" column="0">
                  <widget class="QLabel" name="prot_sele_label">
                   <property name="text">
-                   <string>Protein Selection: </string>
+                   <string>Protein Pymol Selection: </string>
                   </property>
                  </widget>
                 </item>
@@ -85,24 +91,27 @@
                   </property>
                  </widget>
                 </item>
-                <item row="2" column="0">
-                 <widget class="QLabel" name="min_rad_label">
+                <item row="1" column="0">
+                 <widget class="QCheckBox" name="excl_org_cbox">
                   <property name="text">
-                   <string>Minimum Radius: </string>
+                   <string>Exclude Organic</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
                   </property>
                  </widget>
                 </item>
-                <item row="2" column="1">
-                 <widget class="QLineEdit" name="min_rad_ledit">
+                <item row="2" column="0">
+                 <widget class="QLabel" name="min_rad_label">
                   <property name="text">
-                   <string>1.4</string>
+                   <string>Minimum Radius: [1.2, 2.0] </string>
                   </property>
                  </widget>
                 </item>
                 <item row="3" column="0">
                  <widget class="QLabel" name="max_rad_label">
                   <property name="text">
-                   <string>Maximum Radius: </string>
+                   <string>Maximum Radius: [2.0, 5.0]</string>
                   </property>
                  </widget>
                 </item>
@@ -113,10 +122,10 @@
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="0">
-                 <widget class="QCheckBox" name="excl_org_cbox">
+                <item row="2" column="1">
+                 <widget class="QLineEdit" name="min_rad_ledit">
                   <property name="text">
-                   <string>Exclude Organic</string>
+                   <string>1.4</string>
                   </property>
                  </widget>
                 </item>
@@ -150,7 +159,7 @@
                 <item row="0" column="0">
                  <widget class="QLabel" name="min_volume_label">
                   <property name="text">
-                   <string>Minimum Volume: </string>
+                   <string>Minimum Volume:</string>
                   </property>
                  </widget>
                 </item>
@@ -178,7 +187,7 @@
                 <item row="0" column="0">
                  <widget class="QLabel" name="lig_sele_label">
                   <property name="text">
-                   <string>Selection: </string>
+                   <string>Pymol Selection: </string>
                   </property>
                  </widget>
                 </item>
@@ -210,21 +219,21 @@
               <item row="5" column="0">
                <widget class="QRadioButton" name="residue_rbutton">
                 <property name="text">
-                 <string>Residue Selection: </string>
+                 <string>Residue Pymol Selection: </string>
                 </property>
                </widget>
               </item>
               <item row="6" column="0">
                <widget class="QRadioButton" name="resid_rbutton">
                 <property name="text">
-                 <string>Residue Id: </string>
+                 <string>Residue Id: (e.g. B516)</string>
                 </property>
                </widget>
               </item>
               <item row="7" column="0">
                <widget class="QRadioButton" name="coordinate_rbutton">
                 <property name="text">
-                 <string>Coordinate: </string>
+                 <string>Coordinate: (e.g. 0.0 1.3 3.4)</string>
                 </property>
                </widget>
               </item>
@@ -256,7 +265,7 @@
               <item row="1" column="0">
                <widget class="QLabel" name="max_clusters_label">
                 <property name="text">
-                 <string>Maximum Sub-pockets: </string>
+                 <string>Maximum Sub-pockets: (2+)</string>
                 </property>
                </widget>
               </item>
@@ -270,7 +279,7 @@
               <item row="2" column="0">
                <widget class="QLabel" name="min_internal_rad_label">
                 <property name="text">
-                 <string>Minimum Internal Radius:</string>
+                 <string>Minimum Internal Radius: [1.4, 3.0]</string>
                 </property>
                </widget>
               </item>
@@ -284,7 +293,7 @@
               <item row="3" column="0">
                <widget class="QLabel" name="min_surf_rad_label">
                 <property name="text">
-                 <string>Minimum Surface Radius:</string>
+                 <string>Minimum Surface Radius: [1.0, 2.0]</string>
                 </property>
                </widget>
               </item>
@@ -374,6 +383,13 @@
                    </property>
                   </widget>
                  </item>
+                 <item row="2" column="1">
+                  <widget class="QLabel" name="label">
+                   <property name="text">
+                    <string>(1 - Transparency)</string>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
                </widget>
               </item>
@@ -386,7 +402,7 @@
                  <item row="0" column="0">
                   <widget class="QLabel" name="prefix_label">
                    <property name="text">
-                    <string>Prefix:</string>
+                    <string>Display Prefix:</string>
                    </property>
                   </widget>
                  </item>
@@ -403,6 +419,13 @@
                  <item row="1" column="1">
                   <widget class="QLineEdit" name="output_dir_ledit"/>
                  </item>
+                 <item row="2" column="1">
+                  <widget class="QLabel" name="label_2">
+                   <property name="text">
+                    <string>(Do not use &quot;~&quot;)</string>
+                   </property>
+                  </widget>
+                 </item>
                 </layout>
                </widget>
               </item>
@@ -411,6 +434,32 @@
            </item>
           </layout>
          </widget>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="command_frame">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QPushButton" name="run_button">
+            <property name="text">
+             <string>Run</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="close_button">
+            <property name="text">
+             <string>Close</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -453,7 +502,7 @@
           <item row="1" column="0">
            <widget class="QLabel" name="load_prefix_label">
             <property name="text">
-             <string>Prefix: </string>
+             <string>Display Prefix: </string>
             </property>
            </widget>
           </item>
@@ -536,6 +585,13 @@
               <widget class="QLineEdit" name="load_alpha_ledit">
                <property name="text">
                 <string>0.7</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>(1 - Transparency)</string>
                </property>
               </widget>
              </item>
@@ -630,51 +686,6 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="help_tab">
-      <attribute name="title">
-       <string notr="true">Help</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_9">
-       <item>
-        <widget class="QTextBrowser" name="textBrowser">
-         <property name="html">
-          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;PyVOL is a PyMOL plugin for easy characterization and visualization of protein binding pockets.&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:12px; margin-bottom:12px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:9pt;&quot;&gt;For access to the readme and tutorials, please visit the project github repository at: https://github.com/schlessingerlab/pyvol.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </widget>
-    </widget>
-   </item>
-   <item>
-    <widget class="QFrame" name="command_frame">
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
-      <item>
-       <widget class="QPushButton" name="run_button">
-        <property name="text">
-         <string>Run</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="close_button">
-        <property name="text">
-         <string>Close</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
     </widget>
    </item>
   </layout>

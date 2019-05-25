@@ -304,6 +304,12 @@ class Spheres(object):
         ungrouped_indices = np.where(self.g < 1)
         self.xyzrg = np.delete(self.xyzrg, ungrouped_indices, axis=0)
         self.mesh = None
+
+
+    def remove_groups(self, groups):
+        group_indices = np.where(np.isin(self.g, groups))
+        self.xyzrg = np.delete(self.xyzrg, group_indices, axis=0)
+        self.mesh = None
         
         
     def write(self, filename, contents="xyzrg", output_mesh=True):

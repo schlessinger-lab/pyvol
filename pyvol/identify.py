@@ -118,7 +118,7 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
     return all_pockets
 
 
-def subpockets(bounding_spheres, ref_spheres, min_rad, max_rad, min_subpocket_rad=1.7, min_subpocket_surf_rad=1.0, max_subpocket_rad=None, sampling=0.1, inclusion_radius_buffer=1.0, min_cluster_size=10, max_clusters=None, prefix=None):
+def subpockets(bounding_spheres, ref_spheres, min_rad, max_rad, min_subpocket_rad=1.7, min_subpocket_surf_rad=1.0, max_subpocket_rad=None, sampling=0.1, inclusion_radius_buffer=1.0, min_cluster_size=50, max_clusters=None, prefix=None):
     
     if max_subpocket_rad is None:
         max_subpocket_rad = max_rad
@@ -126,7 +126,7 @@ def subpockets(bounding_spheres, ref_spheres, min_rad, max_rad, min_subpocket_ra
     nonextraneous_rad = min_rad + max_rad + inclusion_radius_buffer
     nonextraneous_spheres = bounding_spheres.identify_nonextraneous(ref_spheres=ref_spheres, radius=nonextraneous_rad)
 
-    sampling_radii = np.flip(np.arange(min_subpocket_surf_rad, max_subpocket_rad, sampling), axis=0)
+    sampling_radii = np.flip(np.arange(min_rad, max_subpocket_rad, sampling), axis=0)
     unmerged_sphere_lists = utilities.sphere_multiprocessing(nonextraneous_spheres, sampling_radii, all_components=True)
     spheres = cluster.merge_sphere_list(itertools.chain(*unmerged_sphere_lists))
 

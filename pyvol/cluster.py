@@ -48,8 +48,13 @@ def cluster_improperly_grouped(spheres, radius, min_cluster_size=1, max_clusters
     spheres.remove_ungrouped()
 
     group_counts = np.bincount(spheres.g.astype(int))
-    small_groups = np.where(group_counts < min_cluster_size)
-    reassign_groups_to_closest(spheres, small_groups, radius)
+    small_groups = np.where(group_counts < min_cluster_size)[0]
+    if len(small_groups) > 1:
+        # always includes the 0 group
+        reassign_groups_to_closest(spheres, small_groups[1:], radius)
+    disconnected_small_groups = np.where(group_counts < min_cluster_size)[0]
+    if len(disconnected_small_groups) > 1:
+        spheres.remove_groups(disconnected_small_groups)
 
     group_counts = np.bincount(spheres.g.astype(int))
     num_groups = np.count_nonzero(group_counts)
@@ -58,7 +63,7 @@ def cluster_improperly_grouped(spheres, radius, min_cluster_size=1, max_clusters
         if num_groups > max_clusters:
             reassign_groups_to_closest(spheres, np.where(group_counts > 0)[0], radius, iterations=(num_groups - max_clusters))
 
-
+            
 def extract_groups(spheres, surf_radius=None, prefix=None):
     groups = np.unique(spheres.g)
 
@@ -161,7 +166,7 @@ def reassign_group(spheres, source_group, target_group):
 def reassign_groups_to_closest(spheres, group_list, radius, iterations=None, preserve_largest=False):
     if iterations is None:
         iterations = len(group_list)
-    
+        
     for i in range(iterations):
         linkages = []
         for group in group_list:
