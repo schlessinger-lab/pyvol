@@ -130,7 +130,7 @@ class Spheres(object):
         Create a new Spheres object by overloading addition to concatenate xyzr contents
         Does not add meshes (just spheres)
         """
-        
+
         if other is not None:
             return Spheres(xyzrg=np.concatenate([self.xyzrg, other.xyzrg], axis=0))
         else:
@@ -143,7 +143,7 @@ class Spheres(object):
 
     def calculate_surface(self, probe_radius=1.4, cavity_atom=None, coordinate=None, all_components=False, exclusionary_radius=2.5, largest_only=False, noh=True, minimum_volume=200):
         """
-        Calculate the SAS for a given probe radius 
+        Calculate the SAS for a given probe radius
 
         Parameters
         ----------
@@ -160,11 +160,11 @@ class Spheres(object):
         tmpdir = tempfile.mkdtemp()
         xyzr_file = os.path.join(tmpdir, "pyvol.xyzr")
         msms_template = os.path.join(tmpdir, "pyvol_msms")
-        
-        np.savetxt(xyzr_file, self.xyzr, delimiter=' ')
+
+        np.savetxt(xyzr_file, self.xyzr, delimiter=' ', fmt='% 1.3f'+'% 1.3f'+'% 1.2f')
         if (cavity_atom is None) and (coordinate is not None):
             cavity_atom = self.nearest(coordinate, max_radius=exclusionary_radius)
-        
+
         msms_cmd = ["msms", "-if", xyzr_file, "-of", msms_template, "-probe_radius", "{0}".format(probe_radius), "-no_area"]
         if noh:
             msms_cmd.append("-noh")
@@ -199,7 +199,7 @@ class Spheres(object):
             bspheres = Spheres(bv=verts_raw, r=probe_radius, mesh=mesh)
             shutil.rmtree(tmpdir)
             return [bspheres]
-            
+
         else:
             spheres_list = []
             ac_template_list = [os.path.splitext(x)[0] for x in glob.glob("{0}_*.face".format(msms_template))]
@@ -207,11 +207,11 @@ class Spheres(object):
             largest_mesh = None
             for ac_template in ac_template_list:
                 verts_raw, vertices, faces = read_msms_output(ac_template)
-                
+
                 tm = trimesh.base.Trimesh(vertices=vertices, faces=faces)
                 if tm.volume < 0:
                     tm = trimesh.base.Trimesh(vertices=vertices, faces=np.flip(faces, axis=1))
-                
+
                 if largest_only:
                     if largest_mesh is None:
                         largest_mesh = tm
@@ -228,8 +228,8 @@ class Spheres(object):
                 return [bspheres]
             else:
                 return sorted(spheres_list, key=lambda s: s.mesh.volume, reverse=True)
-            
-    
+
+
     def identify_nonextraneous(self, ref_spheres, radius):
         """
         Returns all spheres less than radius away from any center in ref_spheres using cKDTree search built on the non-reference set
@@ -245,7 +245,7 @@ class Spheres(object):
         kdtree = scipy.spatial.cKDTree(self.xyz)
         groups = kdtree.query_ball_point(ref_spheres.xyz, radius, n_jobs=-1)
         indices = np.unique(list(itertools.chain.from_iterable(groups)))
-        
+
         return Spheres(xyzrg=np.copy(self.xyzrg[indices, :]))
 
 
@@ -258,7 +258,7 @@ class Spheres(object):
         coordinate : (1, 3) float
             3D input coordinate
         max_radius : float
-            maximum radius that the selected nearest sphere can have; used to exclude large radius exterior spheres from being selected 
+            maximum radius that the selected nearest sphere can have; used to exclude large radius exterior spheres from being selected
         """
 
         if max_radius is None:
@@ -278,13 +278,13 @@ class Spheres(object):
         coordinates : (n, 3) float
             3D input coordinates
         """
- 
+
         kdtree = scipy.spatial.cKDTree(self.xyz)
         dist, indices = kdtree.query(coordinates, n_jobs=-1)
-        
+
         return self.xyz[indices[np.argmin(dist)], :]
-    
-                
+
+
     def remove_duplicates(self, eps=0.01):
         """
         Remove duplicate spheres by identifying centers closer together than eps using DBSCAN
@@ -294,7 +294,7 @@ class Spheres(object):
         eps : float
             DBSCAN cutoff for identifying nearest neighbor distances between duplicate spheres
         """
-        
+
         db = DBSCAN(eps=eps, min_samples=1).fit(self.xyz)
         values, indices = np.unique(db.labels_, return_index=True)
         self.xyzrg = self.xyzrg[indices, :]
@@ -310,11 +310,11 @@ class Spheres(object):
         group_indices = np.where(np.isin(self.g, groups))
         self.xyzrg = np.delete(self.xyzrg, group_indices, axis=0)
         self.mesh = None
-        
-        
+
+
     def write(self, filename, contents="xyzrg", output_mesh=True):
         """
-        Writes the contents of _xyzrg to a space delimited file 
+        Writes the contents of _xyzrg to a space delimited file
 
         Parameters
         ----------
@@ -348,12 +348,12 @@ class Spheres(object):
             raise ValueError("number of xyzrg array columns must equal 5")
         self._xyzrg = np.copy(value).astype(float)
 
-        
+
     @property
     def xyzr(self):
         return self._xyzrg[:, 0:4]
 
-    
+
     @xyzr.setter
     def xyzr(self, value):
         # resets all radii, groups, and positions
@@ -363,12 +363,12 @@ class Spheres(object):
         xyzrg[:, 0:4] = value
         self._xyzrg = np.copy(xyzrg).astype(float)
 
-        
+
     @property
     def xyz(self):
         return self._xyzrg[:, 0:3]
 
-    
+
     @xyz.setter
     def xyz(self, value):
         # resets all radii, groups, and positions
@@ -378,12 +378,12 @@ class Spheres(object):
         xyzrg[:, 0:3] = value
         self._xyzrg = np.copy(xyzrg).astype(float)
 
-        
+
     @property
     def r(self):
         return self._xyzrg[:, 3]
 
-    
+
     @r.setter
     def r(self, value):
         if value is np.ndarray:
@@ -399,7 +399,7 @@ class Spheres(object):
     def g(self):
         return self._xyzrg[:, 4]
 
-    
+
     @g.setter
     def g(self, value):
         if value is np.ndarray:

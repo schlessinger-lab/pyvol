@@ -1,6 +1,6 @@
 
 
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 
 def __init_plugin__(app=None):
     try:
@@ -14,7 +14,6 @@ def __init_plugin__(app=None):
         from pymol.plugins import addmenuitemqt
         addmenuitemqt('PyVOL', pyvol_window)
 
-
 def pyvol_window():
     import os
     from pymol.Qt import QtWidgets
@@ -27,7 +26,7 @@ def pyvol_window():
     def browse_pocket_file(form):
         pocket_file_name = QtWidgets.QFileDialog.getOpenFileNames(None, 'Open file', os.getcwd(), filter='Pocket Files (*.obj *.csv)')[0][0]
         form.pocket_file_ledit.setText(pocket_file_name)
-    
+
     def install_pyvol(form):
         import subprocess
         import sys
@@ -46,6 +45,13 @@ def pyvol_window():
             cmd.extend('load_pocket', pymol_interface.load_pocket)
         except:
             print("Installation still not complete")
+        refresh_installation_status(form)
+
+    def uninstall_pyvol(form):
+        import subprocess
+        import sys
+
+        subprocess.check_output([sys.executable, "-m", "pip", "uninstall", "bio-pyvol"])
         refresh_installation_status(form)
 
     def update_pyvol(form):
@@ -80,7 +86,7 @@ def pyvol_window():
             if pckg["name"] == "bio-pyvol":
                 pyvol_version = pckg["version"]
                 pyvol_installed = True
-        
+
         for pckg in pckgs:
             if pckg["name"] == "biopython":
                 biopython_version = pckg["version"]
@@ -134,6 +140,8 @@ def pyvol_window():
             form.run_tab.setEnabled(True)
             form.run_button.setEnabled(True)
             form.load_tab.setEnabled(True)
+            form.uninstall_button.setEnabled(True)
+            form.uninstall_button.clicked.connect(lambda: uninstall_pyvol(form))
             form.setWindowTitle("PyVOL v{0}".format(pyvol_version))
 
             if check_for_updates:
@@ -144,7 +152,7 @@ def pyvol_window():
                         update_available = True
                         pyvol_version = apply_color("{0} ({1} available)".format(pyvol_version, package['latest_version']), "blue")
                         break
-                    
+
                 if update_available:
                     form.status_label.setText("Update available")
                     form.install_button.setText("Update PyVOL")
@@ -156,15 +164,17 @@ def pyvol_window():
                     form.install_button.clicked.connect(lambda: refresh_installation_status(form, check_for_updates=True))
             else:
                 form.install_button.setText("Check for Updates")
-                
+
                 form.status_label.setText("PyVOL is installed")
         else:
             form.status_label.setText("PyVOL is not installed")
             form.run_tab.setEnabled(False)
             form.run_button.setEnabled(False)
             form.load_tab.setEnabled(False)
+            form.setCurrentIndex(2)
             form.install_button.setText("Install PyVOL")
             form.install_button.clicked.connect(lambda: install_pyvol(form))
+            form.uninstall_button.setEnabled(False)
 
         gui_version = None
         if pyvol_installed and (not update_available):
@@ -222,10 +232,10 @@ def pyvol_window():
             return
         else:
             pymol_interface.load_pocket(pocket_file, name=prefix, display_mode=display_mode, color=color, alpha=alpha)
-        
+
     def run_gui_pyvol(form):
         from pyvol import pymol_interface
-        
+
         # Basic Parameters
         protein = form.prot_sele_ledit.text()
         excl_org = form.excl_org_cbox.isChecked()
@@ -240,7 +250,7 @@ def pyvol_window():
         residue = None
         resid = None
         pocket_coordinate = None
-        
+
         if form.all_rbutton.isChecked():
             mode = "all"
             minimum_volume = form.min_volume_ledit.text()
@@ -290,11 +300,11 @@ def pyvol_window():
         pymol_interface.pocket(protein=protein, mode=mode, ligand=ligand, pocket_coordinate=pocket_coordinate, residue=residue, resid=resid, prefix=prefix, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, display_mode=display_mode, color=color, alpha=alpha, output_dir=output_dir, subdivide=subdivide, minimum_volume=minimum_volume, min_subpocket_rad=min_subpocket_rad, min_subpocket_surf_rad=min_subpocket_surf_rad, max_clusters=max_clusters, excl_org=excl_org)
 
     refresh_installation_status(form)
-    
+
     form.close_button.clicked.connect(dialog.close)
     form.run_button.clicked.connect(lambda: run_gui_pyvol(form))
 
     form.browse_button.clicked.connect(lambda: browse_pocket_file(form))
     form.load_button.clicked.connect(lambda: run_gui_load(form))
-    
+
     dialog.show()

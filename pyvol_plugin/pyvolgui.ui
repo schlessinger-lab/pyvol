@@ -26,7 +26,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="run_tab">
       <attribute name="title">
@@ -59,7 +59,7 @@
             <x>0</x>
             <y>0</y>
             <width>688</width>
-            <height>787</height>
+            <height>757</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -91,16 +91,6 @@
                   </property>
                  </widget>
                 </item>
-                <item row="1" column="0">
-                 <widget class="QCheckBox" name="excl_org_cbox">
-                  <property name="text">
-                   <string>Exclude Organic</string>
-                  </property>
-                  <property name="checked">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
                 <item row="2" column="0">
                  <widget class="QLabel" name="min_rad_label">
                   <property name="text">
@@ -126,6 +116,16 @@
                  <widget class="QLineEdit" name="min_rad_ledit">
                   <property name="text">
                    <string>1.4</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QCheckBox" name="excl_org_cbox">
+                  <property name="text">
+                   <string>Exclude Organic</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
                   </property>
                  </widget>
                 </item>
@@ -656,6 +656,13 @@
              <widget class="QPushButton" name="install_button">
               <property name="text">
                <string>Install PyVOL</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="uninstall_button">
+              <property name="text">
+               <string>Uninstall PyVOL</string>
               </property>
              </widget>
             </item>
