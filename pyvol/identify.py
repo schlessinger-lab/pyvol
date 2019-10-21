@@ -1,9 +1,16 @@
 
+import time
+print("a", time.time())
 from .spheres import Spheres
+print("b", time.time())
 from . import cluster, utilities
+print("c", time.time())
 import itertools
+print("d", time.time())
 import numpy as np
+print("e", time.time())
 import os
+print("f", time.time())
 
 
 def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None, residue_coordinates=None, min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, subdivide=False, minimum_volume=200, min_subpocket_rad=1.7, min_subpocket_surf_rad=1.0, max_clusters=None, prefix=None, output_dir=None):
@@ -44,7 +51,7 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
     if min_rad < 1.2:
         print("Warning: minimum radii under 1.2 and not supported and can lead to bizarre results or crashes; setting the minimum radius to 1.2")
         min_rad = 1.2
-    
+
     p_s = Spheres(pdb=prot_file)
 
     if lig_file is not None:
@@ -55,7 +62,7 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
         l_s = None
 
     pl_s = p_s + l_s
-        
+
     pl_bs = pl_s.calculate_surface(probe_radius=max_rad)[0]
 
     pa_s = p_s + pl_bs
@@ -76,7 +83,7 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
                 if isinstance(coordinate, ("".__class__, u"".__class__)):
                     coordinate = coordinate.split()
                     coordinate = np.array([float(x) for x in coordinate])
-                coordinate = coordinate.reshape(1, -1)                
+                coordinate = coordinate.reshape(1, -1)
             elif resid is not None:
                 resid = str(resid)
                 chain = None
@@ -108,18 +115,18 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
             return None
         else:
             all_pockets = [bp_bs]
-            
+
         if subdivide:
             all_pockets.extend(subpockets(bounding_spheres = pa_s, ref_spheres = bp_bs, min_rad=min_rad, max_rad=max_rad, min_subpocket_rad=min_subpocket_rad, max_clusters=max_clusters, prefix=prefix))
 
     if output_dir is not None:
         write_report(all_pockets, output_dir, prefix)
-        
+
     return all_pockets
 
 
 def subpockets(bounding_spheres, ref_spheres, min_rad, max_rad, min_subpocket_rad=1.7, min_subpocket_surf_rad=1.0, max_subpocket_rad=None, sampling=0.1, inclusion_radius_buffer=1.0, min_cluster_size=50, max_clusters=None, prefix=None):
-    
+
     if max_subpocket_rad is None:
         max_subpocket_rad = max_rad
 
@@ -144,9 +151,9 @@ def write_report(all_pockets, output_dir, prefix):
     import pandas as pd
 
     utilities.check_dir(output_dir)
-    
+
     rept_list = []
-    
+
     for pocket in all_pockets:
         spheres_name = os.path.join(output_dir, "{0}.csv".format(pocket.name))
         pocket.write(spheres_name)

@@ -2,14 +2,14 @@
 from .spheres import Spheres
 import numpy as np
 import scipy
-from sklearn.cluster import DBSCAN
-from sklearn.preprocessing import normalize
 
 
 def cluster_within_r(spheres, radius, allow_new=True):
+    from sklearn.cluster import DBSCAN
+
     r_indices = np.where(spheres.r == radius)[0]
     selected = spheres.xyzrg[r_indices, :]
-    
+
     ungrouped_indices = np.where(selected[:, 4] == 0)[0]
 
     if ungrouped_indices.shape[0] > 0:
@@ -33,13 +33,13 @@ def cluster_between_r(spheres, ref_radius, target_radius):
 
         kdtree = scipy.spatial.cKDTree(ref_data[:, 0:3])
         dist, indices = kdtree.query(target_data[:, 0:3], distance_upper_bound=ref_radius, n_jobs=-1)
-        
+
         target_indices = indices < ref_data.shape[0]
         ref_indices = indices[target_indices]
 
         np.put(spheres.g, r_indices[target_indices], ref_data[ref_indices, 4])
 
-        
+
 def cluster_improperly_grouped(spheres, radius, min_cluster_size=1, max_clusters=None):
     min_group = np.amin(spheres.g)
     group_list = np.flip(np.arange(min_group, 0), axis=0)
@@ -63,7 +63,7 @@ def cluster_improperly_grouped(spheres, radius, min_cluster_size=1, max_clusters
         if num_groups > max_clusters:
             reassign_groups_to_closest(spheres, np.where(group_counts > 0)[0], radius, iterations=(num_groups - max_clusters))
 
-            
+
 def extract_groups(spheres, surf_radius=None, prefix=None):
     groups = np.unique(spheres.g)
 
@@ -94,26 +94,26 @@ def extract_groups(spheres, surf_radius=None, prefix=None):
         return new_group_list
     else:
         return group_list
-    
+
 
 def hierarchically_cluster_spheres(spheres, ordered_radii=None, min_new_radius=None, min_cluster_size=10, max_clusters=None):
     if min_new_radius is None:
         min_new_radius = np.amin(ordered_radii)
-    
+
     for index, radius in enumerate(ordered_radii):
         initial_grouped = spheres.xyzrg[spheres.g != 0].shape[0]
         if index > 0:
             cluster_between_r(spheres, ref_radius=ordered_radii[index - 1], target_radius=ordered_radii[index])
-            
+
         cluster_within_r(spheres, radius, allow_new=(radius >= min_new_radius))
 
     cluster_improperly_grouped(spheres, radius=ordered_radii[-1], min_cluster_size=min_cluster_size, max_clusters=max_clusters)
-    
-    
+
+
 def identify_closest_grouped(spheres, group, radius):
     target_indices = np.where((spheres.r == radius) & (spheres.g == group))[0]
     grouped_indices = np.where((spheres.r == radius) & (spheres.g > 0) & (spheres.g != group))[0]
-        
+
     target_data = spheres.xyzrg[target_indices]
     grouped_data = spheres.xyzrg[grouped_indices]
 
@@ -121,7 +121,7 @@ def identify_closest_grouped(spheres, group, radius):
         kdtree = scipy.spatial.cKDTree(grouped_data[:, 0:3])
         dist, indices = kdtree.query(target_data[:, 0:3], distance_upper_bound=1.41 * radius, n_jobs=-1)
         # 1.41 factor allows the two spheres to intersect at pi/4 from the closest point
-        
+
         t_indices = indices < grouped_data.shape[0]
         group_indices = indices[t_indices]
         if len(group_indices) > 0:
@@ -129,7 +129,7 @@ def identify_closest_grouped(spheres, group, radius):
             closest = np.argmax(counts)
             magnitude = counts[closest]
             return [group, closest, magnitude]
-        else:            
+        else:
             return [None, None, 0]
     else:
         return [None, None, 0]
@@ -161,12 +161,12 @@ def reassign_group(spheres, source_group, target_group):
     source_indices = np.where(spheres.g == source_group)
 
     np.put(spheres.g, source_indices, target_group)
-    
+
 
 def reassign_groups_to_closest(spheres, group_list, radius, iterations=None, preserve_largest=False):
     if iterations is None:
         iterations = len(group_list)
-        
+
     for i in range(iterations):
         linkages = []
         for group in group_list:
@@ -179,7 +179,7 @@ def reassign_groups_to_closest(spheres, group_list, radius, iterations=None, pre
                 group_sizes = np.bincount(spheres.g.astype(int))
                 if group_sizes[best_link[0]] > group_sizes[best_link[1]]:
                     best_link = [best_link[1], best_link[0]]
-            
+
             reassign_group(spheres, best_link[0], best_link[1])
         else:
             break
@@ -196,22 +196,24 @@ def remove_interior(spheres):
     for point_index, nlist in enumerate(neighbors):
         if point_index in interior_indices:
             continue
-        
+
         if len(nlist) <= 1:
             continue
-        
+
         inclusion = spheres.r[point_index] - spheres.r[nlist].reshape(-1, 1) - scipy.spatial.distance.cdist(spheres.xyz[nlist], spheres.xyz[point_index].reshape(1, -1))
         included_indices = np.where(inclusion > 0)[0]
         if len(included_indices) > 0:
             interior_indices.extend(list(np.array(nlist)[included_indices]))
-    
+
     interior_indices = np.unique(interior_indices).astype(int)
     spheres.xyzrg = np.delete(spheres.xyzrg, interior_indices, axis=0)
-    
+
 
 def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.02):
+    from sklearn.preprocessing import normalize
+
     groups = np.unique(spheres.g)[:-1]
-    
+
     if radii is None:
         radii = [np.amax(spheres.r)]
         spacing = radii[0]
@@ -227,7 +229,7 @@ def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.
 
             group_data = spheres.xyzrg[group_indices]
             other_data = spheres.xyzrg[other_indices]
-        
+
             other_tree = scipy.spatial.cKDTree(other_data[:, 0:3])
             group_tree = scipy.spatial.cKDTree(group_data[:, 0:3])
 
@@ -239,7 +241,7 @@ def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.
             for iteration in range(iterations):
                 overlaps = np.zeros(len(neighbors))
                 overlap_indices = -1 * np.ones(len(neighbors))
-            
+
                 for group_index, nlist in enumerate(neighbors):
                     if len(nlist) == 0:
                         continue
@@ -252,10 +254,10 @@ def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.
                 overlapped_group_indices = np.where(overlaps > tolerance)[0]
                 if len(overlapped_group_indices) == 0:
                     break
-                
+
                 overlaps = overlaps[overlapped_group_indices]
                 overlap_indices = overlap_indices[overlapped_group_indices].astype(int)
-            
+
                 reorder = np.argsort(overlaps)[::-1]
                 overlaps = overlaps[reorder]
                 overlap_indices = overlap_indices[reorder]

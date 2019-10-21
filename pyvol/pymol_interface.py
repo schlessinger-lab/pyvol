@@ -32,15 +32,15 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
 
     if excl_org:
         protein = "({0}) and (not org)".format(protein)
-        
+
     if ligand is not None:
         protein = "({0}) and not ({1})".format(protein, ligand)
-        
+
         lig_file = os.path.join(output_dir, "{0}_lig.pdb".format(timestamp))
         cmd.save(lig_file, ligand)
     else:
         lig_file = None
-        
+
     prot_atoms = cmd.count_atoms(protein)
     if prot_atoms == 0:
         print("Error: no atoms included in protein selection")
@@ -70,14 +70,14 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
                 pymol_utilities.display_spheres_object(spheres[0], spheres[0].name, state=1, color=color, alpha=alpha, mode=display_mode)
             except:
                 print("Volume not calculated for pocket")
-            
+
         else:
             try:
                 print("Whole Pocket Volume: {0} A^3".format(round(spheres[0].mesh.volume)))
             except:
                 print("Volume not calculated for the whole pocket")
             pymol_utilities.display_spheres_object(spheres[0], spheres[0].name, state=1, color=color, alpha=alpha, mode=display_mode)
-            
+
             palette = pymol_utilities.construct_palette(max_value=(len(spheres) -1))
             for index, sps in enumerate(spheres[1:]):
                 group = int(sps.g[0])
@@ -86,9 +86,9 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
                     pymol_utilities.display_spheres_object(sps, sps.name, state=1, color=palette[index], alpha=alpha, mode=display_mode)
                 except:
                     print("Volume not calculated for pocket: {0}".format(sps.name))
-                
+
             cmd.disable(spheres[0].name)
-            
+
             if display_mode == "spheres":
                 cmd.group("{0}_sg".format(spheres[0].name), "{0}*_g".format(spheres[0].name))
             else:
@@ -102,13 +102,13 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
                 pymol_utilities.display_spheres_object(s, s.name, state=1, color=palette[index], alpha=alpha, mode=display_mode)
             except:
                 print("Volume not calculated for pocket: {0}".format(s.name))
-                
+
         name_template = "p".join(spheres[0].name.split("p")[:-1])
         if display_mode == "spheres":
             cmd.group("{0}sg".format(name_template), "{0}*_g".format(name_template))
         else:
             cmd.group("{0}g".format(name_template), "{0}*".format(name_template))
-            
+
     if output_dir is None:
         shutil.rmtree(output_dir)
     return

@@ -1,5 +1,4 @@
 
-from Bio.PDB import PDBParser
 import multiprocessing
 import numpy as np
 import os
@@ -16,6 +15,7 @@ def check_dir(location):
 
 
 def coordinates_for_resid(pdb_file, resid, chain=None, model=0):
+    from Bio.PDB import PDBParser
     p = PDBParser(PERMISSIVE=1, QUIET=True)
     structure = p.get_structure("prot", pdb_file)
 
@@ -59,12 +59,12 @@ def run_cmd(options, in_directory=None):
 def surface_multiprocessing(args):
     spheres, probe_radius, kwargs = args
     return spheres.calculate_surface(probe_radius=probe_radius, **kwargs)
-        
+
 
 def sphere_multiprocessing(spheres, radii, workers=None, **kwargs):
     if workers is None:
         workers = multiprocessing.cpu_count()
-    
+
     pool = multiprocessing.Pool(processes=workers)
     results = pool.map(surface_multiprocessing, [(spheres, probe_radius, kwargs) for probe_radius in radii])
     pool.close()

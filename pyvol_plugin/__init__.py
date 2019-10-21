@@ -1,13 +1,19 @@
 
 
-__version__ = "1.0.2"
+__version__ = "1.0.3"
+
+import time
 
 def __init_plugin__(app=None):
     try:
+        print("start load", time.time())
         from pymol import cmd
+        print("pymol loaded", time.time())
         from pyvol import pymol_interface
+        print("pyvol loaded", time.time())
         cmd.extend('pocket', pymol_interface.pocket)
         cmd.extend('load_pocket', pymol_interface.load_pocket)
+        print("pymol extended", time.time())
     except:
         pass
     finally:
@@ -28,36 +34,43 @@ def pyvol_window():
         form.pocket_file_ledit.setText(pocket_file_name)
 
     def install_pyvol(form):
+        import distutils
         import subprocess
         import sys
 
+        form.status_label.setText("Installing PyVOL and its dependencies")
         subprocess.check_output([sys.executable, "-m", "pip", "install", "bio-pyvol"])
-        if os.name in ['posix']:
-            conda_path = os.path.join(os.path.dirname(sys.executable), "conda")
-            if not os.path.isfile(conda_path):
-                conda_path = "conda"
-            subprocess.check_output([conda_path, "install", "-y", "-c", "bioconda", "msms"])
 
+        msms_exe = distutils.spawn.find_executable("msms")
+        if msms_exe == None:
+            if os.name in ['posix']:
+                conda_path = os.path.join(os.path.dirname(sys.executable), "conda")
+                if not os.path.isfile(conda_path):
+                    conda_path = "conda"
+                subprocess.check_output([conda_path, "install", "-y", "-c", "bioconda", "msms"])
+                msms_exe = distutils.spawn.find_executable("msms")
         try:
             from pymol import cmd
             from pyvol import pymol_interface
             cmd.extend('pocket', pymol_interface.pocket)
             cmd.extend('load_pocket', pymol_interface.load_pocket)
         except:
-            print("Installation still not complete")
+            pass
         refresh_installation_status(form)
 
     def uninstall_pyvol(form):
         import subprocess
         import sys
 
-        subprocess.check_output([sys.executable, "-m", "pip", "uninstall", "bio-pyvol"])
+        form.status_label.setText("Uninstalling PyVOL")
+        subprocess.check_output([sys.executable, "-m", "pip", "uninstall", "-y", "bio-pyvol"])
         refresh_installation_status(form)
 
     def update_pyvol(form):
         import subprocess
         import sys
 
+        form.status_label.setText("Updating PyVOL")
         subprocess.check_output([sys.executable, "-m", "pip", "install", "--upgrade", "bio-pyvol"])
         refresh_installation_status(form)
 
@@ -136,7 +149,7 @@ def pyvol_window():
 
         # check whether an update is available for PyVOL and modify the GUI appropriately
         update_available = False
-        if pyvol_installed:
+        if pyvol_installed and (msms_exe is not None):
             form.run_tab.setEnabled(True)
             form.run_button.setEnabled(True)
             form.load_tab.setEnabled(True)
@@ -164,14 +177,17 @@ def pyvol_window():
                     form.install_button.clicked.connect(lambda: refresh_installation_status(form, check_for_updates=True))
             else:
                 form.install_button.setText("Check for Updates")
-
                 form.status_label.setText("PyVOL is installed")
+                form.install_button.clicked.connect(lambda: refresh_installation_status(form, check_for_updates=True))
         else:
-            form.status_label.setText("PyVOL is not installed")
+            if not pyvol_installed:
+                form.status_label.setText("PyVOL is not installed")
+            else:
+                form.status_label.setText("PyVOL has been installed but cannot run without MSMS")
             form.run_tab.setEnabled(False)
             form.run_button.setEnabled(False)
             form.load_tab.setEnabled(False)
-            form.setCurrentIndex(2)
+            form.tabWidget.setCurrentIndex(2)
             form.install_button.setText("Install PyVOL")
             form.install_button.clicked.connect(lambda: install_pyvol(form))
             form.uninstall_button.setEnabled(False)
@@ -202,7 +218,6 @@ def pyvol_window():
             "&nbsp;   sklearn: {5}<br>"
             "&nbsp;   trimesh: {6}<br>"
             "&nbsp;   msms exe: {7}<br><br>"
-            "Please be patient when installing, updating, or checking for updates--the servers can sometimes be a little slow"
         ).format(pyvol_version, biopython_version, numpy_version, pandas_version, scipy_version, sklearn_version, trimesh_version, msms_exe, gui_version))
 
     def run_gui_load(form):

@@ -9,8 +9,6 @@ import os
 import pandas as pd
 import scipy
 import shutil
-from sklearn.cluster import DBSCAN
-from sklearn.preprocessing import normalize
 import sys
 import tempfile
 import trimesh
@@ -294,6 +292,7 @@ class Spheres(object):
         eps : float
             DBSCAN cutoff for identifying nearest neighbor distances between duplicate spheres
         """
+        from sklearn.cluster import DBSCAN
 
         db = DBSCAN(eps=eps, min_samples=1).fit(self.xyz)
         values, indices = np.unique(db.labels_, return_index=True)
