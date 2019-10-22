@@ -16,7 +16,7 @@ for handler in main_logger.handlers:
 if not stdio_handler_found:
     log_out = logging.StreamHandler()
     log_out.setLevel("DEBUG")
-    log_out.setFormatter(logging.Formatter('%(name)-12s:\t%(levelname)-8s\t%(message)s'))
+    log_out.setFormatter(logging.Formatter("%(name)-12s:".ljust(25) + '\t%(levelname)-8s\t%(message)s'))
     main_logger.addHandler(log_out)
 
 logger = logging.getLogger("pyvol.plugin")
