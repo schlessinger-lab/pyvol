@@ -152,7 +152,7 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
 
         if subdivide:
             all_pockets.extend(subpockets(bounding_spheres = pa_s, ref_spheres = bp_bs, min_rad=min_rad, max_rad=max_rad, min_subpocket_rad=min_subpocket_rad, max_clusters=max_clusters, prefix=prefix))
-            logger.debug("Subpockets identified: {0}".format(len(all_pockets - 1)))
+            logger.debug("Subpockets identified: {0}".format(len(all_pockets) - 1))
 
     if output_dir is not None:
         write_report(all_pockets, output_dir, prefix)
