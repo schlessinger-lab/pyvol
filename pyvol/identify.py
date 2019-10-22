@@ -142,6 +142,7 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
         write_report(all_pockets, output_dir, prefix)
         logger.debug("Report written")
 
+    print(all_pockets)
     return all_pockets
 
 

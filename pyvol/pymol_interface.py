@@ -72,6 +72,7 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
     logger.info("Running in {0} mode".format(mode))
 
     spheres = identify.pocket(prot_file, mode=mode, lig_file=lig_file, resid=resid, residue_coordinates=residue_coordinates, coordinate=pocket_coordinate, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, subdivide=subdivide, minimum_volume=minimum_volume, min_subpocket_rad=min_subpocket_rad, prefix=prefix, output_dir=output_dir, min_subpocket_surf_rad=min_subpocket_surf_rad, max_clusters=max_clusters, constrain_inputs=constrain_inputs)
+    print(spheres)
 
     if mode in ["specific", "largest"]:
         if not subdivide:
