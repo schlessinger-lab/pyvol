@@ -114,6 +114,8 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
             except:
                 logger.warning("Volume not calculated for pocket: {0}".format(s.name))
 
+        print(spheres[0].name, spheres[0].name.split("p"))
+        print("p".join(spheres[0].name.split("p")[:-1]))
         name_template = "p".join(spheres[0].name.split("p")[:-1])
         if display_mode == "spheres":
             cmd.group("{0}sg".format(name_template), "{0}*_g".format(name_template))
