@@ -7,6 +7,7 @@ import numpy as np
 import os
 
 logger = logging.getLogger(__name__)
+main_logger = logging.getLogger("pyvol")
 
 def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None, residue_coordinates=None, min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, subdivide=False, minimum_volume=200, min_subpocket_rad=1.7, min_subpocket_surf_rad=1.0, max_clusters=None, prefix=None, output_dir=None, constrain_inputs=False):
     """
@@ -47,7 +48,7 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
         logf_out.setFormatter(logging.Formatter("%(name)-12s:".ljust(25) + "\t%(levelname)-8s" + "\t%(message)s"))
         main_logger.addHandler(logf_out)
         logger.info("Full log directed to: {0}".format(os.path.join(output_dir, "{0}.log".format(prefix))))
-        
+
     logger.debug("Output prefix: {0}".format(prefix))
 
     min_rad = float(min_rad)
