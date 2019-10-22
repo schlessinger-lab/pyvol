@@ -1,10 +1,13 @@
 
+import logging
 import multiprocessing
 import numpy as np
 import os
 import subprocess
 import sys
 import types
+
+logger = logging.getLogger(__name__)
 
 def check_dir(location):
     if not os.path.isdir(location):
@@ -24,7 +27,7 @@ def coordinates_for_resid(pdb_file, resid, chain=None, model=0):
     else:
         res = [r for r in structure[model].get_residues() if r[1] == resid]
         if len(res) != 1:
-            print("Error: ambiguous or absent residue definition")
+            logger.error("Ambiguous or absent residue definition: {0} {2} {1}".format(pdb_file, resid, chain))
             return None
     return np.array([atom.get_coord() for atom in res.get_atoms()])
 
@@ -42,15 +45,11 @@ def run_cmd(options, in_directory=None):
         os.chdir(in_directory)
 
     opt_strs = [str(opt) for opt in options]
-    # print(" ".join(opt_strs))
 
-    # with open(os.devnull, 'w') as devnull:
-    #     subprocess.call(opt_strs, stdout=devnull, stderr=devnull)
-    # subprocess.call(opt_strs)
     try:
         subprocess.check_output(opt_strs, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError:
-        print("Process Failed: {0}".format(" ".join(opt_strs)))
+        logger.error("Process Failed: {0}".format(" ".join(opt_strs)))
 
     if in_directory is not None:
         os.chdir(current_working_dir)

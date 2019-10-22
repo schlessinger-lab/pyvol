@@ -4,6 +4,7 @@ from Bio.PDB import PDBParser
 from Bio.PDB.ResidueDepth import _get_atom_radius
 import glob
 import itertools
+import logging
 import numpy as np
 import os
 import pandas as pd
@@ -13,6 +14,7 @@ import sys
 import tempfile
 import trimesh
 
+logger = logging.getLogger(__name__)
 
 class Spheres(object):
 
@@ -98,7 +100,7 @@ class Spheres(object):
                 csv_file = "{0}.csv".format(base)
                 obj_file = spheres_file
             else:
-                print("Invalid filename given to read in spheres object: {0}".format(spheres_file))
+                logger.error("Invalid filename given to read in spheres object: {0}".format(spheres_file))
             spheres_data = np.loadtxt(csv_file, delimiter=' ')
 
             if spheres_data.shape[1] == 5:
@@ -106,7 +108,7 @@ class Spheres(object):
             elif spheres_data.shape[1] == 4:
                 self.xyzr = spheres_data
             else:
-                print("Spheres csv file contains the wrong number of columns")
+                logger.error("Spheres csv file contains the wrong number of columns")
             mesh = trimesh.load_mesh(obj_file)
 
             if name is None:
@@ -180,7 +182,7 @@ class Spheres(object):
                 verts_raw = pd.read_csv("{0}.vert".format(msms_template), sep='\s+', skiprows=3, dtype=np.float_, header=None, encoding='latin1').values
                 faces = pd.read_csv("{0}.face".format(msms_template), sep='\s+', skiprows=3, usecols=[0, 1, 2], dtype=np.int_, header=None, encoding='latin1').values
             except IOError:
-                print("MSMS failed to run correctly", msms_template)
+                logger.error("MSMS failed to run correctly", msms_template)
                 raise IOError
             else:
                 vertices = np.zeros((verts_raw.shape[0] + 1, 3))
@@ -330,7 +332,7 @@ class Spheres(object):
 
         if output_mesh:
             if self.mesh is None:
-                print("Cannot write out an uninitialized mesh")
+                logger.error("Cannot write out an uninitialized mesh")
             else:
                 output_mesh = "{0}.obj".format(os.path.splitext(filename)[0])
                 self.mesh.export(file_obj = output_mesh)

@@ -1,19 +1,21 @@
 
 
-__version__ = "1.0.3"
+__version__ = "1.0.4"
 
+import logging
 import time
+
+logging.basicConfig(level="info")
+logger = logging.getLogger(__name__)
+
 
 def __init_plugin__(app=None):
     try:
-        print("start load", time.time())
         from pymol import cmd
-        print("pymol loaded", time.time())
         from pyvol import pymol_interface
-        print("pyvol loaded", time.time())
         cmd.extend('pocket', pymol_interface.pocket)
         cmd.extend('load_pocket', pymol_interface.load_pocket)
-        print("pymol extended", time.time())
+        logger.debug("PyVOL successfully imported")
     except:
         pass
     finally:
@@ -39,6 +41,7 @@ def pyvol_window():
         import sys
 
         form.status_label.setText("Installing PyVOL and its dependencies")
+
         subprocess.check_output([sys.executable, "-m", "pip", "install", "bio-pyvol"])
 
         msms_exe = distutils.spawn.find_executable("msms")
@@ -163,7 +166,7 @@ def pyvol_window():
                 for pckg in avail:
                     if pckg["name"] == "bio-pyvol":
                         update_available = True
-                        pyvol_version = apply_color("{0} ({1} available)".format(pyvol_version, package['latest_version']), "blue")
+                        pyvol_version = apply_color("{0} ({1} available)".format(pyvol_version, pckg['latest_version']), "blue")
                         break
 
                 if update_available:
@@ -243,7 +246,7 @@ def pyvol_window():
             prefix = None
 
         if not os.path.isfile(pocket_file):
-            print("Supplied file not found: {0}".format(pocket_file))
+            logger.error("Supplied file not found: {0}".format(pocket_file))
             return
         else:
             pymol_interface.load_pocket(pocket_file, name=prefix, display_mode=display_mode, color=color, alpha=alpha)
@@ -256,6 +259,7 @@ def pyvol_window():
         excl_org = form.excl_org_cbox.isChecked()
         min_rad = form.min_rad_ledit.text()
         max_rad = form.max_rad_ledit.text()
+        constrain_inputs = form.constrain_cbox.isChecked()
 
         # Pocket Selection
         minimum_volume = None
@@ -312,7 +316,7 @@ def pyvol_window():
         if output_dir == "":
             output_dir = None
 
-        pymol_interface.pocket(protein=protein, mode=mode, ligand=ligand, pocket_coordinate=pocket_coordinate, residue=residue, resid=resid, prefix=prefix, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, display_mode=display_mode, color=color, alpha=alpha, output_dir=output_dir, subdivide=subdivide, minimum_volume=minimum_volume, min_subpocket_rad=min_subpocket_rad, min_subpocket_surf_rad=min_subpocket_surf_rad, max_clusters=max_clusters, excl_org=excl_org)
+        pymol_interface.pocket(protein=protein, mode=mode, ligand=ligand, pocket_coordinate=pocket_coordinate, residue=residue, resid=resid, prefix=prefix, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, display_mode=display_mode, color=color, alpha=alpha, output_dir=output_dir, subdivide=subdivide, minimum_volume=minimum_volume, min_subpocket_rad=min_subpocket_rad, min_subpocket_surf_rad=min_subpocket_surf_rad, max_clusters=max_clusters, excl_org=excl_org, constrain_inputs=constrain_inputs)
 
     refresh_installation_status(form)
 

@@ -1,1 +1,4 @@
 __pycache__
+build/
+dist/
+bio_pyvol.egg-info/
