@@ -50,6 +50,9 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
         main_logger.addHandler(logf_out)
         logger.info("Full log directed to: {0}".format(os.path.join(output_dir, "{0}.log".format(prefix))))
 
+    for handler in main_logger.handlers:
+        print(handler, type(handler))
+
     logger.debug("Output prefix: {0}".format(prefix))
 
     min_rad = float(min_rad)
