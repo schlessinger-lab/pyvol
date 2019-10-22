@@ -7,8 +7,8 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="bio-pyvol",
-    version="1.2.18",
-    description="a PyMOL plugin for visualization, comparison, and volume calculation of protein drug-binding sites",
+    version="1.2.19",
+    description="a PyMOL plugin and python package for visualization, comparison, and volume calculation of protein drug-binding sites",
     long_description=README,
     long_description_content_type="text/markdown",
     url="https://github.com/schlessingerlab/pyvol",

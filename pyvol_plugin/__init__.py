@@ -1,6 +1,6 @@
 
 
-__version__ = "1.0.11"
+__version__ = "1.0.12"
 
 import logging
 import time
@@ -15,7 +15,7 @@ for handler in main_logger.handlers:
         break
 if not stdio_handler_found:
     log_out = logging.StreamHandler()
-    log_out.setLevel("DEBUG")
+    log_out.setLevel("INFO")
     log_out.setFormatter(logging.Formatter("%(name)-12s:".ljust(25) + "\t%(levelname)-8s" + "\t%(message)s"))
     main_logger.addHandler(log_out)
 
@@ -36,7 +36,7 @@ def __init_plugin__(app=None):
 
 def pyvol_window():
     import os
-    from pymol.Qt import QtWidgets
+    from pymol.Qt import QtCore, QtWidgets
     from pymol.Qt.utils import loadUi
 
     dialog = QtWidgets.QDialog()
@@ -81,10 +81,11 @@ def pyvol_window():
         subprocess.check_output([sys.executable, "-m", "pip", "uninstall", "-y", "bio-pyvol"])
 
         msg = QtWidgets.QMessageBox()
-        msg.setIcon(QtWidgets.QmessageBox.Information)
+        msg.setIcon(QtWidgets.QMessageBox.Information)
         msg.setWindowTitle("PyVOL Backend Uninstalled")
         msg.setInformativeText("The PyVOL backend has been uninstalled; however, the plugin must also be uninstalled using PyMOL's plugin manager.")
-        msg.setStandardButtons(QtWidgets.QmessageBox.Ok)
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        msg.setMinimumSize(QtCore.QSize(600, 200)) # Doesn't seem to work
         msg.exec_()
 
         refresh_installation_status(form)
@@ -97,10 +98,11 @@ def pyvol_window():
         subprocess.check_output([sys.executable, "-m", "pip", "install", "--upgrade", "bio-pyvol"])
 
         msg = QtWidgets.QMessageBox()
-        msg.setIcon(QtWidgets.QmessageBox.Information)
+        msg.setIcon(QtWidgets.QMessageBox.Information)
         msg.setWindowTitle("PyVOL Updated")
         msg.setInformativeText("The PyVOL backend has been updated; however, PyMOL will not load the new code until it is restarted.")
-        msg.setStandardButtons(QtWidgets.QmessageBox.Ok)
+        msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
+        msg.setMinimumSize(QtCore.QSize(600, 200)) # Doesn't seem to work
         msg.exec_()
 
         refresh_installation_status(form)
