@@ -1,13 +1,13 @@
 
 
-__version__ = "1.0.4"
+__version__ = "1.0.5"
 
 import logging
 import time
 
-logging.basicConfig(level="INFO")
-logger = logging.getLogger(__name__)
-
+main_logger = logging.getLogger("pyvol")
+main_logger.setLevel("INFO")
+logger = logging.getLogger("pyvol.plugin")
 
 def __init_plugin__(app=None):
     try:

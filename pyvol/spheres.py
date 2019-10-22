@@ -161,7 +161,7 @@ class Spheres(object):
         xyzr_file = os.path.join(tmpdir, "pyvol.xyzr")
         msms_template = os.path.join(tmpdir, "pyvol_msms")
 
-        np.savetxt(xyzr_file, self.xyzr, delimiter=' ', fmt='% 1.3f'+'% 1.3f'+'% 1.2f')
+        np.savetxt(xyzr_file, self.xyzr, delimiter=' ', fmt='% 1.3f'+'% 1.3f'+'% 1.3f'+'% 1.2f')
         if (cavity_atom is None) and (coordinate is not None):
             cavity_atom = self.nearest(coordinate, max_radius=exclusionary_radius)
 

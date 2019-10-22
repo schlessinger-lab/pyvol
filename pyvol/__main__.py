@@ -1,8 +1,12 @@
 
 import argparse
 import configparser
+import logging
 from pyvol import identify
 
+main_logger = logging.getLogger("pyvol")
+main_logger.setLevel("INFO")
+logger = logging.getLogger(__name__)
 
 def create_default_cfg(cfg_file = "defaults.cfg"):
     config = configparser.ConfigParser(allow_no_value=True)
@@ -18,13 +22,13 @@ def create_default_cfg(cfg_file = "defaults.cfg"):
     config.set("Specification", "resid")
     config.set("Specification", "lig_excl_rad")
     config.set("Specification", "lig_incl_rad")
-    
+
     config.add_section("Partitioning")
     config.set("Partitioning", "subdivide", "False")
     config.set("Partitioning", "minimum_volume", "200")
     config.set("Partitioning", "max_clusters")
     config.set("Partitioning", "min_subpocket_rad", "1.7")
-    
+
     config.add_section("Output")
     config.set("Output", "output_dir")
     config.set("Output", "prefix")
@@ -63,7 +67,7 @@ def run_from_cfg(cfg_file):
     prefix = config.get("Output", "prefix", fallback="pocket")
 
     spheres = identify.pocket(prot_file, mode=mode, lig_file=lig_file, coordinate=coordinate, resid=resid, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, subdivide=subdivide, minimum_volume=minimum_volume, min_subpocket_rad=min_subpocket_rad, max_clusters=max_clusters, prefix=prefix, output_dir=output_dir)
-    
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

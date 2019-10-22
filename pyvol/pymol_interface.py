@@ -10,6 +10,8 @@ import shutil
 import tempfile
 import time
 
+main_logger = logging.getLogger("pyvol")
+main_logger.setLevel("INFO")
 logger = logging.getLogger(__name__)
 
 def load_pocket(spheres_file, name=None, display_mode="solid", color='marine', alpha=0.85):
