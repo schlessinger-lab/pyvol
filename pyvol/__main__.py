@@ -15,8 +15,8 @@ for handler in main_logger.handlers:
         break
 if not stdio_handler_found:
     log_out = logging.StreamHandler()
-        log_out.setLevel("INFO")
-        main_logger.addHandler(log_out)
+    log_out.setLevel("INFO")
+    main_logger.addHandler(log_out)
 
 def create_default_cfg(cfg_file = "defaults.cfg"):
     config = configparser.ConfigParser(allow_no_value=True)
