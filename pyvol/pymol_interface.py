@@ -21,7 +21,7 @@ for handler in main_logger.handlers:
 if not stdio_handler_found:
     log_out = logging.StreamHandler()
     log_out.setLevel("DEBUG")
-    log_out.setFormatter(logging.Formatter("%(name)-12s:".ljust(25) + '\t%(levelname)-8s\t%(message)s'))
+    log_out.setFormatter(logging.Formatter("%(name)-12s:".ljust(25) + "\t%(levelname)-8s" + "\t%(message)s"))
     main_logger.addHandler(log_out)
 
 logger = logging.getLogger(__name__)
@@ -49,7 +49,8 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
         utilities.check_dir(output_dir)
 
     if excl_org:
-        protein = "({0}) and (not org)".format(protein)
+        # protein = "({0}) and (not org)".format(protein)
+        protein = "({0}) and (poly)".format(protein)
 
     if ligand is not None:
         protein = "({0}) and not ({1})".format(protein, ligand)
@@ -132,8 +133,6 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
             except:
                 logger.warning("Volume not calculated for pocket: {0}".format(s.name))
 
-        print(spheres[0].name, spheres[0].name.split("p"))
-        print("p".join(spheres[0].name.split("p")[:-1]))
         name_template = "p".join(spheres[0].name.split("p")[:-1])
         if display_mode == "spheres":
             cmd.group("{0}sg".format(name_template), "{0}*_g".format(name_template))
