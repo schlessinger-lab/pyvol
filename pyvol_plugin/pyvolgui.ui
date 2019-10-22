@@ -57,7 +57,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-194</y>
             <width>688</width>
             <height>784</height>
            </rect>
@@ -268,7 +268,7 @@
               <item row="0" column="0">
                <widget class="QCheckBox" name="subdivide_cbox">
                 <property name="text">
-                 <string>Subdivide</string>
+                 <string>Subdivide (incompatible with 'all' mode)</string>
                 </property>
                </widget>
               </item>

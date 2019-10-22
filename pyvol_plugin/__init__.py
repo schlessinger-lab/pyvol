@@ -1,6 +1,6 @@
 
 
-__version__ = "1.0.10"
+__version__ = "1.0.11"
 
 import logging
 import time
@@ -79,6 +79,14 @@ def pyvol_window():
 
         form.status_label.setText("Uninstalling PyVOL")
         subprocess.check_output([sys.executable, "-m", "pip", "uninstall", "-y", "bio-pyvol"])
+
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QmessageBox.Information)
+        msg.setWindowTitle("PyVOL Backend Uninstalled")
+        msg.setInformativeText("The PyVOL backend has been uninstalled; however, the plugin must also be uninstalled using PyMOL's plugin manager.")
+        msg.setStandardButtons(QtWidgets.QmessageBox.Ok)
+        msg.exec_()
+
         refresh_installation_status(form)
 
     def update_pyvol(form):
@@ -87,6 +95,14 @@ def pyvol_window():
 
         form.status_label.setText("Updating PyVOL")
         subprocess.check_output([sys.executable, "-m", "pip", "install", "--upgrade", "bio-pyvol"])
+
+        msg = QtWidgets.QMessageBox()
+        msg.setIcon(QtWidgets.QmessageBox.Information)
+        msg.setWindowTitle("PyVOL Updated")
+        msg.setInformativeText("The PyVOL backend has been updated; however, PyMOL will not load the new code until it is restarted.")
+        msg.setStandardButtons(QtWidgets.QmessageBox.Ok)
+        msg.exec_()
+
         refresh_installation_status(form)
 
     def refresh_installation_status(form, check_for_updates=False):
