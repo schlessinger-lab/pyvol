@@ -40,6 +40,7 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
 
     if output_dir is not None:
         for handler in main_logger.handlers:
+            print(handler, type(handler))
             if type(handler) is logging.FileHandler:
                 main_logger.removeHandler(handler)
 
