@@ -123,7 +123,6 @@ class Spheres(object):
             self.name = name
         else:
             self.name = None
-        logger.debug("New spheres object created with name: {0}".format(self.name))
 
 
     def __add__(self, other):
@@ -183,7 +182,7 @@ class Spheres(object):
                 verts_raw = pd.read_csv("{0}.vert".format(msms_template), sep='\s+', skiprows=3, dtype=np.float_, header=None, encoding='latin1').values
                 faces = pd.read_csv("{0}.face".format(msms_template), sep='\s+', skiprows=3, usecols=[0, 1, 2], dtype=np.int_, header=None, encoding='latin1').values
             except IOError:
-                logger.error("MSMS failed to run correctly for {0} ({1})".format(self.name, msms_template))
+                logger.error("MSMS failed to run correctly for {0}".format(msms_template))
                 raise IOError
             else:
                 vertices = np.zeros((verts_raw.shape[0] + 1, 3))
@@ -205,7 +204,7 @@ class Spheres(object):
         else:
             spheres_list = []
             ac_template_list = [os.path.splitext(x)[0] for x in glob.glob("{0}_*.face".format(msms_template))]
-            logger.debug("{0} volumes calculated for {1}".format(len(ac_template_list), self.name))
+            logger.debug("{0} volumes calculated for {1}".format(len(ac_template_list), msms_template))
 
             largest_mesh = None
             for ac_template in ac_template_list:
@@ -228,10 +227,10 @@ class Spheres(object):
                         spheres_list.append(bspheres)
 
             if largest_only:
-                logger.debug("Largest volume identified for {0}".format(self.name))
+                logger.debug("Largest volume identified for {0}".format(msms_template))
                 return [bspheres]
             else:
-                logger.debug("{0} volumes identified with sufficient volume for {0}".format(len(spheres_list), self.name))
+                logger.debug("{0} volumes identified with sufficient volume for {0}".format(len(spheres_list), msms_template))
                 return sorted(spheres_list, key=lambda s: s.mesh.volume, reverse=True)
 
 
@@ -251,7 +250,7 @@ class Spheres(object):
         groups = kdtree.query_ball_point(ref_spheres.xyz, radius, n_jobs=-1)
         indices = np.unique(list(itertools.chain.from_iterable(groups)))
 
-        logger.debug("Non-extraneous spheres removed for {0}".format(self.name))
+        logger.debug("Non-extraneous spheres removed")
         return Spheres(xyzrg=np.copy(self.xyzrg[indices, :]))
 
 
@@ -305,7 +304,7 @@ class Spheres(object):
         db = DBSCAN(eps=eps, min_samples=1).fit(self.xyz)
         values, indices = np.unique(db.labels_, return_index=True)
         self.xyzrg = self.xyzrg[indices, :]
-        logger.debug("All sufficiently similar spheres removed for {0}".format(self.name))
+        logger.debug("All sufficiently similar spheres removed")
 
 
     def remove_ungrouped(self):
