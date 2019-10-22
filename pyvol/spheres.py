@@ -173,6 +173,7 @@ class Spheres(object):
         elif all_components:
             msms_cmd.append("-all_components")
 
+        logger.debug("MSMS cmd:" + " ".join(msms_cmd))
         utilities.run_cmd(msms_cmd)
 
         sphere_list = []
