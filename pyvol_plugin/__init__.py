@@ -1,12 +1,23 @@
 
 
-__version__ = "1.0.5"
+__version__ = "1.0.6"
 
 import logging
 import time
 
 main_logger = logging.getLogger("pyvol")
-main_logger.setLevel("INFO")
+main_logger.setLevel("DEBUG")
+
+stdio_handler_found = False
+for handler in main_logger.handlers:
+    if type(handler) is logging.StreamHandler:
+        stdio_handler_found = True
+        break
+if not stdio_handler_found:
+    log_out = logging.StreamHandler()
+        log_out.setLevel("INFO")
+        main_logger.addHandler(log_out)
+
 logger = logging.getLogger("pyvol.plugin")
 
 def __init_plugin__(app=None):

@@ -11,7 +11,18 @@ import tempfile
 import time
 
 main_logger = logging.getLogger("pyvol")
-main_logger.setLevel("INFO")
+main_logger.setLevel("DEBUG")
+
+stdio_handler_found = False
+for handler in main_logger.handlers:
+    if type(handler) is logging.StreamHandler:
+        stdio_handler_found = True
+        break
+if not stdio_handler_found:
+    log_out = logging.StreamHandler()
+        log_out.setLevel("INFO")
+        main_logger.addHandler(log_out)
+
 logger = logging.getLogger(__name__)
 
 def load_pocket(spheres_file, name=None, display_mode="solid", color='marine', alpha=0.85):
@@ -72,7 +83,6 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
     logger.info("Running in {0} mode".format(mode))
 
     spheres = identify.pocket(prot_file, mode=mode, lig_file=lig_file, resid=resid, residue_coordinates=residue_coordinates, coordinate=pocket_coordinate, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, subdivide=subdivide, minimum_volume=minimum_volume, min_subpocket_rad=min_subpocket_rad, prefix=prefix, output_dir=output_dir, min_subpocket_surf_rad=min_subpocket_surf_rad, max_clusters=max_clusters, constrain_inputs=constrain_inputs)
-    print(spheres)
 
     if mode in ["specific", "largest"]:
         if not subdivide:
@@ -107,6 +117,7 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
                 cmd.group("{0}_g".format(spheres[0].name), "{0}*".format(spheres[0].name))
 
     else:
+        # mode is all
         palette = pymol_utilities.construct_palette(max_value=len(spheres))
         for index, s in enumerate(spheres):
             try:
