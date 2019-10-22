@@ -1,5 +1,4 @@
 
-from .exceptions import MSMSError, RunError
 from . import identify
 from . import pymol_utilities
 from .spheres import Spheres
