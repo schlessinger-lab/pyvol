@@ -1,5 +1,6 @@
 
 from .spheres import Spheres
+import logging
 import numpy as np
 import scipy
 
