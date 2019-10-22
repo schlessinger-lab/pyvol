@@ -15,8 +15,7 @@ main_logger.setLevel("DEBUG")
 
 stdio_handler_found = False
 for handler in main_logger.handlers:
-    print(handler, type(handler))
-    if type(handler) is logging.StreamHandler:
+    if isinstance(handler, logging.StreamHandler):
         stdio_handler_found = True
         break
 if not stdio_handler_found:
