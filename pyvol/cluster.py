@@ -3,6 +3,7 @@ from .spheres import Spheres
 import numpy as np
 import scipy
 
+logger = logging.getLogger(__name__)
 
 def cluster_within_r(spheres, radius, allow_new=True):
     from sklearn.cluster import DBSCAN
@@ -62,6 +63,7 @@ def cluster_improperly_grouped(spheres, radius, min_cluster_size=1, max_clusters
     if max_clusters is not None:
         if num_groups > max_clusters:
             reassign_groups_to_closest(spheres, np.where(group_counts > 0)[0], radius, iterations=(num_groups - max_clusters))
+    logger.debug("Improperly grouped spheres re-clustered yielding {0} groups".format(num_groups))
 
 
 def extract_groups(spheres, surf_radius=None, prefix=None):
@@ -71,6 +73,8 @@ def extract_groups(spheres, surf_radius=None, prefix=None):
     for group in groups:
         group_spheres = Spheres(xyzrg = spheres.xyzrg[spheres.g == group].copy())
         group_list.append(group_spheres)
+
+    logger.debug("Extracting {0} groups from {1}".format(len(group_list), spheres.name))
 
     if surf_radius is not None:
         exterior_list = [group_spheres.calculate_surface(probe_radius=surf_radius)[0] for group_spheres in group_list]
@@ -106,8 +110,10 @@ def hierarchically_cluster_spheres(spheres, ordered_radii=None, min_new_radius=N
             cluster_between_r(spheres, ref_radius=ordered_radii[index - 1], target_radius=ordered_radii[index])
 
         cluster_within_r(spheres, radius, allow_new=(radius >= min_new_radius))
+    logger.debug("Finished naive sphere clustering for spheres in {0}".format(spheres.name))
 
     cluster_improperly_grouped(spheres, radius=ordered_radii[-1], min_cluster_size=min_cluster_size, max_clusters=max_clusters)
+    logger.debug("Hierarchically clustered all spheres in {0}".format(spheres.name))
 
 
 def identify_closest_grouped(spheres, group, radius):

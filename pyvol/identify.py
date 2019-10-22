@@ -34,7 +34,7 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
 
     if prefix is None:
         prefix = os.path.splitext(os.path.basename(prot_file))[0]
-    logger.debug("Prefix: {0}".format(prefix))
+    logger.debug("Output prefix: {0}".format(prefix))
 
     min_rad = float(min_rad)
     max_rad = float(max_rad)
@@ -74,7 +74,7 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
     pl_s = p_s + l_s
 
     pl_bs = pl_s.calculate_surface(probe_radius=max_rad)[0]
-    logger.debug("Outer surface calculated with max rad")
+    logger.debug("Outer boundary surface calculated")
 
     pa_s = p_s + pl_bs
     if (l_s is not None) and (lig_excl_rad is not None):
@@ -87,7 +87,7 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
         all_pockets = pa_s.calculate_surface(probe_radius=min_rad, all_components=True, minimum_volume=minimum_volume)
         for index, pocket in enumerate(all_pockets):
             pocket.name = "{0}_p{1}".format(prefix, index)
-        logger.debug("All pockets calculated using mode 'all'")
+        logger.debug("Pockets calculated using mode 'all': {0}".format(len(all_pockets)))
     else:
         if mode == "largest":
             bp_bs = pa_s.calculate_surface(probe_radius=min_rad, all_components=True, largest_only=True)[0]
@@ -136,13 +136,11 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
 
         if subdivide:
             all_pockets.extend(subpockets(bounding_spheres = pa_s, ref_spheres = bp_bs, min_rad=min_rad, max_rad=max_rad, min_subpocket_rad=min_subpocket_rad, max_clusters=max_clusters, prefix=prefix))
-            logger.debug("Subpockets identified")
+            logger.debug("Subpockets identified: {0}".format(len(all_pockets - 1)))
 
     if output_dir is not None:
         write_report(all_pockets, output_dir, prefix)
-        logger.debug("Report written")
 
-    print(all_pockets)
     return all_pockets
 
 
@@ -188,3 +186,4 @@ def write_report(all_pockets, output_dir, prefix):
     rept_df = pd.DataFrame(rept_list)
     rept_name = os.path.join(output_dir, "{0}_rept.csv".format(prefix))
     rept_df.to_csv(rept_name, index=False)
+    logger.debug("Report written to: {0}".format(rept_name))

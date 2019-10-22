@@ -18,6 +18,7 @@ def check_dir(location):
 
 
 def coordinates_for_resid(pdb_file, resid, chain=None, model=0):
+    logger.debug("Identifying coordinates for residue: {0}".format(resid))
     from Bio.PDB import PDBParser
     p = PDBParser(PERMISSIVE=1, QUIET=True)
     structure = p.get_structure("prot", pdb_file)
@@ -51,6 +52,7 @@ def run_cmd(options, in_directory=None):
     except subprocess.CalledProcessError:
         logger.error("Process Failed: {0}".format(" ".join(opt_strs)))
 
+    logger.debug("Ran command: {0}".format(" ".join(opt_strs)))
     if in_directory is not None:
         os.chdir(current_working_dir)
 
@@ -63,6 +65,7 @@ def surface_multiprocessing(args):
 def sphere_multiprocessing(spheres, radii, workers=None, **kwargs):
     if workers is None:
         workers = multiprocessing.cpu_count()
+    logger.debug("Splitting surface calculation at {0} radii across {1} workers".format(len(radii), workers))
 
     pool = multiprocessing.Pool(processes=workers)
     results = pool.map(surface_multiprocessing, [(spheres, probe_radius, kwargs) for probe_radius in radii])

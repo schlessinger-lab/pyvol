@@ -1,18 +1,20 @@
 
+import logging
 from pymol import cgo, cmd, CmdException
 
+logger = logging.getLogger(__name__)
 
 def construct_palette(color_list=None, max_value=7, min_value=1):
     if color_list is None:
         color_list = ['tv_red', 'tv_orange', 'tv_yellow', 'tv_green', 'tv_blue', 'aquamarine', 'violet']
     if max_value <= len(color_list):
         return color_list
-        
+
     colors = [cmd.get_color_tuple(x) for x in color_list]
     output_range = max_value - min_value + 1
 
     palette = []
-    
+
     color_vectors = len(colors) - 1
     steps = output_range / color_vectors
     for cv in range(color_vectors):
@@ -21,6 +23,7 @@ def construct_palette(color_list=None, max_value=7, min_value=1):
             cl = [fx * colors[cv + 1][i] + (1 - fx) * colors[cv][i] for i in range(3)]
             cn = '0x%02x%02x%02x' % tuple([255 * x for x in cl])
             palette.append(cn)
+    logger.debug("Palette constructed with {0} colors".format(len(palette)))
     return palette
 
 
@@ -49,7 +52,8 @@ def display_pseudoatom_group(spheres, name, color='gray60', palette=None):
 
     group_name = "{0}_g".format(name)
     cmd.group(group_name, "{0}.*".format(name))
-    cmd.show("spheres", group_name)  
+    cmd.show("spheres", group_name)
+    logger.debug("Pseudoatom group created with group name {0}".format(group_name))
 
 
 def display_spheres_object(spheres, name, state=1, color='marine', alpha=0.7, mode="solid", palette=None):
@@ -87,8 +91,8 @@ def display_spheres_object(spheres, name, state=1, color='marine', alpha=0.7, mo
                 cmd.load_cgo(mesh_to_wireframe_CGO(spheres.mesh, color=color, alpha=alpha), name, state)
     elif mode == "spheres":
         display_pseudoatom_group(spheres, name, color=color, palette=None)
-        
-    
+
+
 def mesh_to_solid_CGO(mesh, color='gray60', alpha=1.0):
     """
     Creates a solid CGO object for a mesh for display in PyMOL
@@ -102,7 +106,7 @@ def mesh_to_solid_CGO(mesh, color='gray60', alpha=1.0):
     alpha : float
         Transparency value for the object
     """
-    
+
     cgobuffer = [cgo.BEGIN, cgo.TRIANGLES, cgo.ALPHA, alpha]
     color_values = cmd.get_color_tuple(cmd.get_color_index(color))
 
@@ -116,6 +120,7 @@ def mesh_to_solid_CGO(mesh, color='gray60', alpha=1.0):
             cgobuffer.append(cgo.VERTEX)
             cgobuffer.extend([mesh.vertices[v_index][i] for i in range(3)])
     cgobuffer.append(cgo.END)
+    logger.debug("CGO solid object created for mesh: {0}".format(mesh))
     return cgobuffer
 
 
@@ -143,6 +148,7 @@ def mesh_to_wireframe_CGO(mesh, color='gray60', alpha=1.0):
         cgobuffer.extend(mesh.vertices[edge[0]])
         cgobuffer.append(cgo.VERTEX)
         cgobuffer.extend(mesh.vertices[edge[1]])
-            
+
     cgobuffer.append(cgo.END)
+    logger.debug("CGO wireframe object created for mesh: {0}".format(mesh))
     return cgobuffer

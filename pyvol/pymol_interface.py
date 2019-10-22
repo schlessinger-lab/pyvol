@@ -21,7 +21,7 @@ for handler in main_logger.handlers:
 if not stdio_handler_found:
     log_out = logging.StreamHandler()
     log_out.setLevel("DEBUG")
-    log_out.setFormatter(logging.Formatter('%(name)-12s: %(levelname)-8s %(message)s'))
+    log_out.setFormatter(logging.Formatter('%(name)-12s:\t%(levelname)-8s\t%(message)s'))
     main_logger.addHandler(log_out)
 
 logger = logging.getLogger(__name__)
@@ -41,7 +41,6 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
     """
 
     timestamp = time.strftime("%H%M%S")
-    logger.debug("Pocket calculation started at {0}".format(timestamp))
 
     if output_dir is None:
         output_dir = tempfile.mkdtemp()
@@ -81,7 +80,7 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
         mode = "specific"
     elif mode is None:
         mode = "largest"
-    logger.info("Running in {0} mode".format(mode))
+    logger.info("Running in mode: {0}".format(mode))
 
     spheres = identify.pocket(prot_file, mode=mode, lig_file=lig_file, resid=resid, residue_coordinates=residue_coordinates, coordinate=pocket_coordinate, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, subdivide=subdivide, minimum_volume=minimum_volume, min_subpocket_rad=min_subpocket_rad, prefix=prefix, output_dir=output_dir, min_subpocket_surf_rad=min_subpocket_surf_rad, max_clusters=max_clusters, constrain_inputs=constrain_inputs)
 
@@ -119,6 +118,12 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
 
     else:
         # mode is all
+        if len(spheres) == 0:
+            logger.warning("No pockets found with volume > {0} A^3".format(minimum_volume))
+            return
+        else:
+            logger.info("Pockets found: {0}".format(len(spheres)))
+
         palette = pymol_utilities.construct_palette(max_value=len(spheres))
         for index, s in enumerate(spheres):
             try:
