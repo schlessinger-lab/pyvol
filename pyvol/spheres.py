@@ -183,7 +183,7 @@ class Spheres(object):
                 verts_raw = pd.read_csv("{0}.vert".format(msms_template), sep='\s+', skiprows=3, dtype=np.float_, header=None, encoding='latin1').values
                 faces = pd.read_csv("{0}.face".format(msms_template), sep='\s+', skiprows=3, usecols=[0, 1, 2], dtype=np.int_, header=None, encoding='latin1').values
             except IOError:
-                logger.error("MSMS failed to run correctly for {0} ({1})".format(self.name, msms_template)
+                logger.error("MSMS failed to run correctly for {0} ({1})".format(self.name, msms_template))
                 raise IOError
             else:
                 vertices = np.zeros((verts_raw.shape[0] + 1, 3))
