@@ -172,10 +172,10 @@ def subpockets(bounding_spheres, ref_spheres, min_rad, max_rad, min_subpocket_ra
     sampling_radii = np.flip(np.arange(min_rad, max_subpocket_rad, sampling), axis=0)
     unmerged_sphere_lists = utilities.sphere_multiprocessing(nonextraneous_spheres, sampling_radii, all_components=True)
     spheres = cluster.merge_sphere_list(itertools.chain(*unmerged_sphere_lists))
-    logger.debug("Naive subpocket clusters identified: {0}".format(len(spheres)))
+    logger.debug("Naive subpocket clusters identified")
 
     cluster.hierarchically_cluster_spheres(spheres, ordered_radii=sampling_radii, min_new_radius=min_subpocket_rad, min_cluster_size=min_cluster_size, max_clusters=max_clusters)
-    logger.debug("Subpockets distinguished after hierarchical clustering: {0}".format(len(spheres)))
+    logger.debug("Subpockets distinguished after hierarchical clustering")
 
     cluster.remove_overlap(spheres, radii=sampling_radii, spacing=sampling)
     cluster.remove_overlap(spheres)
