@@ -17,6 +17,7 @@ import trimesh
 logger = logging.getLogger(__name__)
 
 class Spheres(object):
+    """ """
 
     def __init__(self,
                  xyz=None,
@@ -32,22 +33,17 @@ class Spheres(object):
         """
         A Spheres object contains a list of xyz centers with r radii and g groups. It can be defined using xyzrg, xyzr (and optionally g), xyz (and optionally r or g), a pdb file (and optionally r or g), or a list of vertices with normals bounded by the spheres (requires r and optionally includes g)
 
-        Parameters
-        ----------
-        xyz : (n, 3) float
-            Array containing centers
-        r : (n, 1) float
-            Array containing radii
-        xyzr : (n, 4) float
-            Array containing centers and radii
-        xyzrg : (n, 5) float
-            Array containing centers, radii, and groups
-        g : (n, 1) float
-            Array containing groups
-        pdb : string
-            filename of a pdb to be processed into spheres
-        bv : (n, 6) float
-            Array containing vertices and normals
+        Args:
+          xyz (float nx3): Array containing centers (Default value = None)
+          r (float nx1): Array containing radii (Default value = None)
+          xyzr (float nx4): Array containing centers and radii (Default value = None)
+          xyzrg (float nx5): Array containing centers, radii, and groups (Default value = None)
+          g (float nx1): Array containing groups (Default value = None)
+          pdb (str): filename of a pdb to be processed into spheres (Default value = None)
+          bv (float nx6): Array containing vertices and normals (Default value = None)
+          mesh (Trimesh): mesh object describing the surface (Default value = None)
+          name (str): descriptive identifier (Default value = None)
+          spheres_file (str): filename of a Spheres file to be read from disk (Default value = None)
         """
 
         if xyzrg is not None:
@@ -138,23 +134,23 @@ class Spheres(object):
 
 
     def copy(self):
+        """ """
         return Spheres(xyzrg=np.copy(self.xyzrg))
 
 
     def calculate_surface(self, probe_radius=1.4, cavity_atom=None, coordinate=None, all_components=False, exclusionary_radius=2.5, largest_only=False, noh=True, minimum_volume=200):
-        """
-        Calculate the SAS for a given probe radius
+        """Calculate the SAS for a given probe radius
 
-        Parameters
-        ----------
-        probe_radius : float
-            probe radius for msms calculation
-        cavity_atom : int
-            index of an atom used to define the binding pocket surface; only used for interior cavity identification; exclusive of all_components
-        all_components : boolean
-            flag to calculate all components; output mesh is None
-        exclusionary_radius : float
-            maximum radius of atoms considered by the nearest function (excludes pseudoatoms from identification)
+        Args:
+          probe_radius (float): radius for surface calculations (Default value = 1.4)
+          cavity_atom (int): id of a single atom which lies on the surface of the interior cavity of interest (Default value = None)
+          coordinate ([float]): 3D coordinate to identify a cavity atom (Default value = None)
+          all_components (bool): return all pockets? (Default value = False)
+          exclusionary_radius (float): maximum permissibile distance to the closest identified surface element from the supplied coordinate (Default value = 2.5)
+          largest_only (bool): return only the largest pocket? (Default value = False)
+          noh (bool): remove waters before surface calculation? (Default value = True)
+          minimum_volume (int): minimum volume of pockets returned when using 'all_components' (Default value = 200)
+
         """
 
         tmpdir = tempfile.mkdtemp()
@@ -178,6 +174,16 @@ class Spheres(object):
         sphere_list = []
 
         def read_msms_output(msms_template):
+            """ Read the results of a MSMS run
+
+            Args:
+              msms_template (str): file prefix for the output from MSMS
+
+            Returns:
+              verts_raw (float nx6): raw contents of vertices file
+              vertices (float nx3): 1-indexed 3D coordinates of vertices
+              faces (float nx3): vertex connectivity graph
+            """
             try:
                 verts_raw = pd.read_csv("{0}.vert".format(msms_template), sep='\s+', skiprows=3, dtype=np.float_, header=None, encoding='latin1').values
                 faces = pd.read_csv("{0}.face".format(msms_template), sep='\s+', skiprows=3, usecols=[0, 1, 2], dtype=np.int_, header=None, encoding='latin1').values
@@ -235,15 +241,15 @@ class Spheres(object):
 
 
     def identify_nonextraneous(self, ref_spheres, radius):
-        """
-        Returns all spheres less than radius away from any center in ref_spheres using cKDTree search built on the non-reference set
+        """Returns all spheres less than radius away from any center in ref_spheres using cKDTree search built on the non-reference set
 
-        Parameters
-        ----------
-        ref_spheres : Spheres
-            A Spheres object containing the reference set
-        radius : float
-            Maximum distance between sets for inclusion
+        Args:
+          ref_spheres (Spheres): object that defines the pocket of interest
+          radius (float): maximum distance to sphere centers to be considered nonextraneous
+
+        Returns:
+          nonextraneous (Spheres): a filtered Spheres object
+
         """
 
         kdtree = scipy.spatial.cKDTree(self.xyz)
@@ -255,15 +261,15 @@ class Spheres(object):
 
 
     def nearest(self, coordinate, max_radius=None):
-        """
-        returns the index of the sphere closest to a coordinate; if max_radius is specified, the sphere returned must have a radius <= max_radius
+        """ Returns the index of the sphere closest to a coordinate; if max_radius is specified, the sphere returned must have a radius <= max_radius
 
-        Parameters
-        ----------
-        coordinate : (1, 3) float
-            3D input coordinate
-        max_radius : float
-            maximum radius that the selected nearest sphere can have; used to exclude large radius exterior spheres from being selected
+        Args:
+          coordinate (float nx3): 3D input coordinate
+          max_radius (float): maximum permissibile distance to the nearest sphere (Default value = None)
+
+        Returns:
+          nearest_index: index of the closest sphere
+
         """
 
         if max_radius is None:
@@ -275,13 +281,14 @@ class Spheres(object):
 
 
     def nearest_coord_to_external(self, coordinates):
-        """
-        returns the coordinate of the sphere closest to the supplied coordinates
+        """ Returns the coordinate of the sphere closest to the supplied coordinates
 
-        Parameters
-        ----------
-        coordinates : (n, 3) float
-            3D input coordinates
+        Args:
+          coordinates (float nx3): set of coordinates
+
+        Returns:
+          coordinate (float 1x3): coordinate of internal sphere closest to the supplied coordinates
+
         """
 
         kdtree = scipy.spatial.cKDTree(self.xyz)
@@ -291,13 +298,11 @@ class Spheres(object):
 
 
     def remove_duplicates(self, eps=0.01):
-        """
-        Remove duplicate spheres by identifying centers closer together than eps using DBSCAN
+        """ Remove duplicate spheres by identifying centers closer together than eps using DBSCAN
 
-        Parameters
-        ----------
-        eps : float
-            DBSCAN cutoff for identifying nearest neighbor distances between duplicate spheres
+        Args:
+          eps (float): DBSCAN input parameter (Default value = 0.01)
+
         """
         from sklearn.cluster import DBSCAN
 
@@ -308,25 +313,32 @@ class Spheres(object):
 
 
     def remove_ungrouped(self):
+        """ Remove all spheres that did not adequately cluster with the remainder of the set"""
         ungrouped_indices = np.where(self.g < 1)
         self.xyzrg = np.delete(self.xyzrg, ungrouped_indices, axis=0)
         self.mesh = None
 
 
     def remove_groups(self, groups):
+        """ Remove all spheres with specified group affiliations
+
+        Args:
+          groups ([float]): list of groups to remove
+
+        """
         group_indices = np.where(np.isin(self.g, groups))
         self.xyzrg = np.delete(self.xyzrg, group_indices, axis=0)
         self.mesh = None
 
 
     def write(self, filename, contents="xyzrg", output_mesh=True):
-        """
-        Writes the contents of _xyzrg to a space delimited file
+        """Writes the contents of _xyzrg to a space delimited file
 
-        Parameters
-        ----------
-        filename : string
-            filename for the output
+        Args:
+          filename (str): filename to write the report and mesh if indicated
+          contents (str): string describing which columns to write to file (Default value = "xyzrg")
+          output_mesh (bool): write mesh to file? (Default value = True)
+
         """
 
         if contents == "xyzrg":
@@ -349,11 +361,18 @@ class Spheres(object):
 
     @property
     def xyzrg(self):
+        """ Retrieve the coordinates, radii, and group ids"""
         return self._xyzrg
 
 
     @xyzrg.setter
     def xyzrg(self, value):
+        """ Set the coordinates, radii, and group ids
+
+        Args:
+          value (float 5xn): coordinates, radii, and group ids
+
+        """
         if value.shape[1] != 5:
             raise ValueError("number of xyzrg array columns must equal 5")
         self._xyzrg = np.copy(value).astype(float)
@@ -361,11 +380,18 @@ class Spheres(object):
 
     @property
     def xyzr(self):
+        """ Retrieve coordinates and radii """
         return self._xyzrg[:, 0:4]
 
 
     @xyzr.setter
     def xyzr(self, value):
+        """ Set the coordinates and radii
+
+        Args:
+          value (float 4xn): coordinates and radii
+
+        """
         # resets all radii, groups, and positions
         if value.shape[1] != 4:
             raise ValueError("number of xyzr array columns must equal 4")
@@ -376,11 +402,18 @@ class Spheres(object):
 
     @property
     def xyz(self):
+        """ Retrieve the coordinates """
         return self._xyzrg[:, 0:3]
 
 
     @xyz.setter
     def xyz(self, value):
+        """ Selectively set the coordinates
+
+        Args:
+          value (float 3xn): coordinates
+
+        """
         # resets all radii, groups, and positions
         if value.shape[1] != 3:
             raise ValueError("number of xyz array columns must equal 3")
@@ -391,11 +424,18 @@ class Spheres(object):
 
     @property
     def r(self):
+        """ Retrieve the radii """
         return self._xyzrg[:, 3]
 
 
     @r.setter
     def r(self, value):
+        """ Selectively set the radius index
+
+        Args:
+          value (float 1xn): radii
+
+        """
         if value is np.ndarray:
             if self._xyzrg.shape[0] == value.shape[0]:
                 self._xyzrg[:, 3] = np.copy(value).astype(float)
@@ -407,11 +447,18 @@ class Spheres(object):
 
     @property
     def g(self):
+        """ Retrieve the group indices """
         return self._xyzrg[:, 4]
 
 
     @g.setter
     def g(self, value):
+        """ Selectively set the group index
+
+        Args:
+          value (float 1xn): group ids
+
+        """
         if value is np.ndarray:
             if self._xyzrg.shape[0] == value.shape[0]:
                 self._xyzrg[:, 4] = np.copy(value).astype(float)

@@ -1,6 +1,6 @@
 
 
-__version__ = "1.0.13"
+__version__ = "1.0.14"
 
 import logging
 import time
@@ -35,6 +35,7 @@ def __init_plugin__(app=None):
         addmenuitemqt('PyVOL', pyvol_window)
 
 def pyvol_window():
+    """ """
     import os
     from pymol.Qt import QtCore, QtWidgets
     from pymol.Qt.utils import loadUi
@@ -44,10 +45,26 @@ def pyvol_window():
     form = loadUi(uifile, dialog)
 
     def browse_pocket_file(form):
+        """
+
+        Args:
+          form:
+
+        Returns:
+
+        """
         pocket_file_name = QtWidgets.QFileDialog.getOpenFileNames(None, 'Open file', os.getcwd(), filter='Pocket Files (*.obj *.csv)')[0][0]
         form.pocket_file_ledit.setText(pocket_file_name)
 
     def install_pyvol(form):
+        """
+
+        Args:
+          form:
+
+        Returns:
+
+        """
         import distutils
         import subprocess
         import sys
@@ -74,6 +91,14 @@ def pyvol_window():
         refresh_installation_status(form)
 
     def uninstall_pyvol(form):
+        """
+
+        Args:
+          form:
+
+        Returns:
+
+        """
         import subprocess
         import sys
 
@@ -91,6 +116,14 @@ def pyvol_window():
         refresh_installation_status(form)
 
     def update_pyvol(form):
+        """
+
+        Args:
+          form:
+
+        Returns:
+
+        """
         import subprocess
         import sys
 
@@ -108,12 +141,30 @@ def pyvol_window():
         refresh_installation_status(form)
 
     def refresh_installation_status(form, check_for_updates=False):
+        """
+
+        Args:
+          form:
+          check_for_updates:  (Default value = False)
+
+        Returns:
+
+        """
         import distutils.spawn
         import json
         import subprocess
         import sys
 
         def apply_color(string, color):
+            """
+
+            Args:
+              string:
+              color:
+
+            Returns:
+
+            """
             return "<font color='{0}'>{1}</font>".format(color, string)
 
         all_pckgs = subprocess.check_output([sys.executable, "-m", "pip", "list", "--format=json"]).decode('utf-8').strip()
@@ -254,6 +305,14 @@ def pyvol_window():
         ).format(pyvol_version, biopython_version, numpy_version, pandas_version, scipy_version, sklearn_version, trimesh_version, msms_exe, gui_version))
 
     def run_gui_load(form):
+        """
+
+        Args:
+          form:
+
+        Returns:
+
+        """
         from pyvol import pymol_interface
 
         # Loading Parameters
@@ -282,6 +341,14 @@ def pyvol_window():
             pymol_interface.load_pocket(pocket_file, name=prefix, display_mode=display_mode, color=color, alpha=alpha)
 
     def run_gui_pyvol(form):
+        """
+
+        Args:
+          form:
+
+        Returns:
+
+        """
         from pyvol import pymol_interface
 
         # Basic Parameters

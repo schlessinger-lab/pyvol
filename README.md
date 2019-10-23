@@ -135,3 +135,8 @@ A template configuration file with default values supplied can be generated usin
 python -m pyvol -t <output_template.cfg>
 ```
 Currently, PyVOL does not output any information to stdout when run this way. So if an output directory is not provided, there is no easy way to retrieve the results.
+
+## Todo list
+1) add comments to pymol_interface.py, pyvol_plugin/__init__.py
+2) Redo this README to actually update it and make it correct
+3) push PyVOL to the PyMOL wiki

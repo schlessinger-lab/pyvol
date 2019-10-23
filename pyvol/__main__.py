@@ -20,6 +20,12 @@ if not stdio_handler_found:
     main_logger.addHandler(log_out)
 
 def create_default_cfg(cfg_file = "defaults.cfg"):
+    """ Writes a template cfg file to disk
+
+    Args:
+      cfg_file (str): target configuration file (Default value = "defaults.cfg")
+
+    """
     config = configparser.ConfigParser(allow_no_value=True)
     config.add_section("General")
     config.set("General", "prot_file", "input_prot.pdb")
@@ -49,6 +55,12 @@ def create_default_cfg(cfg_file = "defaults.cfg"):
 
 
 def run_from_cfg(cfg_file):
+    """
+
+    Args:
+      cfg_file (str): input cfg that specifies a PyVOL job
+
+    """
     config = configparser.ConfigParser(allow_no_value=True)
     config.read(cfg_file)
 

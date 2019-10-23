@@ -27,17 +27,48 @@ if not stdio_handler_found:
 logger = logging.getLogger(__name__)
 
 def load_pocket(spheres_file, name=None, display_mode="solid", color='marine', alpha=0.85):
+    """
+
+    Args:
+      spheres_file (str): filename
+      name (str): internal display name (Default value = None)
+      display_mode (str): display mode (Default value = "solid")
+      color (str): PyMOL color string (Default value = 'marine')
+      alpha (float): transparency value (Default value = 0.85)
+
+    """
     spheres = Spheres(spheres_file=spheres_file, name=name)
     pymol_utilities.display_spheres_object(spheres, spheres.name, state=1, color=color, alpha=alpha, mode=display_mode)
     logger.info("Loading {0} with mode {1}".format(spheres.name, display_mode))
 
 
 def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None, resid=None, prefix=None, min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, display_mode="solid", color='marine', alpha=0.85, output_dir=None, subdivide=None, minimum_volume=200, min_subpocket_rad=1.7, min_subpocket_surf_rad=1.0, max_clusters=None, excl_org=False, constrain_inputs=True):
-    """
-    Calculates the SES for a binding pocket and displays it
+    """Calculates the SAS for a binding pocket and displays it
 
-    Parameters
-    ----------
+    Args:
+      protein:
+      mode:  (Default value = None)
+      ligand:  (Default value = None)
+      pocket_coordinate:  (Default value = None)
+      residue:  (Default value = None)
+      resid:  (Default value = None)
+      prefix:  (Default value = None)
+      min_rad:  (Default value = 1.4)
+      max_rad:  (Default value = 3.4)
+      lig_excl_rad:  (Default value = None)
+      lig_incl_rad:  (Default value = None)
+      display_mode:  (Default value = "solid")
+      color:  (Default value = 'marine')
+      alpha:  (Default value = 0.85)
+      output_dir:  (Default value = None)
+      subdivide:  (Default value = None)
+      minimum_volume:  (Default value = 200)
+      min_subpocket_rad:  (Default value = 1.7)
+      min_subpocket_surf_rad:  (Default value = 1.0)
+      max_clusters:  (Default value = None)
+      excl_org:  (Default value = False)
+      constrain_inputs:  (Default value = True)
+
     """
 
     timestamp = time.strftime("%H%M%S")

@@ -5,6 +5,17 @@ from pymol import cgo, cmd, CmdException
 logger = logging.getLogger(__name__)
 
 def construct_palette(color_list=None, max_value=7, min_value=1):
+    """ Construct a palette
+
+    Args:
+      color_list ([str]): list of PyMOL color strings (Default value = None)
+      max_value (int): max palette index (Default value = 7)
+      min_value (int): min palette index (Default value = 1)
+
+    Returns:
+      palette ([str]): list of color definitions
+
+    """
     if color_list is None:
         color_list = ['tv_red', 'tv_orange', 'tv_yellow', 'tv_green', 'tv_blue', 'aquamarine', 'violet']
     if max_value <= len(color_list):
@@ -28,17 +39,14 @@ def construct_palette(color_list=None, max_value=7, min_value=1):
 
 
 def display_pseudoatom_group(spheres, name, color='gray60', palette=None):
-    """
-    Displays a collection of pseudoatoms
+    """ Displays a collection of pseudoatoms
 
-    Parameters
-    ----------
-    spheres : Spheres
-        A spheres object containing xyzr coordinates/vdw radii
-    name : string
-        Name for the group of pseudoatoms (with individual pseudoatoms named name.x)
-    color : string
-        Name of the PyMOL color to apply to the pseudoatoms
+    Args:
+      spheres (Spheres): Spheres object holding pocket geometry
+      name (str): display name
+      color (str): PyMOL color string (Default value = 'gray60')
+      palette ([str]): palette (Default value = None)
+
     """
 
     if spheres is None:
@@ -57,23 +65,17 @@ def display_pseudoatom_group(spheres, name, color='gray60', palette=None):
 
 
 def display_spheres_object(spheres, name, state=1, color='marine', alpha=0.7, mode="solid", palette=None):
-    """
-    Loads a mesh object into a cgo list for display in PyMOL
+    """ Loads a mesh object into a cgo list for display in PyMOL
 
-    Parameters
-    ----------
-    mesh : Trimesh
-        A Trimesh object containing the triangulated mesh
-    name : string
-        Name for the object in PyMOL
-    state : int
-        State for the loaded surface (allows for multiple surfaces to be loaded in the same object)
-    color : string
-        Name of the PyMOL color to apply to the surface
-    alpha : float
-        Transparency value for the object
-    mode : string
-        Display a 'transparent' surface, a 'solid' surface, or a collection of pseudoatoms 'spheres'
+    Args:
+      spheres (Spheres): Spheres object containing all geometry
+      name (str): display name
+      state (int): model state (Default value = 1)
+      color (str): PyMOL color string (Default value = 'marine')
+      alpha (float): transparency value (Default value = 0.7)
+      mode (str): display mode (Default value = "solid")
+      palette ([str]): palette (Default value = None)
+
     """
 
     alpha = float(alpha)
@@ -94,17 +96,16 @@ def display_spheres_object(spheres, name, state=1, color='marine', alpha=0.7, mo
 
 
 def mesh_to_solid_CGO(mesh, color='gray60', alpha=1.0):
-    """
-    Creates a solid CGO object for a mesh for display in PyMOL
+    """Creates a solid CGO object for a mesh for display in PyMOL
 
-    Parameters
-    ----------
-    mesh : Trimesh
-        A Trimesh object containing the triangulated mesh
-    color : string
-        Name of the PyMOL color to apply to the surface
-    alpha : float
-        Transparency value for the object
+    Args:
+      mesh (Trimesh): Trimesh mesh object
+      color (str): PyMOL color string (Default value = 'gray60')
+      alpha (float): transparency value (Default value = 1.0)
+
+    Returns:
+      cgobuffer (str): CGO buffer that contains the instruction to load a solid object
+
     """
 
     cgobuffer = [cgo.BEGIN, cgo.TRIANGLES, cgo.ALPHA, alpha]
@@ -125,17 +126,16 @@ def mesh_to_solid_CGO(mesh, color='gray60', alpha=1.0):
 
 
 def mesh_to_wireframe_CGO(mesh, color='gray60', alpha=1.0):
-    """
-    Creates a wireframe CGO object for a mesh for display in PyMOL
+    """Creates a wireframe CGO object for a mesh for display in PyMOL
 
-    Parameters
-    ----------
-    mesh : Trimesh
-        A Trimesh object containing the triangulated mesh
-    color : string
-        Name of the PyMOL color to apply to the surface
-    alpha : float
-        Transparency value for the object
+    Args:
+      mesh (Trimesh): Trimesh mesh object
+      color (str): PyMOL color string (Default value = 'gray60')
+      alpha (float): transparency value (Default value = 1.0)
+
+    Returns:
+      cgobuffer (str): CGO buffer that contains the instruction to load a wireframe object
+
     """
 
     cgobuffer = [cgo.BEGIN, cgo.LINES, cgo.ALPHA, alpha]
