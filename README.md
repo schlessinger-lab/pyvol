@@ -117,7 +117,7 @@ where alpha is [0, 1.0] and the color is any color defined within pymol. The pre
 
 
 ### Command-line Interface
-PyVOL can also be run from the command-line. If installed using pip, a "pyvol" entry point should be automatically installed and made available on the path. Otherwise, manual invocation of pyvol/__main__.py should work. From the command-line, PyVOL is run with a standard configuration file.
+PyVOL can also be run from the command-line. If installed using pip, a `pyvol` entry point should be automatically installed and made available on the path. Otherwise, manual invocation of `pyvol/__main__.py` should work. From the command-line, PyVOL is run with a standard configuration file.
 ```bash
 python -m pyvol <input_parameters.cfg>
 ```

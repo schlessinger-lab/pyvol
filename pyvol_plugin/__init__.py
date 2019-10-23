@@ -264,7 +264,7 @@ def pyvol_window():
                     gui_version = apply_color(__version__, "green")
                 else:
                     gui_version = apply_color("{0} ({1} expected)".format(__version__, expected_gui_version), "blue")
-                    form.status_label.setText("New GUI available--please manually reinstall PyVOL by using the plugin manager to install pyvol_plugin.zip from github.")
+                    form.status_label.setText("GUI version mismatch--check whether PyVOL is up-to-date and reinstall the plugin if necessary using the PyMOL plugin manager or directly from the project <a href='https://github.com/schlessingerlab/pyvol/blob/master/pyvol_plugin.zip'>github</a>.")
             except:
                 gui_version = __version__
         else:
