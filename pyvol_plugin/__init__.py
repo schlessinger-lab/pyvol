@@ -45,24 +45,14 @@ def pyvol_window():
     form = loadUi(uifile, dialog)
 
     def browse_pocket_file(form):
-        """
-
-        Args:
-          form:
-
-        Returns:
+        """ Launches a window to select a file
 
         """
         pocket_file_name = QtWidgets.QFileDialog.getOpenFileNames(None, 'Open file', os.getcwd(), filter='Pocket Files (*.obj *.csv)')[0][0]
         form.pocket_file_ledit.setText(pocket_file_name)
 
     def install_pyvol(form):
-        """
-
-        Args:
-          form:
-
-        Returns:
+        """ Attempts a de novo PyVOL installation using pip
 
         """
         import distutils
@@ -91,12 +81,7 @@ def pyvol_window():
         refresh_installation_status(form)
 
     def uninstall_pyvol(form):
-        """
-
-        Args:
-          form:
-
-        Returns:
+        """ Attempts to uninstall PyVOL using pip
 
         """
         import subprocess
@@ -116,12 +101,7 @@ def pyvol_window():
         refresh_installation_status(form)
 
     def update_pyvol(form):
-        """
-
-        Args:
-          form:
-
-        Returns:
+        """ Attempts to update PyVOL using pip
 
         """
         import subprocess
@@ -141,13 +121,10 @@ def pyvol_window():
         refresh_installation_status(form)
 
     def refresh_installation_status(form, check_for_updates=False):
-        """
+        """ Check for updates and adjust the GUI to reflect the current installation status and availability of updates
 
         Args:
-          form:
-          check_for_updates:  (Default value = False)
-
-        Returns:
+          check_for_updates (bool): query servers to see if an update is available? (Default value = False)
 
         """
         import distutils.spawn
@@ -156,13 +133,14 @@ def pyvol_window():
         import sys
 
         def apply_color(string, color):
-            """
+            """ Applies a color to html text
 
             Args:
-              string:
-              color:
+              string (str): text
+              color (str): color to apply
 
             Returns:
+              colored_text (str): html formatted text
 
             """
             return "<font color='{0}'>{1}</font>".format(color, string)
@@ -305,12 +283,7 @@ def pyvol_window():
         ).format(pyvol_version, biopython_version, numpy_version, pandas_version, scipy_version, sklearn_version, trimesh_version, msms_exe, gui_version))
 
     def run_gui_load(form):
-        """
-
-        Args:
-          form:
-
-        Returns:
+        """ Loads a precalculated pocket into PyMOL
 
         """
         from pyvol import pymol_interface
@@ -341,12 +314,7 @@ def pyvol_window():
             pymol_interface.load_pocket(pocket_file, name=prefix, display_mode=display_mode, color=color, alpha=alpha)
 
     def run_gui_pyvol(form):
-        """
-
-        Args:
-          form:
-
-        Returns:
+        """ Runs a PyVOL calculation
 
         """
         from pyvol import pymol_interface

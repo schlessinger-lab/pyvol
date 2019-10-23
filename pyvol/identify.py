@@ -20,7 +20,7 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
       coordinate ([float]): 3D coordinate used for pocket specification (Default value = None)
       resid (str): residue identifier for pocket specification (Default value = None)
       residue_coordinates ([float]): 3D coordinate of an atom in a surrounding residue used for pocket specification (Default value = None)
-      min_rad (float): radius for SES calculations (Default value = 1.4)
+      min_rad (float): radius for SAS calculations (Default value = 1.4)
       max_rad (float): radius used to identify the outer, bulk solvent exposed surface (Default value = 3.4)
       lig_excl_rad (float): maximum distance from a provided ligand that can be included in calculated pockets (Default value = None)
       lig_incl_rad (float): minimum distance from a provided ligand that should be included in calculated pockets when solvent border is ambiguous (Default value = None)

@@ -1,22 +1,22 @@
 # PyVOL
 
-PyVOL is a python library for identifying protein binding pockets, partitioning them into sub-pockets, and calculating their volumes. While PyVOL can be used to identify new binding pockets, there are many algorithms that have been optimized for that task. PyVOL is intended to be used to describe features of known binding pockets. PyVOL can be run as a PyMOL plugin, as an imported python library, or as a commandline program. Visualization of results is exclusively supported through PyMOL.
-
-While the API is not guaranteed to be stable at this point, it is unlikely to change.
+PyVOL is a python library packaged into a PyMOL GUI for identifying protein binding pockets, partitioning them into sub-pockets, and calculating their volumes. PyVOL can be run as a PyMOL plugin through its GUI or the PyMOL prompt, as an imported python library, or as a commandline program. Visualization of results is exclusively supported through PyMOL though exported surfaces are compatible with all standard 3D geometry viewers.
 
 ## Basic PyMOL Installation
 PyVOL can be installed into PyMOL by using the plugin manager to install the zip file downloaded from:
 ```bash
 https://github.com/rhs2132/pyvol/blob/master/pyvol_plugin.zip
 ```
-This adds a menu option under plugins "Install PyVOL." Clicking this and selecting install will download PyVOL and all its dependencies. On MacOS and Linux, this should be a complete installation. Windows currently requires independent installation of MSMS. PyVOL will be available to run once PyMOL is restarted.
+This adds a menu option under plugins called "PyVOL." Opening this menu will launch the PyVOL GUI. The third tab manages the installation and update of the PyVOL backend. Simply clicking "Install PyVOL" will use pip to install the code and all dependencies. However, installation of MSMS is unavailable through this path. On MacOS and Linux, MSMS is subsequently installed using conda. However, Windows requires independent installation as described below.
 
 ## Basic Manual Installation
 PyVOL minimally requires biopython, msms, numpy, pandas, scipy, scikit-learn, and trimesh in order to run. PyVOL is available for manual installation from github or from PyPI.
 ```bash
 pip install bio-pyvol
 ```
-MSMS must be installed separately. The bioconda channel provides a version for Linux and OSX:
+
+## Manual MSMS Installation
+MSMS can be installed on MacOS and Linux using the bioconda channel:
 ```bash
 conda install -c bioconda msms
 
@@ -26,21 +26,12 @@ Otherwise MSMS must be installed manually by downloading it from [MGLTools](http
 <pymol_root_dir>/pkgs/msms-2.6.1-2/bin/msms
 ```
 
-As mentioned before, visualization relies on PyMOL 2.0+. Once PyVOL is installed in the python environment used by PyMOL, the script can be installed by using the plugin manager to install the file "pyvol_plugin.zip".
-
-## Detailed PyMOL Installation
-Installing into PyMOL can be unexpectedly difficult due to some quirks in PyMOL's dependency management. Specifically, some versions of PyMOL 2.0+ use both pip and conda to manage dependencies which can lead to odd conflicts. The libraries managed by pip seem to take precedence over those by conda, so preferentially use the pip installation path. The pip and conda executables packaged with PyMOL are located at:
-```bash
-<pymol_root_dir>/bin/conda
-<pymol_root_dir>/bin/pip
-```
-
 ## Quick Start
-From within PyMOL, the simplest binding pocket calculation is simply run with:
+From within PyMOL, the simplest binding pocket calculation is simply run either with the provided GUI or with:
 ```python
 pocket protein_selection
 ```
-The two parameters that most dramatically affect calculations are the maximum and minimum radii used to respectively define the exterior surface of the protein and the boundary of the binding pocket itself. In practice, the minimum radius does not need to be changed as its default (1.4) is broadly useful. The maximum radius does often need to be adjust to find a suitable value using the max_rad paramter:
+The two parameters that most dramatically affect calculations are the maximum and minimum radii used to respectively define the exterior surface of the protein and the boundary of the binding pocket itself. In practice, the minimum radius does not need to be changed as its default (1.4) is broadly useful. The maximum radius does often need to be adjust to find a suitable value using the max_rad parameter:
 ```python
 pocket protein_selection, min_rad=1.4, max_rad=3.4
 ```
@@ -93,7 +84,7 @@ pocket protein_selection, ligand=ligand_selection, lig_excl_rad=2.0
 where the value of lig_excl_rad is added to the Van der Waals radii of each atom in the ligand selection when calculating the exterior surface of the protein.
 
 ### Sub-pocket Partitioning
-Sub-partitioning is enabled by setting the subdivide paramter to True:
+Sub-partitioning is enabled by setting the subdivide parameter to True:
 ```python
 pocket protein_selection, subdivide=True
 ```
@@ -105,7 +96,7 @@ pocket protein_selection, subdivide=True, min_subpocket_rad=1.7, max_clusters=10
 If the number of clusters must be reduced, sub-pockets are merged on the basis of connectivity between the defining sets of tangent spheres. Practically, sub-pockets with a greater surface area boundary are merged first.
 
 ### Display and Output Options
-By default, PyVOL simply writes volumes to STDOUT and, when invoked through PyMOL, displays pocket boundaries as semi-translucent surfaces. This behavior can be extensively customized.
+By default, PyVOL simply outputs a log containing volumes and, when invoked through PyMOL, displays pocket boundaries as semi-translucent surfaces. This behavior can be extensively customized.
 
 The output name for all computed PyMOL objects and the base filename for any output files can be specified using the prefix option:
 ```python
@@ -134,9 +125,4 @@ A template configuration file with default values supplied can be generated usin
 ```bash
 python -m pyvol -t <output_template.cfg>
 ```
-Currently, PyVOL does not output any information to stdout when run this way. So if an output directory is not provided, there is no easy way to retrieve the results.
-
-## Todo list
-1) add comments to pymol_interface.py, pyvol_plugin/__init__.py
-2) Redo this README to actually update it and make it correct
-3) push PyVOL to the PyMOL wiki
+Currently, PyVOL only reports standard log output to stdout when run this way. So if an output directory is not provided, there is no easy way to retrieve the results.
