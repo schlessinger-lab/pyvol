@@ -5,7 +5,7 @@ PyVOL is a python library packaged into a PyMOL GUI for identifying protein bind
 ## Basic PyMOL Installation
 PyVOL can be installed into PyMOL by using the plugin manager to install directly from the PyMOL wiki or by manually installing the zip file downloaded from:
 ```bash
-https://github.com/rhs2132/pyvol/blob/master/pyvol_plugin.zip
+https://github.com/rhs2132/pyvol/blob/master/pyvolgui.zip
 ```
 Either option adds a menu option under plugins called "PyVOL." Opening this menu will launch the PyVOL GUI. The third tab manages the installation and update of the PyVOL backend. Simply clicking "Install PyVOL" will use pip to install the code and all dependencies. However, installation of MSMS is unavailable through this path. On MacOS and Linux, MSMS is subsequently installed using conda. However, Windows requires independent installation as described below.
 

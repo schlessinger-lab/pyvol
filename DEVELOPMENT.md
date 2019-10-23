@@ -12,7 +12,7 @@ The Spheres class holds all of the geometric information about proteins and pock
 The GUI is developed using Qt Designer and run using PyQT5.
 
 ## Version Incrementation
-PyVOL uses a standard incrementation scheme. The version of the backend must be updated in both `setup.py` and `pyvol/__init__.py`. The GUI version is set in `pyvol_plugin/__init__.py`, and the the version of the GUI that the backend expects is set again in `pyvol/__init__.py`.
+PyVOL uses a standard incrementation scheme. The version of the backend must be updated in both `setup.py` and `pyvol/__init__.py`. The GUI version is set in `pyvolgui/__init__.py`, and the the version of the GUI that the backend expects is set again in `pyvol/__init__.py`.
 
 ## Distribution
 The code is hosted on github by the Schlessinger Lab. The PyVOL backend is distributed through PyPI. This process of uploading to PyPI is automated in the deploy.sh script. The plugin will be available both from the github page and through the official PyMOL wiki.
