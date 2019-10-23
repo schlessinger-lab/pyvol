@@ -16,3 +16,6 @@ PyVOL uses a standard incrementation scheme. The version of the backend must be 
 
 ## Distribution
 The code is hosted on github by the Schlessinger Lab. The PyVOL backend is distributed through PyPI. This process of uploading to PyPI is automated in the deploy.sh script. The plugin will be available both from the github page and through the official PyMOL wiki.
+
+## Documentation
+Documentation is largely in the google style. Docstrings were automatically generated using pyment and then manually edited.
