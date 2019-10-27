@@ -1,8 +1,12 @@
 
 import logging
-from pymol import cgo, cmd, CmdException
 
 logger = logging.getLogger(__name__)
+
+try:
+    from pymol import cgo, cmd, CmdException
+except:
+    logger.warning("PyMOL not importedf")
 
 def construct_palette(color_list=None, max_value=7, min_value=1):
     """ Construct a palette

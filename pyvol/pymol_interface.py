@@ -5,7 +5,6 @@ from .spheres import Spheres
 from . import utilities
 import logging
 import os
-from pymol import cgo, cmd, CmdException
 import shutil
 import tempfile
 import time
@@ -25,6 +24,11 @@ if not stdio_handler_found:
     main_logger.addHandler(log_out)
 
 logger = logging.getLogger(__name__)
+
+try:
+    from pymol import cgo, cmd, CmdException
+except:
+    logger.warning("PyMOL not importedf")
 
 def load_pocket(spheres_file, name=None, display_mode="solid", color='marine', alpha=0.85):
     """
