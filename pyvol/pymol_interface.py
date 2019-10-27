@@ -28,7 +28,7 @@ logger = logging.getLogger(__name__)
 try:
     from pymol import cgo, cmd, CmdException
 except:
-    logger.warning("PyMOL not importedf")
+    logger.warning("PyMOL not imported")
 
 def load_pocket(spheres_file, name=None, display_mode="solid", color='marine', alpha=0.85):
     """
