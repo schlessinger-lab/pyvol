@@ -7,7 +7,7 @@ Detailed PyMOL Installation
 ---------------------------
 PyVOL is distributed as a GUI and a backend. Installation into PyMOL uses PyMOL's plugin manager to install the GUI and then the GUI to install the backend. The GUI is installed through the plugin manager through loading:
 
-... code-block:: bash
+.. code-block:: bash
     https://github.com/rhs2132/pyvol/blob/master/pyvolgui.zip
 
 
