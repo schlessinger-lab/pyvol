@@ -22,10 +22,7 @@ PyVOL can be installed into any python environment; however, for most users dire
 PyMOL Installation
 ------------------
 
-PyVOL can be installed by using PyMOL's plugin manager to load the `zipped gui`. This installation creates a "PyVOL" menu item under plugins. Opening this menu launches the PyVOL GUI. The third tab manages the installation of the PyVOL backend. Simply clicking "Install PyVOL" install the PyVOL backend and, on Linux and MacOS, all dependencies.  For dependency installation on Windows or manual installation, see the installation page.
-
-.. _zipped gui: https://github.com/rhs2132/pyvol/blob/master/pyvolgui.zip
-
+PyVOL can be installed by using PyMOL's plugin manager to load the `zipped GUI file <https://github.com/rhs2132/pyvol/blob/master/pyvolgui.zip>`_. This installation creates a ``PyVOL`` menu item under plugins. Opening this menu launches the PyVOL GUI. The third tab manages the installation of the PyVOL backend. Simply clicking ``Install PyVOL`` installs the PyVOL backend and, on Linux and MacOS, all dependencies.  For dependency installation on Windows or anything else related to installation, see the `installation page <https://schlessingerlab.github.io/pyvol/install.html>`_.
 
 Basic Manual Installation
 -------------------------
