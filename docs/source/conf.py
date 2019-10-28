@@ -32,13 +32,11 @@ import shlex
 # ones.
 extensions = [
     "sphinx_rtd_theme",
-    "sphinx.ext.napolean",
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx"
 ]
 
-napolean_google_docstring = True
 autodoc_member_order = 'bysource'
 autodoc_default_flags = ['members', 'show-inheritance']
 autosummary_generate = True
