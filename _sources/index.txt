@@ -6,18 +6,10 @@
 .. include:: ../../README.rst
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
    install
-
-.. toctree::
-   :maxdepth: 2
-   :numbered:
-   examples
-
-.. toctree::
-   :maxdepth: 2
-
+   basic
    modules
 
 
