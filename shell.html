@@ -7,7 +7,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>&lt;no title&gt; &mdash; pyvol 1.2.27 documentation</title>
+  <title>Shell Interface &mdash; pyvol 1.2.27 documentation</title>
   
 
   
@@ -31,7 +31,8 @@
 
   
     <link rel="top" title="pyvol 1.2.27 documentation" href="index.html"/>
-        <link rel="prev" title="Shell Interface" href="shell.html"/> 
+        <link rel="next" title="&lt;no title&gt;" href="modules.html"/>
+        <link rel="prev" title="GUI Interface" href="gui.html"/> 
 
   
   <script src="https://cdnjs.cloudflare.com/ajax/libs/modernizr/2.6.2/modernizr.min.js"></script>
@@ -89,11 +90,11 @@
 </ul>
 </li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="shell.html">Shell Interface</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="shell.html#running-from-the-shell">Running from the Shell</a></li>
-<li class="toctree-l2"><a class="reference internal" href="shell.html#template-configuration-file-generation">Template Configuration File Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="shell.html#notes-on-output">Notes on Output</a></li>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="">Shell Interface</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#running-from-the-shell">Running from the Shell</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#template-configuration-file-generation">Template Configuration File Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#notes-on-output">Notes on Output</a></li>
 </ul>
 </li>
 </ul>
@@ -122,10 +123,10 @@
   <ul class="wy-breadcrumbs">
     <li><a href="index.html">Docs</a> &raquo;</li>
       
-    <li>&lt;no title&gt;</li>
+    <li>Shell Interface</li>
       <li class="wy-breadcrumbs-aside">
         
-          <a href="_sources/modules.txt" rel="nofollow"> View page source</a>
+          <a href="_sources/shell.txt" rel="nofollow"> View page source</a>
         
       </li>
   </ul>
@@ -133,9 +134,27 @@
 </div>
           <div role="main" class="document">
             
-  <div class="toctree-wrapper compound">
-<ul class="simple">
-</ul>
+  <div class="section" id="shell-interface">
+<h1>Shell Interface<a class="headerlink" href="#shell-interface" title="Permalink to this headline">¶</a></h1>
+<p>PyVOL can also be run from the system command line using bash or any standard shell. If installed using <code class="docutils literal"><span class="pre">pip</span></code>, a <code class="docutils literal"><span class="pre">pyvol</span></code> entry point should be automatically installed and made available on the path. Otherwise, manual invocation of <code class="docutils literal"><span class="pre">pyvol/__main__.py</span></code> should work.</p>
+<div class="section" id="running-from-the-shell">
+<h2>Running from the Shell<a class="headerlink" href="#running-from-the-shell" title="Permalink to this headline">¶</a></h2>
+<p>From the command-line, PyVOL is run exclusively using a configuration file.</p>
+<div class="highlight-bash"><div class="highlight"><pre>python -m pyvol &lt;input_parameters.cfg&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="template-configuration-file-generation">
+<h2>Template Configuration File Generation<a class="headerlink" href="#template-configuration-file-generation" title="Permalink to this headline">¶</a></h2>
+<p>A template configuration file with default values supplied can be generated using:</p>
+<div class="highlight-bash"><div class="highlight"><pre>python -m pyvol -t &lt;output_template.cfg&gt;
+</pre></div>
+</div>
+</div>
+<div class="section" id="notes-on-output">
+<h2>Notes on Output<a class="headerlink" href="#notes-on-output" title="Permalink to this headline">¶</a></h2>
+<p>Currently, PyVOL only reports standard log output to stdout when run this way. So if an output directory is not provided, there is no easy way to retrieve the results.</p>
+</div>
 </div>
 
 
@@ -144,8 +163,10 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
+        <a href="modules.html" class="btn btn-neutral float-right" title="&lt;no title&gt;">Next <span class="fa fa-arrow-circle-right"></span></a>
       
-        <a href="shell.html" class="btn btn-neutral" title="Shell Interface"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+        <a href="gui.html" class="btn btn-neutral" title="GUI Interface"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

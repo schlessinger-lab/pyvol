@@ -11,12 +11,24 @@
    install
 
 .. toctree::
-   :maxdepth: 3
-   
-   basic
+   :maxdepth: 2
 
+   general
 
+.. toctree::
+   :maxdepth: 2
 
+   gui
+
+.. toctree::
+   :maxdepth: 2
+
+   shell
+
+.. toctree::
+   :maxdepth: 2
+
+   modules
 
 Indices and tables
 ==================
