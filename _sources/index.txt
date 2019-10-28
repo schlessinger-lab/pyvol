@@ -26,9 +26,9 @@
    shell
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 3
 
-   modules
+   pyvol
 
 Indices and tables
 ==================
