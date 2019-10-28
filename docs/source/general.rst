@@ -1,5 +1,7 @@
-Basic Use
-=========
+General Usage
+=============
+
+The GUI and shell command line prompts recapitulate the PyMOL prompt interface with few exceptions. General usage of PyVOL is shown here with specific examples and modifications for the other interfaces in the following pages. Programmatic invocation of internal functions is supported and covered through the module documentation.
 
 Pocket Specification
 --------------------
