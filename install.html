@@ -65,9 +65,9 @@
           
               <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#detailed-pymol-installation">Detailed PyMOL Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#detailed-installation-into-pymol">Detailed Installation into PyMOL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#manual-installation">Manual Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#manual-msms-installation">Manual MSMS Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#msms-installation">MSMS Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#updating">Updating</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#uninstallation">Uninstallation</a></li>
 </ul>
@@ -112,28 +112,47 @@
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <p>PyVOL distribution is hosted by PyPI and accessed through pip. PyVOL can consequently be installed into any python environment. For convenience, the PyMOL GUI contains an installer.</p>
-<div class="section" id="detailed-pymol-installation">
-<h2>Detailed PyMOL Installation<a class="headerlink" href="#detailed-pymol-installation" title="Permalink to this headline">¶</a></h2>
-<p>PyVOL is distributed as a GUI and a backend. Installation into PyMOL uses PyMOL&#8217;s plugin manager to install the GUI and then the GUI to install the backend. The GUI is installed through the plugin manager through loading:</p>
+<div class="section" id="detailed-installation-into-pymol">
+<h2>Detailed Installation into PyMOL<a class="headerlink" href="#detailed-installation-into-pymol" title="Permalink to this headline">¶</a></h2>
+<p>PyVOL is distributed as a GUI and a backend. Installation into PyMOL uses PyMOL&#8217;s plugin manager to install the GUI and then the GUI to install the backend. The GUI is installed through the plugin manager through loading the <a class="reference external" href="https://github.com/rhs2132/pyvol/blob/master/pyvolgui.zip">zipped GUI file</a>:</p>
 <div class="highlight-bash"><div class="highlight"><pre>https://github.com/rhs2132/pyvol/blob/master/pyvolgui.zip
 </pre></div>
 </div>
+<p>This creates a new <code class="docutils literal"><span class="pre">PyVOL</span></code> menu entry under plugins. The third tab of the GUI allows installation of PyVOL from PyPI along with all available dependencies. On Linux and MacOS, MSMS is automatically installed from the platform-limited bioconda channel. MSMS installation instructions are otherwise <span class="xref std std-ref">below</span>.</p>
 </div>
 <div class="section" id="manual-installation">
 <h2>Manual Installation<a class="headerlink" href="#manual-installation" title="Permalink to this headline">¶</a></h2>
-<p>test</p>
+<p>PyVOL minimally requires biopython, MSMS, numpy, pandas, scipy, scikit-learn, and trimesh in order to run. PyVOL is available for manual installation from github or through PyPI. Most conveniently:</p>
+<div class="highlight-bash"><div class="highlight"><pre>pip install bio-pyvol
+</pre></div>
 </div>
-<div class="section" id="manual-msms-installation">
-<h2>Manual MSMS Installation<a class="headerlink" href="#manual-msms-installation" title="Permalink to this headline">¶</a></h2>
-<p>test</p>
+</div>
+<div class="section" id="msms-installation">
+<h2>MSMS Installation<a class="headerlink" href="#msms-installation" title="Permalink to this headline">¶</a></h2>
+<p>MSMS can be installed on MacOS and Linux using the bioconda channel:</p>
+<div class="highlight-bash"><div class="highlight"><pre>conda install -c bioconda msms
+</pre></div>
+</div>
+<p>Otherwise MSMS must be installed manually by downloading it from <a class="reference external" href="http://mgltools.scripps.edu/packages/MSMS/">MGLTools</a> and adding it to the path. PyMOL distributions from Schrodinger have MSMS included; however, it must still be added to the path manually. The executable is located at:</p>
+<div class="highlight-bash"><div class="highlight"><pre>&lt;pymol_root_dir&gt;/pkgs/msms-2.6.1-2/bin/msms
+</pre></div>
+</div>
 </div>
 <div class="section" id="updating">
 <h2>Updating<a class="headerlink" href="#updating" title="Permalink to this headline">¶</a></h2>
-<p>test</p>
+<p>PyVOL can be updated via the command line:</p>
+<div class="highlight-bash"><div class="highlight"><pre>pip update bio-pyvol
+</pre></div>
+</div>
+<p>If using the PyMOL GUI, the third tab has a button labeled <code class="docutils literal"><span class="pre">Check</span> <span class="pre">for</span> <span class="pre">Updates</span></code> that will query PyPI to detect whether an update is available. If one is available, that button changes to <code class="docutils literal"><span class="pre">Update</span> <span class="pre">PyVOL</span></code> and permits updating with a single click.</p>
 </div>
 <div class="section" id="uninstallation">
 <h2>Uninstallation<a class="headerlink" href="#uninstallation" title="Permalink to this headline">¶</a></h2>
-<p>test</p>
+<p>PyVOL can be uninstalled via the command line:</p>
+<div class="highlight-bash"><div class="highlight"><pre>pip uninstall bio-pyvol
+</pre></div>
+</div>
+<p>If using the PyMOL GUI, the third tab has a button labeled <code class="docutils literal"><span class="pre">Uninstall</span> <span class="pre">PyVOL</span></code> that will remove the PyVOL backend. Afterwards, selecting uninstall on the plugin within the PyMOL plugin manager will the GUI.</p>
 </div>
 </div>
 
