@@ -1,43 +1,28 @@
-Command line Execution
-======================
-
-Quick Start
------------
-
-From within PyMOL, the simplest binding pocket calculation is simply run either with the provided GUI or with:
-
-.. code-block:: python
-
-   pocket protein_selection
-
-The two parameters that most dramatically affect calculations are the maximum and minimum radii used to respectively define the exterior surface of the protein and the boundary of the binding pocket itself. In practice, the minimum radius does not need to be changed as its default (1.4) is broadly useful. The maximum radius does often need to be adjust to find a suitable value using the max_rad parameter:
-
-.. code-block:: python
-
-   pocket protein_selection, min_rad=1.4, max_rad=3.4
-
-Basic Usage
------------
+Basic Use
+=========
 
 Pocket Specification
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 
 PyVOL by default recognizes the largest pocket and returns the volume and geometry for it. However, manual identification of the pocket of interest is generally preferable. This can be done through specification of a ligand, a residue, or a coordinate. If a specification is given, the mode is changed to specific by default.
 
-Default behavior:
+Default Behavior (Largest Mode):
+^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
 
    pocket protein_selection, mode=largest
 
-Ligand specification:
+Ligand Specification:
+^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
 
    pocket protein_selection, mode=specific, ligand=ligand_selection
    pocket protein_selection, ligand=ligand_selection
 
-Residue specification:
+Residue Specification:
+^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
 
@@ -46,9 +31,10 @@ Residue specification:
    pocket protein_selection, mode=specific, residue=residue_selection
    pocket protein_selection, residue=residue_selection
 
-where the resid is written as :raw-html-m2r:`<Chain>`\ :raw-html-m2r:`<Residue number>`. If there is only one chain in the selection, the chain ID can be excluded.
+where the ``resid`` is written as :raw-html-m2r:`<Chain>`\ :raw-html-m2r:`<Residue number>`. If there is only one chain in the selection, the chain ID can be excluded.
 
-Coordinate specification:
+Coordinate Specification:
+^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. code-block:: python
 
@@ -57,6 +43,9 @@ Coordinate specification:
 
 where the coordinate is provided as three floats separated by spaces and bounded by quotation marks.
 
+Calculation of All Pockets
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
 Alternatively, PyVOL can return the surfaces and volumes for all pockets above a minimum volume that are identified. By default, this volume cutoff is set at 200 A^3.
 
 .. code-block:: python
@@ -64,28 +53,36 @@ Alternatively, PyVOL can return the surfaces and volumes for all pockets above a
    pocket protein_selection, mode=all, minimum_volume=200
 
 Extra Ligand Options
-^^^^^^^^^^^^^^^^^^^^
+--------------------
 
-When a ligand is provided, the atoms of the ligand can be used to identify both minimum and maximum extents of the calculated binding pocket. To include the volume of the ligand in the pocket volume (useful for when the ligand extends into bulk solvent), use the lig_incl_rad parameter:
+When a ligand is provided, the atoms of the ligand can be used to identify both minimum and maximum extents of the calculated binding pocket.
+
+Ligand Volume Inclusion
+^^^^^^^^^^^^^^^^^^^^^^^
+
+To include the volume of the ligand in the pocket volume (useful for when the ligand extends into bulk solvent), use the ``lig_incl_rad`` parameter:
 
 .. code-block:: python
 
    pocket protein_selection, ligand=ligand_selection, lig_incl_rad=0.0
 
-where the value of lig_incl_rad is added to the Van der Waals radii of each atom in the ligand selection when calculating the exterior surface of the protein.
+where the value of ``lig_incl_rad`` is added to the Van der Waals radii of each atom in the ligand selection when calculating the exterior surface of the protein.
 
-The atoms of the ligand can also be used to define a maximum boundary to the calculated pocket by specifying the lig_excl_rad parameter:
+Ligand-defined Maximum Volume
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The atoms of the ligand can also be used to define a maximum boundary to the calculated pocket by specifying the ``lig_excl_rad`` parameter:
 
 .. code-block:: python
 
    pocket protein_selection, ligand=ligand_selection, lig_excl_rad=2.0
 
-where the value of lig_excl_rad is added to the Van der Waals radii of each atom in the ligand selection when calculating the exterior surface of the protein.
+where the value of 11lig_excl_rad11 is added to the Van der Waals radii of each atom in the ligand selection when calculating the exterior surface of the protein.
 
 Sub-pocket Partitioning
-^^^^^^^^^^^^^^^^^^^^^^^
+-----------------------
 
-Sub-partitioning is enabled by setting the subdivide parameter to True:
+Sub-partitioning is enabled by setting the ``subdivide`` parameter to ``True``:
 
 .. code-block:: python
 
@@ -100,7 +97,7 @@ Parameters controlling the number of sub-pockets identified generally perform we
 If the number of clusters must be reduced, sub-pockets are merged on the basis of connectivity between the defining sets of tangent spheres. Practically, sub-pockets with a greater surface area boundary are merged first.
 
 Display and Output Options
-^^^^^^^^^^^^^^^^^^^^^^^^^^
+--------------------------
 
 By default, PyVOL simply outputs a log containing volumes and, when invoked through PyMOL, displays pocket boundaries as semi-translucent surfaces. This behavior can be extensively customized.
 
@@ -114,9 +111,9 @@ PyVOL can also write the input and output files to a directory if given an outpu
 
 .. code-block:: python
 
-   pocket protein_selection, output_dir=best_out_dir
+   pocket protein_selection, output_dir=chosen_out_dir
 
-Calculated surfaces can be visualized in three different ways by setting the display_mode parameter. The following three commands set the output as a solid surface with transparency, a wireframe mesh, and a collection of spheres. Color is set with the color parameter and transparency (when applicable) with the alpha parameter:
+Calculated surfaces can be visualized in three different ways by setting the ``display_mode`` parameter. The following three commands set the output as a solid surface with transparency, a wireframe mesh, and a collection of spheres. Color is set with the ``color`` parameter and transparency (when applicable) with the ``alpha`` parameter:
 
 .. code-block:: python
 
@@ -124,4 +121,4 @@ Calculated surfaces can be visualized in three different ways by setting the dis
    pocket protein_selection, display_mode=mesh, color=red
    pocket protein_selection, display_mode=spheres, color=firebrick
 
-where alpha is [0, 1.0] and the color is any color defined within pymol. The presets should generally be sufficient, but custom colors can be chosen using the commands given on the PyMOL wiki.
+where ``alpha`` is [0, 1.0] and the color is any color defined within PyMOL. The presets should generally be sufficient, but custom colors can be chosen using the commands given on the PyMOL wiki.
