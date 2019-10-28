@@ -17,7 +17,7 @@ PyVOL is a python library packaged into a `PyMOL` GUI for identifying protein bi
 Installation
 ============
 
-PyVOL can be installed into any python environment; however, for most users direct installation using PyMOL's plugin manager.
+PyVOL can be installed into any python environment; however, for most users direct installation into PyMOL will be easiest.
 
 PyMOL Installation
 ------------------
