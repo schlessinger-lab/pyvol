@@ -1,31 +1,22 @@
+.. role:: raw-html-m2r(raw)
+   :format: html
 
-*****
+
 PyVOL
-*****
+=====
 
-.. image:: https://img.shields.io/pypi/v/bio_pyvol.svg
-   :target: https://pypi.python.org/pypi/bio_pyvol
-   :alt: Pypi Version
-.. image:: https://img.shields.io/pypi/l/bio_pyvol.svg
-   :target: https://pypi.python.org/pypi/bio_pyvol/
-   :alt: License
+PyVOL is a python library packaged into a PyMOL GUI for identifying protein binding pockets, partitioning them into sub-pockets, and calculating their volumes. PyVOL can be run as a PyMOL plugin through its GUI or the PyMOL prompt, as an imported python library, or as a commandline program. Visualization of results is exclusively supported through PyMOL though exported surfaces are compatible with all standard 3D geometry viewers.
 
-PyVOL is a python library packaged into a `PyMOL` GUI for identifying protein binding pockets, partitioning them into sub-pockets, and calculating their volumes. PyVOL can be run as a PyMOL plugin through its GUI or the PyMOL prompt, as an imported python library, or as a commandline program. Visualization of results is exclusively supported through PyMOL though exported surfaces are compatible with standard 3D geometry visualization programs.
+Basic PyMOL Installation
+------------------------
 
-.. _PyMOL: https://pymol.org/2/
+PyVOL can be installed into PyMOL by using the plugin manager to install directly from the PyMOL wiki or by manually installing the zip file downloaded from:
 
-Installation
-============
+.. code-block:: bash
 
-PyVOL can be installed into any python environment; however, for most users direct installation using PyMOL's plugin manager.
+   https://github.com/rhs2132/pyvol/blob/master/pyvolgui.zip
 
-PyMOL Installation
-------------------
-
-PyVOL can be installed by using PyMOL's plugin manager to load the `zipped gui`. This installation creates a "PyVOL" menu item under plugins. Opening this menu launches the PyVOL GUI. The third tab manages the installation of the PyVOL backend. Simply clicking "Install PyVOL" will use ``pip`` to install the PyVOL and in most cases all dependencies. For Windows non-incentive PyMOL distributions, MSMS must be installed separately as described `below`. 
-
-.. _zipped gui: https://github.com/rhs2132/pyvol/blob/master/pyvolgui.zip
-
+Either option adds a menu option under plugins called "PyVOL." Opening this menu will launch the PyVOL GUI. The third tab manages the installation and update of the PyVOL backend. Simply clicking "Install PyVOL" will use pip to install the code and all dependencies. However, installation of MSMS is unavailable through this path. On MacOS and Linux, MSMS is subsequently installed using conda. However, Windows requires independent installation as described below.
 
 Basic Manual Installation
 -------------------------
