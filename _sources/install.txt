@@ -1,6 +1,7 @@
 
 Installation
 ============
+
 PyVOL distribution is hosted by PyPI and accessed through pip. PyVOL can consequently be installed into any python environment. For convenience, the PyMOL GUI contains an installer.
 
 Detailed Installation into PyMOL
