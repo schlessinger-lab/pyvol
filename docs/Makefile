@@ -196,4 +196,5 @@ pseudoxml:
 
 documentation: html latexpdf
 	cd ..; git add .; git commit -m "rebuilt pdf"; git push origin master
+	cd docs
 	cd $(BUILDDIR)/html; git add . ; git commit -m "rebuilt docs"; git push origin gh-pages
