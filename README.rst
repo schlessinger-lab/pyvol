@@ -1,7 +1,7 @@
 
-*****
-PyVOL
-*****
+***********************************************************************
+PyVOL: Protein Pocket Visualization, Segmentation, and Characterization
+***********************************************************************
 
 .. image:: https://img.shields.io/pypi/v/bio_pyvol.svg
    :target: https://pypi.python.org/pypi/bio_pyvol
@@ -22,7 +22,7 @@ PyVOL can be installed into any python environment; however, for most users dire
 PyMOL Installation
 ------------------
 
-PyVOL can be installed by using PyMOL's plugin manager to load the `zipped gui`. This installation creates a "PyVOL" menu item under plugins. Opening this menu launches the PyVOL GUI. The third tab manages the installation of the PyVOL backend. Simply clicking "Install PyVOL" will use ``pip`` to install the PyVOL and in most cases all dependencies. For Windows non-incentive PyMOL distributions, MSMS must be installed separately as described `below`. 
+PyVOL can be installed by using PyMOL's plugin manager to load the `zipped gui`. This installation creates a "PyVOL" menu item under plugins. Opening this menu launches the PyVOL GUI. The third tab manages the installation of the PyVOL backend. Simply clicking "Install PyVOL" install the PyVOL backend and, on Linux and MacOS, all dependencies.  For dependency installation on Windows or manual installation, see the installation page.
 
 .. _zipped gui: https://github.com/rhs2132/pyvol/blob/master/pyvolgui.zip
 
