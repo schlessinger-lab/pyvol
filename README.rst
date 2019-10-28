@@ -51,7 +51,7 @@ The two parameters that most dramatically affect calculations are the maximum an
 Further Examples
 ----------------
 
-For extensive explanations and documentations of the GUI and command line interfaces, see the `examples page <https://schlessingerlab.github.io/pyvol/examples.html>`_.
+For extensive explanations and documentations of the GUI and command line interfaces, see the `examples page <https://schlessingerlab.github.io/pyvol/general.html>`_.
 
 Module Documentation
 ====================
