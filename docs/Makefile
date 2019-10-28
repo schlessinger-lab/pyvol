@@ -195,4 +195,5 @@ pseudoxml:
 	@echo "Build finished. The pseudo-XML files are in $(BUILDDIR)/pseudoxml."
 
 documentation: html latexpdf
+	cd ..; git add .; git commit -m "rebuilt pdf"; git push origin master
 	cd $(BUILDDIR)/html; git add . ; git commit -m "rebuilt docs"; git push origin gh-pages
