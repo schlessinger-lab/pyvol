@@ -2,6 +2,8 @@
 PyVOL Development
 =================
 
+sphinx-apidoc run with: sphinx-apidoc -o docs/source/ pyvol/
+
 Package Design
 --------------
 
