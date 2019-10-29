@@ -63,7 +63,7 @@
         
           
           
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="install.html#detailed-installation-into-pymol">Detailed Installation into PyMOL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="install.html#manual-installation">Manual Installation</a></li>
@@ -72,8 +72,6 @@
 <li class="toctree-l2"><a class="reference internal" href="install.html#uninstallation">Uninstallation</a></li>
 </ul>
 </li>
-</ul>
-<ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="">General Usage</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#pocket-specification">Pocket Specification</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#extra-ligand-options">Extra Ligand Options</a></li>
@@ -81,25 +79,29 @@
 <li class="toctree-l2"><a class="reference internal" href="#display-and-output-options">Display and Output Options</a></li>
 </ul>
 </li>
-</ul>
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="gui.html">GUI Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="gui.html#run-tab">Run Tab</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gui.html#load-tab">Load Tab</a></li>
 <li class="toctree-l2"><a class="reference internal" href="gui.html#install-tab">Install Tab</a></li>
 </ul>
 </li>
-</ul>
-<ul>
 <li class="toctree-l1"><a class="reference internal" href="shell.html">Shell Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="shell.html#running-from-the-shell">Running from the Shell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="shell.html#template-configuration-file-generation">Template Configuration File Generation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="shell.html#notes-on-output">Notes on Output</a></li>
 </ul>
 </li>
+<li class="toctree-l1"><a class="reference internal" href="pyvol.html">pyvol package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="pyvol.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyvol.html#module-pyvol.cluster">pyvol.cluster module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyvol.html#module-pyvol.identify">pyvol.identify module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyvol.html#module-pyvol.pymol_interface">pyvol.pymol_interface module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyvol.html#module-pyvol.pymol_utilities">pyvol.pymol_utilities module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyvol.html#module-pyvol.spheres">pyvol.spheres module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyvol.html#module-pyvol.utilities">pyvol.utilities module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="pyvol.html#module-pyvol">Module contents</a></li>
 </ul>
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="modules.html">Full Tutorials and Documentations</a></li>
+</li>
 </ul>
 
           
@@ -141,8 +143,8 @@
 <div class="section" id="pocket-specification">
 <h2>Pocket Specification<a class="headerlink" href="#pocket-specification" title="Permalink to this headline">¶</a></h2>
 <p>PyVOL by default recognizes the largest pocket and returns the volume and geometry for it. However, manual identification of the pocket of interest is generally preferable. This can be done through specification of a ligand, a residue, or a coordinate. If a specification is given, the mode is changed to specific by default.</p>
-<div class="section" id="default-behavior-largest-mode">
-<h3>Default Behavior (Largest Mode):<a class="headerlink" href="#default-behavior-largest-mode" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="default-behavior">
+<h3>Default Behavior:<a class="headerlink" href="#default-behavior" title="Permalink to this headline">¶</a></h3>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">pocket</span> <span class="n">protein_selection</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">largest</span>
 </pre></div>
 </div>
@@ -162,7 +164,7 @@
 <span class="n">pocket</span> <span class="n">protein_selection</span><span class="p">,</span> <span class="n">residue</span><span class="o">=</span><span class="n">residue_selection</span>
 </pre></div>
 </div>
-<p>where the <code class="docutils literal"><span class="pre">resid</span></code> is written as <a href="#id1"><span class="problematic" id="id2">:raw-html-m2r:`&lt;Chain&gt;`</span></a><a href="#id3"><span class="problematic" id="id4">:raw-html-m2r:`&lt;Residue number&gt;`</span></a>. If there is only one chain in the selection, the chain ID can be excluded.</p>
+<p>where the <code class="docutils literal"><span class="pre">resid</span></code> is written as &lt;Chain&gt;&lt;Residue number&gt; (e.g. B432). If there is only one chain in the selection, the chain ID can be excluded.</p>
 </div>
 <div class="section" id="coordinate-specification">
 <h3>Coordinate Specification:<a class="headerlink" href="#coordinate-specification" title="Permalink to this headline">¶</a></h3>
