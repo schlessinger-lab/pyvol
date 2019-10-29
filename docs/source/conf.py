@@ -34,7 +34,8 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
     "sphinx.ext.intersphinx",
-    "sphinx.ext.napoleon"
+    "sphinx.ext.napoleon",
+    "rinoh.frontend.sphinx"
 ]
 
 autodoc_member_order = 'bysource'

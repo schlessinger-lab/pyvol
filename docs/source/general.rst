@@ -33,7 +33,7 @@ Residue Specification:
    pocket protein_selection, mode=specific, residue=residue_selection
    pocket protein_selection, residue=residue_selection
 
-where the ``resid`` is written as :raw-html-m2r:`<Chain>`\ :raw-html-m2r:`<Residue number>`. If there is only one chain in the selection, the chain ID can be excluded.
+where the ``resid`` is written as <Chain><Residue number> (e.g. B432). If there is only one chain in the selection, the chain ID can be excluded.
 
 Coordinate Specification:
 ^^^^^^^^^^^^^^^^^^^^^^^^^
