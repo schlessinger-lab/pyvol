@@ -1,0 +1,224 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>PyVOL Development &mdash; pyvol 1.2.27 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> pyvol
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.2.27
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="general.html">General Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">GUI Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">Shell Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyvol.html">pyvol package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">pyvol</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>PyVOL Development</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/DEVELOPMENT.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pyvol-development">
+<h1>PyVOL Development<a class="headerlink" href="#pyvol-development" title="Permalink to this headline">¶</a></h1>
+<p>sphinx-apidoc run with: sphinx-apidoc -o docs/source/ pyvol/</p>
+<div class="section" id="package-design">
+<h2>Package Design<a class="headerlink" href="#package-design" title="Permalink to this headline">¶</a></h2>
+<p>The main PyVOL algorithm is run from identify.py. There are two interfaces to this module which prepare user supplied inputs: <code class="docutils literal notranslate"><span class="pre">pyvol/pymol_interface.py</span></code> and the commandline entry point in <code class="docutils literal notranslate"><span class="pre">pyvol/__main__.py</span></code>. The PyMOL interface can be accessed directly through the PyMOL prompt or run using the included GUI. The commandline entry point is evoked using a configuration file.</p>
+</div>
+<div class="section" id="algorithm-design">
+<h2>Algorithm Design<a class="headerlink" href="#algorithm-design" title="Permalink to this headline">¶</a></h2>
+<p>The primary algorithmic logic is supplied in <code class="docutils literal notranslate"><span class="pre">identify.py</span></code> which acts as the only interface between the user-facing modules and the computational backend.</p>
+<p>The Spheres class holds all of the geometric information about proteins and pockets. It represents any object as a collection of spheres by holding their coordinates, radii, and cluster identifications in a 5D numpy array. Surface triangulation using MSMS and many other convenience functions are included in the class itself. The methods contained in the separate <code class="docutils literal notranslate"><span class="pre">cluster.py</span></code> would largely work as methods in the Spheres class but have been separated due to that class becoming too large and the specificity of those methods to subpocket partitioning.</p>
+</div>
+<div class="section" id="gui-design">
+<h2>GUI Design<a class="headerlink" href="#gui-design" title="Permalink to this headline">¶</a></h2>
+<p>The GUI is developed using Qt Designer and run using PyQT5.</p>
+</div>
+<div class="section" id="version-incrementation">
+<h2>Version Incrementation<a class="headerlink" href="#version-incrementation" title="Permalink to this headline">¶</a></h2>
+<p>PyVOL uses a standard incrementation scheme. The version of the backend must be updated in both <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> and <code class="docutils literal notranslate"><span class="pre">pyvol/__init__.py</span></code>. The GUI version is set in <code class="docutils literal notranslate"><span class="pre">pyvolgui/__init__.py</span></code>, and the the version of the GUI that the backend expects is set again in <code class="docutils literal notranslate"><span class="pre">pyvol/__init__.py</span></code>.</p>
+</div>
+<div class="section" id="distribution">
+<h2>Distribution<a class="headerlink" href="#distribution" title="Permalink to this headline">¶</a></h2>
+<p>The code is hosted on github by the Schlessinger Lab. The PyVOL backend is distributed through PyPI. This process of uploading to PyPI is automated in the deploy.sh script. The plugin will be available both from the github page and through the official PyMOL wiki.</p>
+</div>
+<div class="section" id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
+<p>Documentation is largely in the google style. Docstrings were automatically generated using pyment and then manually edited.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Ryan Smith
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
