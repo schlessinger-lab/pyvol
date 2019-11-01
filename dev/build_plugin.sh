@@ -13,7 +13,7 @@ full_zip_name="pyvol-${1}-full-installer.zip"
 small_zip_name="pyvol-${1}-installer.zip"
 
 cd ${project_dir}
-zip -r ${small_zip_name} pyvol_gui/ -x "pyvol_gui/cached_source"
+zip -r ${small_zip_name} pyvol_gui/ -x "pyvol_gui/cached_source/*"
 mv ${small_zip_name} ..
 
 cd $cache_dir
