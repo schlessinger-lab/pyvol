@@ -5,7 +5,7 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         =
-BUILDDIR      = ../../pyvol-docs/_html
+BUILDDIR      = ../../pyvol-docs/_build
 PDFBUILDDIR   = /tmp
 PDF        	  = ../manual.pdf
 

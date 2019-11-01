@@ -33,10 +33,11 @@ sys.path.insert(0, os.path.abspath('../..'))
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
-    "sphinx.ext.intersphinx",
-    "sphinx.ext.napoleon",
-    "rinoh.frontend.sphinx"
 ]
+
+#    "sphinx.ext.intersphinx",
+#    "sphinx.ext.napoleon",
+#    "rinoh.frontend.sphinx"
 
 autodoc_member_order = 'bysource'
 autodoc_default_flags = ['members', 'show-inheritance']
