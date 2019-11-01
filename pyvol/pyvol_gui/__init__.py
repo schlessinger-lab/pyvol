@@ -29,42 +29,43 @@ def __init_plugin__(app=None):
         cmd.extend('load_pocket', pymol_interface.load_pocket)
         logger.debug("PyVOL successfully imported")
     except:
-        import os
-        import re
-        import subprocess
-
-        logger.info("PyVOL not imported; installing from local cache if present")
-        installer_dir = os.path.dirname(os.path.realpath(__file__))
-        cache_dir = os.path.join(installer_dir, "cached_source")
-
-        if os.path.isdir(cache_dir):
-            bio_pyvol_gz = None
-            for f in os.listdir(cache_dir):
-                if re.match('bio_pyvol', f):
-                    bio_pyvol_gz = f
-                    break
-
-            if bio_pyvol_gz is None:
-                logger.info("Cache directory found but no pyvol distribution")
-            else:
-                subprocess.check_output([sys.executable, "-m", "pip", "install", bio_pyvol_gz])
-
-                install_status = False
-                try:
-                    from pyvol import pymol_interface
-                    cmd.extend('pocket', pymol_interface.pocket)
-                    cmd.extend('load_pocket', pymol_interface.load_pocket)
-                    install_status = True
-                except:
-                    logger.warning("Installation failed")
-
-                if install_status:
-                    logger.info("Installation succeeded")
-
-                    import shutil
-                    shutil.rmtree(cache_dir)
-        else:
-            logger.info("Local cache not found; requires installation through GUI")
+        pass
+        # import os
+        # import re
+        # import subprocess
+        #
+        # logger.info("PyVOL not imported; installing from local cache if present")
+        # installer_dir = os.path.dirname(os.path.realpath(__file__))
+        # cache_dir = os.path.join(installer_dir, "cached_source")
+        #
+        # if os.path.isdir(cache_dir):
+        #     bio_pyvol_gz = None
+        #     for f in os.listdir(cache_dir):
+        #         if re.match('bio_pyvol', f):
+        #             bio_pyvol_gz = f
+        #             break
+        #
+        #     if bio_pyvol_gz is None:
+        #         logger.info("Cache directory found but no pyvol distribution")
+        #     else:
+        #         subprocess.check_output([sys.executable, "-m", "pip", "install", bio_pyvol_gz])
+        #
+        #         install_status = False
+        #         try:
+        #             from pyvol import pymol_interface
+        #             cmd.extend('pocket', pymol_interface.pocket)
+        #             cmd.extend('load_pocket', pymol_interface.load_pocket)
+        #             install_status = True
+        #         except:
+        #             logger.warning("Installation failed")
+        #
+        #         if install_status:
+        #             logger.info("Installation succeeded")
+        # 
+        #             import shutil
+        #             shutil.rmtree(cache_dir)
+        # else:
+        #     logger.info("Local cache not found; requires installation through GUI")
     finally:
         from pymol.plugins import addmenuitemqt
         addmenuitemqt('PyVOL', pyvol_window)
