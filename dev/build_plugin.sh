@@ -12,12 +12,10 @@ project_dir="${pyvol_dev_root}/pyvol/pyvol"
 full_zip_name="pyvol-${1}-full-installer.zip"
 small_zip_name="pyvol-${1}-installer.zip"
 
-rm -r ${cache_dir}
 cd ${project_dir}
-zip -r ${small_zip_name} pyvol_gui/
+zip -r ${small_zip_name} pyvol_gui/ -x "pyvol_gui/cached_source"
 mv ${small_zip_name} ..
 
-mkdir $cache_dir
 cd $cache_dir
 pip download bio-pyvol --no-binary :all:
 
