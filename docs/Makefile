@@ -5,7 +5,7 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 PAPER         =
-BUILDDIR      = ../../pyvol-docs
+BUILDDIR      = ../../pyvol-docs/_html
 PDFBUILDDIR   = /tmp
 PDF        	  = ../manual.pdf
 
@@ -126,8 +126,9 @@ latexpdf:
 	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) $(PDFBUILDDIR)/latex
 	@echo "Running LaTeX files through pdflatex..."
 	$(MAKE) -C $(PDFBUILDDIR)/latex all-pdf
-	cp $(PDFBUILDDIR)/latex/*.pdf $(PDF)
-	@echo "pdflatex finished; the PDF files are in $(BUILDDIR)/latex."
+	cp $(PDFBUILDDIR)/latex/*.pdf docs/$(PDF)
+	@echo "pdflatex finished; PDF moved to docs/manual.pdf"
+	# @echo "pdflatex finished; the PDF files are in $(BUILDDIR)/latex."
 
 latexpdfja:
 	$(SPHINXBUILD) -b latex $(ALLSPHINXOPTS) $(BUILDDIR)/latex
@@ -193,7 +194,3 @@ pseudoxml:
 	$(SPHINXBUILD) -b pseudoxml $(ALLSPHINXOPTS) $(BUILDDIR)/pseudoxml
 	@echo
 	@echo "Build finished. The pseudo-XML files are in $(BUILDDIR)/pseudoxml."
-
-documentation: html latexpdf
-	cd ..; git add .; git commit -m "rebuilt pdf"; git push origin master
-	cd $(BUILDDIR)/html; git add . ; git commit -m "rebuilt docs"; git push origin gh-pages

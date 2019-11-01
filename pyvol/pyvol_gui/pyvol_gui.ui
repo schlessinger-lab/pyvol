@@ -1,0 +1,712 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>724</width>
+    <height>629</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>PyVOL</string>
+  </property>
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="leftMargin">
+    <number>4</number>
+   </property>
+   <property name="rightMargin">
+    <number>4</number>
+   </property>
+   <property name="bottomMargin">
+    <number>4</number>
+   </property>
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="run_tab">
+      <attribute name="title">
+       <string>Parameters</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <property name="spacing">
+        <number>6</number>
+       </property>
+       <property name="leftMargin">
+        <number>4</number>
+       </property>
+       <property name="topMargin">
+        <number>8</number>
+       </property>
+       <property name="rightMargin">
+        <number>4</number>
+       </property>
+       <property name="bottomMargin">
+        <number>4</number>
+       </property>
+       <item>
+        <widget class="QScrollArea" name="scrollArea">
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>-194</y>
+            <width>688</width>
+            <height>784</height>
+           </rect>
+          </property>
+          <layout class="QVBoxLayout" name="verticalLayout_5">
+           <item>
+            <widget class="QGroupBox" name="basic_param_box">
+             <property name="title">
+              <string>Basic Parameters</string>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout">
+              <item>
+               <layout class="QFormLayout" name="formLayout">
+                <property name="fieldGrowthPolicy">
+                 <enum>QFormLayout::ExpandingFieldsGrow</enum>
+                </property>
+                <property name="labelAlignment">
+                 <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
+                </property>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="prot_sele_label">
+                  <property name="text">
+                   <string>Protein Pymol Selection: </string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="prot_sele_ledit">
+                  <property name="text">
+                   <string>sele</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="min_rad_label">
+                  <property name="text">
+                   <string>Minimum Radius: [1.2, 2.0] </string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLineEdit" name="min_rad_ledit">
+                  <property name="text">
+                   <string>1.4</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="max_rad_label">
+                  <property name="text">
+                   <string>Maximum Radius: [2.0, 5.0]</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <widget class="QLineEdit" name="max_rad_ledit">
+                  <property name="text">
+                   <string>3.4</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QCheckBox" name="constrain_cbox">
+                  <property name="text">
+                   <string>Constrain Inputs to Tested Ranges (Recommended)</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QCheckBox" name="excl_org_cbox">
+                  <property name="text">
+                   <string>Protein Only (Exclude PyMOL org)</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="pocket_sele_box">
+             <property name="title">
+              <string>Pocket Selection</string>
+             </property>
+             <layout class="QFormLayout" name="formLayout_13">
+              <item row="0" column="0">
+               <widget class="QRadioButton" name="all_rbutton">
+                <property name="text">
+                 <string>All</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="1">
+               <layout class="QFormLayout" name="formLayout_3">
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="min_volume_ledit">
+                  <property name="text">
+                   <string>200</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QLabel" name="min_volume_label">
+                  <property name="text">
+                   <string>Minimum Volume:</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </item>
+              <item row="1" column="0">
+               <widget class="QRadioButton" name="largest_rbutton">
+                <property name="text">
+                 <string>Largest</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QRadioButton" name="ligand_rbutton">
+                <property name="text">
+                 <string>Ligand:</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <layout class="QFormLayout" name="formLayout_4">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="lig_sele_label">
+                  <property name="text">
+                   <string>Pymol Selection: </string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <widget class="QLineEdit" name="lig_sele_ledit"/>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="lig_incl_rad_label">
+                  <property name="text">
+                   <string>Inclusion Radius (optional): </string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="lig_excl_rad_label">
+                  <property name="text">
+                   <string>Exclusion Radius (optional):</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <widget class="QLineEdit" name="lig_incl_rad_ledit"/>
+                </item>
+                <item row="2" column="1">
+                 <widget class="QLineEdit" name="lig_excl_rad_ledit"/>
+                </item>
+               </layout>
+              </item>
+              <item row="5" column="0">
+               <widget class="QRadioButton" name="residue_rbutton">
+                <property name="text">
+                 <string>Residue Pymol Selection: </string>
+                </property>
+               </widget>
+              </item>
+              <item row="6" column="0">
+               <widget class="QRadioButton" name="resid_rbutton">
+                <property name="text">
+                 <string>Residue Id: (e.g. B516)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="7" column="0">
+               <widget class="QRadioButton" name="coordinate_rbutton">
+                <property name="text">
+                 <string>Coordinate: (e.g. 0.0 1.3 3.4)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="5" column="1">
+               <widget class="QLineEdit" name="residue_sele_ledit"/>
+              </item>
+              <item row="7" column="1">
+               <widget class="QLineEdit" name="coordinate_ledit"/>
+              </item>
+              <item row="6" column="1">
+               <widget class="QLineEdit" name="resid_ledit"/>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox_7">
+             <property name="title">
+              <string>Partitioning Parameters</string>
+             </property>
+             <layout class="QFormLayout" name="formLayout_8">
+              <item row="0" column="0">
+               <widget class="QCheckBox" name="subdivide_cbox">
+                <property name="text">
+                 <string>Subdivide (incompatible with 'all' mode)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="0">
+               <widget class="QLabel" name="max_clusters_label">
+                <property name="text">
+                 <string>Maximum Sub-pockets: (2+)</string>
+                </property>
+               </widget>
+              </item>
+              <item row="1" column="1">
+               <widget class="QLineEdit" name="max_clusters_ledit">
+                <property name="text">
+                 <string>10</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="0">
+               <widget class="QLabel" name="min_internal_rad_label">
+                <property name="text">
+                 <string>Minimum Internal Radius: [1.4, 3.0]</string>
+                </property>
+               </widget>
+              </item>
+              <item row="2" column="1">
+               <widget class="QLineEdit" name="min_internal_rad_ledit">
+                <property name="text">
+                 <string>1.7</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QLabel" name="min_surf_rad_label">
+                <property name="text">
+                 <string>Minimum Surface Radius: [1.0, 2.0]</string>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="1">
+               <widget class="QLineEdit" name="min_surf_rad_ledit">
+                <property name="text">
+                 <string>1.0</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+           <item>
+            <widget class="QFrame" name="display_frame">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QGroupBox" name="display_mode_box">
+                <property name="title">
+                 <string>Display Mode</string>
+                </property>
+                <layout class="QVBoxLayout" name="verticalLayout_6">
+                 <item>
+                  <widget class="QRadioButton" name="solid_rbutton">
+                   <property name="text">
+                    <string>Solid</string>
+                   </property>
+                   <property name="checked">
+                    <bool>true</bool>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="mesh_rbutton">
+                   <property name="text">
+                    <string>Mesh</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QRadioButton" name="spheres_rbutton">
+                   <property name="text">
+                    <string>Spheres</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="display_options_box">
+                <property name="title">
+                 <string>Display Options</string>
+                </property>
+                <layout class="QFormLayout" name="formLayout_6">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="color_label">
+                   <property name="text">
+                    <string>Color:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLineEdit" name="color_ledit">
+                   <property name="text">
+                    <string>marine</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="alpha_label">
+                   <property name="text">
+                    <string>Alpha: </string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="alpha_ledit">
+                   <property name="text">
+                    <string>0.7</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QLabel" name="label">
+                   <property name="text">
+                    <string>(1 - Transparency)</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+              <item>
+               <widget class="QGroupBox" name="output_options_box">
+                <property name="title">
+                 <string>Output Options</string>
+                </property>
+                <layout class="QFormLayout" name="formLayout_7">
+                 <item row="0" column="0">
+                  <widget class="QLabel" name="prefix_label">
+                   <property name="text">
+                    <string>Display Prefix:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="0" column="1">
+                  <widget class="QLineEdit" name="prefix_ledit"/>
+                 </item>
+                 <item row="1" column="0">
+                  <widget class="QLabel" name="output_dir_label">
+                   <property name="text">
+                    <string>Output Dir:</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item row="1" column="1">
+                  <widget class="QLineEdit" name="output_dir_ledit"/>
+                 </item>
+                 <item row="2" column="1">
+                  <widget class="QLabel" name="label_2">
+                   <property name="text">
+                    <string>(Do not use &quot;~&quot;)</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="command_frame">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <item>
+           <widget class="QPushButton" name="run_button">
+            <property name="text">
+             <string>Run</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="close_button">
+            <property name="text">
+             <string>Close</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="load_tab">
+      <attribute name="title">
+       <string>Load Pocket</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="QFrame" name="frame">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QFormLayout" name="formLayout_2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="pocket_file_label">
+            <property name="text">
+             <string>Pocket File (obj or csv):</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <item>
+             <widget class="QLineEdit" name="pocket_file_ledit"/>
+            </item>
+            <item>
+             <widget class="QPushButton" name="browse_button">
+              <property name="text">
+               <string>Browse</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="load_prefix_label">
+            <property name="text">
+             <string>Display Prefix: </string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="load_prefix_ledit"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QFrame" name="display_frame_2">
+         <property name="frameShape">
+          <enum>QFrame::StyledPanel</enum>
+         </property>
+         <property name="frameShadow">
+          <enum>QFrame::Raised</enum>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_6">
+          <item>
+           <widget class="QGroupBox" name="display_mode_box_3">
+            <property name="title">
+             <string>Display Mode</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_11">
+             <item>
+              <widget class="QRadioButton" name="load_solid_rbutton">
+               <property name="text">
+                <string>Solid</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="load_mesh_rbutton">
+               <property name="text">
+                <string>Mesh</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QRadioButton" name="load_spheres_rbutton">
+               <property name="text">
+                <string>Spheres</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="display_options_box_3">
+            <property name="title">
+             <string>Display Options</string>
+            </property>
+            <layout class="QFormLayout" name="formLayout_11">
+             <item row="0" column="0">
+              <widget class="QLabel" name="load_color_label">
+               <property name="text">
+                <string>Color:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLineEdit" name="load_color_ledit">
+               <property name="text">
+                <string>marine</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="load_alpha_label">
+               <property name="text">
+                <string>Alpha: </string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLineEdit" name="load_alpha_ledit">
+               <property name="text">
+                <string>0.7</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>(1 - Transparency)</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="load_button">
+         <property name="text">
+          <string>Load Pocket from File</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="install_tab">
+      <attribute name="title">
+       <string notr="true">Install/Update</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_8">
+       <item>
+        <widget class="QGroupBox" name="install_status_box">
+         <property name="title">
+          <string>Current Installation Status:</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <widget class="QTextBrowser" name="install_status_browser"/>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QPushButton" name="install_button">
+              <property name="text">
+               <string>Install PyVOL</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="uninstall_button">
+              <property name="text">
+               <string>Uninstall PyVOL</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QLabel" name="status_label">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>29</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
