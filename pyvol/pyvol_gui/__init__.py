@@ -166,6 +166,7 @@ def pyvol_window():
         """
         import distutils.spawn
         import json
+        import os
         import subprocess
         import sys
 
@@ -243,13 +244,42 @@ def pyvol_window():
         if trimesh_version is None:
             trimesh_version = apply_color("not found", "red")
 
-        msms_exe = distutils.spawn.find_executable("msms")
+        # new options for finding msms
         msms_installed = False
-        if msms_exe == None:
-            msms_exe = apply_color("not found", "red")
+        if form.msms_default_rbutton.isChecked():
+            # test for included msms
+            if pyvol_installed:
+                try:
+                    import pyvol
+                    import platform
+
+                    pyvol_dir = os.path.dirname(pyvol.__file__)
+                    msms_dir = os.path.join(pyvol_dir, "pkgs", "msms_2.6.1")
+
+                    if platform.system() == 'Linux':
+                        msms_exe = os.path.join(msms_dir, 'msms.x86_64Linux2.2.6.1')
+                    elif platform.system() == 'Windows':
+                        msms_exe = os.path.join(msms_dir, 'msms.win32.2.6.1.exe')
+                    elif platform.system() == 'Darwin':
+                        msms_exe = os.path.join(msms_dir, 'msms.MacOSX.2.6.1')
+
+                    if os.path.exists(msms_exe):
+                        msms_installed = True
+            if not msms_installed:
+                msms_exe = distutils.spawn.find_executable("msms")
+
+        elif form.msms_pymol_rbutton.isChecked():
+            bin_dir = os.path.dirname(sys.executable())
+            pymol_dir = os.path.dirname(os.path.dirname(bin_dir))
+            msms_exe = os.path.join(pymol_dir, "pkgs", "msms-2.6.1-2/bin/msms")
         else:
-            msms_exe = apply_color(msms_exe, "green")
+            msms_exe = form.msms_custom_ledit.text()
+
+        if os.path.exists(msms_exe):
             msms_installed = True
+            form.msms_status_label.setText("MSMS executable found: {0}".format(apply_color(msms_exe, "blue"))
+        else:
+            form.msms_status_label.setText(apply_color("MSMS executable not found", "red"))
 
         if not pyvol_installed:
             gui_version = __version__
@@ -295,7 +325,6 @@ def pyvol_window():
                 for pckg in avail:
                     if pckg["name"] == "bio-pyvol":
                         update_available = True
-                        # pyvol_version = apply_color("{0} ({1} available)".format(pyvol_version, pckg['latest_version']), "blue")
                         form.install_remote_browser.setText(("A new version of PyVOL is available through PyPI:<br>"
                             "&nbsp;   pyvol: {0} -> {1}").format(pyvol_version, apply_color(pckg['latest_version'], "blue")))
                         break
@@ -337,16 +366,15 @@ def pyvol_window():
 
             form.install_status_browser.setText((
                 "&nbsp;   pyvol: {0}<br>"
-                "&nbsp;   pyvol gui: {8}<br>"
+                "&nbsp;   pyvol gui: {7}<br>"
                 "&nbsp;   biopython: {1}<br>"
                 "&nbsp;   numpy: {2}<br>"
                 "&nbsp;   pandas: {3}<br>"
                 "&nbsp;   scipy: {4}<br>"
                 "&nbsp;   sklearn: {5}<br>"
-                "&nbsp;   trimesh: {6}<br>"
-                "&nbsp;   msms exe: {7}<br><br>"
+                "&nbsp;   trimesh: {6}<br><br>"
                 "{8}"
-            ).format(pyvol_version, biopython_version, numpy_version, pandas_version, scipy_version, sklearn_version, trimesh_version, msms_exe, gui_version, status_msg))
+            ).format(pyvol_version, biopython_version, numpy_version, pandas_version, scipy_version, sklearn_version, trimesh_version, gui_version, status_msg))
 
     def run_gui_load(form):
         """ Loads a precalculated pocket into PyMOL

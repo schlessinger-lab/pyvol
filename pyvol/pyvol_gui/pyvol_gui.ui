@@ -688,7 +688,7 @@
               </widget>
              </item>
              <item row="2" column="1">
-              <widget class="QLineEdit" name="custom_msms_ledit"/>
+              <widget class="QLineEdit" name="msms_custom_ledit"/>
              </item>
             </layout>
            </widget>
