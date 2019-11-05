@@ -1,6 +1,6 @@
 
 
-__version__ = "1.1.0"
+__version__ = "1.1.1"
 
 import logging
 import time
@@ -84,6 +84,7 @@ def pyvol_window():
         import os
         import re
         import subprocess
+        import sys
 
         installer_dir = os.path.dirname(os.path.realpath(__file__))
         cache_dir = os.path.join(installer_dir, "cached_source")
@@ -91,8 +92,8 @@ def pyvol_window():
         if os.path.isdir(cache_dir):
             bio_pyvol_gz = None
             for f in os.listdir(cache_dir):
-                if re.match('bio_pyvol', f):
-                    bio_pyvol_gz = f
+                if re.match('bio-pyvol', f):
+                    bio_pyvol_gz = os.path.join(cache_dir, f)
                     break
 
             if bio_pyvol_gz is None:
@@ -107,7 +108,7 @@ def pyvol_window():
                     cmd.extend('load_pocket', pymol_interface.load_pocket)
                     install_status = True
                 except:
-                    logger.warning("Installation failed")
+                    logger.warning("Installation questionable")
 
                 if install_status:
                     logger.info("Installation succeeded")
@@ -246,38 +247,75 @@ def pyvol_window():
 
         # new options for finding msms
         msms_installed = False
-        if form.msms_default_rbutton.isChecked():
-            # test for included msms
-            if pyvol_installed:
-                try:
-                    import pyvol
-                    import platform
+        default_msms_present = False
+        default_msms_exe = None
+        incentive_msms_present = False
+        incentive_msms_exe = None
 
-                    pyvol_dir = os.path.dirname(pyvol.__file__)
-                    msms_dir = os.path.join(pyvol_dir, "pkgs", "msms_2.6.1")
+        # First check the path and bundled directories
+        if pyvol_installed:
+            default_msms_exe = distutils.spawn.find_executable("msms")
+            if os.path.exists(default_msms_exe):
+                default_msms_present = True
+            else:
+                default_msms_exe = None
 
-                    if platform.system() == 'Linux':
-                        msms_exe = os.path.join(msms_dir, 'msms.x86_64Linux2.2.6.1')
-                    elif platform.system() == 'Windows':
-                        msms_exe = os.path.join(msms_dir, 'msms.win32.2.6.1.exe')
-                    elif platform.system() == 'Darwin':
-                        msms_exe = os.path.join(msms_dir, 'msms.MacOSX.2.6.1')
+        if (pyvol_installed) and (not default_msms_present):
+            try:
+                import pyvol
+                import platform
 
-                    if os.path.exists(msms_exe):
-                        msms_installed = True
-            if not msms_installed:
-                msms_exe = distutils.spawn.find_executable("msms")
+                pyvol_dir = os.path.dirname(pyvol.__file__)
+                msms_dir = os.path.join(pyvol_dir, "pkgs", "msms_2.6.1")
 
-        elif form.msms_pymol_rbutton.isChecked():
-            bin_dir = os.path.dirname(sys.executable())
-            pymol_dir = os.path.dirname(os.path.dirname(bin_dir))
-            msms_exe = os.path.join(pymol_dir, "pkgs", "msms-2.6.1-2/bin/msms")
+                if platform.system() == 'Linux':
+                    msms_exe = os.path.join(msms_dir, 'msms.x86_64Linux2.2.6.1')
+                elif platform.system() == 'Windows':
+                    msms_exe = os.path.join(msms_dir, 'msms.win32.2.6.1.exe')
+                elif platform.system() == 'Darwin':
+                    msms_exe = os.path.join(msms_dir, 'msms.MacOSX.2.6.1')
+
+                if os.path.exists(msms_exe):
+                    default_msms_present = True
+                else:
+                    default_msms_exe = None
+            except:
+                pass
+
+        # Now check for the incentive msms
+        bin_dir = os.path.dirname(sys.executable)
+        pymol_root_dir = os.path.dirname(os.path.dirname(bin_dir))
+        incentive_msms_exe = os.path.join(pymol_root_dir, "pkgs", "msms-2.6.1-2/bin/msms")
+
+        if os.path.exists(incentive_msms_exe):
+            incentive_msms_present = True
         else:
-            msms_exe = form.msms_custom_ledit.text()
+            incentive_msms_exe = None
 
-        if os.path.exists(msms_exe):
+        if form.msms_default_rbutton.isChecked() and default_msms_present:
             msms_installed = True
-            form.msms_status_label.setText("MSMS executable found: {0}".format(apply_color(msms_exe, "blue"))
+            msms_exe = default_msms_exe
+        elif form.msms_pymol_rbutton.isChecked() and incentive_msms_present:
+            msms_installed = True
+            msms_exe = incentive_msms_exe
+        elif form.msms_custom_rbutton.isChecked():
+            msms_exe = form.msms_custom_ledit.text()
+            if os.path.exists(msms_exe):
+                msms_installed = True
+            else:
+                msms_exe = None
+        elif incentive_msms_present:
+            msms_installed = True
+            msms_exe = incentive_msms_exe
+            form.msms_pymol_rbutton.setChecked(True)
+        elif default_msms_present:
+            msms_installed = True
+            msms_exe = default_msms_exe
+            form.msms_default_rbutton.setChecked(True)
+
+
+        if msms_installed:
+            form.msms_status_label.setText("MSMS executable found: {0}".format(apply_color(msms_exe, "blue")))
         else:
             form.msms_status_label.setText(apply_color("MSMS executable not found", "red"))
 
@@ -296,13 +334,23 @@ def pyvol_window():
             form.install_status_button.setText("Install PyVOL from Cache")
 
             cache_present = False
-            # detect the cache
+            cache_version = None
+            installer_dir = os.path.dirname(os.path.realpath(__file__))
+            cache_dir = os.path.join(installer_dir, "cached_source")
+
+            if os.path.isdir(cache_dir):
+                import re
+                bio_pyvol_gz = None
+                for f in os.listdir(cache_dir):
+                    if re.match('bio-pyvol', f):
+                        cache_present = True
+                        break
 
             if cache_present:
                 status_msg = status_msg + "PyVOL can be installed from a local cache.<br>"
                 form.install_status_button.setEnabled(True)
                 form.install_status_button.clicked.connect(lambda: install_local_pyvol(form))
-                # display the cache text
+                form.install_status_browser.setText(status_msg)
             else:
                 form.install_status_browser.setText("PyVOL is not currently installed.<br>")
                 form.install_status_button.setEnabled(False)
@@ -351,6 +399,9 @@ def pyvol_window():
                 form.tabWidget.setCurrentIndex(2)
                 status_msg = apply_color("Error: MSMS must be installed for PyVOL to run.<br>", "red")
 
+            form.reload_settings_button.setEnabled(True)
+            form.reload_settings_button.clicked.connect(lambda: refresh_installation_status(form))
+
             gui_version = None
             expected_gui_version = None
             try:
@@ -363,7 +414,6 @@ def pyvol_window():
                     status_msg = status_msg + "{0}--check whether the PyVOL backend is up-to-date and using the PyMOL plugin manager reinstall the newet version of the plugin from <a href='https://github.com/schlessingerlab/pyvol/blob/master/pyvolgui.zip'>github</a>.<br>".format(apply_color("GUI version mismatch", "red"))
             except:
                 gui_version = __version__
-
             form.install_status_browser.setText((
                 "&nbsp;   pyvol: {0}<br>"
                 "&nbsp;   pyvol gui: {7}<br>"

@@ -26,7 +26,6 @@ mv ${full_zip_name} ../installers/
 cp ../installers/${full_zip_name} ../installers/pyvol-full-installer.zip
 
 cd ..
-git add ${full_zip_name}
-git add ${small_zip_name}
+git add installers/*.zip
 git commit -m "[auto] created new installers for version ${1}"
 git push origin master

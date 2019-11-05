@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>724</width>
-    <height>629</height>
+    <height>660</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -26,7 +26,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="run_tab">
       <attribute name="title">
@@ -91,6 +91,16 @@
                   </property>
                  </widget>
                 </item>
+                <item row="1" column="0">
+                 <widget class="QCheckBox" name="excl_org_cbox">
+                  <property name="text">
+                   <string>i.e. only include PyMOL 'poly'</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
                 <item row="2" column="0">
                  <widget class="QLabel" name="min_rad_label">
                   <property name="text">
@@ -123,16 +133,6 @@
                  <widget class="QCheckBox" name="constrain_cbox">
                   <property name="text">
                    <string>Constrain Inputs to Tested Ranges (Recommended)</string>
-                  </property>
-                  <property name="checked">
-                   <bool>true</bool>
-                  </property>
-                 </widget>
-                </item>
-                <item row="1" column="0">
-                 <widget class="QCheckBox" name="excl_org_cbox">
-                  <property name="text">
-                   <string>i.e. only include PyMOL 'poly'</string>
                   </property>
                   <property name="checked">
                    <bool>true</bool>
@@ -666,17 +666,20 @@
              <item row="0" column="0">
               <widget class="QRadioButton" name="msms_default_rbutton">
                <property name="text">
-                <string>Default (path or included)</string>
+                <string>On Path or Bundled</string>
                </property>
                <property name="checked">
-                <bool>true</bool>
+                <bool>false</bool>
                </property>
               </widget>
              </item>
              <item row="1" column="0">
               <widget class="QRadioButton" name="msms_pymol_rbutton">
                <property name="text">
-                <string>PyMOL-bundled (incentive only)</string>
+                <string>PyMOL-bundled</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -689,6 +692,27 @@
              </item>
              <item row="2" column="1">
               <widget class="QLineEdit" name="msms_custom_ledit"/>
+             </item>
+             <item row="3" column="0">
+              <widget class="QPushButton" name="reload_settings_button">
+               <property name="text">
+                <string>Reload Settings</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QLabel" name="label_4">
+               <property name="text">
+                <string>(Schrodinger-licensed incentive PyMOL users)</string>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>(Bundled MSMS only legal for academic users)</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </widget>

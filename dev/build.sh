@@ -20,7 +20,7 @@ if [ -d "dist" ]; then
   rm pyvol/pyvol_gui/cached_source/bio-pyvol-*.tar.gz
   cp dist/bio-pyvol-*.tar.gz pyvol/pyvol_gui/cached_source/
 
-  # twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
+  twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
 fi
 
 if [ -d "bio_pyvol.egg-info" ]; then
