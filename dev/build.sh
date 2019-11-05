@@ -17,7 +17,10 @@ fi
 python setup.py sdist bdist_wheel
 
 if [ -d "dist" ]; then
-  twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
+  rm pyvol/pyvol_gui/cached_source/bio-pyvol-*.tar.gz
+  cp dist/bio-pyvol-*.tar.gz pyvol/pyvol_gui/cached_source/
+
+  # twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
 fi
 
 if [ -d "bio_pyvol.egg-info" ]; then
