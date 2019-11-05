@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PyVOL: Protein Pocket Visualization, Segmentation, and Characterization &mdash; pyvol 1.2.27 documentation</title>
+  <title>Indices and tables &mdash; pyvol 1.2.27 documentation</title>
   
 
   
@@ -133,7 +133,7 @@
     
       <li><a href="#">Docs</a> &raquo;</li>
         
-      <li>PyVOL: Protein Pocket Visualization, Segmentation, and Characterization</li>
+      <li>Indices and tables</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -152,43 +152,7 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="pyvol-protein-pocket-visualization-segmentation-and-characterization">
-<h1>PyVOL: Protein Pocket Visualization, Segmentation, and Characterization<a class="headerlink" href="#pyvol-protein-pocket-visualization-segmentation-and-characterization" title="Permalink to this headline">¶</a></h1>
-<p>PyVOL is a python library packaged into a <cite>PyMOL</cite> GUI for identifying protein binding pockets, partitioning them into sub-pockets, and calculating their volumes. PyVOL can be run as a PyMOL plugin through its GUI or the PyMOL prompt, as an imported python library, or as a commandline program. Visualization of results is exclusively supported through PyMOL though exported surfaces are compatible with standard 3D geometry visualization programs.</p>
-<div class="section" id="installation">
-<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
-<p>PyVOL can be installed into any python environment; however, for most users direct installation into PyMOL will be easiest.</p>
-<div class="section" id="installation-into-pymol">
-<h3>Installation into PyMOL<a class="headerlink" href="#installation-into-pymol" title="Permalink to this headline">¶</a></h3>
-<p>PyVOL is distributed as a GUI and a backend. Installation into PyMOL uses PyMOL’s plugin manager to install the GUI and then the GUI to install the backend. The GUI is installed through the plugin manager through loading the <a class="reference external" href="https://github.com/rhs2132/pyvol/blob/master/pyvolgui.zip">zipped GUI file</a>:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>https://github.com/rhs2132/pyvol/blob/master/pyvolgui.zip
-</pre></div>
-</div>
-<p>This creates a new <code class="docutils literal notranslate"><span class="pre">PyVOL</span></code> menu entry under plugins. The third tab of the GUI allows installation of PyVOL from PyPI along with all available dependencies. For more information, especially on Windows, see the <a class="reference external" href="https://schlessingerlab.github.io/pyvol/install.html">installation page</a>.</p>
-</div>
-</div>
-<div class="section" id="running-pyvol">
-<h2>Running PyVOL<a class="headerlink" href="#running-pyvol" title="Permalink to this headline">¶</a></h2>
-<div class="section" id="quick-start">
-<h3>Quick Start<a class="headerlink" href="#quick-start" title="Permalink to this headline">¶</a></h3>
-<p>From within PyMOL, the simplest binding pocket calculation is simply run at the PyMOL prompt with:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pocket</span> <span class="n">protein_selection</span>
-</pre></div>
-</div>
-<p>The two parameters that most dramatically affect calculations are the maximum and minimum radii used to respectively define the exterior surface of the protein and the boundary of the binding pocket itself. In practice, the minimum radius does not need to be changed as its default (1.4) is broadly useful. The maximum radius does often need to be adjusted to find a suitable value using the max_rad parameter:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pocket</span> <span class="n">protein_selection</span><span class="p">,</span> <span class="n">min_rad</span><span class="o">=</span><span class="mf">1.4</span><span class="p">,</span> <span class="n">max_rad</span><span class="o">=</span><span class="mf">3.4</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="further-examples">
-<h3>Further Examples<a class="headerlink" href="#further-examples" title="Permalink to this headline">¶</a></h3>
-<p>For extensive explanations and documentations of the GUI and command line interfaces, see the <a class="reference external" href="https://schlessingerlab.github.io/pyvol/general.html">general usage page</a>.</p>
-</div>
-</div>
-<div class="section" id="module-documentation">
-<h2>Module Documentation<a class="headerlink" href="#module-documentation" title="Permalink to this headline">¶</a></h2>
-<p>For full documentation of the code, see the <a class="reference external" href="https://schlessingerlab.github.io/pyvol/modules.html">modules page</a>.</p>
-<div class="toctree-wrapper compound">
+  <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="install.html#detailed-installation-into-pymol">Detailed Installation into PyMOL</a></li>
@@ -230,14 +194,12 @@
 </li>
 </ul>
 </div>
-</div>
 <div class="section" id="indices-and-tables">
-<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
 <ul class="simple">
 <li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
 <li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
 </ul>
-</div>
 </div>
 
 
