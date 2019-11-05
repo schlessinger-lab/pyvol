@@ -23,8 +23,9 @@ if [ -f "${pyvol_dev_root}/pyvol-docs/_build/html/index.html" ]; then
   git push origin gh-pages
 fi
 
-# make latexpdf
-# if [ -f "manual.pdf"]; then
-#   mv manual.pdf pyvol_manual.pdf
-#   git add .; git commit -m "[auto] rebuilt pdf"; git push origin master
-# fi
+cd ${docs_dir}
+make latexpdf
+if [ -f "manual.pdf" ]; then
+  mv manual.pdf pyvol_manual.pdf
+  git add .; git commit -m "[auto] rebuilt pdf"; git push origin master
+fi
