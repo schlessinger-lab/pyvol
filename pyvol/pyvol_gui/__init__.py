@@ -61,7 +61,7 @@ def __init_plugin__(app=None):
         #
         #         if install_status:
         #             logger.info("Installation succeeded")
-        # 
+        #
         #             import shutil
         #             shutil.rmtree(cache_dir)
         # else:
