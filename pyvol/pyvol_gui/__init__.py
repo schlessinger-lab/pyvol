@@ -1,6 +1,6 @@
 
 
-__version__ = "1.0.14"
+__version__ = "1.1.0"
 
 import logging
 import time
@@ -29,46 +29,12 @@ def __init_plugin__(app=None):
         cmd.extend('load_pocket', pymol_interface.load_pocket)
         logger.debug("PyVOL successfully imported")
     except:
-        pass
-        # import os
-        # import re
-        # import subprocess
-        #
-        # logger.info("PyVOL not imported; installing from local cache if present")
-        # installer_dir = os.path.dirname(os.path.realpath(__file__))
-        # cache_dir = os.path.join(installer_dir, "cached_source")
-        #
-        # if os.path.isdir(cache_dir):
-        #     bio_pyvol_gz = None
-        #     for f in os.listdir(cache_dir):
-        #         if re.match('bio_pyvol', f):
-        #             bio_pyvol_gz = f
-        #             break
-        #
-        #     if bio_pyvol_gz is None:
-        #         logger.info("Cache directory found but no pyvol distribution")
-        #     else:
-        #         subprocess.check_output([sys.executable, "-m", "pip", "install", bio_pyvol_gz])
-        #
-        #         install_status = False
-        #         try:
-        #             from pyvol import pymol_interface
-        #             cmd.extend('pocket', pymol_interface.pocket)
-        #             cmd.extend('load_pocket', pymol_interface.load_pocket)
-        #             install_status = True
-        #         except:
-        #             logger.warning("Installation failed")
-        #
-        #         if install_status:
-        #             logger.info("Installation succeeded")
-        #
-        #             import shutil
-        #             shutil.rmtree(cache_dir)
-        # else:
-        #     logger.info("Local cache not found; requires installation through GUI")
+        logger.info("PyVOL not imported; installing from local cache or PyPI to use")
+
     finally:
         from pymol.plugins import addmenuitemqt
         addmenuitemqt('PyVOL', pyvol_window)
+
 
 def pyvol_window():
     """ """
@@ -87,15 +53,13 @@ def pyvol_window():
         pocket_file_name = QtWidgets.QFileDialog.getOpenFileNames(None, 'Open file', os.getcwd(), filter='Pocket Files (*.obj *.csv)')[0][0]
         form.pocket_file_ledit.setText(pocket_file_name)
 
-    def install_pyvol(form):
+    def install_remote_pyvol(form):
         """ Attempts a de novo PyVOL installation using pip
 
         """
         import distutils
         import subprocess
         import sys
-
-        form.status_label.setText("Installing PyVOL and its dependencies")
 
         subprocess.check_output([sys.executable, "-m", "pip", "install", "bio-pyvol"])
 
@@ -116,6 +80,45 @@ def pyvol_window():
             pass
         refresh_installation_status(form)
 
+    def install_local_pyvol(form):
+        import os
+        import re
+        import subprocess
+
+        installer_dir = os.path.dirname(os.path.realpath(__file__))
+        cache_dir = os.path.join(installer_dir, "cached_source")
+
+        if os.path.isdir(cache_dir):
+            bio_pyvol_gz = None
+            for f in os.listdir(cache_dir):
+                if re.match('bio_pyvol', f):
+                    bio_pyvol_gz = f
+                    break
+
+            if bio_pyvol_gz is None:
+                logger.info("Cache directory found but no pyvol distribution")
+            else:
+                subprocess.check_output([sys.executable, "-m", "pip", "install", bio_pyvol_gz])
+
+                install_status = False
+                try:
+                    from pyvol import pymol_interface
+                    cmd.extend('pocket', pymol_interface.pocket)
+                    cmd.extend('load_pocket', pymol_interface.load_pocket)
+                    install_status = True
+                except:
+                    logger.warning("Installation failed")
+
+                if install_status:
+                    logger.info("Installation succeeded")
+
+                    import shutil
+                    shutil.rmtree(cache_dir)
+        else:
+            logger.info("Local cache not found; requires installation through GUI")
+        refresh_installation_status(form)
+
+
     def uninstall_pyvol(form):
         """ Attempts to uninstall PyVOL using pip
 
@@ -123,7 +126,6 @@ def pyvol_window():
         import subprocess
         import sys
 
-        form.status_label.setText("Uninstalling PyVOL")
         subprocess.check_output([sys.executable, "-m", "pip", "uninstall", "-y", "bio-pyvol"])
 
         msg = QtWidgets.QMessageBox()
@@ -143,7 +145,6 @@ def pyvol_window():
         import subprocess
         import sys
 
-        form.status_label.setText("Updating PyVOL")
         subprocess.check_output([sys.executable, "-m", "pip", "install", "--upgrade", "bio-pyvol"])
 
         msg = QtWidgets.QMessageBox()
@@ -184,6 +185,7 @@ def pyvol_window():
         all_pckgs = subprocess.check_output([sys.executable, "-m", "pip", "list", "--format=json"]).decode('utf-8').strip()
         pckgs = json.loads(all_pckgs)
 
+        status_msg = ""
         pyvol_version = None
         biopython_version = None
         numpy_version = None
@@ -191,6 +193,8 @@ def pyvol_window():
         scipy_version = None
         sklearn_version = None
         trimesh_version = None
+
+        remote_msg = None
 
         pyvol_installed = False
         for pckg in pckgs:
@@ -240,58 +244,85 @@ def pyvol_window():
             trimesh_version = apply_color("not found", "red")
 
         msms_exe = distutils.spawn.find_executable("msms")
+        msms_installed = False
         if msms_exe == None:
             msms_exe = apply_color("not found", "red")
         else:
             msms_exe = apply_color(msms_exe, "green")
+            msms_installed = True
 
-        # check whether an update is available for PyVOL and modify the GUI appropriately
-        update_available = False
-        if pyvol_installed and (msms_exe is not None):
-            form.run_tab.setEnabled(True)
-            form.run_button.setEnabled(True)
-            form.load_tab.setEnabled(True)
-            form.uninstall_button.setEnabled(True)
-            form.uninstall_button.clicked.connect(lambda: uninstall_pyvol(form))
+        if not pyvol_installed:
+            gui_version = __version__
+            form.run_tab.setEnabled(False)
+            form.run_button.setEnabled(False)
+            form.load_tab.setEnabled(False)
+            form.tabWidget.setCurrentIndex(2)
+
+            form.install_remote_browser.setText("PyPI has not yet been queried.<br>")
+            form.install_remote_button.setEnabled(True)
+            form.install_remote_button.setText("Install PyVOL from PyPI")
+            form.install_remote_button.clicked.connect(lambda: install_remote_pyvol(form))
+
+            form.install_status_button.setText("Install PyVOL from Cache")
+
+            cache_present = False
+            # detect the cache
+
+            if cache_present:
+                status_msg = status_msg + "PyVOL can be installed from a local cache.<br>"
+                form.install_status_button.setEnabled(True)
+                form.install_status_button.clicked.connect(lambda: install_local_pyvol(form))
+                # display the cache text
+            else:
+                form.install_status_browser.setText("PyVOL is not currently installed.<br>")
+                form.install_status_button.setEnabled(False)
+
+        if pyvol_installed:
             form.setWindowTitle("PyVOL v{0}".format(pyvol_version))
+            form.install_status_button.setText("Uninstall PyVOL")
+            form.install_status_button.clicked.connect(lambda: uninstall_pyvol(form))
+            form.install_status_button.setEnabled(True)
 
-            if check_for_updates:
+            if not check_for_updates:
+                form.install_remote_button.setText("Check for Updates")
+                form.install_remote_button.clicked.connect(lambda: refresh_installation_status(form, check_for_updates=True))
+                form.install_remote_button.setEnabled(True)
+            else:
+                update_available = False
+
                 avail_pckgs = subprocess.check_output([sys.executable, "-m", "pip", "list", "--outdated", "--format=json"]).decode('utf-8').strip()
                 avail = json.loads(avail_pckgs)
                 for pckg in avail:
                     if pckg["name"] == "bio-pyvol":
                         update_available = True
-                        pyvol_version = apply_color("{0} ({1} available)".format(pyvol_version, pckg['latest_version']), "blue")
+                        # pyvol_version = apply_color("{0} ({1} available)".format(pyvol_version, pckg['latest_version']), "blue")
+                        form.install_remote_browser.setText(("A new version of PyVOL is available through PyPI:<br>"
+                            "&nbsp;   pyvol: {0} -> {1}").format(pyvol_version, apply_color(pckg['latest_version'], "blue")))
                         break
 
                 if update_available:
-                    form.status_label.setText("Update available")
-                    form.install_button.setText("Update PyVOL")
-                    form.install_button.clicked.connect(lambda: update_pyvol(form))
+                    form.install_remote_button.setText("Update PyVOL")
+                    form.install_remote_button.clicked.connect(lambda: update_pyvol(form))
+                    form.install_remote_button.setEnabled(True)
                 else:
-                    form.status_label.setText("PyVOL is up-to-date")
-                    pyvol_version = apply_color("{0} (up-to-date)".format(pyvol_version), "green")
-                    form.install_button.setText("Check for Updates")
-                    form.install_button.clicked.connect(lambda: refresh_installation_status(form, check_for_updates=True))
-            else:
-                form.install_button.setText("Check for Updates")
-                form.status_label.setText("PyVOL is installed")
-                form.install_button.clicked.connect(lambda: refresh_installation_status(form, check_for_updates=True))
-        else:
-            if not pyvol_installed:
-                form.status_label.setText("PyVOL is not installed")
-            else:
-                form.status_label.setText("PyVOL has been installed but cannot run without MSMS")
-            form.run_tab.setEnabled(False)
-            form.run_button.setEnabled(False)
-            form.load_tab.setEnabled(False)
-            form.tabWidget.setCurrentIndex(2)
-            form.install_button.setText("Install PyVOL")
-            form.install_button.clicked.connect(lambda: install_pyvol(form))
-            form.uninstall_button.setEnabled(False)
+                    form.install_remote_button.setText("Check for Updates")
+                    form.install_remote_button.clicked.connect(lambda: refresh_installation_status(form, check_for_updates=True))
+                    form.install_remote_button.setEnabled(True)
+                    form.install_remote_browser.setText(("Local PyVOL is up to date (version {0})<br>").format(pyvol_version))
 
-        gui_version = None
-        if pyvol_installed and (not update_available):
+            if msms_installed:
+                form.run_tab.setEnabled(True)
+                form.run_button.setEnabled(True)
+                form.load_tab.setEnabled(True)
+                status_msg = "PyVOL seems to be correctly installed.<br>"
+            else:
+                form.run_tab.setEnabled(False)
+                form.run_button.setEnabled(False)
+                form.load_tab.setEnabled(False)
+                form.tabWidget.setCurrentIndex(2)
+                status_msg = apply_color("Error: MSMS must be installed for PyVOL to run.<br>", "red")
+
+            gui_version = None
             expected_gui_version = None
             try:
                 import pyvol
@@ -300,23 +331,22 @@ def pyvol_window():
                     gui_version = apply_color(__version__, "green")
                 else:
                     gui_version = apply_color("{0} ({1} expected)".format(__version__, expected_gui_version), "blue")
-                    form.status_label.setText("GUI version mismatch--check whether PyVOL is up-to-date and reinstall the plugin if necessary using the PyMOL plugin manager or directly from the project <a href='https://github.com/schlessingerlab/pyvol/blob/master/pyvolgui.zip'>github</a>.")
+                    status_msg = status_msg + "{0}--check whether the PyVOL backend is up-to-date and using the PyMOL plugin manager reinstall the newet version of the plugin from <a href='https://github.com/schlessingerlab/pyvol/blob/master/pyvolgui.zip'>github</a>.<br>".format(apply_color("GUI version mismatch", "red"))
             except:
                 gui_version = __version__
-        else:
-            gui_version = __version__
 
-        form.install_status_browser.setText((
-            "&nbsp;   pyvol: {0}<br>"
-            "&nbsp;   pyvol gui: {8}<br>"
-            "&nbsp;   biopython: {1}<br>"
-            "&nbsp;   numpy: {2}<br>"
-            "&nbsp;   pandas: {3}<br>"
-            "&nbsp;   scipy: {4}<br>"
-            "&nbsp;   sklearn: {5}<br>"
-            "&nbsp;   trimesh: {6}<br>"
-            "&nbsp;   msms exe: {7}<br><br>"
-        ).format(pyvol_version, biopython_version, numpy_version, pandas_version, scipy_version, sklearn_version, trimesh_version, msms_exe, gui_version))
+            form.install_status_browser.setText((
+                "&nbsp;   pyvol: {0}<br>"
+                "&nbsp;   pyvol gui: {8}<br>"
+                "&nbsp;   biopython: {1}<br>"
+                "&nbsp;   numpy: {2}<br>"
+                "&nbsp;   pandas: {3}<br>"
+                "&nbsp;   scipy: {4}<br>"
+                "&nbsp;   sklearn: {5}<br>"
+                "&nbsp;   trimesh: {6}<br>"
+                "&nbsp;   msms exe: {7}<br><br>"
+                "{8}"
+            ).format(pyvol_version, biopython_version, numpy_version, pandas_version, scipy_version, sklearn_version, trimesh_version, msms_exe, gui_version, status_msg))
 
     def run_gui_load(form):
         """ Loads a precalculated pocket into PyMOL

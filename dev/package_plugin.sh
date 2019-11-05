@@ -17,7 +17,7 @@ zip -r ${small_zip_name} pyvol_gui/ -x "pyvol_gui/cached_source/*"
 mv ${small_zip_name} ..
 
 cd $cache_dir
-pip download bio-pyvol --no-binary :all:
+# pip download bio-pyvol --no-binary :all:
 
 cd ${project_dir}
 zip -r ${full_zip_name} pyvol_gui/

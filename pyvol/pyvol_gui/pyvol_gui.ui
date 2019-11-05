@@ -26,7 +26,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="run_tab">
       <attribute name="title">
@@ -57,7 +57,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-194</y>
+            <y>0</y>
             <width>688</width>
             <height>784</height>
            </rect>
@@ -132,7 +132,7 @@
                 <item row="1" column="0">
                  <widget class="QCheckBox" name="excl_org_cbox">
                   <property name="text">
-                   <string>Protein Only (Exclude PyMOL org)</string>
+                   <string>i.e. only include PyMOL 'poly'</string>
                   </property>
                   <property name="checked">
                    <bool>true</bool>
@@ -648,41 +648,103 @@
      </widget>
      <widget class="QWidget" name="install_tab">
       <attribute name="title">
-       <string notr="true">Install/Update</string>
+       <string notr="true">Settings</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_8">
        <item>
-        <widget class="QGroupBox" name="install_status_box">
+        <widget class="QGroupBox" name="msms_box">
          <property name="title">
-          <string>Current Installation Status:</string>
+          <string>MSMS settings:</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
+         <layout class="QVBoxLayout" name="verticalLayout_7">
           <item>
-           <widget class="QTextBrowser" name="install_status_browser"/>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_5">
-            <item>
-             <widget class="QPushButton" name="install_button">
-              <property name="text">
-               <string>Install PyVOL</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QPushButton" name="uninstall_button">
-              <property name="text">
-               <string>Uninstall PyVOL</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QLabel" name="status_label">
-            <property name="text">
-             <string/>
+           <widget class="QGroupBox" name="msms_source_box">
+            <property name="title">
+             <string>MSMS Source</string>
             </property>
+            <layout class="QFormLayout" name="formLayout_5">
+             <item row="0" column="0">
+              <widget class="QRadioButton" name="msms_default_rbutton">
+               <property name="text">
+                <string>Default (path or included)</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QRadioButton" name="msms_pymol_rbutton">
+               <property name="text">
+                <string>PyMOL-bundled (incentive only)</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QRadioButton" name="msms_custom_rbutton">
+               <property name="text">
+                <string>Custom:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QLineEdit" name="custom_msms_ledit"/>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="msms_status_label">
+            <property name="text">
+             <string>Current source: (not found)</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="install_settings_box">
+         <property name="title">
+          <string>Installation settings:</string>
+         </property>
+         <layout class="QHBoxLayout" name="horizontalLayout_4">
+          <item>
+           <widget class="QGroupBox" name="installation_current_box">
+            <property name="title">
+             <string>Current Installation Status</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_9">
+             <item>
+              <widget class="QTextBrowser" name="install_status_browser"/>
+             </item>
+             <item>
+              <widget class="QPushButton" name="install_status_button">
+               <property name="text">
+                <string>Install PyVOL</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </item>
+          <item>
+           <widget class="QGroupBox" name="installation_available_box">
+            <property name="title">
+             <string>Remote Status</string>
+            </property>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <item>
+              <widget class="QTextBrowser" name="install_remote_browser"/>
+             </item>
+             <item>
+              <widget class="QPushButton" name="install_remote_button">
+               <property name="text">
+                <string>Uninstall PyVOL</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </widget>
           </item>
          </layout>
