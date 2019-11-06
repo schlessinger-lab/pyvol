@@ -7,6 +7,10 @@
 
    .. include:: ../../README.rst
 
+.. only:: latexpdf
+
+   .. include:: development.rst
+
 .. toctree::
    :maxdepth: 2
 
