@@ -7,7 +7,7 @@
 
    .. include:: ../../README.rst
 
-.. only:: latexpdf
+.. only:: latex
 
    .. include:: development.rst
 
