@@ -26,7 +26,7 @@ PyVOL minimally requires biopython, MSMS, numpy, pandas, scipy, scikit-learn, tr
 
    pip install bio-pyvol
 
-Again, for academic users and non-academic users with the Schrodinger incentive PyMOL distribution, installation is now complete. For all others, see manual installation of `MSMS` :ref:`below <MSMS_Installation>`.
+Again, for academic users and non-academic users with the Schrodinger incentive PyMOL distribution, installation is now complete. For all others, see manual :ref:`install:MSMS Installation`.
 
 .. note::
   When using command-line installation commands, make sure to use the right python environment. By default, pip will use the system python, but PyMOL often includes its own python environment. To check which python environment to use, run `import sys; print(sys.executable)` on the PyMOL prompt. If that is anything besides the system default python, use `<PyMOL python executable> -m pip install bio-pyvol` to install PyVOL into the PyMOL-accessible environment.
