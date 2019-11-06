@@ -8,6 +8,7 @@ PyVOL Documentation
 ===================
 
 .. only:: html
+
   .. include:: introduction.rst
     :start-after: marker-start-readme
 

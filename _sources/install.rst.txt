@@ -6,7 +6,7 @@ PyVOL consists of a back-end and a GUI. The back-end has been packaged into inst
 
 Installation into PyMOL from PyPI
 ---------------------------------
-Download the :download: `basic GUI installer <https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-installer.zip>`. Use the PyMOL plugin manager to install that file: :menuselection: `Plugins --> Plugin Manager` :menuselection: `Install New Plugin --> Install from local file` :guilabel: `Choose file...`
+Download the :download:`basic GUI installer <https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-installer.zip>`. Use the PyMOL plugin manager to install that file: :menuselection:`Plugins --> Plugin Manager` :menuselection:`Install New Plugin --> Install from local file` :guilabel:`Choose file...`
 
 .. parsed-literal::
 
