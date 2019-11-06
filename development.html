@@ -35,7 +35,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="PyVOL Package" href="pyvol.html" />
-    <link rel="prev" title="Examples" href="examples.html" /> 
+    <link rel="prev" title="Shell Interface" href="shell.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -87,9 +87,7 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="general.html">General Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gui.html">GUI Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="shell.html">Shell Interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Development</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#package-design">Package Design</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#algorithm-design">Algorithm Design</a></li>
@@ -168,28 +166,28 @@
 <h1>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="package-design">
 <h2>Package Design<a class="headerlink" href="#package-design" title="Permalink to this headline">¶</a></h2>
-<p>The main PyVOL algorithm is run from identify.py. There are two interfaces to this module which prepare user supplied inputs: <code class="docutils literal notranslate"><span class="pre">pyvol/pymol_interface.py</span></code> and the commandline entry point in <code class="docutils literal notranslate"><span class="pre">pyvol/__main__.py</span></code>. The PyMOL interface can be accessed directly through the PyMOL prompt or run using the included GUI. The commandline entry point is evoked using a configuration file.sphinx-apidoc run with: sphinx-apidoc -o docs/source/ pyvol/</p>
+<p>The main PyVOL algorithm is run from identify.py. There are two interfaces to this module which prepare user supplied inputs: <cite>pyvol/pymol_interface.py</cite> and the commandline entry point in <cite>pyvol/__main__.py</cite>. The PyMOL interface can be accessed directly through the PyMOL prompt or run using the included GUI. The command line entry point is evoked using a configuration file.</p>
 </div>
 <div class="section" id="algorithm-design">
 <h2>Algorithm Design<a class="headerlink" href="#algorithm-design" title="Permalink to this headline">¶</a></h2>
-<p>The primary algorithmic logic is supplied in <code class="docutils literal notranslate"><span class="pre">identify.py</span></code> which acts as the only interface between the user-facing modules and the computational backend.</p>
-<p>The Spheres class holds all of the geometric information about proteins and pockets. It represents any object as a collection of spheres by holding their coordinates, radii, and cluster identifications in a 5D numpy array. Surface triangulation using MSMS and many other convenience functions are included in the class itself. The methods contained in the separate <code class="docutils literal notranslate"><span class="pre">cluster.py</span></code> would largely work as methods in the Spheres class but have been separated due to that class becoming too large and the specificity of those methods to subpocket partitioning.</p>
+<p>The primary algorithmic logic is supplied in <cite>identify.py</cite> which acts as the only interface between the user-facing modules and the computational back-end.</p>
+<p>The Spheres class holds all of the geometric information about proteins and pockets. It represents any object as a collection of spheres by holding their coordinates, radii, and cluster identifications in a 5D numpy array. Surface triangulation using MSMS and many other convenience functions are included in the class itself. The methods contained in the separate <cite>cluster.py</cite> would largely work as methods in the Spheres class but have been separated due to that class becoming too large and the specificity of those methods to subpocket partitioning.</p>
 </div>
 <div class="section" id="gui-design">
 <h2>GUI Design<a class="headerlink" href="#gui-design" title="Permalink to this headline">¶</a></h2>
-<p>The GUI is developed using Qt Designer and run using PyQT5.</p>
+<p>The GUI was developed using Qt Designer and run using PyQT5.</p>
 </div>
 <div class="section" id="version-incrementation">
 <h2>Version Incrementation<a class="headerlink" href="#version-incrementation" title="Permalink to this headline">¶</a></h2>
-<p>PyVOL uses a standard incrementation scheme. The version of the backend must be updated in both <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> and <code class="docutils literal notranslate"><span class="pre">pyvol/__init__.py</span></code>. The GUI version is set in <code class="docutils literal notranslate"><span class="pre">pyvolgui/__init__.py</span></code>, and the the version of the GUI that the backend expects is set again in <code class="docutils literal notranslate"><span class="pre">pyvol/__init__.py</span></code>.</p>
+<p>PyVOL uses a standard incrementation scheme. The version of the back-end must be updated in <cite>setup.py</cite>, <cite>pyvol/__init__.py</cite>, and <cite>docs/source/conf.py</cite>. The GUI version is set in <code class="docutils literal notranslate"><span class="pre">pyvolgui/__init__.py</span></code>, and the the version of the GUI that the back-end expects is set again in <code class="docutils literal notranslate"><span class="pre">pyvol/__init__.py</span></code>.</p>
 </div>
 <div class="section" id="distribution">
 <h2>Distribution<a class="headerlink" href="#distribution" title="Permalink to this headline">¶</a></h2>
-<p>The code is hosted on github by the Schlessinger Lab. The PyVOL backend is distributed through PyPI. This process of uploading to PyPI is automated in the deploy.sh script. The plugin will be available both from the github page and through the official PyMOL wiki.</p>
+<p>The code is hosted on github by the Schlessinger Lab. The PyVOL backend is distributed through PyPI. This process of uploading to PyPI is automated in the <cite>dev/build.sh</cite> script. Installers are packaged using the <cite>dev/package_plugins.sh</cite> script. Documentation is generated and pushed to the github-hosted documentation website with the <cite>dev/document.sh</cite> script. All three are combined in the <cite>dev/rebuild.sh</cite> script. The plugin will be available both from the github page and through the official PyMOL wiki.</p>
 </div>
 <div class="section" id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
-<p>Documentation is largely in the google style. Docstrings were automatically generated using pyment and then manually edited.</p>
+<p>Documentation is largely in the google style. Module documentation is collated using <cite>sphinx-apidoc</cite>. The documentation website is built using the <cite>sphinx-rtd-theme</cite> and maintained on the gh-pages branch of PyVOL. The <cite>pyvol_manual.pdf</cite> is generated using sphinx’s evocation of pdfTeX. PyPI can apparently not parse rst files, so the README.rst is converted to a md file using pandoc just prior to deployment.</p>
 </div>
 </div>
 
@@ -204,7 +202,7 @@
         <a href="pyvol.html" class="btn btn-neutral float-right" title="PyVOL Package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="examples.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="shell.html" class="btn btn-neutral float-left" title="Shell Interface" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
