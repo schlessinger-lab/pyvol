@@ -28,5 +28,5 @@ The simplest calculation just using the PyMOL prompt is to load a protein of int
 
 .. code-block:: python
 
-   fetch 1UWH
-   pocket "1UWH and chain B"
+  fetch 1UWH
+  pocket "1UWH and chain B"

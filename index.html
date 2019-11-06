@@ -86,7 +86,9 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="general.html">General Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gui.html">GUI Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="shell.html">Shell Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
 <li class="toctree-l1"><a class="reference internal" href="development.html">Development</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyvol.html">PyVOL Package</a></li>
 </ul>
@@ -155,76 +157,34 @@
             
   <div class="section" id="pyvol-documentation">
 <h1>PyVOL Documentation<a class="headerlink" href="#pyvol-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>PyVOL is a python library packaged into a <a class="reference external" href="https://pymol.org/2/">PyMOL</a> GUI for identifying protein binding pockets, partitioning them into sub-pockets, and calculating their volumes. PyVOL can be run as a PyMOL plugin through its GUI or the PyMOL prompt, as an imported python library, or as a command-line program. Visualization of results is exclusively supported through PyMOL though exported surfaces are compatible with standard 3D geometry visualization programs.</p>
+</div>
+<div class="section" id="quick-installation-into-pymol">
+<h2>Quick Installation into PyMOL<a class="headerlink" href="#quick-installation-into-pymol" title="Permalink to this headline">¶</a></h2>
+<p>PyVOL can be installed into any python environment, but installing directly into PyMOL 2.0+ is easiest. Download the <a class="reference external" href="https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-installer.zip">installer zip file</a> and then use the plugin manager to install that file.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-installer.zip
+</pre></div>
+</div>
+<p>This installs the PyVOL GUI. Select <cite>PyVOL</cite> under the plugins menu, and then select <cite>Install from PyPI</cite> under the settings tab to fetch PyVOL and any missing dependencies. For academic users and non-academic users with the Schrodinger incentive PyMOL distribution, installation is now complete. For all others, see <a class="reference external" href="https://schlessingerlab.github.io/pyvol/install.html">manual installation</a> of <cite>msms</cite>.</p>
+</div>
+<div class="section" id="example-basic-run">
+<h2>Example Basic Run<a class="headerlink" href="#example-basic-run" title="Permalink to this headline">¶</a></h2>
+<p>The simplest calculation just using the PyMOL prompt is to load a protein of interest and then run the <cite>pocket</cite> command. This is an example for the Sorafenib-bound structure of BRAF:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fetch</span> <span class="mi">1</span><span class="n">UWH</span>
+<span class="n">pocket</span> <span class="s2">&quot;1UWH and chain B&quot;</span>
+</pre></div>
+</div>
 <div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="introduction.html#overview">Overview</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introduction.html#quick-installation-into-pymol">Quick Installation into PyMOL</a></li>
-<li class="toctree-l2"><a class="reference internal" href="introduction.html#example-basic-run">Example Basic Run</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="install.html#installation-into-pymol-from-pypi">Installation into PyMOL from PyPI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="install.html#installation-into-pymol-using-a-packaged-installer">Installation into PyMOL Using a Packaged Installer</a></li>
-<li class="toctree-l2"><a class="reference internal" href="install.html#manual-installation">Manual Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="install.html#msms-installation">MSMS Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="install.html#updating">Updating</a></li>
-<li class="toctree-l2"><a class="reference internal" href="install.html#uninstalling">Uninstalling</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="general.html">General Usage</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="general.html#pocket-specification">Pocket Specification</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="general.html#default-behavior">Default Behavior:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="general.html#ligand-specification">Ligand Specification:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="general.html#residue-specification">Residue Specification:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="general.html#coordinate-specification">Coordinate Specification:</a></li>
-<li class="toctree-l3"><a class="reference internal" href="general.html#calculation-of-all-pockets">Calculation of All Pockets</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="general.html#extra-ligand-options">Extra Ligand Options</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="general.html#ligand-volume-inclusion">Ligand Volume Inclusion</a></li>
-<li class="toctree-l3"><a class="reference internal" href="general.html#ligand-defined-maximum-volume">Ligand-defined Maximum Volume</a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="general.html#sub-pocket-partitioning">Sub-pocket Partitioning</a></li>
-<li class="toctree-l2"><a class="reference internal" href="general.html#display-and-output-options">Display and Output Options</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="shell.html">Shell Interface</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="shell.html#running-from-the-shell">Running from the Shell</a></li>
-<li class="toctree-l2"><a class="reference internal" href="shell.html#template-configuration-file-generation">Template Configuration File Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="shell.html#notes-on-output">Notes on Output</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="development.html">Development</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="development.html#package-design">Package Design</a></li>
-<li class="toctree-l2"><a class="reference internal" href="development.html#algorithm-design">Algorithm Design</a></li>
-<li class="toctree-l2"><a class="reference internal" href="development.html#gui-design">GUI Design</a></li>
-<li class="toctree-l2"><a class="reference internal" href="development.html#version-incrementation">Version Incrementation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="development.html#distribution">Distribution</a></li>
-<li class="toctree-l2"><a class="reference internal" href="development.html#documentation">Documentation</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="pyvol.html">PyVOL Package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="pyvol.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyvol.html#module-pyvol.cluster">PyVOL Cluster Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyvol.html#module-pyvol.identify">PyVOL Identify Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyvol.html#module-pyvol.pymol_interface">PyVOL Pymol Interface Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyvol.html#module-pyvol.pymol_utilities">PyVOL Pymol Utilities Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyvol.html#module-pyvol.spheres">PyVOL Spheres Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyvol.html#module-pyvol.utilities">PyVOL Utilities Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyvol.html#module-pyvol.__main__">PyVOL Main Entry Point</a></li>
-<li class="toctree-l2"><a class="reference internal" href="pyvol.html#module-pyvol.pyvol_gui.__init__">PyVOL GUI</a></li>
-</ul>
-</li>
-</ul>
 </div>
 <div class="section" id="indices-and-tables">
-<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
+<h3>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h3>
 <ul class="simple">
 <li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
 <li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
 </ul>
+</div>
 </div>
 </div>
 
