@@ -12,12 +12,22 @@ PyVOL Documentation
    introduction
    install
    general
-   gui
    shell
-   examples
    development
    pyvol
 
+.. full_doctree-removing-unfinished-files-for-pdf-gen
+
+  .. toctree::
+
+     introduction
+     install
+     general
+     gui
+     shell
+     examples
+     development
+     pyvol
 
 .. only:: html
 

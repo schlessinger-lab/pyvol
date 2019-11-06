@@ -22,48 +22,46 @@ This option is useful if deploying PyVOL onto computers without internet access.
 
   https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-full-installer.zip
 
-This installs the PyVOL GUI. Select `PyVOL` under the plugins menu, and then select `Install from Local Cache` under the settings tab to install PyVOL and any missing dependencies from a cache contained within the installer itself. For academic users and non-academic users with the Schrodinger incentive PyMOL distribution, installation is now complete. For all others, see manual installation of `msms` :ref:`below <MSMS_Installation>`.
+This installs the PyVOL GUI. Select `PyVOL` under the plugins menu, and then select `Install from Local Cache` under the settings tab to install PyVOL and any missing dependencies from a cache contained within the installer itself. For academic users and non-academic users with the Schrodinger incentive PyMOL distribution, installation is now complete. For all others, see manual installation of `MSMS` :ref:`below <MSMS_Installation>`.
 
 Manual Installation
 -------------------
-PyVOL minimally requires biopython, MSMS, numpy, pandas, scipy, scikit-learn, and trimesh in order to run. PyVOL is available for manual installation from `github <https://github.com/schlessingerlab/pyvol>`_ or through `PyPI <https://pypi.org/project/bio-pyvol/>`_. Most conveniently:
+PyVOL minimally requires biopython, MSMS, numpy, pandas, scipy, scikit-learn, trimesh, and msms in order to run. PyVOL is available for manual installation from `github <https://github.com/schlessingerlab/pyvol>`_ or through `PyPI <https://pypi.org/project/bio-pyvol/>`_. Most conveniently:
 
 .. code-block:: bash
 
    pip install bio-pyvol
 
+Again, for academic users and non-academic users with the Schrodinger incentive PyMOL distribution, installation is now complete. For all others, see manual installation of `MSMS` :ref:`below <MSMS_Installation>`.
+
 .. _MSMS_Installation:
 
 MSMS Installation
 -----------------
-MSMS can be installed on MacOS and Linux using the bioconda channel:
+MSMS is provided with PyVOL for ease of use for academic users. It alternatively can be installed on MacOS and Linux using the bioconda channel:
 
 .. code-block:: bash
 
    conda install -c bioconda msms
 
-Otherwise MSMS must be installed manually by downloading it from `MGLTools <http://mgltools.scripps.edu/packages/MSMS/>`_ and adding it to the path. PyMOL distributions from Schrodinger have MSMS included; however, it must still be added to the path manually. The executable is located at:
-
-.. code-block:: bash
-
-   <pymol_root_dir>/pkgs/msms-2.6.1-2/bin/msms
+Otherwise MSMS must be installed manually by downloading it from `MGLTools <http://mgltools.scripps.edu/packages/MSMS/>`_ and adding it to the path.
 
 Updating
 --------
-PyVOL can be updated via the command line:
+PyVOL can be updated through the PyMOL GUI simply by clicking `Check for Updates` under the settings tab and subsequently clicking `Update PyVOL` if an update has been identified. The new version of the PyVOL back-end will notify you if it expects an updated GUI. If the GUI also needs to be updated, uninstall the `pyvol_gui` using the first tab of the plugin manager and then install the updated GUI using the second tab to install the `basic installer zip file <https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-installer.zip>`_
+
+Alternatively, PyVOL can be manually updated via the command line:
 
 .. code-block:: bash
 
    pip update bio-pyvol
 
-If using the PyMOL GUI, the third tab has a button labeled ``Check for Updates`` that will query PyPI to detect whether an update is available. If one is available, that button changes to ``Update PyVOL`` and permits updating with a single click.
-
-Uninstallation
+Uninstalling
 --------------
-PyVOL can be uninstalled via the command line:
+PyVOL can be uninstalled through its GUI. Simply click `Uninstall PyVOL` to remove the back-end. Then use the plugin manager to uninstall the `pyvol_plugin`.
+
+Again, PyVOL can also be uninstalled via the command line:
 
 .. code-block:: bash
 
    pip uninstall bio-pyvol
-
-If using the PyMOL GUI, the third tab has a button labeled ``Uninstall PyVOL`` that will remove the PyVOL backend. Afterwards, selecting uninstall on the plugin within the PyMOL plugin manager will the GUI.

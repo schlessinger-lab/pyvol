@@ -31,3 +31,5 @@ if [ -f "manual.pdf" ]; then
   mv manual.pdf pyvol_manual.pdf
   git add .; git commit -m "[auto] rebuilt pdf"; git push origin master
 fi
+
+# sphinx-apidoc run with: sphinx-apidoc -o docs/source/ pyvol/

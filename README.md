@@ -4,24 +4,8 @@ title: 'PyVOL: Protein Pocket Visualization, Segmentation, and Characterization'
 
 ![image](https://img.shields.io/pypi/v/bio_pyvol.svg)
 
-> target
->
-> :   <https://pypi.python.org/pypi/bio_pyvol>
->
-> alt
->
-> :   Pypi Version
->
 ![image](https://img.shields.io/pypi/l/bio_pyvol.svg)
 
-> target
->
-> :   <https://pypi.python.org/pypi/bio_pyvol/>
->
-> alt
->
-> :   License
->
 Overview
 ========
 
