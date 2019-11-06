@@ -57,7 +57,7 @@ pyvol.utilities module
 PyVOL GUI
 ---------
 
-.. automodule:: pyvol.pyvol_gui.__init__
+.. automodule:: pyvol.pyvol_gui.__init__.pyvol_window <PyVOL GUI>
     :members:
     :undoc-members:
     :show-inheritance:
