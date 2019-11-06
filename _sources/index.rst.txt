@@ -3,13 +3,15 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-.. only:: html
+..
 
-   .. include:: ../../README.rst
+  .. only:: html
 
-.. only:: latex
+     .. include:: ../../README.rst
 
-   .. include:: introduction.rst
+  .. only:: latex
+
+     .. include:: introduction.rst
 
 .. toctree::
    :maxdepth: 2
