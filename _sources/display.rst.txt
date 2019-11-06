@@ -2,7 +2,12 @@
 Display and Output Options
 ==========================
 
-The GUI and PyMOL prompt interfaces are all but identical. The shell interface is run using input configuration files and is best used to automate tasks first tested within PyMOL. Explanations for running PyVOL with the PyMOL GUI or prompt are covered first. Additional details covering shell invocation follow. Programmatic invocation of internal functions is supported and covered through the module documentation.
+Lots of display options
+
+.. figure:: _static/display_parameters_gui.png
+  :align: center
+
+  GUI section controlling file output and PyMOL visualization of new results
 
 Pocket Specification
 --------------------
