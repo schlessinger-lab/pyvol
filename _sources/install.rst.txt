@@ -2,13 +2,13 @@
 Installation
 ============
 
-PyVOL has been packaged into installers that contain all dependencies, but normal distribution is through PyPI and accessed through `pip`. PyVOL can consequently be installed into any python environment. For convenience, the PyMOL GUI contains an installer for easy installation into PyMOL 2.0+.
+PyVOL consists of a back-end and a GUI. The back-end has been packaged into installers that contain all dependencies, but normal distribution is through PyPI and accessed through `pip`. PyVOL can consequently be installed into any python environment. For convenience, the PyVOL GUI contains an installer for easy installation into PyMOL 2.0+.
 
 Installation into PyMOL from PyPI
 ---------------------------------
-Download the `basic installer zip file <https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-installer.zip>`_ and then use the PyMOL plugin manager to install that file.
+Download the :download: `basic GUI installer <https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-installer.zip>`. Use the PyMOL plugin manager to install that file: :menuselection: `Plugins --> Plugin Manager` :menuselection: `Install New Plugin --> Install from local file` :guilabel: `Choose file...`
 
-.. code-block:: bash
+.. parsed-literal::
 
   https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-installer.zip
 
