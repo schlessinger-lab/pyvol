@@ -9,7 +9,7 @@
 
 .. only:: latex
 
-   .. include:: development.rst
+   .. include:: introduction.rst
 
 .. toctree::
    :maxdepth: 2
