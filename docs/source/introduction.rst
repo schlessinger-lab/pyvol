@@ -3,6 +3,8 @@
 Introduction
 ============
 
+.. inclusion-marker-readme
+
 Overview
 --------
 
