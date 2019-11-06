@@ -1,8 +1,7 @@
 
-.. only:: latex
-  ============
-  Introduction
-  ============
+============
+Introduction
+============
 
 Overview
 --------
