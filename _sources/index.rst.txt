@@ -8,7 +8,6 @@ PyVOL Documentation
 ===================
 
 .. include:: introduction.rst
-  :start-after: marker-start-readme
 
 .. toctree::
   :hidden:
