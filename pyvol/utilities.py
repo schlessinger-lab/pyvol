@@ -115,7 +115,7 @@ def sphere_multiprocessing(spheres, radii, workers=None, **kwargs):
       spheres (Spheres): input Spheres object
       radii ([float]): list of radii at which surfaces will be calculated
       workers (int): number of workers (Default value = None)
-      **kwargs (dict): all remaining arguments accepted by surface calculation that are constant across parallel calculations
+      kwargs (dict): all remaining arguments accepted by surface calculation that are constant across parallel calculations
 
     Returns:
       surfaces ([Spheres]): a list of Spheres object each with its surface calculated

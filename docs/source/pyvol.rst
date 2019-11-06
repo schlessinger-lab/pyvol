@@ -1,10 +1,11 @@
-pyvol package
+=============
+PyVOL Package
 =============
 
 Submodules
 ----------
 
-pyvol.cluster module
+PyVOL Cluster Module
 --------------------
 
 .. automodule:: pyvol.cluster
@@ -12,7 +13,7 @@ pyvol.cluster module
     :undoc-members:
     :show-inheritance:
 
-pyvol.identify module
+PyVOL Identify Module
 ---------------------
 
 .. automodule:: pyvol.identify
@@ -20,7 +21,7 @@ pyvol.identify module
     :undoc-members:
     :show-inheritance:
 
-pyvol.pymol_interface module
+PyVOL Pymol Interface Module
 ----------------------------
 
 .. automodule:: pyvol.pymol_interface
@@ -28,7 +29,7 @@ pyvol.pymol_interface module
     :undoc-members:
     :show-inheritance:
 
-pyvol.pymol_utilities module
+PyVOL Pymol Utilities Module
 ----------------------------
 
 .. automodule:: pyvol.pymol_utilities
@@ -36,7 +37,7 @@ pyvol.pymol_utilities module
     :undoc-members:
     :show-inheritance:
 
-pyvol.spheres module
+PyVOL Spheres Module
 --------------------
 
 .. automodule:: pyvol.spheres
@@ -44,7 +45,7 @@ pyvol.spheres module
     :undoc-members:
     :show-inheritance:
 
-pyvol.utilities module
+PyVOL Utilities Module
 ----------------------
 
 .. automodule:: pyvol.utilities
@@ -52,11 +53,16 @@ pyvol.utilities module
     :undoc-members:
     :show-inheritance:
 
+PyVOL Main Entry Point
+----------------------
 
-Module contents
----------------
+.. automodule:: pyvol.__main__
 
-.. automodule:: pyvol
+
+PyVOL GUI
+---------
+
+.. automodule:: pyvol.pyvol_gui.__init__
     :members:
     :undoc-members:
     :show-inheritance:
