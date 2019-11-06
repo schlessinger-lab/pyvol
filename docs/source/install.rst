@@ -6,13 +6,13 @@ PyVOL distribution is hosted by PyPI and accessed through pip. PyVOL can consequ
 
 Detailed Installation into PyMOL
 --------------------------------
-PyVOL is distributed as a GUI and a backend. Installation into PyMOL uses PyMOL's plugin manager to install the GUI and then the GUI to install the backend. The GUI is installed through the plugin manager through loading the `zipped GUI file <https://github.com/rhs2132/pyvol/blob/master/pyvolgui.zip>`_:
+PyVOL is distributed as a GUI and a backend. Installation into PyMOL uses PyMOL's plugin manager to install the GUI and then the GUI to install the backend. The GUI is installed through the plugin manager through loading the `zipped GUI file <https://github.com/rhs2132/pyvol/blob/master/pyvolgui.zip>` _:
 
 .. code-block:: bash
 
     https://github.com/rhs2132/pyvol/blob/master/pyvolgui.zip
 
-This creates a new ``PyVOL`` menu entry under plugins. The third tab of the GUI allows installation of PyVOL from PyPI along with all available dependencies. On Linux and MacOS, MSMS is automatically installed from the platform-limited bioconda channel. MSMS installation instructions are otherwise :ref:`below<MSMS Installation>`.
+This creates a new ``PyVOL`` menu entry under plugins. The third tab of the GUI allows installation of PyVOL from PyPI along with all available dependencies. On Linux and MacOS, MSMS is automatically installed from the platform-limited bioconda channel. MSMS installation instructions are otherwise :ref:`below <MSMS_Installation>`.
 
 
 Manual Installation
@@ -22,6 +22,8 @@ PyVOL minimally requires biopython, MSMS, numpy, pandas, scipy, scikit-learn, an
 .. code-block:: bash
 
    pip install bio-pyvol
+
+.. _MSMS_Installation:
 
 MSMS Installation
 -----------------

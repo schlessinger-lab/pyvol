@@ -1,13 +1,19 @@
 
+.. only:: html
+
+   .. include:: ../../README.rst
+
+.. only:: latex
+
+   .. include:: introduction.rst
+
 PyVOL Development
 =================
-
-sphinx-apidoc run with: sphinx-apidoc -o docs/source/ pyvol/
 
 Package Design
 --------------
 
-The main PyVOL algorithm is run from identify.py. There are two interfaces to this module which prepare user supplied inputs: ``pyvol/pymol_interface.py`` and the commandline entry point in ``pyvol/__main__.py``. The PyMOL interface can be accessed directly through the PyMOL prompt or run using the included GUI. The commandline entry point is evoked using a configuration file.
+The main PyVOL algorithm is run from identify.py. There are two interfaces to this module which prepare user supplied inputs: ``pyvol/pymol_interface.py`` and the commandline entry point in ``pyvol/__main__.py``. The PyMOL interface can be accessed directly through the PyMOL prompt or run using the included GUI. The commandline entry point is evoked using a configuration file.sphinx-apidoc run with: sphinx-apidoc -o docs/source/ pyvol/
 
 Algorithm Design
 ----------------
