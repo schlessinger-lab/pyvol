@@ -96,7 +96,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.pymol_utilities">pyvol.pymol_utilities module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.spheres">pyvol.spheres module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.utilities">pyvol.utilities module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#pyvol-gui">PyVOL GUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyvol.pyvol_gui.__init__">PyVOL GUI</a></li>
 </ul>
 </li>
 </ul>
@@ -711,8 +711,64 @@ kwargs (dict): all remaining arguments accepted by surface calculation that are 
 </dd></dl>
 
 </div>
-<div class="section" id="pyvol-gui">
-<h2>PyVOL GUI<a class="headerlink" href="#pyvol-gui" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pyvol.pyvol_gui.__init__">
+<span id="pyvol-gui"></span><h2>PyVOL GUI<a class="headerlink" href="#module-pyvol.pyvol_gui.__init__" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyvol.pyvol_gui.__init__.pyvol_window">
+<code class="descclassname">pyvol.pyvol_gui.__init__.</code><code class="descname">pyvol_window</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pyvol_gui.__init__.pyvol_window" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyvol.pyvol_gui.__init__.browse_pocket_file">
+<code class="descclassname">pyvol.pyvol_gui.__init__.</code><code class="descname">browse_pocket_file</code><span class="sig-paren">(</span><em>form</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pyvol_gui.__init__.browse_pocket_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Launches a window to select a file</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyvol.pyvol_gui.__init__.install_remote_pyvol">
+<code class="descclassname">pyvol.pyvol_gui.__init__.</code><code class="descname">install_remote_pyvol</code><span class="sig-paren">(</span><em>form</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pyvol_gui.__init__.install_remote_pyvol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempts a de novo PyVOL installation using pip</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyvol.pyvol_gui.__init__.install_local_pyvol">
+<code class="descclassname">pyvol.pyvol_gui.__init__.</code><code class="descname">install_local_pyvol</code><span class="sig-paren">(</span><em>form</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pyvol_gui.__init__.install_local_pyvol" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="pyvol.pyvol_gui.__init__.uninstall_pyvol">
+<code class="descclassname">pyvol.pyvol_gui.__init__.</code><code class="descname">uninstall_pyvol</code><span class="sig-paren">(</span><em>form</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pyvol_gui.__init__.uninstall_pyvol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempts to uninstall PyVOL using pip</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyvol.pyvol_gui.__init__.update_pyvol">
+<code class="descclassname">pyvol.pyvol_gui.__init__.</code><code class="descname">update_pyvol</code><span class="sig-paren">(</span><em>form</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pyvol_gui.__init__.update_pyvol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Attempts to update PyVOL using pip</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyvol.pyvol_gui.__init__.refresh_installation_status">
+<code class="descclassname">pyvol.pyvol_gui.__init__.</code><code class="descname">refresh_installation_status</code><span class="sig-paren">(</span><em>form</em>, <em>check_for_updates=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pyvol_gui.__init__.refresh_installation_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check for updates and adjust the GUI to reflect the current installation status and availability of updates</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>check_for_updates (bool): query servers to see if an update is available? (Default value = False)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyvol.pyvol_gui.__init__.run_gui_load">
+<code class="descclassname">pyvol.pyvol_gui.__init__.</code><code class="descname">run_gui_load</code><span class="sig-paren">(</span><em>form</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pyvol_gui.__init__.run_gui_load" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a precalculated pocket into PyMOL</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyvol.pyvol_gui.__init__.run_gui_pyvol">
+<code class="descclassname">pyvol.pyvol_gui.__init__.</code><code class="descname">run_gui_pyvol</code><span class="sig-paren">(</span><em>form</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pyvol_gui.__init__.run_gui_pyvol" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs a PyVOL calculation</p>
+</dd></dl>
+
 </div>
 </div>
 
