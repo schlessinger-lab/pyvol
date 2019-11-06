@@ -54,10 +54,10 @@ pyvol.utilities module
     :show-inheritance:
 
 
-Module contents
----------------
+PyVOL GUI
+---------
 
-.. automodule:: pyvol
+.. automodule:: pyvol.pyvol_gui.__init__
     :members:
     :undoc-members:
     :show-inheritance:
