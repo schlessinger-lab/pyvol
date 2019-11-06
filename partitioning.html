@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Search &mdash; PyVOL 1.2.33 documentation</title>
+  <title>Partitioning Options &mdash; PyVOL 1.2.33 documentation</title>
   
 
   
@@ -24,7 +24,6 @@
         <script type="text/javascript" src="_static/jquery.js"></script>
         <script type="text/javascript" src="_static/underscore.js"></script>
         <script type="text/javascript" src="_static/doctools.js"></script>
-        <script type="text/javascript" src="_static/searchtools.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -34,7 +33,9 @@
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
-    <link rel="search" title="Search" href="#" /> 
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Display and Output Options" href="display.html" />
+    <link rel="prev" title="Pocket specification" href="pocket_specification.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -65,7 +66,7 @@
 
           
 <div role="search">
-  <form id="rtd-search-form" class="wy-form" action="#" method="get">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" />
     <input type="hidden" name="check_keywords" value="yes" />
     <input type="hidden" name="area" value="default" />
@@ -82,12 +83,15 @@
               
             
             
-              <ul>
+              <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="basic.html">Basic Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pocket_specification.html">Pocket specification</a></li>
-<li class="toctree-l1"><a class="reference internal" href="partitioning.html">Partitioning Options</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Partitioning Options</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pocket-specification">Pocket Specification</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="display.html">Display and Output Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="shell.html">Shell Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="load_previous.html">Loading Previous Results</a></li>
@@ -138,12 +142,14 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>Search</li>
+      <li>Partitioning Options</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
+            <a href="_sources/partitioning.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -155,24 +161,29 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <noscript>
-  <div id="fallback" class="admonition warning">
-    <p class="last">
-      Please activate JavaScript to enable the search
-      functionality.
-    </p>
-  </div>
-  </noscript>
+  <div class="section" id="partitioning-options">
+<h1>Partitioning Options<a class="headerlink" href="#partitioning-options" title="Permalink to this headline">¶</a></h1>
+<p>The GUI and PyMOL prompt interfaces are all but identical. The shell interface is run using input configuration files and is best used to automate tasks first tested within PyMOL. Explanations for running PyVOL with the PyMOL GUI or prompt are covered first. Additional details covering shell invocation follow. Programmatic invocation of internal functions is supported and covered through the module documentation.</p>
+<div class="section" id="pocket-specification">
+<h2>Pocket Specification<a class="headerlink" href="#pocket-specification" title="Permalink to this headline">¶</a></h2>
+<p>PyVOL by default recognizes the largest pocket and returns the volume and geometry for it. However, manual identification of the pocket of interest is generally preferable. This can be done through specification of a ligand, a residue, or a coordinate. If a specification is given, the mode is changed to specific by default.</p>
+</div>
+</div>
 
-  
-  <div id="search-results">
-  
-  </div>
 
            </div>
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="display.html" class="btn btn-neutral float-right" title="Display and Output Options" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="pocket_specification.html" class="btn btn-neutral float-left" title="Pocket specification" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
@@ -205,14 +216,7 @@
   
   
     
-  
-  <script type="text/javascript">
-    jQuery(function() { Search.loadIndex("searchindex.js"); });
-  </script>
-  
-  <script type="text/javascript" id="searchindexloader"></script>
    
-
 
 </body>
 </html>

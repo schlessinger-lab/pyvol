@@ -16,10 +16,12 @@ PyVOL Documentation
 
   introduction
   install
-  general
-  gui
+  basic
+  pocket_specification
+  partitioning
+  display
   shell
-  examples
+  load_previous
   development
   pyvol
 

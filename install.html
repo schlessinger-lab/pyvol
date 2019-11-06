@@ -34,7 +34,7 @@
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="General Usage" href="general.html" />
+    <link rel="next" title="Basic Usage" href="basic.html" />
     <link rel="prev" title="Introduction" href="introduction.html" /> 
 </head>
 
@@ -94,10 +94,12 @@
 <li class="toctree-l2"><a class="reference internal" href="#uninstalling">Uninstalling</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="general.html">General Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="gui.html">GUI Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic.html">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pocket_specification.html">Pocket specification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="partitioning.html">Partitioning Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="display.html">Display and Output Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="shell.html">Shell Interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="load_previous.html">Loading Previous Results</a></li>
 <li class="toctree-l1"><a class="reference internal" href="development.html">Development</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pyvol.html">PyVOL Package</a></li>
 </ul>
@@ -175,12 +177,11 @@
 <div class="section" id="installation-into-pymol-using-a-packaged-installer">
 <h2>Installation into PyMOL Using a Packaged Installer<a class="headerlink" href="#installation-into-pymol-using-a-packaged-installer" title="Permalink to this headline">¶</a></h2>
 <p>A larger installer with cached copies of PyVOL and its dependencies is also available. This option is useful if deploying PyVOL onto computers without internet access or if accessing a stable snapshot of a working build is necessary for some reason. <a class="reference download external" download="" href="https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-full-installer.zip"><code class="xref download docutils literal notranslate"><span class="pre">full</span> <span class="pre">GUI</span> <span class="pre">installer</span></code></a> and then use the PyMOL plugin manager to install that file: <span class="menuselection">Plugins ‣ Plugin Manager ‣ Install New Plugin ‣ Install from local file ‣</span> <span class="guilabel">Choose file…</span></p>
-<p>This installs the PyVOL GUI. Select <cite>PyVOL</cite> under the plugins menu, and then select <cite>Install from Local Cache</cite> under the settings tab to install PyVOL and any missing dependencies from a cache contained within the installer itself. For academic users and non-academic users with the Schrodinger incentive PyMOL distribution, installation is now complete. For all others, see manual <a class="reference internal" href="#msms-installation"><span class="std std-ref">MSMS Installation</span></a>.</p>
 <p>This installs the PyVOL GUI. Select <span class="menuselection">Plugins ‣ PyVOL ‣ Settings ‣</span> <span class="guilabel">Install PyVOL from Cache</span> to install PyVOL and any missing dependencies from the installer. For academic users and non-academic users with the Schrodinger incentive PyMOL distribution, installation is now complete. For all others <a class="reference internal" href="#msms-installation"><span class="std std-ref">MSMS Installation</span></a>.</p>
 </div>
 <div class="section" id="manual-installation">
 <h2>Manual Installation<a class="headerlink" href="#manual-installation" title="Permalink to this headline">¶</a></h2>
-<p>PyVOL minimally requires biopython, MSMS, numpy, pandas, scipy, scikit-learn, trimesh, and msms in order to run. PyVOL is available for manual installation from <a class="reference external" href="https://github.com/schlessingerlab/pyvol">github</a> or through <a class="reference external" href="https://pypi.org/project/bio-pyvol/">PyPI</a>. Most conveniently:</p>
+<p>PyVOL minimally requires <cite>biopython</cite>, <cite>MSMS</cite>, <cite>numpy</cite>, <cite>pandas</cite>, <cite>scipy</cite>, <cite>scikit-learn</cite>, <cite>trimesh</cite>, and <cite>msms</cite> in order to run. PyVOL is available for manual installation from <a class="reference external" href="https://github.com/schlessingerlab/pyvol">github</a> or through <a class="reference external" href="https://pypi.org/project/bio-pyvol/">PyPI</a>. Most conveniently:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install bio-pyvol
 </pre></div>
 </div>
@@ -200,7 +201,7 @@
 </div>
 <div class="section" id="updating">
 <h2>Updating<a class="headerlink" href="#updating" title="Permalink to this headline">¶</a></h2>
-<p>PyVOL can be updated through the PyMOL GUI simply by navigating <span class="menuselection">PyVOL ‣ Settings ‣</span> <span class="guilabel">Check for Updates</span>. This queries the PyPI server to detect if an update is available. If an update is available for download, the same button becomes <span class="guilabel">Update PyVOL</span> and will update the back-end. The new version of the PyVOL back-end will notify you if it expects an updated GUI. If the GUI also needs to be updated, uninstall the <cite>pyvol_gui</cite> using <span class="menuselection">Plugins ‣ Plugin Manager ‣ Installed Plugins ‣ pyvol_gui x.x.x ‣’ :guilabel:`Uninstall</span>. Restart PyMOL, download the updated GUI from <a class="reference download external" download="" href="https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-installer.zip"><code class="xref download docutils literal notranslate"><span class="pre">github</span></code></a>, and install the updated GUI as described above.</p>
+<p>PyVOL can be updated through the PyMOL GUI simply by navigating <span class="menuselection">PyVOL ‣ Settings ‣</span> <span class="guilabel">Check for Updates</span>. This queries the PyPI server to detect if an update is available. If an update is available for download, the same button becomes <span class="guilabel">Update PyVOL</span> and will update the back-end. The new version of the PyVOL back-end will notify you if it expects an updated GUI. If the GUI also needs to be updated, uninstall the <cite>pyvol_gui</cite> using <span class="menuselection">Plugins ‣ Plugin Manager ‣ Installed Plugins ‣ pyvol_gui x.x.x ‣</span> <span class="guilabel">Uninstall</span>. Restart PyMOL, download the updated GUI from <a class="reference download external" download="" href="https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-installer.zip"><code class="xref download docutils literal notranslate"><span class="pre">github</span></code></a>, and install the updated GUI as described above.</p>
 <p>Alternatively, PyVOL can be manually updated via the command line:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip update bio-pyvol
 </pre></div>
@@ -224,7 +225,7 @@
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
       
-        <a href="general.html" class="btn btn-neutral float-right" title="General Usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+        <a href="basic.html" class="btn btn-neutral float-right" title="Basic Usage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="introduction.html" class="btn btn-neutral float-left" title="Introduction" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
