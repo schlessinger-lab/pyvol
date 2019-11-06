@@ -19,6 +19,7 @@
 
 
 .. only:: html
+
    Indices and tables
    ==================
 
