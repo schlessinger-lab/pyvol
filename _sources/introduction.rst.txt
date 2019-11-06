@@ -7,6 +7,7 @@ FooBar
   ------------
 
 .. only:: html
+
   Overview
   --------
 
