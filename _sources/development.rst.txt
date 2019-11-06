@@ -1,14 +1,6 @@
-
-.. only:: html
-
-   .. include:: ../../README.rst
-
-.. only:: latex
-
-   .. include:: introduction.rst
-
-PyVOL Development
-=================
+===========
+Development
+===========
 
 Package Design
 --------------
