@@ -11,7 +11,7 @@ PyVOL: Protein Pocket Visualization, Segmentation, and Characterization
   :target: https://pypi.python.org/pypi/bio_pyvol/
   :alt: License
 
-.. include docs/source/introduction.rst
+.. include:: docs/source/introduction.rst
 
 PyVOL is a python library packaged into a `PyMOL` GUI for identifying protein binding pockets, partitioning them into sub-pockets, and calculating their volumes. PyVOL can be run as a PyMOL plugin through its GUI or the PyMOL prompt, as an imported python library, or as a commandline program. Visualization of results is exclusively supported through PyMOL though exported surfaces are compatible with standard 3D geometry visualization programs.
 
