@@ -14,6 +14,8 @@ PyVOL Documentation
    general
    gui
    shell
+   examples
+   development
    pyvol
 
 
