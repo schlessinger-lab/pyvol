@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>pyvol package &mdash; pyvol 1.2.29 documentation</title>
+  <title>PyVOL Package &mdash; pyvol 1.2.29 documentation</title>
   
 
   
@@ -88,14 +88,15 @@
 <li class="toctree-l1"><a class="reference internal" href="general.html">General Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="gui.html">GUI Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="shell.html">Shell Interface</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">pyvol package</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">PyVOL Package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-pyvol.cluster">pyvol.cluster module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-pyvol.identify">pyvol.identify module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-pyvol.pymol_interface">pyvol.pymol_interface module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-pyvol.pymol_utilities">pyvol.pymol_utilities module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-pyvol.spheres">pyvol.spheres module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-pyvol.utilities">pyvol.utilities module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyvol.cluster">PyVOL Cluster Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyvol.identify">PyVOL Identify Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyvol.pymol_interface">PyVOL Pymol Interface Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyvol.pymol_utilities">PyVOL Pymol Utilities Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyvol.spheres">PyVOL Spheres Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyvol.utilities">PyVOL Utilities Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyvol.__main__">PyVOL Main Entry Point</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.pyvol_gui.__init__">PyVOL GUI</a></li>
 </ul>
 </li>
@@ -144,7 +145,7 @@
     
       <li><a href="index.html">Docs</a> &raquo;</li>
         
-      <li>pyvol package</li>
+      <li>PyVOL Package</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -164,12 +165,12 @@
            <div itemprop="articleBody">
             
   <div class="section" id="pyvol-package">
-<h1>pyvol package<a class="headerlink" href="#pyvol-package" title="Permalink to this headline">¶</a></h1>
+<h1>PyVOL Package<a class="headerlink" href="#pyvol-package" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-pyvol.cluster">
-<span id="pyvol-cluster-module"></span><h2>pyvol.cluster module<a class="headerlink" href="#module-pyvol.cluster" title="Permalink to this headline">¶</a></h2>
+<span id="pyvol-cluster-module"></span><h2>PyVOL Cluster Module<a class="headerlink" href="#module-pyvol.cluster" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="pyvol.cluster.cluster_within_r">
 <code class="descclassname">pyvol.cluster.</code><code class="descname">cluster_within_r</code><span class="sig-paren">(</span><em>spheres</em>, <em>radius</em>, <em>allow_new=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.cluster_within_r" title="Permalink to this definition">¶</a></dt>
@@ -316,7 +317,7 @@ tolerance (float): overlap tolerance (Default value = 0.02)</dd>
 
 </div>
 <div class="section" id="module-pyvol.identify">
-<span id="pyvol-identify-module"></span><h2>pyvol.identify module<a class="headerlink" href="#module-pyvol.identify" title="Permalink to this headline">¶</a></h2>
+<span id="pyvol-identify-module"></span><h2>PyVOL Identify Module<a class="headerlink" href="#module-pyvol.identify" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="pyvol.identify.pocket">
 <code class="descclassname">pyvol.identify.</code><code class="descname">pocket</code><span class="sig-paren">(</span><em>prot_file</em>, <em>mode='largest'</em>, <em>lig_file=None</em>, <em>coordinate=None</em>, <em>resid=None</em>, <em>residue_coordinates=None</em>, <em>min_rad=1.4</em>, <em>max_rad=3.4</em>, <em>lig_excl_rad=None</em>, <em>lig_incl_rad=None</em>, <em>subdivide=False</em>, <em>minimum_volume=200</em>, <em>min_subpocket_rad=1.7</em>, <em>min_subpocket_surf_rad=1.0</em>, <em>max_clusters=None</em>, <em>prefix=None</em>, <em>output_dir=None</em>, <em>constrain_inputs=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.pocket" title="Permalink to this definition">¶</a></dt>
@@ -382,7 +383,7 @@ prefix (str): identifying prefix for output files</dd>
 
 </div>
 <div class="section" id="module-pyvol.pymol_interface">
-<span id="pyvol-pymol-interface-module"></span><h2>pyvol.pymol_interface module<a class="headerlink" href="#module-pyvol.pymol_interface" title="Permalink to this headline">¶</a></h2>
+<span id="pyvol-pymol-interface-module"></span><h2>PyVOL Pymol Interface Module<a class="headerlink" href="#module-pyvol.pymol_interface" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="pyvol.pymol_interface.load_pocket">
 <code class="descclassname">pyvol.pymol_interface.</code><code class="descname">load_pocket</code><span class="sig-paren">(</span><em>spheres_file</em>, <em>name=None</em>, <em>display_mode='solid'</em>, <em>color='marine'</em>, <em>alpha=0.85</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.load_pocket" title="Permalink to this definition">¶</a></dt>
@@ -429,7 +430,7 @@ constrain_inputs (bool): constrain input quantitative values to tested ranges? (
 
 </div>
 <div class="section" id="module-pyvol.pymol_utilities">
-<span id="pyvol-pymol-utilities-module"></span><h2>pyvol.pymol_utilities module<a class="headerlink" href="#module-pyvol.pymol_utilities" title="Permalink to this headline">¶</a></h2>
+<span id="pyvol-pymol-utilities-module"></span><h2>PyVOL Pymol Utilities Module<a class="headerlink" href="#module-pyvol.pymol_utilities" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="pyvol.pymol_utilities.construct_palette">
 <code class="descclassname">pyvol.pymol_utilities.</code><code class="descname">construct_palette</code><span class="sig-paren">(</span><em>color_list=None</em>, <em>max_value=7</em>, <em>min_value=1</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_utilities.construct_palette" title="Permalink to this definition">¶</a></dt>
@@ -503,7 +504,7 @@ alpha (float): transparency value (Default value = 1.0)</dd>
 
 </div>
 <div class="section" id="module-pyvol.spheres">
-<span id="pyvol-spheres-module"></span><h2>pyvol.spheres module<a class="headerlink" href="#module-pyvol.spheres" title="Permalink to this headline">¶</a></h2>
+<span id="pyvol-spheres-module"></span><h2>PyVOL Spheres Module<a class="headerlink" href="#module-pyvol.spheres" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
 <dt id="pyvol.spheres.Spheres">
 <em class="property">class </em><code class="descclassname">pyvol.spheres.</code><code class="descname">Spheres</code><span class="sig-paren">(</span><em>xyz=None</em>, <em>r=None</em>, <em>xyzr=None</em>, <em>xyzrg=None</em>, <em>g=None</em>, <em>pdb=None</em>, <em>bv=None</em>, <em>mesh=None</em>, <em>name=None</em>, <em>spheres_file=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres" title="Permalink to this definition">¶</a></dt>
@@ -640,7 +641,7 @@ output_mesh (bool): write mesh to file? (Default value = True)</dd>
 
 </div>
 <div class="section" id="module-pyvol.utilities">
-<span id="pyvol-utilities-module"></span><h2>pyvol.utilities module<a class="headerlink" href="#module-pyvol.utilities" title="Permalink to this headline">¶</a></h2>
+<span id="pyvol-utilities-module"></span><h2>PyVOL Utilities Module<a class="headerlink" href="#module-pyvol.utilities" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="pyvol.utilities.check_dir">
 <code class="descclassname">pyvol.utilities.</code><code class="descname">check_dir</code><span class="sig-paren">(</span><em>location</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.check_dir" title="Permalink to this definition">¶</a></dt>
@@ -707,6 +708,28 @@ workers (int): number of workers (Default value = None)
 kwargs (dict): all remaining arguments accepted by surface calculation that are constant across parallel calculations</dd>
 <dt>Returns:</dt>
 <dd>surfaces ([Spheres]): a list of Spheres object each with its surface calculated</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-pyvol.__main__">
+<span id="pyvol-main-entry-point"></span><h2>PyVOL Main Entry Point<a class="headerlink" href="#module-pyvol.__main__" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyvol.__main__.create_default_cfg">
+<code class="descclassname">pyvol.__main__.</code><code class="descname">create_default_cfg</code><span class="sig-paren">(</span><em>cfg_file='defaults.cfg'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.__main__.create_default_cfg" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a template cfg file to disk</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>cfg_file (str): target configuration file (Default value = “defaults.cfg”)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyvol.__main__.run_from_cfg">
+<code class="descclassname">pyvol.__main__.</code><code class="descname">run_from_cfg</code><span class="sig-paren">(</span><em>cfg_file</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.__main__.run_from_cfg" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="docutils">
+<dt>Args:</dt>
+<dd>cfg_file (str): input cfg that specifies a PyVOL job</dd>
 </dl>
 </dd></dl>
 
