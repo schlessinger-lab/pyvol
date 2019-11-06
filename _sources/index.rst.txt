@@ -9,6 +9,7 @@
 
 .. only:: latex
 
+   ===========
    Test titles
    ===========
 
