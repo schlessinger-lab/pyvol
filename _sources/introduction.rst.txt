@@ -1,8 +1,9 @@
 
-.. only:: latex
-  ============
-  Introduction
-  ============
+============
+Introduction
+============
+
+.. inclusion-marker-readme
 
 Overview
 --------
