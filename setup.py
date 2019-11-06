@@ -3,11 +3,11 @@ import pathlib
 from setuptools import setup
 
 HERE = pathlib.Path(__file__).parent
-README = (HERE / "README.rst").read_text()
+README = (HERE / "README.md").read_text()
 
 setup(
     name="bio-pyvol",
-    version="1.2.30",
+    version="1.2.31",
     description="a PyMOL plugin and python package for visualization, comparison, and volume calculation of protein drug-binding sites",
     long_description=README,
     long_description_content_type="text/markdown",

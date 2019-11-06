@@ -2,22 +2,31 @@
 Installation
 ============
 
-PyVOL distribution is hosted by PyPI and accessed through pip. PyVOL can consequently be installed into any python environment. For convenience, the PyMOL GUI contains an installer.
+PyVOL has been packaged into installers that contain all dependencies, but normal distribution is through PyPI and accessed through `pip`. PyVOL can consequently be installed into any python environment. For convenience, the PyMOL GUI contains an installer for easy installation into PyMOL 2.0+.
 
-Detailed Installation into PyMOL
---------------------------------
-PyVOL is distributed as a GUI and a backend. Installation into PyMOL uses PyMOL's plugin manager to install the GUI and then the GUI to install the backend. The GUI is installed through the plugin manager through loading the `zipped GUI file <https://github.com/rhs2132/pyvol/blob/master/pyvolgui.zip>` _:
+Installation into PyMOL from PyPI
+---------------------------------
+Download the `basic installer zip file <https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-installer.zip>`_ and then use the PyMOL plugin manager to install that file.
 
 .. code-block:: bash
 
-    https://github.com/rhs2132/pyvol/blob/master/pyvolgui.zip
+  https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-installer.zip
 
-This creates a new ``PyVOL`` menu entry under plugins. The third tab of the GUI allows installation of PyVOL from PyPI along with all available dependencies. On Linux and MacOS, MSMS is automatically installed from the platform-limited bioconda channel. MSMS installation instructions are otherwise :ref:`below <MSMS_Installation>`.
+This installs the PyVOL GUI. Select `PyVOL` under the plugins menu, and then select `Install from PyPI` under the settings tab to fetch PyVOL and any missing dependencies. For academic users and non-academic users with the Schrodinger incentive PyMOL distribution, installation is now complete. For all others, see manual installation of `msms` :ref:`below <MSMS_Installation>`.
 
+Installation into PyMOL Using a Packaged Installer
+--------------------------------------------------
+This option is useful if deploying PyVOL onto computers without internet access. Download the `full installer zip file <https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-full-installer.zip>`_ and then use the PyMOL plugin manager to install that file.
+
+.. code-block:: bash
+
+  https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-full-installer.zip
+
+This installs the PyVOL GUI. Select `PyVOL` under the plugins menu, and then select `Install from Local Cache` under the settings tab to install PyVOL and any missing dependencies from a cache contained within the installer itself. For academic users and non-academic users with the Schrodinger incentive PyMOL distribution, installation is now complete. For all others, see manual installation of `msms` :ref:`below <MSMS_Installation>`.
 
 Manual Installation
 -------------------
-PyVOL minimally requires biopython, MSMS, numpy, pandas, scipy, scikit-learn, and trimesh in order to run. PyVOL is available for manual installation from github or through PyPI. Most conveniently:
+PyVOL minimally requires biopython, MSMS, numpy, pandas, scipy, scikit-learn, and trimesh in order to run. PyVOL is available for manual installation from `github <https://github.com/schlessingerlab/pyvol>`_ or through `PyPI <https://pypi.org/project/bio-pyvol/>`_. Most conveniently:
 
 .. code-block:: bash
 

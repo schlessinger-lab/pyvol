@@ -19,7 +19,7 @@ PyVOL can be installed into any python environment, but installing directly into
 
   https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-installer.zip
 
-This installs the PyVOL GUI. Select `PyVOL` under the plugins menu, and then select `Install from PyPI` under the settings tab. PyVOL currently requires the surface calculation program msms in order to run. Academic users can use the included binaries. Anyone with the Schrodinger incentive version can use the included binary. Anyone else must get msms from `MGLTools at Scripps <http://mgltools.scripps.edu/packages/MSMS/>`_.
+This installs the PyVOL GUI. Select `PyVOL` under the plugins menu, and then select `Install from PyPI` under the settings tab to fetch PyVOL and any missing dependencies. For academic users and non-academic users with the Schrodinger incentive PyMOL distribution, installation is now complete. For all others, see `manual installation <https://schlessingerlab.github.io/pyvol/install.html>`_ of `msms`.
 
 Example Basic Run
 -----------------
