@@ -34,8 +34,6 @@ PyVOL minimally requires biopython, MSMS, numpy, pandas, scipy, scikit-learn, tr
 
 Again, for academic users and non-academic users with the Schrodinger incentive PyMOL distribution, installation is now complete. For all others, see manual installation of `MSMS` :ref:`below <MSMS_Installation>`.
 
-.. _MSMS_Installation:
-
 MSMS Installation
 -----------------
 MSMS is provided with PyVOL for ease of use for academic users. It alternatively can be installed on MacOS and Linux using the bioconda channel:
