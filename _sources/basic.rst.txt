@@ -4,7 +4,7 @@ Basic Usage
 
 The GUI and PyMOL prompt interfaces are all but identical. The shell interface is run using input configuration files and is best used to automate tasks first tested within PyMOL. Explanations for running PyVOL with the PyMOL GUI or prompt are covered first. Additional details covering shell invocation follow. Programmatic invocation of internal functions is supported and covered through the module documentation.
 
-The next few section describe the parameters controlling Basic Usage, :ref:`pocket_specification:Pocket Specification`, :ref:`partitioning:Partitioning`, and :ref:`display:Display and Output Options` along with the corresponding GUI sections.
+The next few section describe the parameters controlling Basic Usage, :ref:`pocket_specification:Pocket Specification`, :ref:`partitioning:Partitioning Options`, and :ref:`display:Display and Output Options` along with the corresponding GUI sections.
 
 .. figure:: _static/basic_parameters_gui.png
   :align: center
