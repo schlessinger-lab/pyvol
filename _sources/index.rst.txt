@@ -4,11 +4,12 @@
    contain the root `toctree` directive.
 
 .. only:: html
+
    .. include:: ../../README.rst
 
 .. toctree::
    :maxdepth: 2
-   
+
    install
    general
    gui
@@ -16,9 +17,11 @@
    pyvol
 
 .. only:: html
+
   Indices and tables
   ==================
 
   * :ref:`genindex`
   * :ref:`modindex`
+
   .. * :ref:`search`
