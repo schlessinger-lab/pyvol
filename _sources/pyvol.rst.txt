@@ -59,10 +59,12 @@ PyVOL Main Entry Point
 .. automodule:: pyvol.__main__
 
 
-PyVOL GUI
----------
+.. pymol imports throw this off
 
-.. automodule:: pyvol.pyvol_gui.__init__
-    :members:
-    :undoc-members:
-    :show-inheritance:
+  PyVOL GUI
+  ---------
+
+  .. automodule:: pyvol.pyvol_gui.__init__
+      :members:
+      :undoc-members:
+      :show-inheritance:
