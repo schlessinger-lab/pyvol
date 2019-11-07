@@ -266,10 +266,11 @@ def refresh_installation_status(form, check_for_updates=False):
     # First check the path and bundled directories
     if pyvol_installed:
         default_msms_exe = distutils.spawn.find_executable("msms")
-        if os.path.exists(default_msms_exe):
-            default_msms_present = True
-        else:
-            default_msms_exe = None
+        if default_msms_exe is not None:
+            if os.path.exists(default_msms_exe):
+                default_msms_present = True
+            else:
+                default_msms_exe = None
 
     if (pyvol_installed) and (not default_msms_present):
         try:
