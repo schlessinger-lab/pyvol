@@ -68,6 +68,7 @@ def install_remote_pyvol(form):
 
     """
     import distutils
+    import os
     import subprocess
     import sys
 
