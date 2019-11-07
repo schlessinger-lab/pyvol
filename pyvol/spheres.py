@@ -86,15 +86,15 @@ class Spheres(object):
                 self.g = g
         elif spheres_file is not None:
             csv_file = None
-            obj_file = None
+            stl_file = None
 
             base, ext = os.path.splitext(spheres_file)
             if ext == ".csv":
                 csv_file = spheres_file
-                obj_file = "{0}.obj".format(base)
+                stl_file = "{0}.stl".format(base)
             elif ext == ".obj":
                 csv_file = "{0}.csv".format(base)
-                obj_file = spheres_file
+                stl_file = spheres_file
             else:
                 logger.error("Invalid filename given to read in spheres object: {0}".format(spheres_file))
             spheres_data = np.loadtxt(csv_file, delimiter=' ')
@@ -105,7 +105,7 @@ class Spheres(object):
                 self.xyzr = spheres_data
             else:
                 logger.error("Spheres csv file contains the wrong number of columns")
-            mesh = trimesh.load_mesh(obj_file)
+            mesh = trimesh.load_mesh(stl_file)
 
             if name is None:
                 name = os.path.basename(base)
