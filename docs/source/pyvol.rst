@@ -57,7 +57,9 @@ PyVOL Main Entry Point
 ----------------------
 
 .. automodule:: pyvol.__main__
-
+  :members:
+  :undoc-members:
+  :show-inheritance:
 
 .. pymol imports throw this off
 
