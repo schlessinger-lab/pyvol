@@ -3,6 +3,10 @@
 __version__ = "1.1.5"
 
 import logging
+import os
+from pymol.Qt import QtCore, QtWidgets
+import subprocess
+import sys
 import time
 
 main_logger = logging.getLogger("pyvol")
@@ -38,8 +42,7 @@ def __init_plugin__(app=None):
 
 def pyvol_window():
     """ """
-    import os
-    from pymol.Qt import QtCore, QtWidgets
+
     from pymol.Qt.utils import loadUi
 
     dialog = QtWidgets.QDialog()
@@ -60,6 +63,7 @@ def browse_pocket_file(form):
     """ Launches a window to select a file
 
     """
+
     pocket_file_name = QtWidgets.QFileDialog.getOpenFileNames(None, 'Open file', os.getcwd(), filter='Pocket Files (*.obj *.csv)')[0][0]
     form.pocket_file_ledit.setText(pocket_file_name)
 
@@ -68,9 +72,6 @@ def install_remote_pyvol(form):
 
     """
     import distutils
-    import os
-    import subprocess
-    import sys
 
     subprocess.check_output([sys.executable, "-m", "pip", "install", "bio-pyvol"])
 
@@ -92,10 +93,7 @@ def install_remote_pyvol(form):
     refresh_installation_status(form)
 
 def install_local_pyvol(form):
-    import os
     import re
-    import subprocess
-    import sys
 
     installer_dir = os.path.dirname(os.path.realpath(__file__))
     cache_dir = os.path.join(installer_dir, "cached_source")
@@ -135,8 +133,6 @@ def uninstall_pyvol(form):
     """ Attempts to uninstall PyVOL using pip
 
     """
-    import subprocess
-    import sys
 
     subprocess.check_output([sys.executable, "-m", "pip", "uninstall", "-y", "bio-pyvol"])
 
@@ -154,8 +150,6 @@ def update_pyvol(form):
     """ Attempts to update PyVOL using pip
 
     """
-    import subprocess
-    import sys
 
     subprocess.check_output([sys.executable, "-m", "pip", "install", "--upgrade", "bio-pyvol"])
 
@@ -169,7 +163,7 @@ def update_pyvol(form):
 
     refresh_installation_status(form)
 
-def refresh_installation_status(form, check_for_updates=False):
+def refresh_installation_status(form, check_for_updates=False, add_msms_source=False):
     """ Check for updates and adjust the GUI to reflect the current installation status and availability of updates
 
     Args:
@@ -178,9 +172,6 @@ def refresh_installation_status(form, check_for_updates=False):
     """
     import distutils.spawn
     import json
-    import os
-    import subprocess
-    import sys
 
     def apply_color(string, color):
         """ Applies a color to html text
@@ -263,16 +254,18 @@ def refresh_installation_status(form, check_for_updates=False):
     incentive_msms_present = False
     incentive_msms_exe = None
 
-    # First check the path and bundled directories
-    if pyvol_installed:
-        default_msms_exe = distutils.spawn.find_executable("msms")
-        if default_msms_exe is not None:
-            if os.path.exists(default_msms_exe):
-                default_msms_present = True
-            else:
-                default_msms_exe = None
+    form.msms_new_button.clicked.connect(lambda: refresh_installation_status(form, add_msms_source=True))
+    form.msms_new_button.setEnabled(False)
+    new_msms_exe = form.msms_new_label.getText()
+    if new_msms_exe is not None:
+        if os.path.exists(new_msms_exe):
+            form.msms_new_button.setEnabled(True)
+            if add_msms_source:
+                if new_msms_exe not in sys.path:
+                    sys.path.append(new_msms_exe)
 
-    if (pyvol_installed) and (not default_msms_present):
+    # First check the bundled directory
+    if pyvol_installed:
         try:
             import pyvol
             import platform
@@ -305,26 +298,21 @@ def refresh_installation_status(form, check_for_updates=False):
         incentive_msms_exe = None
 
     if form.msms_default_rbutton.isChecked() and default_msms_present:
-        msms_installed = True
-        msms_exe = default_msms_exe
+        form.msms_new_label.setText("{0}".format(default_msms_exe))
     elif form.msms_pymol_rbutton.isChecked() and incentive_msms_present:
-        msms_installed = True
-        msms_exe = incentive_msms_exe
+        form.msms_new_label.setText("{0}".format(incentive_msms_exe))
     elif form.msms_custom_rbutton.isChecked():
-        msms_exe = form.msms_custom_ledit.text()
-        if os.path.exists(msms_exe):
-            msms_installed = True
-        else:
-            msms_exe = None
-    elif incentive_msms_present:
-        msms_installed = True
-        msms_exe = incentive_msms_exe
-        form.msms_pymol_rbutton.setChecked(True)
-    elif default_msms_present:
-        msms_installed = True
-        msms_exe = default_msms_exe
-        form.msms_default_rbutton.setChecked(True)
+        custom_msms_exe = form.msms_custom_ledit.text()
+        if os.path.exists(custom_msms_exe):
+            form.msms_new_label.setText("{0}".format(custom_msms_exe))
 
+    if pyvol_installed:
+        msms_exe = distutils.spawn.find_executable("msms")
+        if msms_exe is not None:
+            if os.path.exists(msms_exe):
+                msms_installed = True
+            else:
+                msms_exe = None
 
     if msms_installed:
         form.msms_status_label.setText("MSMS executable found: {0}".format(apply_color(msms_exe, "blue")))

@@ -660,7 +660,7 @@
           <item>
            <widget class="QGroupBox" name="msms_source_box">
             <property name="title">
-             <string>MSMS Source</string>
+             <string>Change MSMS Source</string>
             </property>
             <layout class="QFormLayout" name="formLayout_5">
              <item row="0" column="0">
@@ -694,9 +694,9 @@
               <widget class="QLineEdit" name="msms_custom_ledit"/>
              </item>
              <item row="3" column="0">
-              <widget class="QPushButton" name="reload_settings_button">
+              <widget class="QPushButton" name="check_source_button">
                <property name="text">
-                <string>Reload Settings</string>
+                <string>Check Source</string>
                </property>
               </widget>
              </item>
@@ -711,6 +711,20 @@
               <widget class="QLabel" name="label_5">
                <property name="text">
                 <string>(Bundled MSMS only legal for academic users)</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QPushButton" name="msms_new_button">
+               <property name="text">
+                <string>Add New Source to Path</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QLabel" name="msms_new_label">
+               <property name="text">
+                <string>(not found)</string>
                </property>
               </widget>
              </item>
