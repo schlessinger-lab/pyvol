@@ -1,40 +1,36 @@
 .. pyvol documentation master file, created by
-   sphinx-quickstart on Sun Oct 27 16:17:43 2019.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+  sphinx-quickstart on Sun Oct 27 16:17:43 2019.
+  You can adapt this file completely to your liking, but it should at least
+  contain the root `toctree` directive.
 
 ===================
 PyVOL Documentation
 ===================
 
+.. only:: html
+
+  .. include:: introduction.rst
+    :start-after: marker-start-readme
+
 .. toctree::
 
-   introduction
-   install
-   general
-   shell
-   development
-   pyvol
-
-.. full_doctree-removing-unfinished-files-for-pdf-gen
-
-  .. toctree::
-
-     introduction
-     install
-     general
-     gui
-     shell
-     examples
-     development
-     pyvol
+  introduction
+  install
+  basic
+  pocket_specification
+  partitioning
+  display
+  shell
+  load_previous
+  development
+  pyvol
 
 .. only:: html
 
-   Indices and tables
-   ==================
+  Indices and tables
+  ==================
 
-   * :ref:`genindex`
-   * :ref:`modindex`
+  * :ref:`genindex`
+  * :ref:`modindex`
 
-   .. * :ref:`search`
+  .. * :ref:`search`

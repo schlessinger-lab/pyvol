@@ -43,20 +43,6 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
     if prefix is None:
         prefix = os.path.splitext(os.path.basename(prot_file))[0]
 
-    # if output_dir is not None:
-    #     for handler in main_logger.handlers:
-    #         if isinstance(handler, logging.FileHandler):
-    #             main_logger.removeHandler(handler)
-    #
-    #     logf_out = logging.FileHandler(os.path.join(output_dir, "{0}.log".format(prefix)))
-    #     logf_out.setLevel("DEBUG")
-    #     logf_out.setFormatter(logging.Formatter("%(name)-12s:".ljust(25) + "\t%(levelname)-8s" + "\t%(message)s"))
-    #     main_logger.addHandler(logf_out)
-    #     logger.info("Full log directed to: {0}".format(os.path.join(output_dir, "{0}.log".format(prefix))))
-    #
-    # for handler in main_logger.handlers:
-    #     print(handler, type(handler))
-
     logger.debug("Output prefix: {0}".format(prefix))
 
     min_rad = float(min_rad)

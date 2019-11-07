@@ -33,6 +33,7 @@ sys.path.insert(0, os.path.abspath('../..'))
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
+    "sphinx.ext.autosectionlabel"
 ]
 
 #    "sphinx.ext.intersphinx",
@@ -41,6 +42,7 @@ extensions = [
 
 autodoc_member_order = 'bysource'
 autodoc_default_flags = ['members', 'show-inheritance']
+autosectionlabel_prefix_document = True
 autosummary_generate = True
 
 # Add any paths that contain templates here, relative to this directory.
