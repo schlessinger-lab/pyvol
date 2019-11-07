@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Development &mdash; PyVOL 1.2.33 documentation</title>
+  <title>Development &mdash; PyVOL 1.2.34 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                1.2.33
+                1.2.34
               </div>
             
           
@@ -89,7 +89,7 @@
 <li class="toctree-l1"><a class="reference internal" href="basic.html">Basic Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pocket_specification.html">Pocket Specification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="partitioning.html">Partitioning Options</a></li>
-<li class="toctree-l1"><a class="reference internal" href="display.html">Display and Output Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="display.html">Output and Display Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="shell.html">Shell Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="load_previous.html">Loading Previous Results</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Development</a><ul>
@@ -170,7 +170,7 @@
 <h1>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="package-design">
 <h2>Package Design<a class="headerlink" href="#package-design" title="Permalink to this headline">¶</a></h2>
-<p>The main PyVOL algorithm is run from identify.py. There are two interfaces to this module which prepare user supplied inputs: <cite>pyvol/pymol_interface.py</cite> and the commandline entry point in <cite>pyvol/__main__.py</cite>. The PyMOL interface can be accessed directly through the PyMOL prompt or run using the included GUI. The command line entry point is evoked using a configuration file.</p>
+<p>The main PyVOL algorithm is run from identify.py. There are two interfaces to this module which prepare user supplied inputs: <cite>pyvol/pymol_interface.py</cite> and the commandline entry point in <cite>pyvol/__main__.py</cite>. The PyMOL interface can be accessed directly through the PyMOL prompt or run using the included GUI. The command line entry point is evoked using a configuration file. The main entry point for accessing with the API is through <cite>pyvol/identify.py</cite>.</p>
 </div>
 <div class="section" id="algorithm-design">
 <h2>Algorithm Design<a class="headerlink" href="#algorithm-design" title="Permalink to this headline">¶</a></h2>
@@ -179,11 +179,11 @@
 </div>
 <div class="section" id="gui-design">
 <h2>GUI Design<a class="headerlink" href="#gui-design" title="Permalink to this headline">¶</a></h2>
-<p>The GUI was developed using Qt Designer and run using PyQT5.</p>
+<p>The GUI was developed using Qt Designer and run using PyQT5. PyQT does not run in earlier PyMOL distributions.</p>
 </div>
 <div class="section" id="version-incrementation">
 <h2>Version Incrementation<a class="headerlink" href="#version-incrementation" title="Permalink to this headline">¶</a></h2>
-<p>PyVOL uses a standard incrementation scheme. The version of the back-end must be updated in <cite>setup.py</cite>, <cite>pyvol/__init__.py</cite>, and <cite>docs/source/conf.py</cite>. The GUI version is set in <code class="docutils literal notranslate"><span class="pre">pyvolgui/__init__.py</span></code>, and the the version of the GUI that the back-end expects is set again in <code class="docutils literal notranslate"><span class="pre">pyvol/__init__.py</span></code>.</p>
+<p>PyVOL uses a standard incrementation scheme. The version of the back-end must be updated in <cite>setup.py</cite>, <cite>pyvol/__init__.py</cite>, and <cite>docs/source/conf.py</cite>. The GUI version is set in <cite>pyvolgui/__init__.py</cite>, and the the version of the GUI that the back-end expects is set again in <cite>pyvol/__init__.py</cite>.</p>
 </div>
 <div class="section" id="distribution">
 <h2>Distribution<a class="headerlink" href="#distribution" title="Permalink to this headline">¶</a></h2>
@@ -191,7 +191,7 @@
 </div>
 <div class="section" id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
-<p>Documentation is largely in the google style. Module documentation is collated using <cite>sphinx-apidoc</cite>. The documentation website is built using the <cite>sphinx-rtd-theme</cite> and maintained on the gh-pages branch of PyVOL. The <cite>pyvol_manual.pdf</cite> is generated using sphinx’s evocation of pdfTeX. PyPI can apparently not parse rst files, so the README.rst is converted to a md file using pandoc just prior to deployment.</p>
+<p>Documentation is largely in the google style but being switched to sphinx style. Module documentation is collated using <cite>sphinx-apidoc</cite>. The documentation website is built using the <cite>sphinx-rtd-theme</cite> and maintained on the gh-pages branch of PyVOL. The <cite>pyvol_manual.pdf</cite> is generated using sphinx’s evocation of pdfTeX. PyPI can apparently not parse rst files, so the README.rst is converted to a md file using pandoc just prior to deployment.</p>
 </div>
 </div>
 

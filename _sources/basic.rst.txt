@@ -37,3 +37,7 @@ By default, input quantitative parameters are compared and constrained to test r
 .. code-block:: python
 
   pocket <protein selection>, constrain_inputs=True
+
+.. note::
+
+  Be careful about saving `.pse` PyMOL sessions with PyVOL-produced surfaces. PyMOL does not currently use plugins to load unfamiliar CGO objects, so calculated surfaces will not load correctly from a saved PyMOL session. On the other hand, saved PyMOL `.pml` logs should recreate results. Surfaces can be loaded back into a session using the `Load Pocket` (command-line `load_pocket`) commands.

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Loading Previous Results &mdash; PyVOL 1.2.33 documentation</title>
+  <title>Loading Previous Results &mdash; PyVOL 1.2.34 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                1.2.33
+                1.2.34
               </div>
             
           
@@ -87,12 +87,13 @@
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="basic.html">Basic Usage</a></li>
-<li class="toctree-l1"><a class="reference internal" href="pocket_specification.html">Pocket specification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pocket_specification.html">Pocket Specification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="partitioning.html">Partitioning Options</a></li>
-<li class="toctree-l1"><a class="reference internal" href="display.html">Display and Output Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="display.html">Output and Display Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="shell.html">Shell Interface</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Loading Previous Results</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#pocket-specification">Pocket Specification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#selecting-saved-results">Selecting Saved Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#display-options">Display Options</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="development.html">Development</a></li>
@@ -163,14 +164,21 @@
             
   <div class="section" id="loading-previous-results">
 <h1>Loading Previous Results<a class="headerlink" href="#loading-previous-results" title="Permalink to this headline">¶</a></h1>
-<p>Loading is possible</p>
+<p>PyMOL can not load custom CGO objects back into sessions correctly, so any PyMOL session containing PyVOL surfaces will have issues. PyMOL log files can be used but can take a while to run on slower computers. The <cite>Load Pocket</cite> (command-line <cite>load_pocket</cite>) command allows previous results to be read back in from file. In order to generate these input files, an <cite>Output Dir</cite> (command-line <cite>output_dir</cite>) must be set.</p>
 <div class="figure align-center" id="id1">
 <img alt="_images/loading_parameters_gui.png" src="_images/loading_parameters_gui.png" />
 <p class="caption"><span class="caption-text">GUI section that loads previous calculations into PyMOL for visualization</span></p>
 </div>
-<div class="section" id="pocket-specification">
-<h2>Pocket Specification<a class="headerlink" href="#pocket-specification" title="Permalink to this headline">¶</a></h2>
-<p>PyVOL by default recognizes the largest pocket and returns the volume and geometry for it. However, manual identification of the pocket of interest is generally preferable. This can be done through specification of a ligand, a residue, or a coordinate. If a specification is given, the mode is changed to specific by default.</p>
+<div class="section" id="selecting-saved-results">
+<h2>Selecting Saved Results<a class="headerlink" href="#selecting-saved-results" title="Permalink to this headline">¶</a></h2>
+<p>PyVOL saves its output as a collection of two files that hold all of the information to recreate the original <cite>Spheres</cite> object in memory. These files consist of a csv holding <cite>Spheres</cite> data and a 3D file holding surface triangulation information. If a surface has not been computed for a <cite>Spheres</cite> object, the 3D file will not be written out. However, all modes accessible through the PyMOL command-line and GUI interfaces will write a 3D file. The 3D files by default are written in the <cite>ascii STL</cite> format (updated from the wavefront <cite>obj</cite> format in PyVOL 1.2.34 and GUI version 1.1.3). Either the 3D file or the csv can be provided to read in the collection of both.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">load_pocket</span> <span class="o">&lt;</span><span class="mi">3</span><span class="n">D</span> <span class="ow">or</span> <span class="n">csv</span> <span class="nb">file</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">name</span><span class="o">=&lt;</span><span class="n">new</span> <span class="n">PyMOL</span> <span class="n">name</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">display_mode</span><span class="o">=&lt;</span><span class="s2">&quot;solid&quot;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">color</span><span class="o">=&lt;</span><span class="s2">&quot;marine&quot;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=&lt;</span><span class="mf">0.5</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="display-options">
+<h2>Display Options<a class="headerlink" href="#display-options" title="Permalink to this headline">¶</a></h2>
+<p>These options in the GUI are identical to the display options when performing a <em>de novo</em> calculation. On the command-line, <cite>name</cite> is accepted in place of <cite>prefix</cite>. Please see <a class="reference internal" href="display.html#display-options"><span class="std std-ref">Display Options</span></a> for more information</p>
 </div>
 </div>
 

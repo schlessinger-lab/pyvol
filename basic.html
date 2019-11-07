@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Basic Usage &mdash; PyVOL 1.2.33 documentation</title>
+  <title>Basic Usage &mdash; PyVOL 1.2.34 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                1.2.33
+                1.2.34
               </div>
             
           
@@ -94,7 +94,7 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pocket_specification.html">Pocket Specification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="partitioning.html">Partitioning Options</a></li>
-<li class="toctree-l1"><a class="reference internal" href="display.html">Display and Output Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="display.html">Output and Display Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="shell.html">Shell Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="load_previous.html">Loading Previous Results</a></li>
 <li class="toctree-l1"><a class="reference internal" href="development.html">Development</a></li>
@@ -166,7 +166,7 @@
   <div class="section" id="basic-usage">
 <h1>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h1>
 <p>The GUI and PyMOL prompt interfaces are all but identical. The shell interface is run using input configuration files and is best used to automate tasks first tested within PyMOL. Explanations for running PyVOL with the PyMOL GUI or prompt are covered first. Additional details covering shell invocation follow. Programmatic invocation of internal functions is supported and covered through the module documentation.</p>
-<p>The next few section describe the parameters controlling Basic Usage, <a class="reference internal" href="pocket_specification.html#pocket-specification"><span class="std std-ref">Pocket Specification</span></a>, <a class="reference internal" href="partitioning.html#partitioning-options"><span class="std std-ref">Partitioning Options</span></a>, and <a class="reference internal" href="display.html#display-and-output-options"><span class="std std-ref">Display and Output Options</span></a> along with the corresponding GUI sections.</p>
+<p>The next few section describe the parameters controlling Basic Usage, <a class="reference internal" href="pocket_specification.html#pocket-specification"><span class="std std-ref">Pocket Specification</span></a>, <a class="reference internal" href="partitioning.html#partitioning-options"><span class="std std-ref">Partitioning Options</span></a>, and <span class="xref std std-ref">display:Display and Output Options</span> along with the corresponding GUI sections.</p>
 <div class="figure align-center" id="id1">
 <img alt="_images/basic_parameters_gui.png" src="_images/basic_parameters_gui.png" />
 <p class="caption"><span class="caption-text">The Basic Parameters section of the PyVOL GUI</span></p>
@@ -190,6 +190,10 @@
 <p>By default, input quantitative parameters are compared and constrained to test ranges. The <cite>Constrain Inputs to Tested Ranges</cite> (command-line <cite>constrain_inputs</cite>) toggles this feature. While edge cases are possible in which violating constraints is useful, in practice these constraints represent effective ranges. In particular, setting the minimum radius to absurdly low values will start fitting pockets in even intramolecular spaces and provide meaningless output if not a crash.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pocket</span> <span class="o">&lt;</span><span class="n">protein</span> <span class="n">selection</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">constrain_inputs</span><span class="o">=</span><span class="bp">True</span>
 </pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Be careful about saving <cite>.pse</cite> PyMOL sessions with PyVOL-produced surfaces. PyMOL does not currently use plugins to load unfamiliar CGO objects, so calculated surfaces will not load correctly from a saved PyMOL session. On the other hand, saved PyMOL <cite>.pml</cite> logs should recreate results. Surfaces can be loaded back into a session using the <cite>Load Pocket</cite> (command-line <cite>load_pocket</cite>) commands.</p>
 </div>
 </div>
 </div>
