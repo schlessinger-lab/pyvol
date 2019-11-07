@@ -52,13 +52,12 @@ Supplying a ligand opens up two additional options. `Inclusion Radius` (command-
 
 .. code-block:: python
 
-  # Equivalent expressions
   pocket <protein_selection>, ligand=<ligand_selection>, lig_incl_rad=<3.5>, lig_excl_rad=<5.2>
 
 Residue Specification
 ^^^^^^^^^^^^^^^^^^^^^
 
-A residue can be supplied to localize a pocket. This can be done either with a PyMOL selection string or by specifying a residue ID. The `Residue PyMOL Selection` (command-line `residue`) takes an input PyMOL selection (which can be arbitrarily large or small but was designed to hold a single side chain). The `Reside Id` (command-line `resid`) accepts a string specifying an optional chain and a required residue index. For example, residue 35 of chain A would be specified by 'A35'. If only a single chain is present, the chain identifier can be omitted. PyVOL tries to identify the residue atom closest to an interior surface and uses that atom to specify the adjacent pocket of interest. Sometimes a residue is adjacent to multiple pockets. That makes it a poor, unpredictable choice for specification. If having trouble, specify a single atom as a PyMOL selection string.
+A residue can be supplied to localize a pocket. This can be done either with a PyMOL selection string or by specifying a residue ID. The `Residue PyMOL Selection` (command-line `residue`) takes an input PyMOL selection (which can be arbitrarily large or small but was designed to hold a single side chain). The `Residue Id` (command-line `resid`) accepts a string specifying an optional chain and a required residue index. For example, residue 35 of chain A would be specified by 'A35'. If only a single chain is present, the chain identifier can be omitted. PyVOL tries to identify the residue atom closest to an interior surface and uses that atom to specify the adjacent pocket of interest. Sometimes a residue is adjacent to multiple pockets. That makes it a poor, unpredictable choice for specification. If having trouble, specify a single atom as a PyMOL selection string.
 
 .. code-block:: python
 
@@ -67,7 +66,7 @@ A residue can be supplied to localize a pocket. This can be done either with a P
 
 
 Coordinate Specification
-------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^
 
 The final method for specifying a pocket interest is through providing a `Coordinate` (command-line `pocket_coordinate`) that is within the pocket. PyVOL identifies the closest atom in the protein selection to the supplied coordinate and uses it to define the surface of the calculated pocket. The coordinate value is accepted as a string of three floats with spaces in between values ("x y z"). When running on the command-line, quotation marks are necessary given default argument processing.
 

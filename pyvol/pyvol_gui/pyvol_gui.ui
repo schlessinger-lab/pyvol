@@ -57,7 +57,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-229</y>
             <width>688</width>
             <height>784</height>
            </rect>
@@ -94,7 +94,7 @@
                 <item row="1" column="0">
                  <widget class="QCheckBox" name="excl_org_cbox">
                   <property name="text">
-                   <string>i.e. only include PyMOL 'poly'</string>
+                   <string>only include PyMOL 'poly'</string>
                   </property>
                   <property name="checked">
                    <bool>true</bool>
@@ -491,7 +491,7 @@
           <item row="0" column="0">
            <widget class="QLabel" name="pocket_file_label">
             <property name="text">
-             <string>Pocket File (obj or csv):</string>
+             <string>Pocket File (stl or csv):</string>
             </property>
            </widget>
           </item>
