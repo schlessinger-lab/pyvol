@@ -18,7 +18,7 @@ mv ${small_zip_name} ../installers/
 cp ../installers/${small_zip_name} ../installers/pyvol-installer.zip
 
 cd $cache_dir
-# pip download bio-pyvol --no-binary :all:
+pip download bio-pyvol --no-binary :all:
 
 cd ${project_dir}
 zip -r ${full_zip_name} pyvol_gui/
