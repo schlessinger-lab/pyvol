@@ -1,6 +1,6 @@
 
 
-__version__ = "1.1.6"
+__version__ = "1.1.7"
 
 import logging
 import os
@@ -256,7 +256,7 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
 
     form.msms_new_button.clicked.connect(lambda: refresh_installation_status(form, add_msms_source=True))
     form.msms_new_button.setEnabled(False)
-    new_msms_exe = form.msms_new_label.getText()
+    new_msms_exe = form.msms_new_label.text()
     if new_msms_exe is not None:
         if os.path.exists(new_msms_exe):
             form.msms_new_button.setEnabled(True)

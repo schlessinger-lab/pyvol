@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 main_logger = logging.getLogger("pyvol")
 
 def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None, residue_coordinates=None, min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, subdivide=False, minimum_volume=200, min_subpocket_rad=1.7, min_subpocket_surf_rad=1.0, max_clusters=None, prefix=None, output_dir=None, constrain_inputs=False):
-    """Calculates the SES for a binding pocket
+    """Calculates the SAS for a binding pocket
 
     Args:
       prot_file (str): filename for the input pdb file containing the peptidee

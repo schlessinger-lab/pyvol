@@ -355,9 +355,9 @@ class Spheres(object):
             if self.mesh is None:
                 logger.error("Cannot write out an uninitialized mesh")
             else:
-                output_mesh = "{0}.obj".format(os.path.splitext(filename)[0])
+                output_mesh = "{0}.stl".format(os.path.splitext(filename)[0])
                 self.mesh.export(file_obj = output_mesh)
-                logger.debug("{0} written to obj file: {1}.obj".format(self.name, os.path.splitext(filename)[0]))
+                logger.debug("{0} written to stl file: {1}.stl".format(self.name, os.path.splitext(filename)[0]))
 
     @property
     def xyzrg(self):

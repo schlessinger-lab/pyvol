@@ -110,6 +110,7 @@ def extract_groups(spheres, surf_radius=None, prefix=None):
     for group in groups:
         group_spheres = Spheres(xyzrg = spheres.xyzrg[spheres.g == group].copy())
         group_list.append(group_spheres)
+        print(group, group_spheres.xyzrg.shape)
 
     logger.debug("Extracting {0} groups from {1}".format(len(group_list), spheres.name))
 
@@ -320,7 +321,6 @@ def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.
 
     """
     from sklearn.preprocessing import normalize
-
     groups = np.unique(spheres.g)[:-1]
 
     if radii is None:
@@ -332,7 +332,7 @@ def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.
             group_indices = np.where((spheres.g == group) & (spheres.r > (radius - spacing)) & (spheres.r <= radius))[0]
             other_indices = np.where((spheres.g != group) & (spheres.r > (radius - spacing)) & (spheres.r <= radius))[0]
 
-
+            print("before", group, len(group_indices), len(other_indices))
             if len(group_indices) == 0 or len(other_indices) == 0:
                 continue
 
@@ -377,7 +377,7 @@ def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.
                 overlap_indices = overlap_indices[closest_indices]
                 overlapped_group_indices = overlapped_group_indices[closest_indices]
 
-                overlap_adjustment = 0.25 * overlaps
+                overlap_adjustment = 0.26 * overlaps # 0.25 should work but leads to a logarithmic approach of proper adjustment
                 vector = overlap_adjustment[:, np.newaxis] * normalize(group_data[overlapped_group_indices, 0:3] - other_data[overlap_indices, 0:3])
 
                 group_data[overlapped_group_indices, 0:3] = group_data[overlapped_group_indices, 0:3] + vector
@@ -394,3 +394,4 @@ def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.
 
             spheres.xyzrg[group_indices[altered_group_indices]] = group_data[altered_group_indices]
             spheres.xyzrg[other_indices[altered_other_indices]] = other_data[altered_other_indices]
+            print("adjust", group, len(altered_group_indices), len(altered_other_indices))
