@@ -8,7 +8,7 @@ import shutil
 import tempfile
 
 def construct_3d_surfaces(*domains, **kwargs):
-    print("testing commit with bfg-cleaned clone")
+
     surface_rad = 1.4
 
     atomic_spheres = None
@@ -25,7 +25,6 @@ def construct_3d_surfaces(*domains, **kwargs):
         else:
             atomic_spheres = atomic_spheres + d_p
     print("full", atomic_spheres.xyzrg.shape)
-    # pymol_utilities.display_spheres_object(atomic_spheres, "combined")
 
     raws = cluster.extract_groups(atomic_spheres, surf_radius=surface_rad, prefix="raw")
     for raw in raws:

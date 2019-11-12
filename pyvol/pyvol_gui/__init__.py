@@ -399,9 +399,6 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
             form.tabWidget.setCurrentIndex(2)
             status_msg = apply_color("Error: MSMS must be installed for PyVOL to run.<br>", "red")
 
-        form.reload_settings_button.setEnabled(True)
-        form.reload_settings_button.clicked.connect(lambda: refresh_installation_status(form))
-
         gui_version = None
         expected_gui_version = None
         try:
