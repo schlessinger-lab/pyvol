@@ -8,6 +8,7 @@ import shutil
 import tempfile
 
 def construct_3d_surfaces(*domains, **kwargs):
+    print("testing commit with bfg-cleaned clone")
     surface_rad = 1.4
 
     atomic_spheres = None
