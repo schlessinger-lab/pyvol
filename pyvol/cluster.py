@@ -1,5 +1,6 @@
 
 from .spheres import Spheres
+import itertools
 import logging
 import numpy as np
 import scipy
@@ -92,7 +93,7 @@ def cluster_improperly_grouped(spheres, radius, min_cluster_size=1, max_clusters
     logger.debug("Improperly grouped spheres re-clustered yielding {0} groups".format(num_groups))
 
 
-def extract_groups(spheres, surf_radius=None, prefix=None):
+def extract_groups(spheres, surf_radius=None, prefix=None, group_names=None):
     """ Extracts spheres belonging to each cluster from the complete input set and optionally calculates bounded surfaces
 
     Args:
@@ -107,10 +108,13 @@ def extract_groups(spheres, surf_radius=None, prefix=None):
     groups = np.unique(spheres.g)
 
     group_list = []
-    for group in groups:
+    for index, group in enumerate(groups):
         group_spheres = Spheres(xyzrg = spheres.xyzrg[spheres.g == group].copy())
+        if prefix is not None:
+            group_spheres.name = "{0}_p0_sp{1}".format(prefix, index)
+        elif group_names is not None:
+            group_spheres.name = group_names[index]
         group_list.append(group_spheres)
-        print(group, group_spheres.xyzrg.shape)
 
     logger.debug("Extracting {0} groups from {1}".format(len(group_list), spheres.name))
 
@@ -128,8 +132,7 @@ def extract_groups(spheres, surf_radius=None, prefix=None):
             e_s.g = index
             g_s.mesh = e_s.mesh.copy()
 
-            if prefix is not None:
-                g_s.name = "{0}_p0_sp{1}".format(prefix, index)
+            e_s.name = g_s.name
             new_group_list.append(g_s)
             new_ext_list.append(e_s)
 
@@ -309,7 +312,19 @@ def remove_interior(spheres):
     spheres.xyzrg = np.delete(spheres.xyzrg, interior_indices, axis=0)
 
 
-def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.02):
+def remove_included_spheres(spheres, ref_spheres, radius):
+        """ Removes all spheres with centers within radius of ref_spheres
+
+        """
+
+        kdtree = scipy.spatial.cKDTree(spheres.xyz)
+        groups = kdtree.query_ball_point(ref_spheres.xyz, radius, n_jobs=-1)
+        indices = np.unique(list(itertools.chain.from_iterable(groups)))
+
+        spheres.xyzrg = np.delete(spheres.xyzrg, indices, axis=0)
+
+
+def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.02, static_last_group=False):
     """ Remove overlap between groups; operates in place
 
     Args:
@@ -318,6 +333,7 @@ def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.
       spacing (float): binning radius (Default value = 0.1)
       iterations (int): number of times to attempt overlap removal (Default value = 20)
       tolerance (float): overlap tolerance (Default value = 0.02)
+      static_last_group (bool): don't move the 'other' group but rather the first group twice as much (effectively leaves the group with the highest index in place while moving everything else around it)
 
     """
     from sklearn.preprocessing import normalize
@@ -332,7 +348,6 @@ def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.
             group_indices = np.where((spheres.g == group) & (spheres.r > (radius - spacing)) & (spheres.r <= radius))[0]
             other_indices = np.where((spheres.g != group) & (spheres.r > (radius - spacing)) & (spheres.r <= radius))[0]
 
-            print("before", group, len(group_indices), len(other_indices))
             if len(group_indices) == 0 or len(other_indices) == 0:
                 continue
 
@@ -377,21 +392,24 @@ def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.
                 overlap_indices = overlap_indices[closest_indices]
                 overlapped_group_indices = overlapped_group_indices[closest_indices]
 
-                overlap_adjustment = 0.26 * overlaps # 0.25 should work but leads to a logarithmic approach of proper adjustment
+                if not static_last_group:
+                    overlap_adjustment = 0.26 * overlaps # 0.25 should work but leads to a logarithmic approach of proper adjustment
+                else:
+                    overlap_adjustment = 0.51 * overlaps # move the mobile group twice as much if the other group isn't moving
+
                 vector = overlap_adjustment[:, np.newaxis] * normalize(group_data[overlapped_group_indices, 0:3] - other_data[overlap_indices, 0:3])
 
                 group_data[overlapped_group_indices, 0:3] = group_data[overlapped_group_indices, 0:3] + vector
                 group_data[overlapped_group_indices, 3] = group_data[overlapped_group_indices, 3] - overlap_adjustment
-
-                other_data[overlap_indices, 0:3] = other_data[overlap_indices, 0:3] - vector
-                other_data[overlap_indices, 3] = other_data[overlap_indices, 3] - overlap_adjustment
-
                 altered_group_indices.extend(list(overlapped_group_indices))
-                altered_other_indices.extend(list(overlap_indices))
+
+                if not static_last_group:
+                    other_data[overlap_indices, 0:3] = other_data[overlap_indices, 0:3] - vector
+                    other_data[overlap_indices, 3] = other_data[overlap_indices, 3] - overlap_adjustment
+                    altered_other_indices.extend(list(overlap_indices))
 
             altered_group_indices = np.unique(altered_group_indices).astype(int)
             altered_other_indices = np.unique(altered_other_indices).astype(int)
 
             spheres.xyzrg[group_indices[altered_group_indices]] = group_data[altered_group_indices]
             spheres.xyzrg[other_indices[altered_other_indices]] = other_data[altered_other_indices]
-            print("adjust", group, len(altered_group_indices), len(altered_other_indices))

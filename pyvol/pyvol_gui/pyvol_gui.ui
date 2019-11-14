@@ -491,7 +491,7 @@
           <item row="0" column="0">
            <widget class="QLabel" name="pocket_file_label">
             <property name="text">
-             <string>Pocket File (stl or csv):</string>
+             <string>Pocket File (obj or csv):</string>
             </property>
            </widget>
           </item>
@@ -666,7 +666,7 @@
              <item row="0" column="0">
               <widget class="QRadioButton" name="msms_default_rbutton">
                <property name="text">
-                <string>On Path or Bundled</string>
+                <string>PyVOL-bundled</string>
                </property>
                <property name="checked">
                 <bool>false</bool>

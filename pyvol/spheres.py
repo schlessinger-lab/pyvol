@@ -16,20 +16,13 @@ import trimesh
 
 logger = logging.getLogger(__name__)
 
+
+
+
 class Spheres(object):
     """ """
 
-    def __init__(self,
-                 xyz=None,
-                 r=None,
-                 xyzr=None,
-                 xyzrg=None,
-                 g=None,
-                 pdb=None,
-                 bv=None,
-                 mesh=None,
-                 name=None,
-                 spheres_file=None):
+    def __init__(self, xyz=None, r=None, xyzr=None, xyzrg=None, g=None, pdb=None, bv=None, mesh=None, name=None, spheres_file=None):
         """
         A Spheres object contains a list of xyz centers with r radii and g groups. It can be defined using xyzrg, xyzr (and optionally g), xyz (and optionally r or g), a pdb file (and optionally r or g), or a list of vertices with normals bounded by the spheres (requires r and optionally includes g)
 
@@ -86,15 +79,15 @@ class Spheres(object):
                 self.g = g
         elif spheres_file is not None:
             csv_file = None
-            stl_file = None
+            obj_file = None
 
             base, ext = os.path.splitext(spheres_file)
             if ext == ".csv":
                 csv_file = spheres_file
-                stl_file = "{0}.stl".format(base)
+                obj_file = "{0}.obj".format(base)
             elif ext == ".obj":
                 csv_file = "{0}.csv".format(base)
-                stl_file = spheres_file
+                obj_file = spheres_file
             else:
                 logger.error("Invalid filename given to read in spheres object: {0}".format(spheres_file))
             spheres_data = np.loadtxt(csv_file, delimiter=' ')
@@ -105,7 +98,7 @@ class Spheres(object):
                 self.xyzr = spheres_data
             else:
                 logger.error("Spheres csv file contains the wrong number of columns")
-            mesh = trimesh.load_mesh(stl_file)
+            mesh = trimesh.load_mesh(obj_file)
 
             if name is None:
                 name = os.path.basename(base)
@@ -157,7 +150,7 @@ class Spheres(object):
         xyzr_file = os.path.join(tmpdir, "pyvol.xyzr")
         msms_template = os.path.join(tmpdir, "pyvol_msms")
 
-        np.savetxt(xyzr_file, self.xyzr, delimiter=' ', fmt='% 1.3f'+'% 1.3f'+'% 1.3f'+'% 1.2f')
+        np.savetxt(xyzr_file, self.xyzr, delimiter=' ', fmt='% 1.3f'+' % 1.3f'+' % 1.3f'+'% 1.2f')
         if (cavity_atom is None) and (coordinate is not None):
             cavity_atom = self.nearest(coordinate, max_radius=exclusionary_radius)
 
@@ -203,7 +196,7 @@ class Spheres(object):
                 faces = np.flip(faces, axis=1)
                 mesh = trimesh.base.Trimesh(vertices=vertices, faces=faces)
             bspheres = Spheres(bv=verts_raw, r=probe_radius, mesh=mesh)
-            shutil.rmtree(tmpdir)
+            # shutil.rmtree(tmpdir)
             logger.debug("Single volume calculated for {0}".format(self.name))
             return [bspheres]
 
@@ -232,6 +225,7 @@ class Spheres(object):
                         bspheres = Spheres(bv=verts_raw, r=probe_radius, mesh=tm)
                         spheres_list.append(bspheres)
 
+            # shutil.rmtree(tmpdir)
             if largest_only:
                 logger.debug("Largest volume identified for {0}".format(msms_template))
                 return [bspheres]
@@ -258,6 +252,8 @@ class Spheres(object):
 
         logger.debug("Non-extraneous spheres removed")
         return Spheres(xyzrg=np.copy(self.xyzrg[indices, :]))
+
+
 
 
     def nearest(self, coordinate, max_radius=None):
@@ -355,9 +351,9 @@ class Spheres(object):
             if self.mesh is None:
                 logger.error("Cannot write out an uninitialized mesh")
             else:
-                output_mesh = "{0}.stl".format(os.path.splitext(filename)[0])
+                output_mesh = "{0}.obj".format(os.path.splitext(filename)[0])
                 self.mesh.export(file_obj = output_mesh)
-                logger.debug("{0} written to stl file: {1}.stl".format(self.name, os.path.splitext(filename)[0]))
+                logger.debug("{0} written to obj file: {1}.obj".format(self.name, os.path.splitext(filename)[0]))
 
     @property
     def xyzrg(self):
@@ -465,4 +461,53 @@ class Spheres(object):
             else:
                 raise ValueError("Number of group values must match the number of rows in the internal xyzr array")
         else:
-            self._xyzrg[:, 4] = value.astype(float)
+            self._xyzrg[:, 4] = value
+#
+# class Cylinder(Spheres):
+#     def __init__(self, center, normal, r=1.5, g=None):
+#         """ Creates a cylinder-like object out of spheres to simulate two magnets
+#         """
+#
+#         xyz = np.array([
+#             [0, 0, 1.1],
+#             [1.1, 0, 1.1],
+#             [0.55, 0.95, 1.1],
+#             [-0.55, 0.95, 1.1],
+#             [-1.1, 0, 1.1],
+#             [-0.55, -0.95, 1.1],
+#             [0.55, -0.95, 1.1],
+#             [2.2, 0, 1.1],
+#             [1.9, 1.1, 1.1],
+#             [1.1, 1.9, 1.1],
+#             [0, 2.2, 1.1],
+#             [-1.1, 1.9, 1.1],
+#             [-1.9, 1.1, 1.1],
+#             [-2.2, 0, 1.1],
+#             [-1.9, -1.1, 1.1],
+#             [-1.1, -1.9, 1.1],
+#             [0, -2.2, 1.1],
+#             [1.1, -1.9, 1.1],
+#             [1.9, -1.1, 1.1],
+#             [0, 0, -1.1],
+#             [1.1, 0, -1.1],
+#             [0.55, 0.95, -1.1],
+#             [-0.55, 0.95, -1.1],
+#             [-1.1, 0, -1.1],
+#             [-0.55, -0.95, -1.1],
+#             [0.55, -0.95, -1.1],
+#             [2.2, 0, -1.1],
+#             [1.9, 1.1, -1.1],
+#             [1.1, 1.9, -1.1],
+#             [0, 2.2, -1.1],
+#             [-1.1, 1.9, -1.1],
+#             [-1.9, 1.1, -1.1],
+#             [-2.2, 0, -1.1],
+#             [-1.9, -1.1, -1.1],
+#             [-1.1, -1.9, -1.1],
+#             [0, -2.2, -1.1],
+#             [1.1, -1.9, -1.1],
+#             [1.9, -1.1, -1.1],
+#         ])
+#
+#         rot_matrix = utilities.calculate_rotation_matrix(np.array([0, 0, 1]), normal)
+#         super(Cylinder, self).__init__(xyz=self.xyz * rot_matrix + center, r=np.float64(r), g=np.float64(g), name="connection")
