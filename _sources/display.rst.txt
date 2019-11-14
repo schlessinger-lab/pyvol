@@ -18,7 +18,7 @@ The output name for all computed PyMOL objects and the base filename for any out
 
    pocket <protein_selection>, prefix=<output_prefix>
 
-PyVOL can also write the input and output files to a directory specified with `Output Dir` (command-line `output_dir`). In this case it writes out the input protein and ligand structures, a csv report of all calcuated volumes, and paired csv/stl files containing tangent sphere collections and 3D triangulated mesh files respectively. Relative and absolute paths both work. However, in many cases referencing the home directory with ~ will not access the user's home directory. STL files can be read by almost all 3D file viewers.
+PyVOL can also write the input and output files to a directory specified with `Output Dir` (command-line `output_dir`). In this case it writes out the input protein and ligand structures, a csv report of all calcuated volumes, and paired csv/obj files containing tangent sphere collections and 3D triangulated mesh files respectively. Relative and absolute paths both work. However, in many cases referencing the home directory with ~ will not access the user's home directory. OBJ files can be read by almost all 3D file viewers.
 
 .. code-block:: python
 

@@ -13,7 +13,7 @@ PyMOL can not load custom CGO objects back into sessions correctly, so any PyMOL
 Selecting Saved Results
 -----------------------
 
-PyVOL saves its output as a collection of two files that hold all of the information to recreate the original `Spheres` object in memory. These files consist of a csv holding `Spheres` data and a 3D file holding surface triangulation information. If a surface has not been computed for a `Spheres` object, the 3D file will not be written out. However, all modes accessible through the PyMOL command-line and GUI interfaces will write a 3D file. The 3D files by default are written in the `ascii STL` format (updated from the wavefront `obj` format in PyVOL 1.2.34 and GUI version 1.1.3). Either the 3D file or the csv can be provided to read in the collection of both.
+PyVOL saves its output as a collection of two files that hold all of the information to recreate the original `Spheres` object in memory. These files consist of a csv holding `Spheres` data and a 3D file holding surface triangulation information. If a surface has not been computed for a `Spheres` object, the 3D file will not be written out. However, all modes accessible through the PyMOL command-line and GUI interfaces will write a 3D file. The 3D files by default are written in the `OBJ` format. Either the 3D file or the csv can be provided to read in the collection of both.
 
 .. code-block:: python
 

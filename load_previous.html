@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Loading Previous Results &mdash; PyVOL 1.2.40 documentation</title>
+  <title>Loading Previous Results &mdash; PyVOL 1.2.41 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                1.2.40
+                1.2.41
               </div>
             
           
@@ -171,7 +171,7 @@
 </div>
 <div class="section" id="selecting-saved-results">
 <h2>Selecting Saved Results<a class="headerlink" href="#selecting-saved-results" title="Permalink to this headline">¶</a></h2>
-<p>PyVOL saves its output as a collection of two files that hold all of the information to recreate the original <cite>Spheres</cite> object in memory. These files consist of a csv holding <cite>Spheres</cite> data and a 3D file holding surface triangulation information. If a surface has not been computed for a <cite>Spheres</cite> object, the 3D file will not be written out. However, all modes accessible through the PyMOL command-line and GUI interfaces will write a 3D file. The 3D files by default are written in the <cite>ascii STL</cite> format (updated from the wavefront <cite>obj</cite> format in PyVOL 1.2.34 and GUI version 1.1.3). Either the 3D file or the csv can be provided to read in the collection of both.</p>
+<p>PyVOL saves its output as a collection of two files that hold all of the information to recreate the original <cite>Spheres</cite> object in memory. These files consist of a csv holding <cite>Spheres</cite> data and a 3D file holding surface triangulation information. If a surface has not been computed for a <cite>Spheres</cite> object, the 3D file will not be written out. However, all modes accessible through the PyMOL command-line and GUI interfaces will write a 3D file. The 3D files by default are written in the <cite>OBJ</cite> format. Either the 3D file or the csv can be provided to read in the collection of both.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">load_pocket</span> <span class="o">&lt;</span><span class="mi">3</span><span class="n">D</span> <span class="ow">or</span> <span class="n">csv</span> <span class="nb">file</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">name</span><span class="o">=&lt;</span><span class="n">new</span> <span class="n">PyMOL</span> <span class="n">name</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">display_mode</span><span class="o">=&lt;</span><span class="s2">&quot;solid&quot;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">color</span><span class="o">=&lt;</span><span class="s2">&quot;marine&quot;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=&lt;</span><span class="mf">0.5</span><span class="o">&gt;</span>
 </pre></div>
 </div>

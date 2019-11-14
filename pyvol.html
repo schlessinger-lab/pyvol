@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PyVOL Package &mdash; PyVOL 1.2.40 documentation</title>
+  <title>PyVOL Package &mdash; PyVOL 1.2.41 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                1.2.40
+                1.2.41
               </div>
             
           
@@ -213,7 +213,7 @@ max_clusters (int): maximum number of ‘proper’ clusters (Default value = Non
 
 <dl class="function">
 <dt id="pyvol.cluster.extract_groups">
-<code class="descclassname">pyvol.cluster.</code><code class="descname">extract_groups</code><span class="sig-paren">(</span><em>spheres</em>, <em>surf_radius=None</em>, <em>prefix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.extract_groups" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pyvol.cluster.</code><code class="descname">extract_groups</code><span class="sig-paren">(</span><em>spheres</em>, <em>surf_radius=None</em>, <em>prefix=None</em>, <em>group_names=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.extract_groups" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extracts spheres belonging to each cluster from the complete input set and optionally calculates bounded surfaces</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -305,8 +305,14 @@ preserve_largest: keep the group id of the group with more members? (Default val
 </dd></dl>
 
 <dl class="function">
+<dt id="pyvol.cluster.remove_included_spheres">
+<code class="descclassname">pyvol.cluster.</code><code class="descname">remove_included_spheres</code><span class="sig-paren">(</span><em>spheres</em>, <em>ref_spheres</em>, <em>radius</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.remove_included_spheres" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes all spheres with centers within radius of ref_spheres</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="pyvol.cluster.remove_overlap">
-<code class="descclassname">pyvol.cluster.</code><code class="descname">remove_overlap</code><span class="sig-paren">(</span><em>spheres</em>, <em>radii=None</em>, <em>spacing=0.1</em>, <em>iterations=20</em>, <em>tolerance=0.02</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.remove_overlap" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pyvol.cluster.</code><code class="descname">remove_overlap</code><span class="sig-paren">(</span><em>spheres</em>, <em>radii=None</em>, <em>spacing=0.1</em>, <em>iterations=20</em>, <em>tolerance=0.02</em>, <em>static_last_group=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.remove_overlap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove overlap between groups; operates in place</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -314,7 +320,8 @@ preserve_largest: keep the group id of the group with more members? (Default val
 radii ([float]): radii at which to perform searches for overlap (Default value = None)
 spacing (float): binning radius (Default value = 0.1)
 iterations (int): number of times to attempt overlap removal (Default value = 20)
-tolerance (float): overlap tolerance (Default value = 0.02)</dd>
+tolerance (float): overlap tolerance (Default value = 0.02)
+static_last_group (bool): don’t move the ‘other’ group but rather the first group twice as much (effectively leaves the group with the highest index in place while moving everything else around it)</dd>
 </dl>
 </dd></dl>
 
@@ -645,6 +652,22 @@ output_mesh (bool): write mesh to file? (Default value = True)</dd>
 </div>
 <div class="section" id="module-pyvol.utilities">
 <span id="pyvol-utilities-module"></span><h2>PyVOL Utilities Module<a class="headerlink" href="#module-pyvol.utilities" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyvol.utilities.calculate_rotation_matrix">
+<code class="descclassname">pyvol.utilities.</code><code class="descname">calculate_rotation_matrix</code><span class="sig-paren">(</span><em>ref_vector</em>, <em>new_vector</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.calculate_rotation_matrix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the 3D rotation matrix to convert from ref_vector to new_vector
+np.linalg.norm()
+np.cross()
+np.dot()
+logic adapted from printipi: <a class="reference external" href="https://github.com/Wallacoloo/printipi/blob/master/util/rotation_matrix.py">https://github.com/Wallacoloo/printipi/blob/master/util/rotation_matrix.py</a> but with -1 * acos</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyvol.utilities.closest_vertex_normals">
+<code class="descclassname">pyvol.utilities.</code><code class="descname">closest_vertex_normals</code><span class="sig-paren">(</span><em>ref_mesh</em>, <em>query_mesh</em>, <em>ref_coordinates=None</em>, <em>ref_radius=2</em>, <em>interface_gap=2</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.closest_vertex_normals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds the closest vertex to a 3xn numpy array of coordinates</p>
+</dd></dl>
+
 <dl class="function">
 <dt id="pyvol.utilities.check_dir">
 <code class="descclassname">pyvol.utilities.</code><code class="descname">check_dir</code><span class="sig-paren">(</span><em>location</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.check_dir" title="Permalink to this definition">¶</a></dt>
