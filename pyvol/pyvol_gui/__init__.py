@@ -1,6 +1,6 @@
 
 
-__version__ = "1.1.9"
+__version__ = "1.1.10"
 
 import logging
 import os
@@ -254,15 +254,7 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
     incentive_msms_present = False
     incentive_msms_exe = None
 
-    form.msms_new_button.clicked.connect(lambda: refresh_installation_status(form, add_msms_source=True))
-    form.msms_new_button.setEnabled(False)
-    new_msms_exe = form.msms_new_label.text()
-    if new_msms_exe is not None:
-        if os.path.exists(new_msms_exe):
-            form.msms_new_button.setEnabled(True)
-            if add_msms_source:
-                if new_msms_exe not in sys.path:
-                    sys.path.append(new_msms_exe)
+
 
     # First check the bundled directory
     if pyvol_installed:
@@ -289,7 +281,7 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
 
     # Now check for the incentive msms
     bin_dir = os.path.dirname(sys.executable)
-    pymol_root_dir = os.path.dirname(os.path.dirname(bin_dir))
+    pymol_root_dir = os.path.dirname(bin_dir)
     incentive_msms_exe = os.path.join(pymol_root_dir, "pkgs", "msms-2.6.1-2/bin/msms")
 
     if os.path.exists(incentive_msms_exe):
@@ -297,6 +289,7 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
     else:
         incentive_msms_exe = None
 
+    test_custom = form.msms_custom_ledit.text()
     if form.msms_default_rbutton.isChecked() and default_msms_present:
         form.msms_new_label.setText("{0}".format(default_msms_exe))
     elif form.msms_pymol_rbutton.isChecked() and incentive_msms_present:
@@ -305,6 +298,23 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
         custom_msms_exe = form.msms_custom_ledit.text()
         if os.path.exists(custom_msms_exe):
             form.msms_new_label.setText("{0}".format(custom_msms_exe))
+
+    form.msms_new_button.clicked.connect(lambda: refresh_installation_status(form, add_msms_source=True))
+    # form.msms_new_button.setEnabled(False)
+    new_msms_exe = form.msms_new_label.text()
+
+    enable_add_source = False
+    if new_msms_exe is not None:
+        if os.path.exists(new_msms_exe):
+            # form.msms_new_button.setEnabled(True)
+            enable_add_source = True
+            if add_msms_source:
+                if new_msms_exe not in sys.path:
+                    sys.path.append(new_msms_exe)
+    form.msms_new_button.setEnabled(enable_add_source)
+
+    form.check_source_button.clicked.connect(lambda: refresh_installation_status(form)
+    form.check_source_button.setEnabled(True)
 
     if pyvol_installed:
         msms_exe = distutils.spawn.find_executable("msms")

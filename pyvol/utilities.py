@@ -14,9 +14,6 @@ logger = logging.getLogger(__name__)
 
 def calculate_rotation_matrix(ref_vector, new_vector):
     """ Calculates the 3D rotation matrix to convert from ref_vector to new_vector
-        np.linalg.norm()
-        np.cross()
-        np.dot()
         logic adapted from printipi: https://github.com/Wallacoloo/printipi/blob/master/util/rotation_matrix.py but with -1 * acos
     """
 
