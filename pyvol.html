@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PyVOL Package &mdash; PyVOL 1.2.41 documentation</title>
+  <title>PyVOL Package &mdash; PyVOL 1.2.42 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                1.2.41
+                1.2.42
               </div>
             
           
@@ -96,7 +96,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.cluster">PyVOL Cluster Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.identify">PyVOL Identify Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-pyvol.pymol_interface">PyVOL Pymol Interface Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pyvol-pymol-interface-module">PyVOL Pymol Interface Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.pymol_utilities">PyVOL Pymol Utilities Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.spheres">PyVOL Spheres Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.utilities">PyVOL Utilities Module</a></li>
@@ -392,52 +392,8 @@ prefix (str): identifying prefix for output files</dd>
 </dd></dl>
 
 </div>
-<div class="section" id="module-pyvol.pymol_interface">
-<span id="pyvol-pymol-interface-module"></span><h2>PyVOL Pymol Interface Module<a class="headerlink" href="#module-pyvol.pymol_interface" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="pyvol.pymol_interface.load_pocket">
-<code class="descclassname">pyvol.pymol_interface.</code><code class="descname">load_pocket</code><span class="sig-paren">(</span><em>spheres_file</em>, <em>name=None</em>, <em>display_mode='solid'</em>, <em>color='marine'</em>, <em>alpha=0.85</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.load_pocket" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Args:</dt>
-<dd>spheres_file (str): filename
-name (str): internal display name (Default value = None)
-display_mode (str): display mode (Default value = “solid”)
-color (str): PyMOL color string (Default value = ‘marine’)
-alpha (float): transparency value (Default value = 0.85)</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="pyvol.pymol_interface.pocket">
-<code class="descclassname">pyvol.pymol_interface.</code><code class="descname">pocket</code><span class="sig-paren">(</span><em>protein</em>, <em>mode=None</em>, <em>ligand=None</em>, <em>pocket_coordinate=None</em>, <em>residue=None</em>, <em>resid=None</em>, <em>prefix=None</em>, <em>min_rad=1.4</em>, <em>max_rad=3.4</em>, <em>lig_excl_rad=None</em>, <em>lig_incl_rad=None</em>, <em>display_mode='solid'</em>, <em>color='marine'</em>, <em>alpha=0.85</em>, <em>output_dir=None</em>, <em>subdivide=None</em>, <em>minimum_volume=200</em>, <em>min_subpocket_rad=1.7</em>, <em>min_subpocket_surf_rad=1.0</em>, <em>max_clusters=None</em>, <em>excl_org=False</em>, <em>constrain_inputs=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.pocket" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the SAS for a binding pocket and displays it</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>protein (str): PyMOL selection string for the protein
-mode (str): pocket identification mode (can be largest, all, or specific) (Default value = None)
-ligand (str): PyMOL selection string for the ligand (Default value = None)
-pocket_coordinate ([float]): 3D coordinate used for pocket specification (Default value = None)
-residue (str): PyMOL residue selection string for pocket specification (Default value = None)
-resid (str): residue identifier for pocket specification (Default value = None)
-prefix (str): identifying string for output (Default value = None)
-min_rad (float): radius for SAS calculations (Default value = 1.4)
-max_rad (float): radius used to identify the outer, bulk solvent exposed surface (Default value = 3.4)
-lig_excl_rad (float): maximum distance from a provided ligand that can be included in calculated pockets (Default value = None)
-lig_incl_rad (float): minimum distance from a provided ligand that should be included in calculated pockets when solvent border is ambiguous (Default value = None)
-display_mode (str): display mode for calculated pockets (Default value = “solid”)
-color (str): PyMOL color string (Default value = ‘marine’)
-alpha (float): transparency value (Default value = 0.85)
-output_dir (str): filename of the directory in which to place all output; can be absolute or relative (Default value = None)
-subdivide (bool): calculate subpockets? (Default value = None)
-minimum_volume (float): minimum volume of pockets returned when running in ‘all’ mode (Default value = 200)
-min_subpocket_rad (float): minimum radius that identifies distinct subpockets (Default value = 1.7)
-min_subpocket_surf_rad (float): radius used to calculate subpocket surfaces (Default value = 1.0)
-max_clusters (int): maximum number of clusters (Default value = None)
-excl_org (bool): exclude non-peptide atoms from the protein selection? (Default value = False)
-constrain_inputs (bool): constrain input quantitative values to tested ranges? (Default value = True)</dd>
-</dl>
-</dd></dl>
-
+<div class="section" id="pyvol-pymol-interface-module">
+<h2>PyVOL Pymol Interface Module<a class="headerlink" href="#pyvol-pymol-interface-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-pyvol.pymol_utilities">
 <span id="pyvol-pymol-utilities-module"></span><h2>PyVOL Pymol Utilities Module<a class="headerlink" href="#module-pyvol.pymol_utilities" title="Permalink to this headline">¶</a></h2>
@@ -656,9 +612,6 @@ output_mesh (bool): write mesh to file? (Default value = True)</dd>
 <dt id="pyvol.utilities.calculate_rotation_matrix">
 <code class="descclassname">pyvol.utilities.</code><code class="descname">calculate_rotation_matrix</code><span class="sig-paren">(</span><em>ref_vector</em>, <em>new_vector</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.calculate_rotation_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the 3D rotation matrix to convert from ref_vector to new_vector
-np.linalg.norm()
-np.cross()
-np.dot()
 logic adapted from printipi: <a class="reference external" href="https://github.com/Wallacoloo/printipi/blob/master/util/rotation_matrix.py">https://github.com/Wallacoloo/printipi/blob/master/util/rotation_matrix.py</a> but with -1 * acos</p>
 </dd></dl>
 

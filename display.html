@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Output and Display Options &mdash; PyVOL 1.2.41 documentation</title>
+  <title>Output and Display Options &mdash; PyVOL 1.2.42 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                1.2.41
+                1.2.42
               </div>
             
           
@@ -188,7 +188,10 @@
 <span class="n">pocket</span> <span class="n">protein_selection</span><span class="p">,</span> <span class="n">display_mode</span><span class="o">=</span><span class="n">spheres</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">firebrick</span>
 </pre></div>
 </div>
-<p>The presets should generally be sufficient, but custom colors can be chosen using the commands given on the PyMOL wiki. When creating multiple surfaces at the same time, PyVOL generates a palette and assigns each surface a different color. This can distinguish an arbitrary number of surfaces. The palette is currently not able to be changed from the default. If specific colors are needed for specific surfaces, the generated surfaces can be read back in</p>
+<p>The presets should generally be sufficient, but custom colors can be chosen using the commands given on the PyMOL wiki. When creating multiple surfaces at the same time, PyVOL generates a palette and assigns each surface a different color. This can distinguish an arbitrary number of surfaces. A palette can be manually specified using the <cite>Palette</cite> (command-line <cite>palette</cite>) parameter. The palette should be provided as a comma-separated list of PyMOL color strings. If an insufficient number of colors are provided for the number of generated surfaces, additional values are interpolated automatically.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">pocket</span> <span class="n">protein_selection</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s2">&quot;tv_red,tv_orange,marine,magenta&quot;</span>
+</pre></div>
+</div>
 </div>
 </div>
 
