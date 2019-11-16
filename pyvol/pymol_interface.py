@@ -140,7 +140,7 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
             if palette is None:
                 palette = pymol_utilities.construct_palette(max_value=(len(spheres) - 1))
             else:
-                palette = pymol_utilities.construct_palette(color_list=palette.split(","), max_value =(len(spheres - 1))
+                palette = pymol_utilities.construct_palette(color_list=palette.split(","), max_value =(len(spheres) - 1))
             for index, sps in enumerate(spheres[1:]):
                 group = int(sps.g[0])
                 try:

@@ -1,6 +1,6 @@
 
 
-__version__ = "1.1.10"
+__version__ = "1.1.11"
 
 import logging
 import os
