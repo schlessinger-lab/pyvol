@@ -46,7 +46,7 @@ def load_pocket(spheres_file, name=None, display_mode="solid", color='marine', a
     logger.info("Loading {0} with mode {1}".format(spheres.name, display_mode))
 
 
-def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None, resid=None, prefix=None, min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, display_mode="solid", color='marine', alpha=0.85, output_dir=None, subdivide=None, minimum_volume=200, min_subpocket_rad=1.7, min_subpocket_surf_rad=1.0, max_clusters=None, excl_org=False, constrain_inputs=True):
+def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None, resid=None, prefix=None, min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, display_mode="solid", color='marine', alpha=0.85, output_dir=None, subdivide=None, minimum_volume=200, min_subpocket_rad=1.7, min_subpocket_surf_rad=1.0, max_clusters=None, excl_org=False, constrain_inputs=True, palette=None):
     """Calculates the SAS for a binding pocket and displays it
 
     Args:
@@ -72,6 +72,7 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
       max_clusters (int): maximum number of clusters (Default value = None)
       excl_org (bool): exclude non-peptide atoms from the protein selection? (Default value = False)
       constrain_inputs (bool): constrain input quantitative values to tested ranges? (Default value = True)
+      palette ([str]): a list of PyMOL-accepted color strings to use when displaying multiple surfaces
 
     """
 
@@ -136,7 +137,10 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
                 logger.warning("Volume not calculated for the whole pocket")
             pymol_utilities.display_spheres_object(spheres[0], spheres[0].name, state=1, color=color, alpha=alpha, mode=display_mode)
 
-            palette = pymol_utilities.construct_palette(max_value=(len(spheres) -1))
+            if palette is None:
+                palette = pymol_utilities.construct_palette(max_value=(len(spheres) - 1))
+            else:
+                palette = pymol_utilities.construct_palette(color_list=palette.split(","), max_value =(len(spheres - 1))
             for index, sps in enumerate(spheres[1:]):
                 group = int(sps.g[0])
                 try:

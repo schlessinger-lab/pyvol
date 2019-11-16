@@ -26,6 +26,9 @@ if not stdio_handler_found:
 logger = logging.getLogger("pyvol.plugin")
 
 def __init_plugin__(app=None):
+    # Load the plugin in three steps: 1) import PyVOL 2) find msms if necessary 3) try to add gui
+
+    # Import PyVOL
     try:
         from pymol import cmd
         from pyvol import pymol_interface
@@ -35,9 +38,34 @@ def __init_plugin__(app=None):
     except:
         logger.info("PyVOL not imported; installing from local cache or PyPI to use")
 
-    finally:
+    # add MSMS to path is saved in PyMOL preferences and not in path
+    import distutils
+
+    msms_exe = distutils.spawn.find_executable("msms")
+    if msms_exe is None:
+        try:
+            from pymol import plugins
+            msms_exe = plugins.pref_get("pyvol_msms_exe", default=None)
+
+            if msms_exe is not None:
+                sys.path.append(msms_exe)
+        except:
+            logger.warning("Cannot load PyMOL plugins module")
+
+    # Try to link the GUI
+
+    try:
         from pymol.plugins import addmenuitemqt
         addmenuitemqt('PyVOL', pyvol_window)
+    except:
+        logger.warning("PyVOL GUI not able to be loaded. This is most often seen when using older PyMOL distributions that use tkinter for GUIs rather thean QT. Update PyMOL to enable the GUI")
+
+    try:
+        cmd.extend("install_pyvol", install_pypi_pyvol)
+        cmd.extend("install_pyvol_local", install_cached_pyvol)
+        cmd.extend("update_pyvol", update_pypi_pyvol)
+    except:
+        logger.warning("PyVOL installation commands not able to be added to command-line interface")
 
 
 def pyvol_window():
@@ -67,7 +95,7 @@ def browse_pocket_file(form):
     pocket_file_name = QtWidgets.QFileDialog.getOpenFileNames(None, 'Open file', os.getcwd(), filter='Pocket Files (*.obj *.csv)')[0][0]
     form.pocket_file_ledit.setText(pocket_file_name)
 
-def install_remote_pyvol(form):
+def install_pypi_pyvol():
     """ Attempts a de novo PyVOL installation using pip
 
     """
@@ -75,14 +103,6 @@ def install_remote_pyvol(form):
 
     subprocess.check_output([sys.executable, "-m", "pip", "install", "bio-pyvol"])
 
-    msms_exe = distutils.spawn.find_executable("msms")
-    if msms_exe == None:
-        if os.name in ['posix']:
-            conda_path = os.path.join(os.path.dirname(sys.executable), "conda")
-            if not os.path.isfile(conda_path):
-                conda_path = "conda"
-            subprocess.check_output([conda_path, "install", "-y", "-c", "bioconda", "msms"])
-            msms_exe = distutils.spawn.find_executable("msms")
     try:
         from pymol import cmd
         from pyvol import pymol_interface
@@ -92,7 +112,14 @@ def install_remote_pyvol(form):
         pass
     refresh_installation_status(form)
 
-def install_local_pyvol(form):
+def install_remote_pyvol(form):
+    """ GUI wrapper for de novo PyVOL installation using pip
+
+    """
+    install_pypi_pyvol()
+    refresh_installation_status(form)
+
+def install_cached_pyvol():
     import re
 
     installer_dir = os.path.dirname(os.path.realpath(__file__))
@@ -125,9 +152,14 @@ def install_local_pyvol(form):
                 import shutil
                 shutil.rmtree(cache_dir)
     else:
-        logger.info("Local cache not found; requires installation through GUI")
-    refresh_installation_status(form)
+        logger.info("Local cache not found; requires installation through command-line or GUI")
 
+def install_local_pyvol(form):
+    """ GUI wrapper for local PyVOL installation
+
+    """
+    install_cached_pyvol()
+    refresh_installation_status(form)
 
 def uninstall_pyvol(form):
     """ Attempts to uninstall PyVOL using pip
@@ -146,12 +178,19 @@ def uninstall_pyvol(form):
 
     refresh_installation_status(form)
 
-def update_pyvol(form):
+def update_pypi_pyvol():
     """ Attempts to update PyVOL using pip
 
     """
 
     subprocess.check_output([sys.executable, "-m", "pip", "install", "--upgrade", "bio-pyvol"])
+
+def update_pyvol(form):
+    """ GUI wrapper for updating PyVOL using pip
+
+    """
+
+    update_pypi_pyvol()
 
     msg = QtWidgets.QMessageBox()
     msg.setIcon(QtWidgets.QMessageBox.Information)
@@ -254,8 +293,6 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
     incentive_msms_present = False
     incentive_msms_exe = None
 
-
-
     # First check the bundled directory
     if pyvol_installed:
         try:
@@ -309,6 +346,10 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
             # form.msms_new_button.setEnabled(True)
             enable_add_source = True
             if add_msms_source:
+                from pymol import plugins
+                plugins.pref_set("pyvol_msms_exe", new_msms_exe)
+                plugins.pref_save()
+
                 if new_msms_exe not in sys.path:
                     sys.path.append(new_msms_exe)
     form.msms_new_button.setEnabled(enable_add_source)
@@ -325,9 +366,9 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
                 msms_exe = None
 
     if msms_installed:
-        form.msms_status_label.setText("MSMS executable found: {0}".format(apply_color(msms_exe, "blue")))
+        form.msms_status_label.setText("MSMS path: {0}".format(apply_color(msms_exe, "blue")))
     else:
-        form.msms_status_label.setText(apply_color("MSMS executable not found", "red"))
+        form.msms_status_label.setText("MSMS path: {0}".format(apply_color("not found", "red")))
 
     if not pyvol_installed:
         gui_version = __version__
@@ -526,10 +567,13 @@ def run_gui_pyvol(form):
     color = form.color_ledit.text()
     alpha = form.alpha_ledit.text()
     prefix = form.prefix_ledit.text()
+    palette = form.palette_ledit.text()
+    if palette = "":
+        palette = None
     if prefix == "":
         prefix = None
     output_dir = form.output_dir_ledit.text()
     if output_dir == "":
         output_dir = None
 
-    pymol_interface.pocket(protein=protein, mode=mode, ligand=ligand, pocket_coordinate=pocket_coordinate, residue=residue, resid=resid, prefix=prefix, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, display_mode=display_mode, color=color, alpha=alpha, output_dir=output_dir, subdivide=subdivide, minimum_volume=minimum_volume, min_subpocket_rad=min_subpocket_rad, min_subpocket_surf_rad=min_subpocket_surf_rad, max_clusters=max_clusters, excl_org=excl_org, constrain_inputs=constrain_inputs)
+    pymol_interface.pocket(protein=protein, mode=mode, ligand=ligand, pocket_coordinate=pocket_coordinate, residue=residue, resid=resid, prefix=prefix, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, display_mode=display_mode, color=color, alpha=alpha, output_dir=output_dir, subdivide=subdivide, minimum_volume=minimum_volume, min_subpocket_rad=min_subpocket_rad, min_subpocket_surf_rad=min_subpocket_surf_rad, max_clusters=max_clusters, excl_org=excl_org, constrain_inputs=constrain_inputs, palette=palette)

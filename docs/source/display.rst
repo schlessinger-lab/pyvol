@@ -35,4 +35,8 @@ Calculated surfaces can be visualized in three different ways by setting the `Di
    pocket protein_selection, display_mode=mesh, color=red
    pocket protein_selection, display_mode=spheres, color=firebrick
 
-The presets should generally be sufficient, but custom colors can be chosen using the commands given on the PyMOL wiki. When creating multiple surfaces at the same time, PyVOL generates a palette and assigns each surface a different color. This can distinguish an arbitrary number of surfaces. The palette is currently not able to be changed from the default. If specific colors are needed for specific surfaces, the generated surfaces can be read back in
+The presets should generally be sufficient, but custom colors can be chosen using the commands given on the PyMOL wiki. When creating multiple surfaces at the same time, PyVOL generates a palette and assigns each surface a different color. This can distinguish an arbitrary number of surfaces. A palette can be manually specified using the `Palette` (command-line `palette`) parameter. The palette should be provided as a comma-separated list of PyMOL color strings. If an insufficient number of colors are provided for the number of generated surfaces, additional values are interpolated automatically.
+
+.. code-block:: python
+
+   pocket protein_selection, palette="tv_red,tv_orange,marine,magenta"

@@ -57,9 +57,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-229</y>
+            <y>0</y>
             <width>688</width>
-            <height>784</height>
+            <height>811</height>
            </rect>
           </property>
           <layout class="QVBoxLayout" name="verticalLayout_5">
@@ -393,12 +393,22 @@
                    </property>
                   </widget>
                  </item>
+                 <item row="3" column="0">
+                  <widget class="QLabel" name="palette_label">
+                   <property name="text">
+                    <string>Palette:</string>
+                   </property>
+                  </widget>
+                 </item>
                  <item row="2" column="1">
-                  <widget class="QLabel" name="label">
+                  <widget class="QLabel" name="transparency_label">
                    <property name="text">
                     <string>(1 - Transparency)</string>
                    </property>
                   </widget>
+                 </item>
+                 <item row="3" column="1">
+                  <widget class="QLineEdit" name="palette_ledit"/>
                  </item>
                 </layout>
                </widget>
@@ -658,9 +668,16 @@
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_7">
           <item>
+           <widget class="QLabel" name="msms_status_label">
+            <property name="text">
+             <string>MSMS path: (not found)</string>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QGroupBox" name="msms_source_box">
             <property name="title">
-             <string>Change MSMS Source</string>
+             <string>Change MSMS Path</string>
             </property>
             <layout class="QFormLayout" name="formLayout_5">
              <item row="0" column="0">
@@ -696,7 +713,7 @@
              <item row="3" column="0">
               <widget class="QPushButton" name="check_source_button">
                <property name="text">
-                <string>Check Source</string>
+                <string>Check Path</string>
                </property>
               </widget>
              </item>
@@ -717,7 +734,7 @@
              <item row="4" column="0">
               <widget class="QPushButton" name="msms_new_button">
                <property name="text">
-                <string>Add New Source to Path</string>
+                <string>Change MSMS Path</string>
                </property>
               </widget>
              </item>
@@ -729,13 +746,6 @@
               </widget>
              </item>
             </layout>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="msms_status_label">
-            <property name="text">
-             <string>Current source: (not found)</string>
-            </property>
            </widget>
           </item>
          </layout>
