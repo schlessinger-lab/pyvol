@@ -1,6 +1,6 @@
 
 
-__version__ = "1.1.11"
+__version__ = "1.1.12"
 
 import logging
 import os
@@ -354,7 +354,7 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
                     sys.path.append(new_msms_exe)
     form.msms_new_button.setEnabled(enable_add_source)
 
-    form.check_source_button.clicked.connect(lambda: refresh_installation_status(form)
+    form.check_source_button.clicked.connect(lambda: refresh_installation_status(form))
     form.check_source_button.setEnabled(True)
 
     if pyvol_installed:
@@ -568,7 +568,7 @@ def run_gui_pyvol(form):
     alpha = form.alpha_ledit.text()
     prefix = form.prefix_ledit.text()
     palette = form.palette_ledit.text()
-    if palette = "":
+    if palette == "":
         palette = None
     if prefix == "":
         prefix = None

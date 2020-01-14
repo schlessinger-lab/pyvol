@@ -202,7 +202,7 @@ def write_report(all_pockets, output_dir, prefix):
     """ Write a brief report of calculated volumes to file
 
     Args:
-      all_pockets ([Spherese]): a list of Spheres objects each of which contains the complete information about a distinct pocket or subpocket
+      all_pockets ([Spheres]): a list of Spheres objects each of which contains the complete information about a distinct pocket or subpocket
       output_dir (str): output directory, relative or absolute
       prefix (str): identifying prefix for output files
 
@@ -224,3 +224,8 @@ def write_report(all_pockets, output_dir, prefix):
     rept_name = os.path.join(output_dir, "{0}_rept.csv".format(prefix))
     rept_df.to_csv(rept_name, index=False)
     logger.debug("Report written to: {0}".format(rept_name))
+
+    if len(all_pockets) > 1:
+        combined = cluster.merge_sphere_list(all_pockets[1:])
+        combined_name = os.path.join(output_dir, "{0}_spa.csv".format(prefix))
+        combined.write(combined_name, output_mesh=False)

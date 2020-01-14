@@ -1,3 +1,3 @@
 
-__version__ = "1.2.44"
-__guiversion__ = "1.1.11"
+__version__ = "1.2.46"
+__guiversion__ = "1.1.12"

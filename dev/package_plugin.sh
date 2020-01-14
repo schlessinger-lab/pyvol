@@ -1,5 +1,5 @@
 if [ -z $1 ]; then
-  echo "You must pass a gui version to run this script"
+  echo "You must pass a version to run this script"
   exit
 fi
 
