@@ -1,5 +1,6 @@
 
 from . import identify
+from . import poses
 from . import pymol_utilities
 from .spheres import Spheres
 from . import utilities
@@ -181,3 +182,24 @@ def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None
     if output_dir is None:
         shutil.rmtree(output_dir)
     return
+
+def pose_report(pose_file, pocket_file, output_dir, output_prefix=None, name_parameter="_Name", scoring_parameter="r_i_glide_gscore", pocket_tolerance=3, panelx=250, panely=200, molsPerRow=4, rowsPerPage=6, palette=[(1,0.2,0.2), (1,0.55,0.15), (1,1,0.2), (0.2,1,0.2), (0.3,0.3,1), (0.5,1,1), (1,0.5,1)]):
+    """ Creates a report that highlights 2D compound representations by subpocket occupancy according to the poses in a provided sdf file
+
+    Args:
+      pose_file (str): input SDF file containing docked compound poses
+      pocket_file (str): input csv containing the spheres 5 dimensional array describing subpocket geometry; output with a "_spa.csv" ending
+      output_dir (str): output directory for all files
+      output_prefix (str): output prefix
+      name_parameter (str): SDF property key for the molecule name
+      scoring_parameter (str): SDF property key for whichever property should be shown in the report
+      pocket_tolerance (float): maximum distance (Angstrom) at which an atom outside of the defined subpocket volumes is still associated with a subpocket
+      panelx (int): horizontal width of the drawing space for each molecule
+      panely (int): vertical height of the drawing space for each molecule
+      molsPerRow (int): number of molecules to fit on a row (total width is <= panelx * molsPerRow)
+      rowsPerPage (int): number of rows of molecules to fit on each page (total height is <= panely * rowsPerPage)
+      palette ([(float,float,float)]): list of tuples of fractional RGB values that controls the highlighting colors
+
+    """
+
+    poses.compound_occupancy(pose_file, pocket_file, output_dir, output_prefix, name_parameter, scoring_parameter, pocket_tolerance, panelx, panely, molsPerRow, rowsPerPage, palette)

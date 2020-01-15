@@ -21,6 +21,14 @@ PyVOL Identify Module
     :undoc-members:
     :show-inheritance:
 
+PyVOL Poses Module
+------------------
+
+.. automodule:: pyvol.poses
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 PyVOL Pymol Interface Module
 ----------------------------
 

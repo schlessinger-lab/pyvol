@@ -34,6 +34,7 @@ def __init_plugin__(app=None):
         from pyvol import pymol_interface
         cmd.extend('pocket', pymol_interface.pocket)
         cmd.extend('load_pocket', pymol_interface.load_pocket)
+        cmd.extend('pose_report', pymol_interface.pose_report)
         logger.debug("PyVOL successfully imported")
     except:
         logger.info("PyVOL not imported; installing from local cache or PyPI to use")
