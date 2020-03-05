@@ -97,7 +97,8 @@ def pocket(prot_file, mode="largest", lig_file=None, coordinate=None, resid=None
         for index, pocket in enumerate(all_pockets):
             pocket.name = "{0}_p{1}".format(prefix, index)
         logger.debug("Pockets calculated using mode 'all': {0}".format(len(all_pockets)))
-        logger.warning("Subpocket clustering not currently supported when calculating all independent pockets")
+        if subdivide:
+            logger.warning("Subpocket clustering not currently supported when calculating all independent pockets")
     else:
         if mode == "largest":
             bp_bs = pa_s.calculate_surface(probe_radius=min_rad, all_components=True, largest_only=True)[0]

@@ -113,9 +113,14 @@ class Spheres(object):
 
 
     def __add__(self, other):
-        """
-        Create a new Spheres object by overloading addition to concatenate xyzr contents
-        Does not add meshes (just spheres)
+        """ Create a new Spheres object by overloading addition to concatenate xyzr contents; does not add meshes (just spheres)
+
+        Args:
+            other (Spheres): Spheres object to add
+
+        Returns:
+            (Spheres): Spheres object representing concatenation
+
         """
 
         if other is not None:
@@ -125,7 +130,8 @@ class Spheres(object):
 
 
     def copy(self):
-        """ """
+        """ Creates a copy in memory of itself
+        """
         return Spheres(xyzrg=np.copy(self.xyzrg))
 
 
@@ -194,7 +200,7 @@ class Spheres(object):
                 faces = np.flip(faces, axis=1)
                 mesh = trimesh.base.Trimesh(vertices=vertices, faces=faces)
             bspheres = Spheres(bv=verts_raw, r=probe_radius, mesh=mesh)
-            # shutil.rmtree(tmpdir)
+            shutil.rmtree(tmpdir)
             logger.debug("Single volume calculated for {0}".format(self.name))
             return [bspheres]
 
@@ -223,7 +229,7 @@ class Spheres(object):
                         bspheres = Spheres(bv=verts_raw, r=probe_radius, mesh=tm)
                         spheres_list.append(bspheres)
 
-            # shutil.rmtree(tmpdir)
+            shutil.rmtree(tmpdir)
             if largest_only:
                 logger.debug("Largest volume identified for {0}".format(msms_template))
                 return [bspheres]
@@ -275,6 +281,17 @@ class Spheres(object):
 
 
     def propagate_groups_to_external(self, coordinates, tolerance=3):
+        """ Propagates group identifications to an external set of coordinates
+
+        Args:
+            coordinates (Nx3 ndarray): coordinates of the external spheres
+            tolerance (float): maximum distance exclusive of the radii of the internal spheres
+
+        Returns:
+            prop_groups ([int]): list of group identifications for the supplied external coordinates
+
+        """
+
         kdtree = scipy.spatial.cKDTree(self.xyz)
         dist, indices = kdtree.query(coordinates, n_jobs=-1)
 
@@ -318,7 +335,9 @@ class Spheres(object):
 
 
     def remove_ungrouped(self):
-        """ Remove all spheres that did not adequately cluster with the remainder of the set"""
+        """ Remove all spheres that did not adequately cluster with the remainder of the set
+
+        """
         ungrouped_indices = np.where(self.g < 1)
         self.xyzrg = np.delete(self.xyzrg, ungrouped_indices, axis=0)
         self.mesh = None
@@ -366,7 +385,9 @@ class Spheres(object):
 
     @property
     def xyzrg(self):
-        """ Retrieve the coordinates, radii, and group ids"""
+        """ Retrieve the coordinates, radii, and group ids
+
+        """
         return self._xyzrg
 
 
@@ -385,7 +406,9 @@ class Spheres(object):
 
     @property
     def xyzr(self):
-        """ Retrieve coordinates and radii """
+        """ Retrieve coordinates and radii
+
+        """
         return self._xyzrg[:, 0:4]
 
 
@@ -407,7 +430,9 @@ class Spheres(object):
 
     @property
     def xyz(self):
-        """ Retrieve the coordinates """
+        """ Retrieve the coordinates
+
+        """
         return self._xyzrg[:, 0:3]
 
 
@@ -429,7 +454,9 @@ class Spheres(object):
 
     @property
     def r(self):
-        """ Retrieve the radii """
+        """ Retrieve the radii
+
+        """
         return self._xyzrg[:, 3]
 
 
@@ -452,7 +479,9 @@ class Spheres(object):
 
     @property
     def g(self):
-        """ Retrieve the group indices """
+        """ Retrieve the group indices
+
+        """
         return self._xyzrg[:, 4]
 
 

@@ -32,7 +32,7 @@ except:
     logger.warning("PyMOL not imported")
 
 def load_pocket(spheres_file, name=None, display_mode="solid", color='marine', alpha=0.85):
-    """
+    """ Loads a pocket from memory and displays it in PyMOL
 
     Args:
       spheres_file (str): filename

@@ -14,7 +14,13 @@ logger = logging.getLogger(__name__)
 
 def calculate_rotation_matrix(ref_vector, new_vector):
     """ Calculates the 3D rotation matrix to convert from ref_vector to new_vector
-        logic adapted from printipi: https://github.com/Wallacoloo/printipi/blob/master/util/rotation_matrix.py but with -1 * acos
+
+    Args:
+        ref_vector (3x1 ndarray): original vector
+        new_vector (3x1 ndarray): target vector
+
+    Returns:
+        rot_matrix (3x3 ndarray): rotation matrix to convert the original vector to the target vector
     """
 
     ref_vector = ref_vector / np.linalg.norm(ref_vector)
@@ -42,13 +48,23 @@ def calculate_rotation_matrix(ref_vector, new_vector):
             rot_axis[0] * sa + (1.0 - ca) * rot_axis[1] * rot_axis[2],
             1.0 + (1.0 - ca) * (rot_axis[2]**2 - 1.0)
         ]])
-    print(rot_axis, rot_angle)
-    print(rot_matrix)
+
     return rot_matrix
 
 
 def closest_vertex_normals(ref_mesh, query_mesh, ref_coordinates=None, ref_radius=2, interface_gap=2):
-    """ Finds the closest vertex to a 3xn numpy array of coordinates
+    """ Returns the location and normal for the closest point between two meshes
+
+    Args:
+        ref_mesh (trimesh): origin mesh
+        query_mesh (trimesh): target mesh
+        ref_coordinates (3xN ndarray): coordinates used to specify the pertinent subregion on the ref_mesh
+        ref_radius (float): radius used to identify points on the ref_mesh that are sufficiently close to the ref_coordinates
+        interface_gap (float): maximum distance between the ref and query meshes at the identified point
+
+    Returns:
+        mean_pos (3x1 ndarray): coordinate of the central point between the meshes
+        mean_normal (3x1 ndarray): normalized vector pointing from the ref_mesh to the query_mesh
     """
 
     if ref_coordinates is not None:
@@ -73,21 +89,9 @@ def closest_vertex_normals(ref_mesh, query_mesh, ref_coordinates=None, ref_radiu
 
         dp = np.dot(query_mesh.vertex_normals[closest_query_index], ref_mesh.vertex_normals[closest_ref_index])
 
-        print(dp, query_mesh.vertex_normals[closest_query_index], ref_mesh.vertex_normals[closest_ref_index])
-        print(dist[query_index], query_mesh.vertices[closest_query_index], ref_mesh.vertices[closest_ref_index])
-
         if dp < -0.95:
-            # closest_ref_index = ref_indices[indices[query_index]]
-
-            # print(ref_mesh.vertices[closest_ref_index, :], np.array([ref_mesh.vertices[closest_ref_index, :]]).shape)
-            # ref_tangent = proximity.max_tangent_sphere(ref_mesh, np.array([ref_mesh.vertices[closest_ref_index, :]]))
-            # query_tangent = proximity.max_tangent_sphere(query_mesh, np.array([query_mesh.vertices[query_index, :]]))
-            # print(ref_tangent, query_tangent)
-
             mean_pos = np.mean(np.array([ref_mesh.vertices[closest_ref_index, :], query_mesh.vertices[closest_query_index, :]]), axis=0)
             mean_normal = -1 * np.mean(query_mesh.vertex_normals[query_indices, :], axis=0)
-
-            # return ref_mesh.vertices[closest_index, :], ref_mesh.vertex_normals[closest_index, :]
             return mean_pos, mean_normal
     return None, None
 
