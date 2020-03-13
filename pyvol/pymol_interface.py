@@ -114,7 +114,7 @@ def pymol_pocket(**opts):
         if opts.get("residue") is not None:
             opts["coordinates"] = cmd.get_coords(opts.get("residue"), 1)
 
-    spheres = identify.pocket(**opts)
+    spheres = identify.pocket_wrapper(**opts)
 
 
     # if mode in ["specific", "largest"]:

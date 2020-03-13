@@ -1,6 +1,6 @@
 
 
-__version__ = "1.1.12"
+__version__ = "1.4.0"
 
 import logging
 import os
@@ -18,9 +18,9 @@ def __init_plugin__(app=None):
     try:
         from pymol import cmd
         from pyvol import pymol_interface
-        cmd.extend('pocket', pymol_interface.pocket)
+        cmd.extend('pocket', pymol_interface.pymol_pocket_cmdline)
         cmd.extend('load_pocket', pymol_interface.load_pocket)
-        cmd.extend('pose_report', pymol_interface.pose_report)
+        # cmd.extend('pose_report', pymol_interface.pose_report)
         logger.debug("PyVOL successfully imported")
     except:
         logger.info("PyVOL not imported; installing from local cache or PyPI to use")
@@ -49,7 +49,7 @@ def __init_plugin__(app=None):
 
     try:
         cmd.extend("install_pyvol", install_pypi_pyvol)
-        cmd.extend("install_pyvol_local", install_cached_pyvol)
+        cmd.extend("install_cached_pyvol", install_cached_pyvol)
         cmd.extend("update_pyvol", update_pypi_pyvol)
     except:
         logger.warning("PyVOL installation commands not able to be added to command-line interface")
