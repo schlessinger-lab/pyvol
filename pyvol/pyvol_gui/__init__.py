@@ -1,6 +1,6 @@
 
 
-__version__ = "1.4.a1"
+__version__ = "1.4.a3"
 
 import logging
 import os
@@ -17,18 +17,13 @@ def __init_plugin__(app=None):
     # Import PyVOL
     try:
         from pymol import cmd
-        print("imported pymol")
         from pyvol import pymol_interface
-        print("imported pyvol")
         cmd.extend('pocket', pymol_interface.pymol_pocket_cmdline)
-        print("extended pocket")
         cmd.extend('load_pocket', pymol_interface.load_pocket)
         # cmd.extend('pose_report', pymol_interface.pose_report)
         logger.debug("PyVOL successfully imported")
-        print("PyVOL imported")
     except:
         logger.info("PyVOL not imported; installing from local cache or PyPI to use")
-        print("not imported")
 
     # add MSMS to path is saved in PyMOL preferences and not in path
     import distutils
