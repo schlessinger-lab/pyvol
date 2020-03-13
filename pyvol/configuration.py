@@ -1,75 +1,337 @@
 
 import configparser
+import logging
+import os
+import time
 
-def default_cfg():
-    """ Writes a template cfg file to disk
+logger = logging.getLogger(__name__)
+
+def clean_opts(input_opts):
+    """ Cleans opts and then returns the sanitized contents
 
     Args:
-      cfg_file (str): target configuration file (Default value = "defaults.cfg")
+      input_opts (dict): dictionary of all input options
 
+    Returns:
+      cleaned_opts (dict): dictionary containing all options for a PyVOL run with extraneous options removed and necessary defaults provided
+    """
+
+    # Load options
+    opts = {}
+    opts["prot_file"] = input_opts.get("prot_file")
+    opts["lig_file"] = input_opts.get("lig_file")
+    opts["min_rad"] = float(input_opts.get("min_rad", 1.4))
+    opts["max_rad"] = float(input_opts.get("max_rad", 3.4))
+    opts["constrain_radii"] = input_opts.get("constrain_inputs", False)
+
+    opts["mode"] = input_opts.get("mode")
+    opts["coordinates"] = input_opts.get("coordinates")
+    opts["resid"] = input_opts.get("resid")
+    opts["lig_excl_rad"] = input_opts.get("lig_excl_rad")
+    if opts["lig_excl_rad"] is not None:
+        opts["lig_excl_rad"] = float(opts["lig_excl_rad"])
+    opts["lig_incl_rad"] = input_opts.get("lig_incl_rad")
+    if opts["lig_incl_rad"] is not None:
+        opts["lig_incl_rad"] = float(opts["lig_incl_rad"])
+    opts["min_volume"] = float(input_opts.get("min_volume", 200))
+
+    opts["subdivide"] = input_opts.get("subdivide", False)
+    if opts["subdivide"]:
+        opts["max_clusters"] = int(input_opts.get("max_clusters"))
+        opts["min_subpocket_rad"] = float(input_opts.get("min_subpocket_rad", 1.7))
+        opts["max_subpocket_rad"] = float(input_opts.get("max_subpocket_rad", 3.4))
+        opts["min_subpocket_surf_rad"] = float(input_opts.get("min_subpocket_surf_rad", 1.0))
+        opts["radial_sampling"] = float(input_opts.get("radial_sampling", 0.1))
+        opts["inclusion_radius_buffer"] = float(input_opts.get("inclusion_radius_buffer", 1.0))
+        opts["min_cluster_size"] = int(input_opts.get("min_cluster_size", 50))
+
+    opts["output_dir"] = input_opts.get("output_dir")
+    opts["prefix"] = input_opts.get("prefix")
+    if opts["prefix"] is None:
+        timestamp = time.strftime("%H%M%S")
+        opts["prefix"] = "{0}_{1}".format(timestamp, os.path.splitext(os.path.basename(opts["prot_file"]))[0])
+
+    # Clean options
+    if opts["prot_file"] is None:
+        logger.error("A protein file must be provided--Terminating job")
+        raise
+
+    if opts["constrain_radii"]:
+        if opts["min_rad"] < 1.2:
+            logger.info("Minimum radius constrained from {0} to 1.2".format(opts["min_rad"]))
+            opts["min_rad"] = 1.2
+        elif opts["min_rad"] > 2.0:
+            logger.info("Minimum radius constrained from {0} to 2.0".format(opts["min_rad"]))
+            opts["min_rad"] = 2.0
+
+        if opts["max_rad"] < 2.0:
+            logger.info("Maximum radius constrained from {0} to 2.0".format(opts["max_rad"]))
+            opts["max_rad"] = 2.0
+        elif opts["max_rad"] > 5.0:
+            logger.info("Maximum radius constrained from {0} to 5.0".format(opts["max_rad"]))
+            opts["max_rad"] = 5.0
+
+    if opts["mode"] in ["all", "largest"]:
+        opts["lig_file"] = None
+        opts["coordinates"] = None
+        opts["resid"] = None
+        opts["lig_excl_rad"] = None
+        opts["lig_incl_rad"] = None
+    else:
+        if opts["lig_file"] is not None:
+            if opts["mode"] is None:
+                logger.info("Pocket identified through provided ligand")
+            opts["mode"] = "specific"
+            opts["resid"] = None
+            opts["coordinates"] = None
+        elif opts["resid"] is not None:
+            if opts["mode"] is None:
+                logger.info("Pocket identified through resid: {0}".format(opts["resid"]))
+            opts["mode"] = "specific"
+            opts["coordinates"] = None
+        elif opts["coordinates"] is not None:
+            logger.info("Pocket identified through coordinates: {0}".format(opts["coordinates"]))
+            opts["mode"] = "specific"
+            if isinstance(opts["coordinates"], str):
+                opts["coordinates"] = [float(x) for x in opts["coordinates"].split(",")]
+                # this sanitization code is featured elsewhere; if the above doesn't work, try this
+                # if isinstance(opts.get("coordinates"), ("".__class__, u"".__class__)):
+                #     coordinate = coordinate.split()
+                #     coordinate = np.array([float(x) for x in coordinate])
+                coordinate = coordinate.reshape(1, -1)
+                if len(opts["coordinates"]) != 3:
+                    logger.warning("Malformed coordinates ignored ({0}); running in 'largest' mode".format(opts["coordinates"]))
+                    opts["mode"] = "largest"
+        else:
+            opts["mode"] = "largest"
+
+    if opts["subdivide"]:
+        if opts["min_volume"] <= 0:
+            opts["min_volume"] = None
+        if opts["max_clusters"] <= 1:
+            logger.warning("Subpocket analysis impossible with maximum clusters of {0}; disabling subpocket analysis".format(opts["max_clusters"]))
+            opts["subdivide"] = False
+            opts["max_clusters"] = None
+            opts["min_subpocket_rad"] = None
+            opts["max_cluster_rad"] = None
+            opts["min_subpocket_surf_rad"] = None
+            opts["radial_sampling"] = None
+            opts["inclusion_radius_buffer"] = None
+            opts["min_cluster_size"] = None
+
+    # Remove all empty options
+    cleaned_opts = {}
+    for k, v in opts.items():
+        if v is not None:
+            cleaned_opts[k] = v
+
+    logger.debug("Input options sanitized")
+    return cleaned_opts
+
+
+def opts_to_cfg(opts):
+    """ creates the configuration file corresponding to input options
+
+    Args:
+      opts (dict): option dictionary for which to create a configuration object
+
+    Returns:
+      config (ConfigParser): configuration object containing formatted options
+    """
+
+    config = configparser.ConfigParser(allow_no_value=True)
+
+    config.add_section("General")
+    if opts.get("prot_file") is not None:
+        config.set("General", "prot_file", str(opts.get("prot_file")))
+    if opts.get("lig_file") is not None:
+        config.set("General", "lig_file", str(opts.get("lig_file")))
+    if opts.get("min_rad") is not None:
+        config.set("General", "min_rad", str(opts.get("min_rad")))
+    if opts.get("max_rad") is not None:
+        config.set("General", "max_rad", str(opts.get("max_rad")))
+    if opts.get("constrain_radii") is not None:
+        config.set("General", "constrain_radii", str(opts.get("constrain_radii")))
+
+    config.add_section("Specification")
+    if opts.get("mode") is not None:
+        config.set("Specification", "mode", str(opts.get("mode")))
+    if opts.get("resid") is not None:
+        config.set("Specification", "resid", str(opts.get("resid")))
+    if opts.get("coordinates") is not None:
+        config.set("Specification", "coordinates", str(opts.get("coordinates")))
+    if opts.get("lig_excl_rad") is not None:
+        config.set("Specification", "lig_excl_rad", str(opts.get("lig_excl_rad")))
+    if opts.get("lig_incl_rad") is not None:
+        config.set("Specification", "lig_incl_rad", str(opts.get("lig_incl_rad")))
+    if opts.get("min_volume") is not None:
+        config.set("Specification", "min_volume", str(opts.get("min_volume")))
+
+    config.add_section("Partitioning")
+    if opts.get("subdivide") is not None:
+        config.set("Partitioning", "subdivide", str(opts.get("subdivide")))
+    if opts.get("max_clusters") is not None:
+        config.set("Partitioning", "max_clusters", str(opts.get("max_clusters")))
+    if opts.get("min_subpocket_rad") is not None:
+        config.set("Partitioning", "min_subpocket_rad", str(opts.get("min_subpocket_rad")))
+    if opts.get("max_subpocket_rad") is not None:
+        config.set("Partitioning", "max_subpocket_rad", str(opts.get("max_subpocket_rad")))
+    if opts.get("min_subpocket_surf_rad") is not None:
+        config.set("Partitioning", "min_subpocket_surf_rad", str(opts.get("min_subpocket_surf_rad")))
+    if opts.get("radial_sampling") is not None:
+        config.set("Partitioning", "radial_sampling", str(opts.get("radial_sampling")))
+    if opts.get("inclusion_radius_buffer") is not None:
+        config.set("Partitioning", "inclusion_radius_buffer", str(opts.get("inclusion_radius_buffer")))
+    if opts.get("min_cluster_size") is not None:
+        config.set("Partitioning", "min_cluster_size", str(opts.get("min_cluster_size")))
+
+    config.add_section("Output")
+    if opts["output_dir"] is not None:
+        config.set("Output", "output_dir", str(opts["output_dir"]))
+    if opts["prefix"] is not None:
+        config.set("Output", "prefix", str(opts["prefix"]))
+
+    return config
+
+def defaults_to_cfg():
+    """ Creates a blank template cfg with all accepted fields and reasonable default values
+
+    Returns:
+      config (ConfigParser): configuration object containing defaults
     """
     config = configparser.ConfigParser(allow_no_value=True)
     config.add_section("General")
-    config.set("General", "prot_file", "input_prot.pdb")
-    config.set("General", "lig_file", "input_lig.pdb")
+    config.set("General", "prot_file")
+    config.set("General", "lig_file", "remove_if_not_used")
     config.set("General", "min_rad", "1.4")
     config.set("General", "max_rad", "3.4")
-    config.set("General", "constrain_inputs", "True")
+    config.set("General", "constrain_radii", "True")
 
     config.add_section("Specification")
     config.set("Specification", "mode", "largest")
-    config.set("Specification", "coordinate")
+    config.set("Specification", "coordinates")
     config.set("Specification", "resid")
     config.set("Specification", "lig_excl_rad")
     config.set("Specification", "lig_incl_rad")
+    config.set("Specification", "min_volume", "200")
 
     config.add_section("Partitioning")
     config.set("Partitioning", "subdivide", "False")
-    config.set("Partitioning", "minimum_volume", "200")
     config.set("Partitioning", "max_clusters")
     config.set("Partitioning", "min_subpocket_rad", "1.7")
+    config.set("Partitioning", "max_subpocket_rad", "3.4")
     config.set("Partitioning", "min_subpocket_surf_rad", "1.0")
+    config.set("Partitioning", "radial_sampling", "0.1")
+    config.set("Partitioning", "inclusion_radius_buffer", "1.0")
+    config.set("Partitioning", "min_cluster_size", "50")
 
     config.add_section("Output")
     config.set("Output", "output_dir")
     config.set("Output", "prefix")
 
-    # with open(cfg_file, 'w') as configfile:
-    #     config.write(configfile)
+    return config
 
-def run_from_cfg(cfg_file):
-    """
+
+def defaults_to_file(filename):
+    """ writes a default configuation file to disk
 
     Args:
-      cfg_file (str): input cfg that specifies a PyVOL job
+      filename (str): output filename to which to write the configuration file to disk
+    """
+
+    cfg_to_file(defaults_to_cfg(), filename)
+
+
+def cfg_to_opts(config):
+    """ converts a config to opts
+
+    Args:
+      config (ConfigParser): configuration object from which options are to be extracted
+
+    Returns:
+      opts (dict): dictionary of options read in from the configuration object
+    """
+
+    opts = {}
+    opts["prot_file"] = config.get("General", "prot_file", fallback=None)
+    opts["lig_file"] = config.get("General", "lig_file", fallback=None)
+    opts["min_rad"] = config.getfloat("General", "min_rad", fallback=1.4)
+    opts["max_rad"] = config.getfloat("General", "max_rad", fallback=3.4)
+
+    opts["mode"] = config.get("Specification", "mode", fallback=None)
+    opts["resid"] = config.get("Specification", "resid", fallback=None)
+    opts["coordinates"] = config.get("Specification", "coordinates", fallback=None)
+    opts["lig_excl_rad"] = config.getfloat("Specification", "lig_excl_rad", fallback=-1)
+    opts["lig_incl_rad"] = config.getfloat("Specification", "lig_incl_rad", fallback=-1)
+
+    opts["subdivide"] = config.getboolean("Partitioning", "subdivide", fallback=False)
+    opts["min_volume"] = config.getint("Partitioning", "min_volume", fallback=200)
+    opts["max_clusters"] = config.getint("Partitioning", "max_clusters", fallback=100)
+    opts["min_subpocket_rad"] = config.getfloat("Partitioning", "min_subpocket_rad", fallback=1.7)
+    opts["max_subpocket_rad"] = config.getfloat("Partitioning", "max_subpocket_rad", fallback=3.4)
+    opts["min_subpocket_surf_rad"] = config.getfloat("Partitioning", "min_subpocket_surf_rad", fallback=1.0)
+    opts["radial_sampling"] = config.getfloat("Partitioning", "radial_sampling", fallback=0.1)
+    opts["inclusion_radius_buffer"] = config.getfloat("Partitioning", "inclusion_radius_buffer", fallback=1.0)
+    opts["min_cluster_size"] = config.getint("Partitioning", "min_cluster_size", fallback=50)
+
+    opts["output_dir"] = config.get("Output", "output_dir", fallback=None)
+    opts["prefix"] = config.get("Output", "prefix", fallback=None)
+
+    return opts
+
+
+def cfg_to_file(cfg, filename):
+    """ writes a configuration to file
+
+    Args:
+      cfg (ConfigParser): configuration object to be written to disk
+      filename (str): target filename on disk
+    """
+
+    with open(filename, 'w') as configfile:
+        cfg.write(configfile)
+        logger.info("Configuration file written to {0}".format(filename))
+
+
+def file_to_cfg(filename):
+    """ reads a cfg file into a configuration object
+
+    Args:
+      filename (str): input filename of a configuration file
+
+    Returns:
+      config (ConfigParser): configuration object holding the contents of the file
+    """
+
+    config = configparser.ConfigParser(allow_no_value=True)
+    config.read(filename)
+    logger.info("Configuration file read from {0}".format(filename))
+    return config
+
+
+def file_to_opts(filename):
+    """ reads a cfg file and converts it into a sanitized options dictionary
+
+    Args:
+      filename (str): input filename of a configuration file
+
+    Returns:
+      opts (dict): dictionary object containing sanitized PyVOL options
+    """
+
+    return clean_opts(cfg_to_opts(file_to_cfg(filename)))
+
+
+def opts_to_file(opts, filename=None):
+    """ writes options to a configuration file
+
+    Args:
+      opts (dict): dictionary object containing PyVOL options
+      filename (str): target file to which to write the configuration
 
     """
-    config = configparser.ConfigParser(allow_no_value=True)
-    config.read(cfg_file)
 
-    prot_file = config.get("General", "prot_file")
-    lig_file = config.get("General", "lig_file", fallback=None)
-    min_rad = config.getfloat("General", "min_rad", fallback=1.4)
-    max_rad = config.getfloat("General", "max_rad", fallback=3.4)
+    if filename is None:
+        filename = os.path.join(opts.get("output_dir"), "{0}.cfg".format(opts.get("prefix")))
 
-    mode = config.get("Specification", "mode", fallback="largest")
-    coordinate = config.get("Specification", "coordinate", fallback=None)
-    resid = config.get("Specification", "resid", fallback=None)
-    lig_excl_rad = config.get("Specification", "lig_excl_rad", fallback=None)
-    if lig_excl_rad is not None:
-        lig_excl_rad = float(lig_excl_rad)
-    lig_incl_rad = config.get("Specification", "lig_incl_rad", fallback=None)
-    if lig_incl_rad is not None:
-        lig_incl_rad = float(lig_incl_rad)
-
-    subdivide = config.getboolean("Partitioning", "subdivide", fallback=False)
-    minimum_volume = config.getfloat("Partitioning", "minimum_volume", fallback=200)
-    max_clusters = config.get("Partitioning", "max_clusters", fallback=None)
-    if max_clusters is not None:
-        max_clusters = int(max_clusters)
-    min_subpocket_rad = config.getfloat("Partitioning", "min_subpocket_rad", fallback=1.7)
-
-    output_dir = config.get("Output", "output_dir", fallback=None)
-    prefix = config.get("Output", "prefix", fallback="pocket")
-
-    spheres = identify.pocket(prot_file, mode=mode, lig_file=lig_file, coordinate=coordinate, resid=resid, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, subdivide=subdivide, minimum_volume=minimum_volume, min_subpocket_rad=min_subpocket_rad, max_clusters=max_clusters, prefix=prefix, output_dir=output_dir)
+    cfg_to_file(opts_to_cfg(opts), filename)

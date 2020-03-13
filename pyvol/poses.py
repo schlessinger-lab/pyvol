@@ -1,4 +1,6 @@
 
+# Experimental code not included in distributed release
+
 from pyvol.spheres import Spheres
 import logging
 import numpy as np
@@ -20,7 +22,7 @@ def compound_occupancy(pose_file, pocket_file, output_dir, output_prefix=None, n
 
     Args:
       pose_file (str): input SDF file containing docked compound poses
-      pocket_file (str): input csv containing the spheres 5 dimensional array describing subpocket geometry; output with a "_spa.csv" ending
+      pocket_file (str): input csv containing the spheres' 5 dimensional array describing subpocket geometry; output with a "_spa.csv" ending
       output_dir (str): output directory for all files
       output_prefix (str): output prefix
       name_parameter (str): SDF property key for the molecule name

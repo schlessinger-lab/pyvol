@@ -1,4 +1,6 @@
 
+# experimental code not included in distributed release
+
 import math
 import numpy as np
 import os

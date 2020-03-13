@@ -34,6 +34,8 @@ def cluster_within_r(spheres, radius, allow_new=True):
             starting_index = np.amin(selected[:, 4]) - 1
             np.put(spheres.g, r_indices[ungrouped_indices], -1 * db.labels_ + starting_index)
 
+    logger.debug("Clustered spheres at radius {0}".format(radius))
+
 
 def cluster_between_r(spheres, ref_radius, target_radius):
     """ Cluster spheres from a target radius to a reference radius, modifying input data in situ
@@ -57,6 +59,8 @@ def cluster_between_r(spheres, ref_radius, target_radius):
         ref_indices = indices[target_indices]
 
         np.put(spheres.g, r_indices[target_indices], ref_data[ref_indices, 4])
+
+    logger.debug("Clustered spheres at radius {0} against those at {1}".format(target_radius, ref_radius))
 
 
 def cluster_improperly_grouped(spheres, radius, min_cluster_size=1, max_clusters=None):
@@ -164,7 +168,7 @@ def hierarchically_cluster_spheres(spheres, ordered_radii, min_new_radius=None, 
     logger.debug("Finished naive sphere clustering for spheres in {0}".format(spheres.name))
 
     cluster_improperly_grouped(spheres, radius=ordered_radii[-1], min_cluster_size=min_cluster_size, max_clusters=max_clusters)
-    logger.debug("Hierarchically clustered all spheres in {0}".format(spheres.name))
+    logger.debug("Finished hierarchically clustering for spheres in {0}".format(spheres.name))
 
 
 def identify_closest_grouped(spheres, group, radius):
@@ -311,17 +315,22 @@ def remove_interior(spheres):
     interior_indices = np.unique(interior_indices).astype(int)
     spheres.xyzrg = np.delete(spheres.xyzrg, interior_indices, axis=0)
 
+    logger.debug("Removed interior spheres from {0}".format(spheres.name))
+
 
 def remove_included_spheres(spheres, ref_spheres, radius):
-        """ Removes all spheres with centers within radius of ref_spheres
+    """ Removes all spheres with centers within radius of ref_spheres
 
-        """
+    """
 
-        kdtree = scipy.spatial.cKDTree(spheres.xyz)
-        groups = kdtree.query_ball_point(ref_spheres.xyz, radius, n_jobs=-1)
-        indices = np.unique(list(itertools.chain.from_iterable(groups)))
+    kdtree = scipy.spatial.cKDTree(spheres.xyz)
+    groups = kdtree.query_ball_point(ref_spheres.xyz, radius, n_jobs=-1)
+    indices = np.unique(list(itertools.chain.from_iterable(groups)))
 
-        spheres.xyzrg = np.delete(spheres.xyzrg, indices, axis=0)
+    spheres.xyzrg = np.delete(spheres.xyzrg, indices, axis=0)
+
+    logger.debug("Removed all spheres within {0} A of reference".format(radius))
+
 
 
 def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.02, static_last_group=False):
@@ -413,3 +422,5 @@ def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.
 
             spheres.xyzrg[group_indices[altered_group_indices]] = group_data[altered_group_indices]
             spheres.xyzrg[other_indices[altered_other_indices]] = other_data[altered_other_indices]
+
+    logger.debug("Removed overlap between proper groups for {0}".format(spheres.name))

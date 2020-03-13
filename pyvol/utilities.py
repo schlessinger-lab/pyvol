@@ -110,6 +110,33 @@ def check_dir(location):
             pass
 
 
+def configure_logger(filename=None, stream_level="INFO", file_level="DEBUG"):
+    """ Configures the base logger
+
+    Args:
+      filename (str): target filename is the log is to be written to file (Default value = None)
+      stream_level (str): log level for the stream handler (Default value = INFO)
+      file_level (str): log level for the file handler (Default value = DEBUG)
+
+    """
+    main_logger = logging.getLogger("pyvol")
+    main_logger.setLevel("DEBUG")
+
+    formatter = logging.Formatter("%(name)-12s:".ljust(15) + "\t%(levelname)-8s" + "\t%(message)s")
+
+    sh = logging.StreamHandler(sys.stdout)
+    sh.setFormatter(formatter)
+    sh.setLevel(stream_level)
+    main_logger.addHandler(sh)
+
+    if filename is not None:
+        check_dir(os.path.dirname(filename))
+        fh = logging.FileHandler(filename)
+        fh.setFormatter(formatter)
+        fh.setLevel(file_level)
+        main_logger.addHandler(fh)
+
+
 def coordinates_for_resid(pdb_file, resid, chain=None, model=0):
     """ Extract the 3D coordinates for all atoms in a specified residue from a pdb file
 
@@ -173,7 +200,7 @@ def run_cmd(options, in_directory=None):
     except subprocess.CalledProcessError:
         logger.error("Process Failed: {0}".format(" ".join(opt_strs)))
 
-    logger.debug("Ran command: {0}".format(" ".join(opt_strs)))
+    logger.debug("Shell command: {0}".format(" ".join(opt_strs)))
     if in_directory is not None:
         os.chdir(current_working_dir)
 

@@ -9,20 +9,6 @@ import subprocess
 import sys
 import time
 
-main_logger = logging.getLogger("pyvol")
-main_logger.setLevel("DEBUG")
-
-stdio_handler_found = False
-for handler in main_logger.handlers:
-    if isinstance(handler, logging.StreamHandler):
-        stdio_handler_found = True
-        break
-if not stdio_handler_found:
-    log_out = logging.StreamHandler()
-    log_out.setLevel("INFO")
-    log_out.setFormatter(logging.Formatter("%(name)-12s:".ljust(25) + "\t%(levelname)-8s" + "\t%(message)s"))
-    main_logger.addHandler(log_out)
-
 logger = logging.getLogger("pyvol.plugin")
 
 def __init_plugin__(app=None):
