@@ -97,7 +97,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.cluster">PyVOL Cluster Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.identify">PyVOL Identify Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.poses">PyVOL Poses Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-pyvol.pymol_interface">PyVOL Pymol Interface Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pyvol-pymol-interface-module">PyVOL Pymol Interface Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.pymol_utilities">PyVOL Pymol Utilities Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.spheres">PyVOL Spheres Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.utilities">PyVOL Utilities Module</a></li>
@@ -331,8 +331,8 @@ static_last_group (bool): don’t move the ‘other’ group but rather the firs
 <span id="pyvol-identify-module"></span><h2>PyVOL Identify Module<a class="headerlink" href="#module-pyvol.identify" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
 <dt id="pyvol.identify.pocket">
-<code class="descclassname">pyvol.identify.</code><code class="descname">pocket</code><span class="sig-paren">(</span><em>prot_file</em>, <em>mode='largest'</em>, <em>lig_file=None</em>, <em>coordinate=None</em>, <em>resid=None</em>, <em>residue_coordinates=None</em>, <em>min_rad=1.4</em>, <em>max_rad=3.4</em>, <em>lig_excl_rad=None</em>, <em>lig_incl_rad=None</em>, <em>subdivide=False</em>, <em>minimum_volume=200</em>, <em>min_subpocket_rad=1.7</em>, <em>min_subpocket_surf_rad=1.0</em>, <em>max_clusters=None</em>, <em>prefix=None</em>, <em>output_dir=None</em>, <em>constrain_inputs=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.pocket" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the SAS for a binding pocket</p>
+<code class="descclassname">pyvol.identify.</code><code class="descname">pocket</code><span class="sig-paren">(</span><em>**opts</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.pocket" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates the SES for a binding pocket</p>
 <dl class="docutils">
 <dt>Args:</dt>
 <dd>prot_file (str): filename for the input pdb file containing the peptidee
@@ -340,16 +340,19 @@ mode (str): pocket identification mode (can be largest, all, or specific) (Defau
 lig_file (str): filename for the input pdb file containing a ligand (Default value = None)
 coordinate ([float]): 3D coordinate used for pocket specification (Default value = None)
 resid (str): residue identifier for pocket specification (Default value = None)
-residue_coordinates ([float]): 3D coordinate of an atom in a surrounding residue used for pocket specification (Default value = None)
-min_rad (float): radius for SAS calculations (Default value = 1.4)
+coordinates ([float]): 3D coordinate of an atom in a surrounding residue used for pocket specification (Default value = None)
+min_rad (float): radius for SES calculations (Default value = 1.4)
 max_rad (float): radius used to identify the outer, bulk solvent exposed surface (Default value = 3.4)
 lig_excl_rad (float): maximum distance from a provided ligand that can be included in calculated pockets (Default value = None)
 lig_incl_rad (float): minimum distance from a provided ligand that should be included in calculated pockets when solvent border is ambiguous (Default value = None)
 subdivide (bool): calculate subpockets? (Default value = False)
-minimum_volume (float): minimum volume of pockets returned when running in ‘all’ mode (Default value = 200)
+min_volume (float): minimum volume of pockets returned when running in ‘all’ mode (Default value = 200)
 min_subpocket_rad (float): minimum radius that identifies distinct subpockets (Default value = 1.7)
 min_subpocket_surf_rad (float): radius used to calculate subpocket surfaces (Default value = 1.0)
 max_clusters (int): maximum number of clusters (Default value = None)
+min_cluster_size (int): minimum number of spheres in a proper cluster; used to eliminate insignificant subpockets (Default value = 50)
+inclusion_radius_buffer (float): buffer radius in excess of the nonextraneous radius from the identified pocket used to identify atoms pertinent to subpocket clustering (Default value = 1.0)
+radial_sampling (float): radial sampling used for subpocket clustering (Default value = 0.1)
 prefix (str): identifying string for output (Default value = None)
 output_dir (str): filename of the directory in which to place all output; can be absolute or relative (Default value = None)
 constrain_inputs (bool): restrict quantitative input parameters to tested values? (Default value = False)</dd>
@@ -359,8 +362,14 @@ constrain_inputs (bool): restrict quantitative input parameters to tested values
 </dd></dl>
 
 <dl class="function">
+<dt id="pyvol.identify.pocket_wrapper">
+<code class="descclassname">pyvol.identify.</code><code class="descname">pocket_wrapper</code><span class="sig-paren">(</span><em>**opts</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.pocket_wrapper" title="Permalink to this definition">¶</a></dt>
+<dd><p>wrapper for pocket that configures the logger, sanitizes inputs, and catches errors; useful when running from the command line or PyMOL but split from the core code for programmatic usage</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="pyvol.identify.subpockets">
-<code class="descclassname">pyvol.identify.</code><code class="descname">subpockets</code><span class="sig-paren">(</span><em>bounding_spheres</em>, <em>ref_spheres</em>, <em>min_rad</em>, <em>max_rad</em>, <em>min_subpocket_rad=1.7</em>, <em>min_subpocket_surf_rad=1.0</em>, <em>max_subpocket_rad=None</em>, <em>sampling=0.1</em>, <em>inclusion_radius_buffer=1.0</em>, <em>min_cluster_size=50</em>, <em>max_clusters=None</em>, <em>prefix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.subpockets" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pyvol.identify.</code><code class="descname">subpockets</code><span class="sig-paren">(</span><em>bounding_spheres</em>, <em>ref_spheres</em>, <em>**opts</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.subpockets" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="docutils">
 <dt>Args:</dt>
 <dd>bounding_spheres (Spheres): a Spheres object containing both the peptide and solvent exposed face external spheres
@@ -381,8 +390,19 @@ prefix (str): identifying string for output (Default value = None)</dd>
 </dd></dl>
 
 <dl class="function">
+<dt id="pyvol.identify.write_cfg">
+<code class="descclassname">pyvol.identify.</code><code class="descname">write_cfg</code><span class="sig-paren">(</span><em>**opts</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.write_cfg" title="Permalink to this definition">¶</a></dt>
+<dd><p>write the processed configuration to file</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>output_dir (str): output directory, relative or absolute
+prefix (str): identifying prefix for the output files</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="pyvol.identify.write_report">
-<code class="descclassname">pyvol.identify.</code><code class="descname">write_report</code><span class="sig-paren">(</span><em>all_pockets</em>, <em>output_dir</em>, <em>prefix</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.write_report" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pyvol.identify.</code><code class="descname">write_report</code><span class="sig-paren">(</span><em>all_pockets</em>, <em>**opts</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.write_report" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write a brief report of calculated volumes to file</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -402,7 +422,7 @@ prefix (str): identifying prefix for output files</dd>
 <dl class="docutils">
 <dt>Args:</dt>
 <dd>pose_file (str): input SDF file containing docked compound poses
-pocket_file (str): input csv containing the spheres 5 dimensional array describing subpocket geometry; output with a “_spa.csv” ending
+pocket_file (str): input csv containing the spheres’ 5 dimensional array describing subpocket geometry; output with a “_spa.csv” ending
 output_dir (str): output directory for all files
 output_prefix (str): output prefix
 name_parameter (str): SDF property key for the molecule name
@@ -447,74 +467,8 @@ groups ([int]): list of subpocket identifiers</dd>
 </dd></dl>
 
 </div>
-<div class="section" id="module-pyvol.pymol_interface">
-<span id="pyvol-pymol-interface-module"></span><h2>PyVOL Pymol Interface Module<a class="headerlink" href="#module-pyvol.pymol_interface" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="pyvol.pymol_interface.load_pocket">
-<code class="descclassname">pyvol.pymol_interface.</code><code class="descname">load_pocket</code><span class="sig-paren">(</span><em>spheres_file</em>, <em>name=None</em>, <em>display_mode='solid'</em>, <em>color='marine'</em>, <em>alpha=0.85</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.load_pocket" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Args:</dt>
-<dd>spheres_file (str): filename
-name (str): internal display name (Default value = None)
-display_mode (str): display mode (Default value = “solid”)
-color (str): PyMOL color string (Default value = ‘marine’)
-alpha (float): transparency value (Default value = 0.85)</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="pyvol.pymol_interface.pocket">
-<code class="descclassname">pyvol.pymol_interface.</code><code class="descname">pocket</code><span class="sig-paren">(</span><em>protein</em>, <em>mode=None</em>, <em>ligand=None</em>, <em>pocket_coordinate=None</em>, <em>residue=None</em>, <em>resid=None</em>, <em>prefix=None</em>, <em>min_rad=1.4</em>, <em>max_rad=3.4</em>, <em>lig_excl_rad=None</em>, <em>lig_incl_rad=None</em>, <em>display_mode='solid'</em>, <em>color='marine'</em>, <em>alpha=0.85</em>, <em>output_dir=None</em>, <em>subdivide=None</em>, <em>minimum_volume=200</em>, <em>min_subpocket_rad=1.7</em>, <em>min_subpocket_surf_rad=1.0</em>, <em>max_clusters=None</em>, <em>excl_org=False</em>, <em>constrain_inputs=True</em>, <em>palette=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.pocket" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the SAS for a binding pocket and displays it</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>protein (str): PyMOL selection string for the protein
-mode (str): pocket identification mode (can be largest, all, or specific) (Default value = None)
-ligand (str): PyMOL selection string for the ligand (Default value = None)
-pocket_coordinate ([float]): 3D coordinate used for pocket specification (Default value = None)
-residue (str): PyMOL residue selection string for pocket specification (Default value = None)
-resid (str): residue identifier for pocket specification (Default value = None)
-prefix (str): identifying string for output (Default value = None)
-min_rad (float): radius for SAS calculations (Default value = 1.4)
-max_rad (float): radius used to identify the outer, bulk solvent exposed surface (Default value = 3.4)
-lig_excl_rad (float): maximum distance from a provided ligand that can be included in calculated pockets (Default value = None)
-lig_incl_rad (float): minimum distance from a provided ligand that should be included in calculated pockets when solvent border is ambiguous (Default value = None)
-display_mode (str): display mode for calculated pockets (Default value = “solid”)
-color (str): PyMOL color string (Default value = ‘marine’)
-alpha (float): transparency value (Default value = 0.85)
-output_dir (str): filename of the directory in which to place all output; can be absolute or relative (Default value = None)
-subdivide (bool): calculate subpockets? (Default value = None)
-minimum_volume (float): minimum volume of pockets returned when running in ‘all’ mode (Default value = 200)
-min_subpocket_rad (float): minimum radius that identifies distinct subpockets (Default value = 1.7)
-min_subpocket_surf_rad (float): radius used to calculate subpocket surfaces (Default value = 1.0)
-max_clusters (int): maximum number of clusters (Default value = None)
-excl_org (bool): exclude non-peptide atoms from the protein selection? (Default value = False)
-constrain_inputs (bool): constrain input quantitative values to tested ranges? (Default value = True)
-palette ([str]): a list of PyMOL-accepted color strings to use when displaying multiple surfaces</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="pyvol.pymol_interface.pose_report">
-<code class="descclassname">pyvol.pymol_interface.</code><code class="descname">pose_report</code><span class="sig-paren">(</span><em>pose_file, pocket_file, output_dir, output_prefix=None, name_parameter='_Name', scoring_parameter='r_i_glide_gscore', pocket_tolerance=3, panelx=250, panely=200, molsPerRow=4, rowsPerPage=6, palette=[(1, 0.2, 0.2), (1, 0.55, 0.15), (1, 1, 0.2), (0.2, 1, 0.2), (0.3, 0.3, 1), (0.5, 1, 1), (1, 0.5, 1)]</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.pose_report" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a report that highlights 2D compound representations by subpocket occupancy according to the poses in a provided sdf file</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>pose_file (str): input SDF file containing docked compound poses
-pocket_file (str): input csv containing the spheres 5 dimensional array describing subpocket geometry; output with a “_spa.csv” ending
-output_dir (str): output directory for all files
-output_prefix (str): output prefix
-name_parameter (str): SDF property key for the molecule name
-scoring_parameter (str): SDF property key for whichever property should be shown in the report
-pocket_tolerance (float): maximum distance (Angstrom) at which an atom outside of the defined subpocket volumes is still associated with a subpocket
-panelx (int): horizontal width of the drawing space for each molecule
-panely (int): vertical height of the drawing space for each molecule
-molsPerRow (int): number of molecules to fit on a row (total width is &lt;= panelx * molsPerRow)
-rowsPerPage (int): number of rows of molecules to fit on each page (total height is &lt;= panely * rowsPerPage)
-palette ([(float,float,float)]): list of tuples of fractional RGB values that controls the highlighting colors</dd>
-</dl>
-</dd></dl>
-
+<div class="section" id="pyvol-pymol-interface-module">
+<h2>PyVOL Pymol Interface Module<a class="headerlink" href="#pyvol-pymol-interface-module" title="Permalink to this headline">¶</a></h2>
 </div>
 <div class="section" id="module-pyvol.pymol_utilities">
 <span id="pyvol-pymol-utilities-module"></span><h2>PyVOL Pymol Utilities Module<a class="headerlink" href="#module-pyvol.pymol_utilities" title="Permalink to this headline">¶</a></h2>
@@ -599,7 +553,8 @@ alpha (float): transparency value (Default value = 1.0)</dd>
 <dl class="method">
 <dt id="pyvol.spheres.Spheres.copy">
 <code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.copy" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Creates a copy in memory of itself</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyvol.spheres.Spheres.calculate_surface">
@@ -647,7 +602,15 @@ max_radius (float): maximum permissibile distance to the nearest sphere (Default
 <dl class="method">
 <dt id="pyvol.spheres.Spheres.propagate_groups_to_external">
 <code class="descname">propagate_groups_to_external</code><span class="sig-paren">(</span><em>coordinates</em>, <em>tolerance=3</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.propagate_groups_to_external" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Propagates group identifications to an external set of coordinates</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>coordinates (Nx3 ndarray): coordinates of the external spheres
+tolerance (float): maximum distance exclusive of the radii of the internal spheres</dd>
+<dt>Returns:</dt>
+<dd>prop_groups ([int]): list of group identifications for the supplied external coordinates</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="pyvol.spheres.Spheres.nearest_coord_to_external">
@@ -737,14 +700,31 @@ output_mesh (bool): write mesh to file? (Default value = True)</dd>
 <dl class="function">
 <dt id="pyvol.utilities.calculate_rotation_matrix">
 <code class="descclassname">pyvol.utilities.</code><code class="descname">calculate_rotation_matrix</code><span class="sig-paren">(</span><em>ref_vector</em>, <em>new_vector</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.calculate_rotation_matrix" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculates the 3D rotation matrix to convert from ref_vector to new_vector
-logic adapted from printipi: <a class="reference external" href="https://github.com/Wallacoloo/printipi/blob/master/util/rotation_matrix.py">https://github.com/Wallacoloo/printipi/blob/master/util/rotation_matrix.py</a> but with -1 * acos</p>
+<dd><p>Calculates the 3D rotation matrix to convert from ref_vector to new_vector</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>ref_vector (3x1 ndarray): original vector
+new_vector (3x1 ndarray): target vector</dd>
+<dt>Returns:</dt>
+<dd>rot_matrix (3x3 ndarray): rotation matrix to convert the original vector to the target vector</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="pyvol.utilities.closest_vertex_normals">
 <code class="descclassname">pyvol.utilities.</code><code class="descname">closest_vertex_normals</code><span class="sig-paren">(</span><em>ref_mesh</em>, <em>query_mesh</em>, <em>ref_coordinates=None</em>, <em>ref_radius=2</em>, <em>interface_gap=2</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.closest_vertex_normals" title="Permalink to this definition">¶</a></dt>
-<dd><p>Finds the closest vertex to a 3xn numpy array of coordinates</p>
+<dd><p>Returns the location and normal for the closest point between two meshes</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>ref_mesh (trimesh): origin mesh
+query_mesh (trimesh): target mesh
+ref_coordinates (3xN ndarray): coordinates used to specify the pertinent subregion on the ref_mesh
+ref_radius (float): radius used to identify points on the ref_mesh that are sufficiently close to the ref_coordinates
+interface_gap (float): maximum distance between the ref and query meshes at the identified point</dd>
+<dt>Returns:</dt>
+<dd>mean_pos (3x1 ndarray): coordinate of the central point between the meshes
+mean_normal (3x1 ndarray): normalized vector pointing from the ref_mesh to the query_mesh</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -754,6 +734,18 @@ logic adapted from printipi: <a class="reference external" href="https://github.
 <dl class="docutils">
 <dt>Args:</dt>
 <dd>location (str): target directory</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyvol.utilities.configure_logger">
+<code class="descclassname">pyvol.utilities.</code><code class="descname">configure_logger</code><span class="sig-paren">(</span><em>filename=None</em>, <em>stream_level=None</em>, <em>file_level=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.configure_logger" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configures the base logger</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>filename (str): target filename is the log is to be written to file (Default value = None)
+stream_level (str): log level for the stream handler (Default value = None)
+file_level (str): log level for the file handler (Default value = None)</dd>
 </dl>
 </dd></dl>
 
@@ -819,25 +811,6 @@ kwargs (dict): all remaining arguments accepted by surface calculation that are 
 </div>
 <div class="section" id="module-pyvol.__main__">
 <span id="pyvol-main-entry-point"></span><h2>PyVOL Main Entry Point<a class="headerlink" href="#module-pyvol.__main__" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="pyvol.__main__.create_default_cfg">
-<code class="descclassname">pyvol.__main__.</code><code class="descname">create_default_cfg</code><span class="sig-paren">(</span><em>cfg_file='defaults.cfg'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.__main__.create_default_cfg" title="Permalink to this definition">¶</a></dt>
-<dd><p>Writes a template cfg file to disk</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>cfg_file (str): target configuration file (Default value = “defaults.cfg”)</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="pyvol.__main__.run_from_cfg">
-<code class="descclassname">pyvol.__main__.</code><code class="descname">run_from_cfg</code><span class="sig-paren">(</span><em>cfg_file</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.__main__.run_from_cfg" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Args:</dt>
-<dd>cfg_file (str): input cfg that specifies a PyVOL job</dd>
-</dl>
-</dd></dl>
-
 </div>
 </div>
 
