@@ -33,159 +33,167 @@ def load_pocket(spheres_file, name=None, display_mode="solid", color='marine', a
     logger.info("Loading {0} with mode {1}".format(spheres.name, display_mode))
 
 
-def pocket(protein, mode=None, ligand=None, pocket_coordinate=None, residue=None, resid=None, prefix=None, min_rad=1.4, max_rad=3.4, lig_excl_rad=None, lig_incl_rad=None, display_mode="solid", color='marine', alpha=0.85, output_dir=None, subdivide=None, minimum_volume=200, min_subpocket_rad=1.7, min_subpocket_surf_rad=1.0, max_clusters=None, excl_org=False, constrain_inputs=True, palette=None):
-    """Calculates the SAS for a binding pocket and displays it
-
-    Args:
-      protein (str): PyMOL selection string for the protein
-      mode (str): pocket identification mode (can be largest, all, or specific) (Default value = None)
-      ligand (str): PyMOL selection string for the ligand (Default value = None)
-      pocket_coordinate ([float]): 3D coordinate used for pocket specification (Default value = None)
-      residue (str): PyMOL residue selection string for pocket specification (Default value = None)
-      resid (str): residue identifier for pocket specification (Default value = None)
-      prefix (str): identifying string for output (Default value = None)
-      min_rad (float): radius for SAS calculations (Default value = 1.4)
-      max_rad (float): radius used to identify the outer, bulk solvent exposed surface (Default value = 3.4)
-      lig_excl_rad (float): maximum distance from a provided ligand that can be included in calculated pockets (Default value = None)
-      lig_incl_rad (float): minimum distance from a provided ligand that should be included in calculated pockets when solvent border is ambiguous (Default value = None)
-      display_mode (str): display mode for calculated pockets (Default value = "solid")
-      color (str): PyMOL color string (Default value = 'marine')
-      alpha (float): transparency value (Default value = 0.85)
-      output_dir (str): filename of the directory in which to place all output; can be absolute or relative (Default value = None)
-      subdivide (bool): calculate subpockets? (Default value = None)
-      minimum_volume (float): minimum volume of pockets returned when running in 'all' mode (Default value = 200)
-      min_subpocket_rad (float): minimum radius that identifies distinct subpockets (Default value = 1.7)
-      min_subpocket_surf_rad (float): radius used to calculate subpocket surfaces (Default value = 1.0)
-      max_clusters (int): maximum number of clusters (Default value = None)
-      excl_org (bool): exclude non-peptide atoms from the protein selection? (Default value = False)
-      constrain_inputs (bool): constrain input quantitative values to tested ranges? (Default value = True)
-      palette ([str]): a list of PyMOL-accepted color strings to use when displaying multiple surfaces
+def pymol_pocket_cmdline(protein, ligand=None, min_rad=1.4, max_rad=3.4, constrain_radii=True, mode="largest", coordinates=None, residue=None, resid=None, lig_excl_rad=None, lig_incl_rad=None, min_volume=200, subdivide=False, max_clusters=None, min_subpocket_rad=1.7, max_subpocket_rad=3.4, min_subpocket_surf_rad=1.0, radial_sampling=0.1, inclusion_radius_buffer=1.0, min_cluster_size=50, output_dir=None, prefix=None, logger_stream_level="INFO", logger_file_level="DEBUG", protein_only=False, display_mode="solid", alpha=0.85, palette=None):
+    """ PyMOL-compatible command line entry point
 
     """
+
+    opts = {
+        "protein": protein,
+        "ligand": ligand,
+        "prot_file": None,
+        "lig_file": None,
+        "min_rad": min_rad,
+        "max_rad": max_rad,
+        "constrain_radii": constrain_radii,
+        "mode": mode,
+        "residue": residue,
+        "resid": resid,
+        "coordinates": coordinates,
+        "lig_excl_rad": lig_excl_rad,
+        "lig_incl_rad": lig_incl_rad,
+        "min_volume": min_volume,
+        "subdivide": subdivide,
+        "max_clusters": max_clusters,
+        "min_subpocket_rad": min_subpocket_rad,
+        "max_subpocket_rad": max_subpocket_rad,
+        "min_subpocket_surf_rad": min_subpocket_surf_rad,
+        "radial_sampling": radial_sampling,
+        "inclusion_radius_buffer": inclusion_radius_buffer,
+        "min_cluster_size": min_cluster_size,
+        "output_dir": output_dir,
+        "prefix": prefix,
+        "logger_stream_level": logger_stream_level,
+        "logger_file_level": logger_file_level,
+        "protein_only": protein_only,
+        "display_mode": display_mode,
+        "alpha": alpha,
+        "palette": palette
+    }
+
+    pymol_pocket(**opts)
+
+def pymol_pocket(**opts):
 
     timestamp = time.strftime("%H%M%S")
 
-    if output_dir is None:
-        output_dir = tempfile.mkdtemp()
+    if opts.get("output_dir") is None:
+        opts["output_dir"] = tempfile.mkdtemp()
     else:
-        logging.debug("Output directory set to {0}".format(output_dir))
-        utilities.check_dir(output_dir)
+        logging.debug("Output directory set to {0}".format(opts.get("output_dir")))
+        utilities.check_dir(opts.get("output_dir"))
 
-    if excl_org:
-        # protein = "({0}) and (not org)".format(protein)
-        protein = "({0}) and (poly)".format(protein)
+    if opts.get("protein_only"):
+        opts["protein"] = "({0}) and (poly)".format(opts.get("protein"))
 
-    if ligand is not None:
-        protein = "({0}) and not ({1})".format(protein, ligand)
+    if opts.get("ligand") is not None:
+        opts.["protein"] = "({0}) and not ({1})".format(opts.get("protein"), opts.get("ligand"))
 
-        lig_file = os.path.join(output_dir, "{0}_lig.pdb".format(timestamp))
-        cmd.save(lig_file, ligand)
-        logger.debug("Ligand selection: {0}".format(ligand))
+        opts["lig_file"] = os.path.join(opts.get("output_dir"), "{0}_lig.pdb".format(timestamp))
+        cmd.save(opts.get("lig_file"), opts.get("ligand"))
+        logger.debug("Ligand selection: {0}".format(opts.get("ligand")))
     else:
-        lig_file = None
+        opts["lig_file"] = None
 
-    logger.debug("Final protein selection: {0}".format(protein))
+    logger.debug("Final protein selection: {0}".format(opts.get("protein")))
 
-    prot_atoms = cmd.count_atoms(protein)
+    prot_atoms = cmd.count_atoms(opts.get("protein"))
     if prot_atoms == 0:
-        logger.error("No atoms included in protein selection")
+        logger.error("No atoms included in protein selection--ending calculation")
         return
-    elif prot_atoms < 50:
+    elif prot_atoms < 100:
         logger.warning("Only {0} atoms included in protein selection".format(prot_atoms))
 
-    prot_file = os.path.join(output_dir, "{0}_{1}.pdb".format(timestamp, protein.split()[0].strip("(").strip(")")))
-    cmd.save(prot_file, protein)
+    opts["prot_file"] = os.path.join(opts.get("output_dir"), "{0}_{1}.pdb".format(timestamp, opts.get("protein").split()[0].strip("(").strip(")")))
+    cmd.save(opts.get("prot_file"), opts.get("protein"))
+    logger.debug("Protein '{0}' saved to {1}".format(opts.get("protein"), opts.get("prot_file")))
 
-    residue_coordinates = None
-    if residue is not None:
-        residue_coordinates = cmd.get_coords(residue, 1)
-
-    if (mode is None) and ((ligand is not None) or (pocket_coordinate is not None) or (resid is not None) or (residue_coordinates is not None)):
-        mode = "specific"
-    elif mode is None:
-        mode = "largest"
-    logger.info("Running in mode: {0}".format(mode))
-
-    spheres = identify.pocket(prot_file, mode=mode, lig_file=lig_file, resid=resid, residue_coordinates=residue_coordinates, coordinate=pocket_coordinate, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, subdivide=subdivide, minimum_volume=minimum_volume, min_subpocket_rad=min_subpocket_rad, prefix=prefix, output_dir=output_dir, min_subpocket_surf_rad=min_subpocket_surf_rad, max_clusters=max_clusters, constrain_inputs=constrain_inputs)
-
-    if mode in ["specific", "largest"]:
-        if not subdivide:
-            try:
-                # logger.info("Pocket Volume: {0} A^3".format(format(spheres[0].mesh.volume, '.2f')))
-                logger.info("Pocket Volume: {0} A^3".format(round(spheres[0].mesh.volume)))
-                pymol_utilities.display_spheres_object(spheres[0], spheres[0].name, state=1, color=color, alpha=alpha, mode=display_mode)
-            except:
-                logger.warning("Volume not calculated for pocket")
-
-        else:
-            try:
-                logger.info("Whole Pocket Volume: {0} A^3".format(round(spheres[0].mesh.volume)))
-            except:
-                logger.warning("Volume not calculated for the whole pocket")
-            pymol_utilities.display_spheres_object(spheres[0], spheres[0].name, state=1, color=color, alpha=alpha, mode=display_mode)
-
-            if palette is None:
-                palette = pymol_utilities.construct_palette(max_value=(len(spheres) - 1))
-            else:
-                palette = pymol_utilities.construct_palette(color_list=palette.split(","), max_value =(len(spheres) - 1))
-            for index, sps in enumerate(spheres[1:]):
-                group = int(sps.g[0])
-                try:
-                    logger.info("{0} volume: {1} A^3".format(sps.name, round(sps.mesh.volume)))
-                    pymol_utilities.display_spheres_object(sps, sps.name, state=1, color=palette[index], alpha=alpha, mode=display_mode)
-                except:
-                    logger.warning("Volume not calculated for pocket: {0}".format(sps.name))
-
-            cmd.disable(spheres[0].name)
-
-            if display_mode == "spheres":
-                cmd.group("{0}_sg".format(spheres[0].name), "{0}*_g".format(spheres[0].name))
-            else:
-                cmd.group("{0}_g".format(spheres[0].name), "{0}*".format(spheres[0].name))
-
+    if opts.get("coordinates") is not None:
+        opts["residue"] = None
     else:
-        # mode is all
-        if len(spheres) == 0:
-            logger.warning("No pockets found with volume > {0} A^3".format(minimum_volume))
-            return
-        else:
-            logger.info("Pockets found: {0}".format(len(spheres)))
+        if opts.get("residue") is not None:
+            opts["coordinates"] = cmd.get_coords(opts.get("residue"), 1)
 
-        palette = pymol_utilities.construct_palette(max_value=len(spheres))
-        for index, s in enumerate(spheres):
-            try:
-                logger.info("{0} volume: {1} A^3".format(s.name, round(s.mesh.volume)))
-                pymol_utilities.display_spheres_object(s, s.name, state=1, color=palette[index], alpha=alpha, mode=display_mode)
-            except:
-                logger.warning("Volume not calculated for pocket: {0}".format(s.name))
+    spheres = identify.pocket(**opts)
 
-        name_template = "p".join(spheres[0].name.split("p")[:-1])
-        if display_mode == "spheres":
-            cmd.group("{0}sg".format(name_template), "{0}*_g".format(name_template))
-        else:
-            cmd.group("{0}g".format(name_template), "{0}*".format(name_template))
 
-    if output_dir is None:
-        shutil.rmtree(output_dir)
+    # if mode in ["specific", "largest"]:
+    #     if not subdivide:
+    #         try:
+    #             logger.info("Pocket Volume: {0} A^3".format(round(spheres[0].mesh.volume)))
+    #             pymol_utilities.display_spheres_object(spheres[0], spheres[0].name, state=1, color=color, alpha=alpha, mode=display_mode)
+    #         except:
+    #             logger.warning("Volume not calculated for pocket")
+    #
+    #     else:
+    #         try:
+    #             logger.info("Whole Pocket Volume: {0} A^3".format(round(spheres[0].mesh.volume)))
+    #         except:
+    #             logger.warning("Volume not calculated for the whole pocket")
+    #         pymol_utilities.display_spheres_object(spheres[0], spheres[0].name, state=1, color=color, alpha=alpha, mode=display_mode)
+    #
+    #         if palette is None:
+    #             palette = pymol_utilities.construct_palette(max_value=(len(spheres) - 1))
+    #         else:
+    #             palette = pymol_utilities.construct_palette(color_list=palette.split(","), max_value =(len(spheres) - 1))
+    #         for index, sps in enumerate(spheres[1:]):
+    #             group = int(sps.g[0])
+    #             try:
+    #                 logger.info("{0} volume: {1} A^3".format(sps.name, round(sps.mesh.volume)))
+    #                 pymol_utilities.display_spheres_object(sps, sps.name, state=1, color=palette[index], alpha=alpha, mode=display_mode)
+    #             except:
+    #                 logger.warning("Volume not calculated for pocket: {0}".format(sps.name))
+    #
+    #         cmd.disable(spheres[0].name)
+    #
+    #         if display_mode == "spheres":
+    #             cmd.group("{0}_sg".format(spheres[0].name), "{0}*_g".format(spheres[0].name))
+    #         else:
+    #             cmd.group("{0}_g".format(spheres[0].name), "{0}*".format(spheres[0].name))
+    #
+    # else:
+    #     # mode is all
+    #     if len(spheres) == 0:
+    #         logger.warning("No pockets found with volume > {0} A^3".format(minimum_volume))
+    #         return
+    #     else:
+    #         logger.info("Pockets found: {0}".format(len(spheres)))
+    #
+    #     palette = pymol_utilities.construct_palette(max_value=len(spheres))
+    #     for index, s in enumerate(spheres):
+    #         try:
+    #             logger.info("{0} volume: {1} A^3".format(s.name, round(s.mesh.volume)))
+    #             pymol_utilities.display_spheres_object(s, s.name, state=1, color=palette[index], alpha=alpha, mode=display_mode)
+    #         except:
+    #             logger.warning("Volume not calculated for pocket: {0}".format(s.name))
+    #
+    #     name_template = "p".join(spheres[0].name.split("p")[:-1])
+    #     if display_mode == "spheres":
+    #         cmd.group("{0}sg".format(name_template), "{0}*_g".format(name_template))
+    #     else:
+    #         cmd.group("{0}g".format(name_template), "{0}*".format(name_template))
+    #
+    # if output_dir is None:
+    #     shutil.rmtree(output_dir)
     return
 
-def pose_report(pose_file, pocket_file, output_dir, output_prefix=None, name_parameter="_Name", scoring_parameter="r_i_glide_gscore", pocket_tolerance=3, panelx=250, panely=200, molsPerRow=4, rowsPerPage=6, palette=[(1,0.2,0.2), (1,0.55,0.15), (1,1,0.2), (0.2,1,0.2), (0.3,0.3,1), (0.5,1,1), (1,0.5,1)]):
-    """ Creates a report that highlights 2D compound representations by subpocket occupancy according to the poses in a provided sdf file
-
-    Args:
-      pose_file (str): input SDF file containing docked compound poses
-      pocket_file (str): input csv containing the spheres 5 dimensional array describing subpocket geometry; output with a "_spa.csv" ending
-      output_dir (str): output directory for all files
-      output_prefix (str): output prefix
-      name_parameter (str): SDF property key for the molecule name
-      scoring_parameter (str): SDF property key for whichever property should be shown in the report
-      pocket_tolerance (float): maximum distance (Angstrom) at which an atom outside of the defined subpocket volumes is still associated with a subpocket
-      panelx (int): horizontal width of the drawing space for each molecule
-      panely (int): vertical height of the drawing space for each molecule
-      molsPerRow (int): number of molecules to fit on a row (total width is <= panelx * molsPerRow)
-      rowsPerPage (int): number of rows of molecules to fit on each page (total height is <= panely * rowsPerPage)
-      palette ([(float,float,float)]): list of tuples of fractional RGB values that controls the highlighting colors
-
-    """
-
-    poses.compound_occupancy(pose_file, pocket_file, output_dir, output_prefix, name_parameter, scoring_parameter, pocket_tolerance, panelx, panely, molsPerRow, rowsPerPage, palette)
+# def pose_report(pose_file, pocket_file, output_dir, output_prefix=None, name_parameter="_Name", scoring_parameter="r_i_glide_gscore", pocket_tolerance=3, panelx=250, panely=200, molsPerRow=4, rowsPerPage=6, palette=[(1,0.2,0.2), (1,0.55,0.15), (1,1,0.2), (0.2,1,0.2), (0.3,0.3,1), (0.5,1,1), (1,0.5,1)]):
+#     """ Creates a report that highlights 2D compound representations by subpocket occupancy according to the poses in a provided sdf file
+#
+#     Args:
+#       pose_file (str): input SDF file containing docked compound poses
+#       pocket_file (str): input csv containing the spheres 5 dimensional array describing subpocket geometry; output with a "_spa.csv" ending
+#       output_dir (str): output directory for all files
+#       output_prefix (str): output prefix
+#       name_parameter (str): SDF property key for the molecule name
+#       scoring_parameter (str): SDF property key for whichever property should be shown in the report
+#       pocket_tolerance (float): maximum distance (Angstrom) at which an atom outside of the defined subpocket volumes is still associated with a subpocket
+#       panelx (int): horizontal width of the drawing space for each molecule
+#       panely (int): vertical height of the drawing space for each molecule
+#       molsPerRow (int): number of molecules to fit on a row (total width is <= panelx * molsPerRow)
+#       rowsPerPage (int): number of rows of molecules to fit on each page (total height is <= panely * rowsPerPage)
+#       palette ([(float,float,float)]): list of tuples of fractional RGB values that controls the highlighting colors
+#
+#     """
+#
+#     poses.compound_occupancy(pose_file, pocket_file, output_dir, output_prefix, name_parameter, scoring_parameter, pocket_tolerance, panelx, panely, molsPerRow, rowsPerPage, palette)

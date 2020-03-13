@@ -110,15 +110,21 @@ def check_dir(location):
             pass
 
 
-def configure_logger(filename=None, stream_level="INFO", file_level="DEBUG"):
+def configure_logger(filename=None, stream_level=None, file_level=None):
     """ Configures the base logger
 
     Args:
       filename (str): target filename is the log is to be written to file (Default value = None)
-      stream_level (str): log level for the stream handler (Default value = INFO)
-      file_level (str): log level for the file handler (Default value = DEBUG)
+      stream_level (str): log level for the stream handler (Default value = None)
+      file_level (str): log level for the file handler (Default value = None)
 
     """
+
+    if stream_level is None:
+        stream_level = "INFO"
+    if file_level is None:
+        file_level = "DEBUG"
+
     main_logger = logging.getLogger("pyvol")
     main_logger.setLevel("DEBUG")
 

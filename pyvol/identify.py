@@ -41,14 +41,7 @@ def pocket(**opts):
 
     """
 
-    if opts.get("output_dir") is not None:
-        utilities.check_dir(opts.get("output_dir"))
 
-        log_file = os.path.join(opts.get("output_dir"), "{0}.log".format(opts.get("prefix")))
-        utilities.configure_logger(filename=log_file)
-    else:
-        utilities.configure_logger()
-    logger.debug("Logger configured")
 
 
     p_s = Spheres(pdb=opts.get("prot_file"))
@@ -132,6 +125,30 @@ def pocket(**opts):
     if opts.get("output_dir") is not None:
         write_report(all_pockets, **opts)
         write_cfg(**opts)
+
+    return all_pockets
+
+
+def pocket_wrapper(**opts):
+    """ wrapper for pocket that configures the logger, sanitizes inputs, and catches errors; useful when running from the command line or PyMOL but split from the core code for programmatic usage
+
+    """
+
+    opts = configuration.clean_opts(opts)
+
+    if opts.get("output_dir") is not None:
+        utilities.check_dir(opts.get("output_dir"))
+
+        log_file = os.path.join(opts.get("output_dir"), "{0}.log".format(opts.get("prefix")))
+        utilities.configure_logger(filename=log_file, stream_level=opts.get("logger_stream_level"), file_level=opts.get("logger_file_level"))
+    else:
+        utilities.configure_logger(stream_level=opts.get("logger_stream_level"))
+    logger.debug("Logger configured")
+
+    try:
+        all_pockets = pocket(**opts)
+    except:
+        sys.exit(1)
 
     return all_pockets
 

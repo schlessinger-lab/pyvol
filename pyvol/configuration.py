@@ -36,6 +36,8 @@ def clean_opts(input_opts):
     opts["min_volume"] = float(input_opts.get("min_volume", 200))
 
     opts["subdivide"] = input_opts.get("subdivide", False)
+    if not isinstance(opts["subdivide"], bool):
+        opts["subdivide"] = False
     if opts["subdivide"]:
         opts["max_clusters"] = int(input_opts.get("max_clusters"))
         opts["min_subpocket_rad"] = float(input_opts.get("min_subpocket_rad", 1.7))
@@ -50,6 +52,23 @@ def clean_opts(input_opts):
     if opts["prefix"] is None:
         timestamp = time.strftime("%H%M%S")
         opts["prefix"] = "{0}_{1}".format(timestamp, os.path.splitext(os.path.basename(opts["prot_file"]))[0])
+    opts["logger_stream_level"] = input_opts.get("logger_stream_level")
+    if opts["logger_stream_level"] not in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]:
+        opts["logger_stream_level"] = None
+    opts["logger_file_level"] = input_opts.get("logger_file_level")
+    if opts["logger_file_level"] not in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]:
+        opts["logger_file_level"] = None
+
+    opts["protein"] = input_opts.get("protein")
+    opts["ligand"] = input_opts.get("ligand")
+    opts["protein_only"] = input_opts.get("protein_only")
+    if not isinstance(opts["protein_only"], bool):
+        opts["protein_only"] = False
+    opts["display_mode"] = input_opts.get("display_mode")
+    if not opts["display_mode"] in ["solid", "mesh", "pseudoatom"]:
+        opts["display_mode"] = "solid"
+    opts["palette"] = input_opts.get("palette")
+    opts["alpha"] = float(input_opts.get("alpha"))
 
     # Clean options
     if opts["prot_file"] is None:
@@ -139,7 +158,7 @@ def opts_to_cfg(opts):
       config (ConfigParser): configuration object containing formatted options
     """
 
-    config = configparser.ConfigParser(allow_no_value=True)
+    config = configparser.ConfigParser()
 
     config.add_section("General")
     if opts.get("prot_file") is not None:
@@ -186,10 +205,29 @@ def opts_to_cfg(opts):
         config.set("Partitioning", "min_cluster_size", str(opts.get("min_cluster_size")))
 
     config.add_section("Output")
-    if opts["output_dir"] is not None:
-        config.set("Output", "output_dir", str(opts["output_dir"]))
-    if opts["prefix"] is not None:
-        config.set("Output", "prefix", str(opts["prefix"]))
+    if opts.get("output_dir") is not None:
+        config.set("Output", "output_dir", str(opts.get("output_dir")))
+    if opts.get("prefix") is not None:
+        config.set("Output", "prefix", str(opts.get("prefix")))
+    if opts.get("logger_stream_level") is not None:
+        config.set("Output", "logger_stream_level", str(opts.get("logger_stream_level")))
+    if opts.get("logger_file_level") is not None:
+        config.set("Output", "logger_file_level", str(opts.get("logger_file_level")))
+
+
+    config.add_section("PyMOL")
+    if opts.get("protein") is not None:
+        config.set("PyMOL", "protein", str(opts.get("protein")))
+    if opts.get("ligand") is not None:
+        config.set("PyMOL", "ligand", str(opts.get("ligand")))
+    if opts.get("protein_only") is not None:
+        config.set("PyMOL", "protein_only", str(opts.get("protein_only")))
+    if opts.get("display_mode") is not None:
+        config.set("PyMOL", "display_mode", str(opts.get("display_mode")))
+    if opts.get("palette") is not None:
+        config.set("PyMOL", "palette", str(opts.get("palette")))
+    if opts.get("alpha") is not None:
+        config.set("PyMOL", "alpha", str(opts.get("alpha")))
 
     return config
 
@@ -202,7 +240,7 @@ def defaults_to_cfg():
     config = configparser.ConfigParser(allow_no_value=True)
     config.add_section("General")
     config.set("General", "prot_file")
-    config.set("General", "lig_file", "remove_if_not_used")
+    config.set("General", "lig_file")
     config.set("General", "min_rad", "1.4")
     config.set("General", "max_rad", "3.4")
     config.set("General", "constrain_radii", "True")
@@ -228,6 +266,16 @@ def defaults_to_cfg():
     config.add_section("Output")
     config.set("Output", "output_dir")
     config.set("Output", "prefix")
+    config.set("Output", "logger_stream_level", "INFO")
+    config.set("Output", "logger_file_level", "DEBUG")
+
+    config.add_section("PyMOL")
+    config.set("PyMOL", "protein")
+    config.set("PyMOL", "ligand")
+    config.set("PyMOL", "protein_only", "False")
+    config.set("PyMOL", "display_mode", "solid")
+    config.set("PyMOL", "palette")
+    config.set("PyMOL", "alpha", "0.85")
 
     return config
 
@@ -276,6 +324,15 @@ def cfg_to_opts(config):
 
     opts["output_dir"] = config.get("Output", "output_dir", fallback=None)
     opts["prefix"] = config.get("Output", "prefix", fallback=None)
+    opts["logger_stream_level"] = config.get("Output", "logger_stream_level", fallback="INFO")
+    opts["logger_file_level"] = config.get("Output", "logger_file_level", fallback="DEBUG")
+
+    opts["protein"] = config.get("PyMOL", "protein", fallback=None)
+    opts["ligand"] = config.get("PyMOL", "ligand", fallback=None)
+    opts["protein_only"] = config.get("PyMOL", "protein_only", fallback=True)
+    opts["display_mode"] = config.get("PyMOL", "display_mode", fallback="solid")
+    opts["palette"] = config.get("PyMOL", "palette", fallback=None)
+    opts["alpha"] = config.get("PyMOL", "alpha", fallback=0.85)
 
     return opts
 
@@ -303,23 +360,23 @@ def file_to_cfg(filename):
       config (ConfigParser): configuration object holding the contents of the file
     """
 
-    config = configparser.ConfigParser(allow_no_value=True)
+    config = configparser.ConfigParser()
     config.read(filename)
     logger.info("Configuration file read from {0}".format(filename))
     return config
 
 
 def file_to_opts(filename):
-    """ reads a cfg file and converts it into a sanitized options dictionary
+    """ reads a cfg file and converts it into an options dictionary
 
     Args:
       filename (str): input filename of a configuration file
 
     Returns:
-      opts (dict): dictionary object containing sanitized PyVOL options
+      opts (dict): dictionary object containing PyVOL options
     """
 
-    return clean_opts(cfg_to_opts(file_to_cfg(filename)))
+    return cfg_to_opts(file_to_cfg(filename))
 
 
 def opts_to_file(opts, filename=None):

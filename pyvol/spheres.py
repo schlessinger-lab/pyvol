@@ -1,5 +1,6 @@
 
 from . import utilities
+from .exceptions import *
 from Bio.PDB import PDBParser
 from Bio.PDB.ResidueDepth import _get_atom_radius
 import glob
@@ -35,6 +36,7 @@ class Spheres(object):
           mesh (Trimesh): mesh object describing the surface (Default value = None)
           name (str): descriptive identifier (Default value = None)
           spheres_file (str): filename of a Spheres file to be read from disk (Default value = None)
+
         """
 
         if xyzrg is not None:
@@ -88,6 +90,7 @@ class Spheres(object):
                 obj_file = spheres_file
             else:
                 logger.error("Invalid filename given to read in spheres object: {0}".format(spheres_file))
+                raise ValueError("Spheres objects must be .csv or .obj ({0} provided)".format(spheres_file))
             spheres_data = np.loadtxt(csv_file, delimiter=' ')
 
             if spheres_data.shape[1] == 5:
@@ -96,6 +99,7 @@ class Spheres(object):
                 self.xyzr = spheres_data
             else:
                 logger.error("Spheres csv file contains the wrong number of columns")
+                raise ValueError("{0} columns found in file {1}; must contain 4 or 5".format(spheres_data.shape[1], spheres_file))
             mesh = trimesh.load_mesh(obj_file)
 
             if name is None:
@@ -186,7 +190,7 @@ class Spheres(object):
                 faces = pd.read_csv("{0}.face".format(msms_template), sep='\s+', skiprows=3, usecols=[0, 1, 2], dtype=np.int_, header=None, encoding='latin1').values
             except IOError:
                 logger.error("MSMS failed to run correctly for {0}".format(msms_template))
-                raise IOError
+                raise MSMSError("MSMS failed to run correctly for {0}".format(msms_template))
             else:
                 vertices = np.zeros((verts_raw.shape[0] + 1, 3))
                 vertices[1:, :] = verts_raw[:, 0:3]
@@ -256,8 +260,6 @@ class Spheres(object):
 
         logger.debug("Non-extraneous spheres removed")
         return Spheres(xyzrg=np.copy(self.xyzrg[indices, :]))
-
-
 
 
     def nearest(self, coordinate, max_radius=None):
@@ -341,6 +343,8 @@ class Spheres(object):
         ungrouped_indices = np.where(self.g < 1)
         self.xyzrg = np.delete(self.xyzrg, ungrouped_indices, axis=0)
         self.mesh = None
+        if len(ungrouped_indices) > 0:
+            logger.debug("{0} ungrouped spheres removed".format(len(ungrouped_indices)))
 
 
     def remove_groups(self, groups):
@@ -378,6 +382,7 @@ class Spheres(object):
         if output_mesh:
             if self.mesh is None:
                 logger.error("Cannot write out an uninitialized mesh")
+                raise ValueError("Mesh can not be written to file corresponding to {0}".format(filename))
             else:
                 output_mesh = "{0}.obj".format(os.path.splitext(filename)[0])
                 self.mesh.export(file_obj = output_mesh)
