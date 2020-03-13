@@ -27,6 +27,7 @@ def __init_plugin__(app=None):
 
     # add MSMS to path is saved in PyMOL preferences and not in path
     import distutils
+    import distutils.util
 
     msms_exe = distutils.spawn.find_executable("msms")
     if msms_exe is None:
@@ -86,7 +87,6 @@ def install_pypi_pyvol():
     """ Attempts a de novo PyVOL installation using pip
 
     """
-    import distutils
 
     subprocess.check_output([sys.executable, "-m", "pip", "install", "bio-pyvol"])
 
@@ -196,7 +196,8 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
       check_for_updates (bool): query servers to see if an update is available? (Default value = False)
 
     """
-    import distutils.spawn
+    import distutils
+    import distutils.util
     import json
 
     def apply_color(string, color):
