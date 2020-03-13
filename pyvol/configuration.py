@@ -2,6 +2,7 @@
 import configparser
 import logging
 import os
+import tempfile
 import time
 
 logger = logging.getLogger(__name__)
@@ -15,6 +16,8 @@ def clean_opts(input_opts):
     Returns:
       cleaned_opts (dict): dictionary containing all options for a PyVOL run with extraneous options removed and necessary defaults provided
     """
+
+    timestamp = time.strftime("%H%M%S")
 
     # Load options
     opts = {}
@@ -47,11 +50,31 @@ def clean_opts(input_opts):
         opts["inclusion_radius_buffer"] = float(input_opts.get("inclusion_radius_buffer", 1.0))
         opts["min_cluster_size"] = int(input_opts.get("min_cluster_size", 50))
 
+    opts["project_dir"] = input_opts.get("project_dir")
     opts["output_dir"] = input_opts.get("output_dir")
     opts["prefix"] = input_opts.get("prefix")
     if opts["prefix"] is None:
-        timestamp = time.strftime("%H%M%S")
-        opts["prefix"] = "{0}_{1}".format(timestamp, os.path.splitext(os.path.basename(opts["prot_file"]))[0])
+        if opts.get("prot_file") is not None:
+            opts["prefix"] = "{0}_{1}".format(timestamp, os.path.splitext(os.path.basename(opts["prot_file"]))[0])
+        elif opts.get("protein") is not None:
+            opts["prefix"] = "{0}_{1}".format(timestamp, opts.get("protein").split()[0].strip("(").strip(")"))
+        else:
+            logger.error("No protein input detected: either prot_file or the PyMOL protein selection must be defined")
+            raise ValueError("No protein geometry defined: provide either a protein file or protein PyMOL selection")
+
+    if opts.get("output_dir") is None:
+        if opts.get("project_dir") is not None:
+            opts["output_dir"] = os.path.join(opts.get("project_dir"), "{0}.pyvol".format(opts.get("prefix")))
+        else:
+            opts["output_dir"] = tempfile.mkdtemp()
+
+    if opts.get("prot_file") is None:
+        opts["prot_file"] = os.path.join(opts.get("output_dir"), "{0}_prot.pdb".format(prefix))
+
+    if (opts.get("ligand") is not None) and (opts.get("lig_file") is None):
+        opts["lig_file"] = os.path.join(opts.get("output_dir"), "{0}_lig.pdb".format(prefix))
+
+
     opts["logger_stream_level"] = input_opts.get("logger_stream_level")
     if opts["logger_stream_level"] not in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]:
         opts["logger_stream_level"] = None
@@ -205,6 +228,8 @@ def opts_to_cfg(opts):
         config.set("Partitioning", "min_cluster_size", str(opts.get("min_cluster_size")))
 
     config.add_section("Output")
+    if opts.get("project_dir") is not None:
+        config.set("Output", "project_dir", str(opts.get("project_dir")))
     if opts.get("output_dir") is not None:
         config.set("Output", "output_dir", str(opts.get("output_dir")))
     if opts.get("prefix") is not None:
@@ -264,7 +289,7 @@ def defaults_to_cfg():
     config.set("Partitioning", "min_cluster_size", "50")
 
     config.add_section("Output")
-    config.set("Output", "output_dir")
+    config.set("Output", "project_dir")
     config.set("Output", "prefix")
     config.set("Output", "logger_stream_level", "INFO")
     config.set("Output", "logger_file_level", "DEBUG")
@@ -322,6 +347,7 @@ def cfg_to_opts(config):
     opts["inclusion_radius_buffer"] = config.getfloat("Partitioning", "inclusion_radius_buffer", fallback=1.0)
     opts["min_cluster_size"] = config.getint("Partitioning", "min_cluster_size", fallback=50)
 
+    opts["project_dir"] = config.get("Output", "project_dir", fallback=None)
     opts["output_dir"] = config.get("Output", "output_dir", fallback=None)
     opts["prefix"] = config.get("Output", "prefix", fallback=None)
     opts["logger_stream_level"] = config.get("Output", "logger_stream_level", fallback="INFO")

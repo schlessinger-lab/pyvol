@@ -1,4 +1,5 @@
 
+from . import configuration
 from . import identify
 from . import poses
 from . import pymol_utilities
@@ -7,8 +8,7 @@ from . import utilities
 import logging
 import os
 import shutil
-import tempfile
-import time
+
 
 logger = logging.getLogger(__name__)
 
@@ -71,29 +71,20 @@ def pymol_pocket_cmdline(protein, ligand=None, min_rad=1.4, max_rad=3.4, constra
         "palette": palette
     }
 
-    pymol_pocket(**opts)
+    pymol_pocket(**configuration.clean_opts(opts))
 
 def pymol_pocket(**opts):
 
-    timestamp = time.strftime("%H%M%S")
-
-    if opts.get("output_dir") is None:
-        opts["output_dir"] = tempfile.mkdtemp()
-    else:
-        logging.debug("Output directory set to {0}".format(opts.get("output_dir")))
-        utilities.check_dir(opts.get("output_dir"))
+    utilities.check_dir(opts.get("output_dir"))
 
     if opts.get("protein_only"):
         opts["protein"] = "({0}) and (poly)".format(opts.get("protein"))
 
     if opts.get("ligand") is not None:
-        opts.["protein"] = "({0}) and not ({1})".format(opts.get("protein"), opts.get("ligand"))
+        opts["protein"] = "({0}) and not ({1})".format(opts.get("protein"), opts.get("ligand"))
 
-        opts["lig_file"] = os.path.join(opts.get("output_dir"), "{0}_lig.pdb".format(timestamp))
         cmd.save(opts.get("lig_file"), opts.get("ligand"))
         logger.debug("Ligand selection: {0}".format(opts.get("ligand")))
-    else:
-        opts["lig_file"] = None
 
     logger.debug("Final protein selection: {0}".format(opts.get("protein")))
 
@@ -104,7 +95,6 @@ def pymol_pocket(**opts):
     elif prot_atoms < 100:
         logger.warning("Only {0} atoms included in protein selection".format(prot_atoms))
 
-    opts["prot_file"] = os.path.join(opts.get("output_dir"), "{0}_{1}.pdb".format(timestamp, opts.get("protein").split()[0].strip("(").strip(")")))
     cmd.save(opts.get("prot_file"), opts.get("protein"))
     logger.debug("Protein '{0}' saved to {1}".format(opts.get("protein"), opts.get("prot_file")))
 

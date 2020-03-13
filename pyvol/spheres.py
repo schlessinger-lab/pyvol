@@ -78,15 +78,19 @@ class Spheres(object):
             if g is not None:
                 self.g = g
         elif spheres_file is not None:
-            csv_file = None
+            xyzr_file = None
             obj_file = None
 
             base, ext = os.path.splitext(spheres_file)
-            if ext == ".csv":
-                csv_file = spheres_file
+            if ext == ".xyzr" or ext == ".xyzrg":
+                xyzr_file = spheres_file
                 obj_file = "{0}.obj".format(base)
             elif ext == ".obj":
-                csv_file = "{0}.csv".format(base)
+                xyzr_file = "{0}.xyzrg".format(base)
+                if not os.path.isfile(xyzr_file):
+                    xyzr_file = "{0}.xyzr".format(base)
+                    if not os.path.isfile(xyzr_file):
+                        logger.error("No spheres file found with the name: {0}.xyzr or {0}.xyzrg".format(base))
                 obj_file = spheres_file
             else:
                 logger.error("Invalid filename given to read in spheres object: {0}".format(spheres_file))

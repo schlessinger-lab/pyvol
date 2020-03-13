@@ -41,9 +41,6 @@ def pocket(**opts):
 
     """
 
-
-
-
     p_s = Spheres(pdb=opts.get("prot_file"))
     logger.debug("Protein geometry read from {0}".format(opts.get("prot_file")))
 
@@ -122,9 +119,8 @@ def pocket(**opts):
             all_pockets.extend(subpockets(bounding_spheres = pa_s, ref_spheres = bp_bs, **opts))
             logger.info("Subpockets identified: {0}".format(len(all_pockets) - 1))
 
-    if opts.get("output_dir") is not None:
-        write_report(all_pockets, **opts)
-        write_cfg(**opts)
+    write_report(all_pockets, **opts)
+    write_cfg(**opts)
 
     return all_pockets
 
@@ -136,13 +132,11 @@ def pocket_wrapper(**opts):
 
     opts = configuration.clean_opts(opts)
 
-    if opts.get("output_dir") is not None:
-        utilities.check_dir(opts.get("output_dir"))
+    utilities.check_dir(opts.get("output_dir"))
 
-        log_file = os.path.join(opts.get("output_dir"), "{0}.log".format(opts.get("prefix")))
-        utilities.configure_logger(filename=log_file, stream_level=opts.get("logger_stream_level"), file_level=opts.get("logger_file_level"))
-    else:
-        utilities.configure_logger(stream_level=opts.get("logger_stream_level"))
+    log_file = os.path.join(opts.get("output_dir"), "{0}.log".format(opts.get("prefix")))
+    utilities.configure_logger(filename=log_file, stream_level=opts.get("logger_stream_level"), file_level=opts.get("logger_file_level"))
+
     logger.debug("Logger configured")
 
     try:
@@ -221,7 +215,7 @@ def write_report(all_pockets, **opts):
     rept_list = []
 
     for pocket in all_pockets:
-        spheres_name = os.path.join(opts.get("output_dir"), "{0}.csv".format(pocket.name))
+        spheres_name = os.path.join(opts.get("output_dir"), "{0}.xyzrg".format(pocket.name))
         pocket.write(spheres_name)
         rept_list.append({"name": pocket.name,
                           "volume": pocket.mesh.volume

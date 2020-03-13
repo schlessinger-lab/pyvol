@@ -2,3 +2,4 @@ __pycache__
 build/
 dist/
 bio_pyvol.egg-info/
+pyvol/pyvol_gui/pyvol_gui.ui.autosave
