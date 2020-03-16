@@ -154,6 +154,7 @@ def pymol_pocket(**opts):
 
     if opts.get("prot_file") is not None:
         logger.debug("Protein file already specified on disk; skipping protein processing.")
+    else:
         if opts.get("protein_only"):
             opts["protein"] = "({0}) and (poly)".format(opts.get("protein"))
 
