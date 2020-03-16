@@ -152,8 +152,12 @@ def pymol_pocket(**opts):
 
     opts = configuration.clean_opts(opts)
 
-    if opts.get("prot_file") is not None:
-        logger.debug("Protein file already specified on disk; skipping protein processing.")
+    if opts.get("protein") is None:
+        if opts.get("prot_file") is None:
+            logger.error("No protein input: prot_file and protein inputs are empty")
+            raise ValueError
+        else:
+            logger.debug("Protein file already specified on disk; skipping protein processing.")
     else:
         if opts.get("protein_only"):
             opts["protein"] = "({0}) and (poly)".format(opts.get("protein"))

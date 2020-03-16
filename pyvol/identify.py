@@ -88,14 +88,15 @@ def pocket(**opts):
 
     """
 
-    new_prot_file = os.path.join(opts.get("output_dir"), os.path.basename(opts.get("prot_file")))
-    shutil.copyfile(opts.get("prot_file"), new_prot_file)
-    opts["prot_file"] = new_prot_file
+    if os.path.dirname(opts.get("prot_file")) != opts.get("output_dir"):
+        new_prot_file = os.path.join(opts.get("output_dir"), os.path.basename(opts.get("prot_file")))
+        shutil.copyfile(opts.get("prot_file"), new_prot_file)
+        opts["prot_file"] = new_prot_file
 
-    if opts.get("lig_file") is not None:
-        new_lig_file = os.path.join(opts.get("output_dir"), os.path.basename(opts.get("prot_file")))
-        shutil.copyfile(opts.get("lig_file"), new_lig_file)
-        opts["lig_file"] = new_lig_file
+        if opts.get("lig_file") is not None:
+            new_lig_file = os.path.join(opts.get("output_dir"), os.path.basename(opts.get("prot_file")))
+            shutil.copyfile(opts.get("lig_file"), new_lig_file)
+            opts["lig_file"] = new_lig_file
 
     p_s = Spheres(pdb=opts.get("prot_file"))
     logger.debug("Protein geometry read from {0}".format(opts.get("prot_file")))
@@ -195,10 +196,7 @@ def pocket_wrapper(**opts):
 
     logger.debug("Logger configured")
 
-    try:
-        all_pockets, opts = pocket(**opts)
-    except:
-        sys.exit(1)
+    all_pockets, opts = pocket(**opts)
 
     return all_pockets, opts
 
