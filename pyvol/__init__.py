@@ -1,3 +1,3 @@
 
-__version__ = "1.4.a8"
-__guiversion__ = "1.4.a8"
+__version__ = "1.4.a9"
+__guiversion__ = "1.4.a9"

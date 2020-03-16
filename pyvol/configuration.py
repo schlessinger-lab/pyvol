@@ -74,10 +74,10 @@ def clean_opts(input_opts):
     utilities.check_dir(opts.get("output_dir"))
 
     if opts.get("prot_file") is None:
-        opts["prot_file"] = os.path.join(opts.get("output_dir"), "{0}_prot.pdb".format(prefix))
+        opts["prot_file"] = os.path.join(opts.get("output_dir"), "{0}_prot.pdb".format(opts.get("prefix")))
 
     if (opts.get("ligand") is not None) and (opts.get("lig_file") is None):
-        opts["lig_file"] = os.path.join(opts.get("output_dir"), "{0}_lig.pdb".format(prefix))
+        opts["lig_file"] = os.path.join(opts.get("output_dir"), "{0}_lig.pdb".format(opts.get("prefix")))
 
 
     opts["logger_stream_level"] = input_opts.get("logger_stream_level")

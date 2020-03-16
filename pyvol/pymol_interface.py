@@ -152,26 +152,28 @@ def pymol_pocket(**opts):
 
     opts = configuration.clean_opts(opts)
 
-    if opts.get("protein_only"):
-        opts["protein"] = "({0}) and (poly)".format(opts.get("protein"))
+    if opts.get("prot_file") is not None:
+        logger.debug("Protein file already specified on disk; skipping protein processing.")
+        if opts.get("protein_only"):
+            opts["protein"] = "({0}) and (poly)".format(opts.get("protein"))
+
+        if opts.get("ligand") is not None:
+            opts["protein"] = "({0}) and not ({1})".format(opts.get("protein"), opts.get("ligand"))
+
+        logger.debug("Final protein selection: {0}".format(opts.get("protein")))
+        prot_atoms = cmd.count_atoms(opts.get("protein"))
+        if prot_atoms == 0:
+            logger.error("No atoms included in protein selection--ending calculation")
+            return
+        elif prot_atoms < 100:
+            logger.warning("Only {0} atoms included in protein selection".format(prot_atoms))
+
+        cmd.save(opts.get("prot_file"), opts.get("protein"))
+        logger.debug("Protein '{0}' saved to {1}".format(opts.get("protein"), opts.get("prot_file")))
 
     if opts.get("ligand") is not None:
-        opts["protein"] = "({0}) and not ({1})".format(opts.get("protein"), opts.get("ligand"))
-
         cmd.save(opts.get("lig_file"), opts.get("ligand"))
         logger.debug("Ligand selection: {0}".format(opts.get("ligand")))
-
-    logger.debug("Final protein selection: {0}".format(opts.get("protein")))
-
-    prot_atoms = cmd.count_atoms(opts.get("protein"))
-    if prot_atoms == 0:
-        logger.error("No atoms included in protein selection--ending calculation")
-        return
-    elif prot_atoms < 100:
-        logger.warning("Only {0} atoms included in protein selection".format(prot_atoms))
-
-    cmd.save(opts.get("prot_file"), opts.get("protein"))
-    logger.debug("Protein '{0}' saved to {1}".format(opts.get("protein"), opts.get("prot_file")))
 
     if opts.get("coordinates") is not None:
         opts["residue"] = None
