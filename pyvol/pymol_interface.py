@@ -106,7 +106,7 @@ def load_pocket(spheres_file, name=None, display_mode="solid", color='marine', a
     logger.info("Loading {0} with mode {1}".format(spheres.name, display_mode))
 
 
-def pymol_pocket_cmdline(protein, ligand=None, min_rad=1.4, max_rad=3.4, constrain_radii=True, mode="largest", coordinates=None, residue=None, resid=None, lig_excl_rad=None, lig_incl_rad=None, min_volume=200, subdivide=False, max_clusters=None, min_subpocket_rad=1.7, max_subpocket_rad=3.4, min_subpocket_surf_rad=1.0, radial_sampling=0.1, inclusion_radius_buffer=1.0, min_cluster_size=50, project_dir=None, output_dir=None, prefix=None, logger_stream_level="INFO", logger_file_level="DEBUG", protein_only=False, display_mode="solid", alpha=0.85, palette=None):
+def pymol_pocket_cmdline(protein=None, ligand=None, prot_file=None, lig_file=None, min_rad=1.4, max_rad=3.4, constrain_radii=True, mode="largest", coordinates=None, residue=None, resid=None, lig_excl_rad=None, lig_incl_rad=None, min_volume=200, subdivide=False, max_clusters=None, min_subpocket_rad=1.7, max_subpocket_rad=3.4, min_subpocket_surf_rad=1.0, radial_sampling=0.1, inclusion_radius_buffer=1.0, min_cluster_size=50, project_dir=None, output_dir=None, prefix=None, logger_stream_level="INFO", logger_file_level="DEBUG", protein_only=False, display_mode="solid", alpha=0.85, palette=None):
     """ PyMOL-compatible command line entry point
 
     """
@@ -114,8 +114,8 @@ def pymol_pocket_cmdline(protein, ligand=None, min_rad=1.4, max_rad=3.4, constra
     opts = {
         "protein": protein,
         "ligand": ligand,
-        "prot_file": None,
-        "lig_file": None,
+        "prot_file": prot_file,
+        "lig_file": lig_file,
         "min_rad": min_rad,
         "max_rad": max_rad,
         "constrain_radii": constrain_radii,

@@ -17,6 +17,7 @@ def clean_opts(input_opts):
       cleaned_opts (dict): dictionary containing all options for a PyVOL run with extraneous options removed and necessary defaults provided
     """
 
+    print(input_opts)
     timestamp = time.strftime("%H%M%S")
 
     # Load options
