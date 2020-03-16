@@ -330,6 +330,20 @@ static_last_group (bool): don’t move the ‘other’ group but rather the firs
 <div class="section" id="module-pyvol.identify">
 <span id="pyvol-identify-module"></span><h2>PyVOL Identify Module<a class="headerlink" href="#module-pyvol.identify" title="Permalink to this headline">¶</a></h2>
 <dl class="function">
+<dt id="pyvol.identify.load_calculation">
+<code class="descclassname">pyvol.identify.</code><code class="descname">load_calculation</code><span class="sig-paren">(</span><em>data_dir</em>, <em>input_opts=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.load_calculation" title="Permalink to this definition">¶</a></dt>
+<dd><p>load the results of a calculation from file</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>data_dir (str): directory where previous calculation results are stored
+input_opts (dict): dictionary of pyvol options that is used to update the options read in from file</dd>
+<dt>Returns:</dt>
+<dd>pockets ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct pocket or subpocket
+opts (dict): updated PyVOL options dictionary</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="pyvol.identify.pocket">
 <code class="descclassname">pyvol.identify.</code><code class="descname">pocket</code><span class="sig-paren">(</span><em>**opts</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.pocket" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the SES for a binding pocket</p>
@@ -469,6 +483,12 @@ groups ([int]): list of subpocket identifiers</dd>
 </div>
 <div class="section" id="module-pyvol.pymol_interface">
 <span id="pyvol-pymol-interface-module"></span><h2>PyVOL Pymol Interface Module<a class="headerlink" href="#module-pyvol.pymol_interface" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyvol.pymol_interface.display_pockets">
+<code class="descclassname">pyvol.pymol_interface.</code><code class="descname">display_pockets</code><span class="sig-paren">(</span><em>pockets</em>, <em>**opts</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.display_pockets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display a list of pockets</p>
+</dd></dl>
+
 <dl class="function">
 <dt id="pyvol.pymol_interface.load_pocket">
 <code class="descclassname">pyvol.pymol_interface.</code><code class="descname">load_pocket</code><span class="sig-paren">(</span><em>spheres_file</em>, <em>name=None</em>, <em>display_mode='solid'</em>, <em>color='marine'</em>, <em>alpha=0.85</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.load_pocket" title="Permalink to this definition">¶</a></dt>
