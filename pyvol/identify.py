@@ -8,6 +8,7 @@ import logging
 import numpy as np
 import os
 import pandas as pd
+import shutil
 import sys
 
 logger = logging.getLogger(__name__)
@@ -86,6 +87,15 @@ def pocket(**opts):
       pockets ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct pocket or subpocket
 
     """
+
+    new_prot_file = os.path.join(opts.get("output_dir"), os.path.basename(opts.get("prot_file")))
+    shutil.copyfile(opts.get("prot_file"), new_prot_file)
+    opts["prot_file"] = new_prot_file
+
+    if opts.get("lig_file") is not None:
+        new_lig_file = os.path.join(opts.get("output_dir"), os.path.basename(opts.get("prot_file")))
+        shutil.copyfile(opts.get("lig_file"), new_lig_file)
+        opts["lig_file"] = new_lig_file
 
     p_s = Spheres(pdb=opts.get("prot_file"))
     logger.debug("Protein geometry read from {0}".format(opts.get("prot_file")))
@@ -270,8 +280,3 @@ def write_report(all_pockets, **opts):
     rept_name = os.path.join(opts.get("output_dir"), "{0}_rept.csv".format(opts.get("prefix")))
     rept_df.to_csv(rept_name, index=False)
     logger.info("Report written to: {0}".format(rept_name))
-
-    if len(all_pockets) > 1:
-        combined = cluster.merge_sphere_list(all_pockets[1:])
-        combined_name = os.path.join(opts.get("output_dir"), "{0}_spa.csv".format(opts.get("prefix")))
-        combined.write(combined_name, output_mesh=False)

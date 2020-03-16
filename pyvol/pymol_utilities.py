@@ -23,7 +23,8 @@ def construct_palette(color_list=None, max_value=7, min_value=1):
     if color_list is None:
         color_list = ['tv_red', 'tv_orange', 'tv_yellow', 'tv_green', 'tv_blue', 'aquamarine', 'violet']
     if max_value <= len(color_list):
-        return color_list
+        logger.debug("Input palette accepted")
+        return color_list[:max_value]
 
     colors = [cmd.get_color_tuple(x) for x in color_list]
     output_range = max_value - min_value + 1
@@ -66,6 +67,7 @@ def display_pseudoatom_group(spheres, name, color='gray60', palette=None):
     cmd.group(group_name, "{0}.*".format(name))
     cmd.show("spheres", group_name)
     logger.debug("Pseudoatom group of {0} spheres created with group name {1}".format(spheres.shape[0], group_name))
+    return group_name
 
 
 def display_spheres_object(spheres, name, state=1, color='marine', alpha=0.7, mode="solid", palette=None):
@@ -84,19 +86,19 @@ def display_spheres_object(spheres, name, state=1, color='marine', alpha=0.7, mo
 
     alpha = float(alpha)
     if spheres is None:
-        return
+        return None
 
     if (mode == "mesh") or (mode == "solid"):
         if spheres.mesh is None:
-            return
+            return None
         else:
             if mode == "solid":
-                # cmd.load_cgo(mesh_to_solid_CGO(spheres.mesh, color=color, alpha=alpha), cmd.get_unused_name(name), state)
                 cmd.load_cgo(mesh_to_solid_CGO(spheres.mesh, color=color, alpha=alpha), name, state)
             else:
                 cmd.load_cgo(mesh_to_wireframe_CGO(spheres.mesh, color=color, alpha=alpha), name, state)
+            return None
     elif mode == "spheres":
-        display_pseudoatom_group(spheres, name, color=color, palette=None)
+        return display_pseudoatom_group(spheres, name, color=color, palette=None)
 
 
 def mesh_to_solid_CGO(mesh, color='gray60', alpha=1.0):
