@@ -1,4 +1,5 @@
 
+from . import utilities
 import configparser
 import logging
 import os
@@ -22,6 +23,7 @@ def clean_opts(input_opts):
 
     # Load options
     opts = {}
+    opts["protein"] = input_opts.get("protein")
     opts["prot_file"] = input_opts.get("prot_file")
     opts["lig_file"] = input_opts.get("lig_file")
     opts["min_rad"] = float(input_opts.get("min_rad", 1.4))

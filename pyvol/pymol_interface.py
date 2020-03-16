@@ -5,6 +5,7 @@ from . import pymol_utilities
 from .spheres import Spheres
 from . import utilities
 import logging
+import numpy as np
 import os
 import shutil
 
