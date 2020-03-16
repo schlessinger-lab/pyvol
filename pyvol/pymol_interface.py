@@ -145,7 +145,7 @@ def pymol_pocket_cmdline(protein=None, ligand=None, prot_file=None, lig_file=Non
         "palette": palette
     }
 
-    pymol_pocket(**configuration.clean_opts(opts))
+    pymol_pocket(**opts)
 
 def pymol_pocket(**opts):
 
