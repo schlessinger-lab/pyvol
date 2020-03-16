@@ -1,6 +1,6 @@
 
 
-__version__ = "1.5.b0"
+__version__ = "1.5.a1"
 
 import logging
 import os
@@ -127,11 +127,12 @@ def install_cached_pyvol():
             install_status = False
             try:
                 from pyvol import pymol_interface
-                cmd.extend('pocket', pymol_interface.pocket)
-                # cmd.extend('load_pocket', pymol_interface.load_pocket)
-                install_status = True
             except:
-                logger.warning("Installation questionable")
+                print("pyvol import pymol interface")
+            cmd.extend('pocket', pymol_interface.pocket)
+            # cmd.extend('load_pocket', pymol_interface.load_pocket)
+            install_status = True
+            # figure out what cmd.extend throws
 
             if install_status:
                 logger.info("Installation succeeded")
