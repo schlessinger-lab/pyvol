@@ -54,14 +54,12 @@ def clean_opts(input_opts):
     opts["project_dir"] = input_opts.get("project_dir")
     opts["output_dir"] = input_opts.get("output_dir")
     opts["prefix"] = input_opts.get("prefix")
-    print(opts)
     if opts["prefix"] is None:
         if opts.get("prot_file") is not None:
             opts["prefix"] = "{0}_{1}".format(timestamp, os.path.splitext(os.path.basename(opts["prot_file"]))[0])
         elif opts.get("protein") is not None:
             opts["prefix"] = "{0}_{1}".format(timestamp, opts.get("protein").split()[0].strip("(").strip(")"))
         else:
-            print(opts)
             logger.error("No protein input detected: either prot_file or the PyMOL protein selection must be defined")
             raise ValueError("No protein geometry defined: provide either a protein file or protein PyMOL selection")
 
@@ -69,7 +67,9 @@ def clean_opts(input_opts):
         if opts.get("project_dir") is not None:
             opts["output_dir"] = os.path.join(opts.get("project_dir"), "{0}.pyvol".format(opts.get("prefix")))
         else:
-            opts["output_dir"] = tempfile.mkdtemp()
+            opts["output_dir"] = os.path.join(os.getcwd(), "{0}.pyvol".format(opts.get("prefix")))
+
+    utilities.check_dir(opts.get("output_dir"))
 
     if opts.get("prot_file") is None:
         opts["prot_file"] = os.path.join(opts.get("output_dir"), "{0}_prot.pdb".format(prefix))

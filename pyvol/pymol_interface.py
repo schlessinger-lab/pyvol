@@ -149,7 +149,7 @@ def pymol_pocket_cmdline(protein=None, ligand=None, prot_file=None, lig_file=Non
 
 def pymol_pocket(**opts):
 
-    utilities.check_dir(opts.get("output_dir"))
+    opts = configuration.clean_opts(opts)
 
     if opts.get("protein_only"):
         opts["protein"] = "({0}) and (poly)".format(opts.get("protein"))
