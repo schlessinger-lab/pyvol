@@ -150,6 +150,15 @@ def pymol_pocket_cmdline(protein=None, ligand=None, prot_file=None, lig_file=Non
 
 def pymol_pocket(**opts):
 
+    boolean_args = ["constrain_radii", "subdivide", "protein_only"]
+    for arg in boolean_args:
+        if opts.get(arg) in ["True", "true", "t", "1"]:
+            opts[arg] = True
+        elif opts.get(arg) in ["False", "false", "f", "0"]:
+            opts[arg] = False
+        else:
+            logger.warning("Boolean argument {0} ({1}) not parsed correctly and reverting to default".format(arg, opts[arg]))
+
     opts = configuration.clean_opts(opts)
 
     if opts.get("protein") is None:

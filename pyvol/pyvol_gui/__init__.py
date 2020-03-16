@@ -1,6 +1,6 @@
 
 
-__version__ = "1.5.a0"
+__version__ = "1.5.b0"
 
 import logging
 import os
@@ -128,7 +128,7 @@ def install_cached_pyvol():
             try:
                 from pyvol import pymol_interface
                 cmd.extend('pocket', pymol_interface.pocket)
-                cmd.extend('load_pocket', pymol_interface.load_pocket)
+                # cmd.extend('load_pocket', pymol_interface.load_pocket)
                 install_status = True
             except:
                 logger.warning("Installation questionable")
