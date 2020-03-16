@@ -20,6 +20,12 @@ def clean_opts(input_opts):
 
     timestamp = time.strftime("%H%M%S")
 
+    trimmed_opts = {}
+    for k, v in input_opts.items():
+        if v is not None:
+            trimmed_opts[k] = v
+    input_opts = trimmed_opts
+
     # Load options
     opts = {}
     opts["protein"] = input_opts.get("protein")
