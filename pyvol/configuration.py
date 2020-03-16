@@ -44,7 +44,7 @@ def clean_opts(input_opts):
     if not isinstance(opts["subdivide"], bool):
         opts["subdivide"] = False
     if opts["subdivide"]:
-        opts["max_clusters"] = int(input_opts.get("max_clusters"))
+        opts["max_clusters"] = int(input_opts.get("max_clusters", 50))
         opts["min_subpocket_rad"] = float(input_opts.get("min_subpocket_rad", 1.7))
         opts["max_subpocket_rad"] = float(input_opts.get("max_subpocket_rad", 3.4))
         opts["min_subpocket_surf_rad"] = float(input_opts.get("min_subpocket_surf_rad", 1.0))
