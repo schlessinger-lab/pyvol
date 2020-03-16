@@ -82,20 +82,18 @@ class Spheres(object):
             obj_file = None
 
             base, ext = os.path.splitext(spheres_file)
-            if ext == ".xyzr" or ext == ".xyzrg":
-                xyzr_file = spheres_file
+            if ext == ".xyzrg":
+                xyzrg_file = spheres_file
                 obj_file = "{0}.obj".format(base)
             elif ext == ".obj":
-                xyzr_file = "{0}.xyzrg".format(base)
-                if not os.path.isfile(xyzr_file):
-                    xyzr_file = "{0}.xyzr".format(base)
-                    if not os.path.isfile(xyzr_file):
-                        logger.error("No spheres file found with the name: {0}.xyzr or {0}.xyzrg".format(base))
+                xyzrg_file = "{0}.xyzrg".format(base)
+                if not os.path.isfile(xyzrg_file):
+                    logger.error("No spheres file found with the name: {0}.xyzr or {0}.xyzrg".format(base))
                 obj_file = spheres_file
             else:
                 logger.error("Invalid filename given to read in spheres object: {0}".format(spheres_file))
-                raise ValueError("Spheres objects must be .csv or .obj ({0} provided)".format(spheres_file))
-            spheres_data = np.loadtxt(csv_file, delimiter=' ')
+                raise ValueError("Spheres objects must be .xyzrg or .obj ({0} provided)".format(spheres_file))
+            spheres_data = np.loadtxt(xyzrg_file, delimiter=' ')
 
             if spheres_data.shape[1] == 5:
                 self.xyzrg = spheres_data

@@ -25,7 +25,7 @@ def __init_plugin__(app=None):
     except:
         logger.info("PyVOL not imported; installing from local cache or PyPI to use")
 
-    # add MSMS to path is saved in PyMOL preferences and not in path
+    # add MSMS path to PyMOL preferences
     import distutils
     import distutils.util
 

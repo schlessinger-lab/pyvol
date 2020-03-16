@@ -1,14 +1,60 @@
 
 from .spheres import Spheres
 from . import cluster, configuration, utilities
+import glob
 import inspect
 import itertools
 import logging
 import numpy as np
 import os
+import pandas as pd
 import sys
 
 logger = logging.getLogger(__name__)
+
+def load_calculation(data_dir, input_opts=None):
+    """ load the results of a calculation from file
+
+    Args:
+      data_dir (str): directory where previous calculation results are stored
+      input_opts (dict): dictionary of pyvol options that is used to update the options read in from file
+
+    Returns:
+      pockets ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct pocket or subpocket
+      opts (dict): updated PyVOL options dictionary
+
+    """
+
+    if not os.path.isdir(data_dir):
+        logger.error("{0} is not a directory".format(data_dir))
+        raise FileNotFoundError
+
+    cfg_files = glob.glob(os.path.join(data_dir, "*.cfg"))
+    if len(cfg_files) == 0:
+        logger.error("No cfg file found in {0}".format(data_dir))
+        raise FileNotFoundError
+    elif len(cfg_files) > 1:
+        logger.error("Multiple cfg files found in {0}".format(data_dir))
+        raise FileNotFoundError
+
+    opts = configuration.file_to_opts(cfg_files[0])
+    if isinstance(input_opts, dict):
+        opts.update(input_opts)
+        opts = configuration.clean_opts(opts)
+
+    rept_file = os.path.join(data_dir, "{0}_rept.csv".format(opts.get("prefix")))
+    if not os.path.isfile(rept_file):
+        logger.error("No rept file found at {0}".format(rept_file))
+        raise FileNotFoundError
+
+    rept_df = pd.read_csv(rept_file)
+    pockets = []
+    for index, row in rept_df.iterrows():
+        xyzrg_file = os.path.join(data_dir, "{0}.xyzrg".format(row["name"]))
+        pockets.append(Spheres(spheres_file=xyzrg_file))
+
+    return pockets, opts
+
 
 def pocket(**opts):
     """Calculates the SES for a binding pocket
@@ -122,7 +168,7 @@ def pocket(**opts):
     write_report(all_pockets, **opts)
     write_cfg(**opts)
 
-    return all_pockets
+    return all_pockets, opts
 
 
 def pocket_wrapper(**opts):
@@ -140,11 +186,11 @@ def pocket_wrapper(**opts):
     logger.debug("Logger configured")
 
     try:
-        all_pockets = pocket(**opts)
+        all_pockets, opts = pocket(**opts)
     except:
         sys.exit(1)
 
-    return all_pockets
+    return all_pockets, opts
 
 
 def subpockets(bounding_spheres, ref_spheres, **opts):
