@@ -43,7 +43,7 @@ def load_calculation(data_dir, input_opts=None):
         opts.update(input_opts)
         opts = configuration.clean_opts(opts)
 
-    rept_file = os.path.join(data_dir, "{0}_rept.csv".format(opts.get("prefix")))
+    rept_file = os.path.join(data_dir, "{0}.rept".format(opts.get("prefix")))
     if not os.path.isfile(rept_file):
         logger.error("No rept file found at {0}".format(rept_file))
         raise FileNotFoundError
@@ -198,6 +198,8 @@ def pocket_wrapper(**opts):
 
     all_pockets, opts = pocket(**opts)
 
+    utilities.clean_logger()
+
     return all_pockets, opts
 
 
@@ -275,6 +277,6 @@ def write_report(all_pockets, **opts):
                           "volume": pocket.mesh.volume
                           })
     rept_df = pd.DataFrame(rept_list)
-    rept_name = os.path.join(opts.get("output_dir"), "{0}_rept.csv".format(opts.get("prefix")))
+    rept_name = os.path.join(opts.get("output_dir"), "{0}.rept".format(opts.get("prefix")))
     rept_df.to_csv(rept_name, index=False)
     logger.info("Report written to: {0}".format(rept_name))

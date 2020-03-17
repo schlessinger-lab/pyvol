@@ -1,6 +1,6 @@
 
 
-__version__ = "1.5.a3"
+__version__ = "1.5.a4"
 
 import logging
 import os
@@ -129,7 +129,7 @@ def install_cached_pyvol():
                 from pymol import cmd
                 from pyvol import pymol_interface
 
-                cmd.extend('pocket', pymol_interface.pocket)
+                cmd.extend('pocket', pymol_interface.pymol_pocket_cmdline)
                 # cmd.extend('load_pocket', pymol_interface.load_pocket)
                 install_status = True
             except:

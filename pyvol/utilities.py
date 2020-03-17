@@ -142,6 +142,10 @@ def configure_logger(filename=None, stream_level=None, file_level=None):
         fh.setLevel(file_level)
         main_logger.addHandler(fh)
 
+def clean_logger():
+    main_logger = logging.getLogger("pyvol")
+    main_logger.handlers = []
+
 
 def coordinates_for_resid(pdb_file, resid, chain=None, model=0):
     """ Extract the 3D coordinates for all atoms in a specified residue from a pdb file

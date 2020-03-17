@@ -3,6 +3,7 @@ from . import utilities
 import configparser
 import logging
 import os
+import re
 import tempfile
 import time
 
@@ -37,6 +38,25 @@ def clean_opts(input_opts):
 
     opts["mode"] = input_opts.get("mode")
     opts["coordinates"] = input_opts.get("coordinates")
+    if opts.get("coordinates") is not None:
+        if isinstance(opts.get("coordinates"), list):
+            if not isinstance(opts.get("coordinates")[0], float):
+                try:
+                    opts["coordinates"] = [float(x) for x in opts.get("coordinates")]
+                except:
+                    logger.error("Coordinates argument not parsed correctly: {0}".format(opts.get("coordinates")))
+                    raise ValueError
+
+        elif isinstance(opts.get("coordinates"), str):
+            try:
+                opts["coordinates"] = [float(x) for x in opts.get("coordinates").split(",")]
+            except:
+                logger.error("Coordinates argument not parsed correctly: {0}".format(opts.get("coordinates")))
+                raise ValueError
+
+        if len(opts.get("coordinates")) != 3:
+            logger.error("Coordinates argument contains the wrong number of dimensions: {0}".format(opts.get("coordinates")))
+            raise ValueError
     opts["resid"] = input_opts.get("resid")
     opts["lig_excl_rad"] = input_opts.get("lig_excl_rad")
     if opts["lig_excl_rad"] is not None:
@@ -101,6 +121,23 @@ def clean_opts(input_opts):
     if not opts["display_mode"] in ["solid", "mesh", "pseudoatom"]:
         opts["display_mode"] = "solid"
     opts["palette"] = input_opts.get("palette")
+    if opts.get("palette") is not None:
+        palette_valid = False
+        if isinstance(opts.get("palette"), str):
+            fragments = re.split("[\(\)]", opts.get("palette"))
+            cleaned_pieces = []
+            for fragment in fragments:
+                pieces = list(filter(None, fragment.split(",")))
+
+                if len(pieces) > 0:
+                    try:
+                        rgb = [float(piece) for piece in pieces]
+                        cleaned_pieces.append(rgb)
+                    except:
+                        cleaned_pieces.extend(pieces)
+            opts["palette"] = cleaned_pieces
+
+
     opts["alpha"] = float(input_opts.get("alpha"))
 
     # Clean options
