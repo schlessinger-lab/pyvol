@@ -97,7 +97,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.cluster">PyVOL Cluster Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.identify">PyVOL Identify Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.poses">PyVOL Poses Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#pyvol-pymol-interface-module">PyVOL Pymol Interface Module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-pyvol.pymol_interface">PyVOL Pymol Interface Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.pymol_utilities">PyVOL Pymol Utilities Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.spheres">PyVOL Spheres Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.utilities">PyVOL Utilities Module</a></li>
@@ -481,8 +481,39 @@ groups ([int]): list of subpocket identifiers</dd>
 </dd></dl>
 
 </div>
-<div class="section" id="pyvol-pymol-interface-module">
-<h2>PyVOL Pymol Interface Module<a class="headerlink" href="#pyvol-pymol-interface-module" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-pyvol.pymol_interface">
+<span id="pyvol-pymol-interface-module"></span><h2>PyVOL Pymol Interface Module<a class="headerlink" href="#module-pyvol.pymol_interface" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="pyvol.pymol_interface.display_pockets">
+<code class="descclassname">pyvol.pymol_interface.</code><code class="descname">display_pockets</code><span class="sig-paren">(</span><em>pockets</em>, <em>**opts</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.display_pockets" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display a list of pockets</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyvol.pymol_interface.load_calculation_cmdline">
+<code class="descclassname">pyvol.pymol_interface.</code><code class="descname">load_calculation_cmdline</code><span class="sig-paren">(</span><em>data_dir</em>, <em>prefix=None</em>, <em>display_mode=None</em>, <em>palette=None</em>, <em>alpha=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.load_calculation_cmdline" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a pocket from memory and displays it in PyMOL</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>spheres_file (str): filename
+name (str): internal display name (Default value = None)
+display_mode (str): display mode (Default value = “solid”)
+color (str): PyMOL color string (Default value = ‘marine’)
+alpha (float): transparency value (Default value = 0.85)</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyvol.pymol_interface.pymol_pocket_cmdline">
+<code class="descclassname">pyvol.pymol_interface.</code><code class="descname">pymol_pocket_cmdline</code><span class="sig-paren">(</span><em>protein=None</em>, <em>ligand=None</em>, <em>prot_file=None</em>, <em>lig_file=None</em>, <em>min_rad=1.4</em>, <em>max_rad=3.4</em>, <em>constrain_radii=True</em>, <em>mode='largest'</em>, <em>coordinates=None</em>, <em>residue=None</em>, <em>resid=None</em>, <em>lig_excl_rad=None</em>, <em>lig_incl_rad=None</em>, <em>min_volume=200</em>, <em>subdivide=False</em>, <em>max_clusters=None</em>, <em>min_subpocket_rad=1.7</em>, <em>max_subpocket_rad=3.4</em>, <em>min_subpocket_surf_rad=1.0</em>, <em>radial_sampling=0.1</em>, <em>inclusion_radius_buffer=1.0</em>, <em>min_cluster_size=50</em>, <em>project_dir=None</em>, <em>output_dir=None</em>, <em>prefix=None</em>, <em>logger_stream_level='INFO'</em>, <em>logger_file_level='DEBUG'</em>, <em>protein_only=False</em>, <em>display_mode='solid'</em>, <em>alpha=0.85</em>, <em>palette=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.pymol_pocket_cmdline" title="Permalink to this definition">¶</a></dt>
+<dd><p>PyMOL-compatible command line entry point</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="pyvol.pymol_interface.pymol_pocket">
+<code class="descclassname">pyvol.pymol_interface.</code><code class="descname">pymol_pocket</code><span class="sig-paren">(</span><em>**opts</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.pymol_pocket" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 <div class="section" id="module-pyvol.pymol_utilities">
 <span id="pyvol-pymol-utilities-module"></span><h2>PyVOL Pymol Utilities Module<a class="headerlink" href="#module-pyvol.pymol_utilities" title="Permalink to this headline">¶</a></h2>
