@@ -1,6 +1,6 @@
 
 
-__version__ = "1.5.b6"
+__version__ = "1.6.0"
 
 import logging
 import os
@@ -549,4 +549,4 @@ def run_gui_pyvol(form):
     if project_dir == "":
         project_dir = None
 
-    pymol_interface.pymol_pocket_cmdline(protein=protein, protein_only=protein_only, min_rad=min_rad, max_rad=max_rad, mode=mode, min_volume=min_volume, ligand=ligand, residue=residue, resid=resid, coordinates=coordinate, display_mode=display_mode, palette=palette, alpha=alpha, project_dir=project_dir subdivide=subdivide, min_subpocket_rad=min_subpocket_rad, max_clusters=max_clusters)
+    pymol_interface.pymol_pocket_cmdline(protein=protein, protein_only=protein_only, min_rad=min_rad, max_rad=max_rad, mode=mode, min_volume=min_volume, ligand=ligand, residue=residue, resid=resid, coordinates=coordinate, display_mode=display_mode, palette=palette, alpha=alpha, project_dir=project_dir, subdivide=subdivide, min_subpocket_rad=min_subpocket_rad, max_clusters=max_clusters)

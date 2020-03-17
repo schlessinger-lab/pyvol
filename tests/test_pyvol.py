@@ -1,15 +1,16 @@
 # for now, use pytest==5.3.5 with pytest-sugar and pytest-xdist
-# run using python -m pytest in the pyvol root directory
+# run using python -m pytest -n 16 in the pyvol root directory
 
 import os
 import pytest
 from pyvol.identify import pocket_wrapper
 
+
 @pytest.mark.parametrize("prot_file", ["/home/rsmith/research/pyvol_development/pyvol/tests/1uwh_B_prot.pdb"])
-@pytest.mark.parametrize("min_rad", [1.2, 1.4, 1.6])
+@pytest.mark.parametrize("min_rad", [1.4, 1.6])
 @pytest.mark.parametrize("max_rad", [3.2, 3.4, 3.6])
-@pytest.mark.parametrize("mode,lig_file,resid,coordinates", [("all", None, None, None), ("largest", None, None, None),("specific", None, "B513", None), ("specific", None, None, "95.6,29.8,68.5")])
-# ("specific","/home/rsmith/research/pyvol_development/pyvol/tests/1uwh_B_lig.pdb", None, None),
+@pytest.mark.parametrize("mode,lig_file,resid,coordinates", [("all", None, None, None), ("largest", None, None, None),("specific", None, "B513", None), ("specific","/home/rsmith/research/pyvol_development/pyvol/tests/1uwh_B_lig.pdb", None, None), ("specific", None, None, "95.6,29.8,68.5")])
+# @pytest.mark.parametrize("mode,lig_file,resid,coordinates", [("specific", "/home/rsmith/research/pyvol_development/pyvol/tests/1uwh_B_lig.pdb", None, None)])
 def test_specification(prot_file, min_rad, max_rad, mode, lig_file, resid, coordinates):
     opts = {
         "prot_file": prot_file,

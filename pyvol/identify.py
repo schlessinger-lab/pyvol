@@ -94,22 +94,23 @@ def pocket(**opts):
         opts["prot_file"] = new_prot_file
 
         if opts.get("lig_file") is not None:
-            new_lig_file = os.path.join(opts.get("output_dir"), os.path.basename(opts.get("prot_file")))
+            new_lig_file = os.path.join(opts.get("output_dir"), os.path.basename(opts.get("lig_file")))
             shutil.copyfile(opts.get("lig_file"), new_lig_file)
             opts["lig_file"] = new_lig_file
 
     p_s = Spheres(pdb=opts.get("prot_file"), name="{0}_prot".format(opts.get("prefix")))
     logger.debug("Protein geometry read from {0}".format(opts.get("prot_file")))
 
+    pl_s = p_s.copy()
     if opts.get("lig_file") is not None:
         l_s = Spheres(pdb=opts.get("lig_file"), r=opts.get("lig_incl_rad"), name="{0}_lig_incl".format(opts.get("prefix")))
         logger.debug("Ligand geometry read from {0}".format(opts.get("lig_file")))
         if opts.get("lig_incl_rad") is not None:
+            pl_s = p_s + l_s
             logger.debug("Ligand-inclusion radius of {0} applied".format(opts.get("lig_incl_rad")))
     else:
         l_s = None
 
-    pl_s = p_s + l_s
     pl_s.name = "{0}_interior".format(opts.get("prefix"))
 
     pl_bs = pl_s.calculate_surface(probe_radius=opts.get("max_rad"))[0]
@@ -147,14 +148,8 @@ def pocket(**opts):
                     resid = int(resid[1:])
                 else:
                     resid = int(resid)
-                res_coords = utilities.coordinates_for_resid(opts.get("prot_file"), resid=resid, chain=chain)
-                p_bs = p_s.calculate_surface(probe_radius=opts.get("min_rad"))[0]
-                coordinate = p_bs.nearest_coord_to_external(res_coords).reshape(1, -1)
+                coordinate = utilities.coordinates_for_resid(opts.get("prot_file"), resid=resid, chain=chain)
                 logger.info("Specific pocket identified from residue: {0} -> {1}".format(opts.get("resid"), coordinate))
-            elif opts.get("residue_coordinates") is not None:
-                p_bs = p_s.calculate_surface(probe_radius=opts.get("min_rad"))[0]
-                coordinate = p_bs.nearest_coord_to_external(opts.get("residue_coordinates")).reshape(1, -1)
-                logger.info("Specific pocket identified from residue coordinate: {0} -> {1}".format(opts.get("residue_coordinates"), coordinate))
             elif l_s is not None:
                 lig_coords = l_s.xyz
                 coordinate = np.mean(l_s.xyz, axis=0).reshape(1, -1)
@@ -162,7 +157,10 @@ def pocket(**opts):
             else:
                 logger.error("A coordinate, ligand, or residue must be supplied to run in specific mode")
                 return None
-            bp_bs = pa_s.calculate_surface(probe_radius=opts.get("min_rad"), coordinate=coordinate)[0]
+
+            p_bs = p_s.calculate_surface(probe_radius=opts.get("min_rad"))[0]
+            id_coord = p_bs.nearest_coord_to_external(coordinate).reshape(1, -1)
+            bp_bs = pa_s.calculate_surface(probe_radius=opts.get("min_rad"), coordinate=id_coord)[0]
         else:
             logger.error("Unrecognized mode <{0}>--should be 'all', 'largest', or 'specific'".format(opts.get("mode")))
             return None
