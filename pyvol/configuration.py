@@ -2,10 +2,11 @@
 from . import utilities
 import configparser
 import logging
+import numpy as np
 import os
 import re
 import tempfile
-import time
+from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
@@ -19,7 +20,7 @@ def clean_opts(input_opts):
       cleaned_opts (dict): dictionary containing all options for a PyVOL run with extraneous options removed and necessary defaults provided
     """
 
-    timestamp = time.strftime("%H%M%S")
+    timestamp = datetime.now().strftime(r"%H%M%S-%f")
 
     trimmed_opts = {}
     for k, v in input_opts.items():
@@ -39,32 +40,31 @@ def clean_opts(input_opts):
     opts["mode"] = input_opts.get("mode")
     opts["coordinates"] = input_opts.get("coordinates")
     if opts.get("coordinates") is not None:
-        if isinstance(opts.get("coordinates"), list):
-            if not isinstance(opts.get("coordinates")[0], float):
-                try:
-                    opts["coordinates"] = [float(x) for x in opts.get("coordinates")]
-                except:
-                    logger.error("Coordinates argument not parsed correctly: {0}".format(opts.get("coordinates")))
-                    raise ValueError
-
-        elif isinstance(opts.get("coordinates"), str):
+        if isinstance(opts.get("coordinates"), str):
             try:
-                opts["coordinates"] = [float(x) for x in opts.get("coordinates").split(",")]
+                opts["coordinates"] = np.asarray([float(x) for x in opts.get("coordinates").split(",")]).reshape(-1,3)
             except:
-                logger.error("Coordinates argument not parsed correctly: {0}".format(opts.get("coordinates")))
+                logger.error("Coordinates argument not parsed from str correctly: {0}".format(opts.get("coordinates")))
                 raise ValueError
+        if isinstance(opts.get("coordinates"), list):
+            opts["coordinates"] = np.array([float(x) for x in opts.get("coordinates")]).reshape(-1,3)
 
-        if len(opts.get("coordinates")) != 3:
-            logger.error("Coordinates argument contains the wrong number of dimensions: {0}".format(opts.get("coordinates")))
+        if opts.get("coordinates").shape != (1,3):
+            logger.error("Coordinates argument contains the wrong number of dimensions: {0}".format(opts.get("coordinates").shape))
             raise ValueError
     opts["resid"] = input_opts.get("resid")
     opts["lig_excl_rad"] = input_opts.get("lig_excl_rad")
-    if opts["lig_excl_rad"] is not None:
+    if opts.get("lig_excl_rad") is not None:
         opts["lig_excl_rad"] = float(opts["lig_excl_rad"])
     opts["lig_incl_rad"] = input_opts.get("lig_incl_rad")
-    if opts["lig_incl_rad"] is not None:
+    if opts.get("lig_incl_rad") is not None:
         opts["lig_incl_rad"] = float(opts["lig_incl_rad"])
-    opts["min_volume"] = float(input_opts.get("min_volume", 200))
+    opts["min_volume"] = input_opts.get("min_volume")
+    if opts.get("min_volume") is not None:
+        opts["min_volume"] = float(input_opts.get("min_volume"))
+    else:
+        if opts.get("mode") == "all":
+            opts["min_volume"] = 200
 
     opts["subdivide"] = input_opts.get("subdivide", False)
     if not isinstance(opts["subdivide"], bool):
@@ -124,7 +124,7 @@ def clean_opts(input_opts):
     if opts.get("palette") is not None:
         palette_valid = False
         if isinstance(opts.get("palette"), str):
-            fragments = re.split("[\(\)]", opts.get("palette"))
+            fragments = re.split(r"[\(\)]", opts.get("palette"))
             cleaned_pieces = []
             for fragment in fragments:
                 pieces = list(filter(None, fragment.split(",")))
@@ -137,8 +137,10 @@ def clean_opts(input_opts):
                         cleaned_pieces.extend(pieces)
             opts["palette"] = cleaned_pieces
 
-
-    opts["alpha"] = float(input_opts.get("alpha"))
+    if opts.get("alpha") is not None:
+        opts["alpha"] = float(input_opts.get("alpha"))
+    else:
+        opts["alpha"] = 1.0
 
     # Clean options
     if opts["prot_file"] is None:
@@ -181,22 +183,10 @@ def clean_opts(input_opts):
         elif opts["coordinates"] is not None:
             logger.info("Pocket identified through coordinates: {0}".format(opts["coordinates"]))
             opts["mode"] = "specific"
-            if isinstance(opts["coordinates"], str):
-                opts["coordinates"] = [float(x) for x in opts["coordinates"].split(",")]
-                # this sanitization code is featured elsewhere; if the above doesn't work, try this
-                # if isinstance(opts.get("coordinates"), ("".__class__, u"".__class__)):
-                #     coordinate = coordinate.split()
-                #     coordinate = np.array([float(x) for x in coordinate])
-                coordinate = coordinate.reshape(1, -1)
-                if len(opts["coordinates"]) != 3:
-                    logger.warning("Malformed coordinates ignored ({0}); running in 'largest' mode".format(opts["coordinates"]))
-                    opts["mode"] = "largest"
         else:
             opts["mode"] = "largest"
 
     if opts["subdivide"]:
-        if opts["min_volume"] <= 0:
-            opts["min_volume"] = None
         if opts["max_clusters"] <= 1:
             logger.warning("Subpocket analysis impossible with maximum clusters of {0}; disabling subpocket analysis".format(opts["max_clusters"]))
             opts["subdivide"] = False

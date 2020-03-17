@@ -33,63 +33,6 @@ def display_pockets(pockets, **opts):
         pymol_utilities.display_spheres_object(pocket, pocket.name, state=1, color=opts.get("palette")[index], alpha=opts.get("alpha"), mode=opts.get("display_mode"))
 
 
-    # if mode in ["specific", "largest"]:
-    #     if not subdivide:
-    #         try:
-    #             logger.info("Pocket Volume: {0} A^3".format(round(spheres[0].mesh.volume)))
-    #             pymol_utilities.display_spheres_object(spheres[0], spheres[0].name, state=1, color=color, alpha=alpha, mode=display_mode)
-    #         except:
-    #             logger.warning("Volume not calculated for pocket")
-    #
-    #     else:
-    #         try:
-    #             logger.info("Whole Pocket Volume: {0} A^3".format(round(spheres[0].mesh.volume)))
-    #         except:
-    #             logger.warning("Volume not calculated for the whole pocket")
-    #         pymol_utilities.display_spheres_object(spheres[0], spheres[0].name, state=1, color=color, alpha=alpha, mode=display_mode)
-    #
-    #         if palette is None:
-    #             palette = pymol_utilities.construct_palette(max_value=(len(spheres) - 1))
-    #         else:
-    #             palette = pymol_utilities.construct_palette(color_list=palette.split(","), max_value =(len(spheres) - 1))
-    #         for index, sps in enumerate(spheres[1:]):
-    #             group = int(sps.g[0])
-    #             try:
-    #                 logger.info("{0} volume: {1} A^3".format(sps.name, round(sps.mesh.volume)))
-    #                 pymol_utilities.display_spheres_object(sps, sps.name, state=1, color=palette[index], alpha=alpha, mode=display_mode)
-    #             except:
-    #                 logger.warning("Volume not calculated for pocket: {0}".format(sps.name))
-    #
-    #         cmd.disable(spheres[0].name)
-    #
-    #         if display_mode == "spheres":
-    #             cmd.group("{0}_sg".format(spheres[0].name), "{0}*_g".format(spheres[0].name))
-    #         else:
-    #             cmd.group("{0}_g".format(spheres[0].name), "{0}*".format(spheres[0].name))
-    #
-    # else:
-    #     # mode is all
-    #     if len(spheres) == 0:
-    #         logger.warning("No pockets found with volume > {0} A^3".format(minimum_volume))
-    #         return
-    #     else:
-    #         logger.info("Pockets found: {0}".format(len(spheres)))
-    #
-    #     palette = pymol_utilities.construct_palette(max_value=len(spheres))
-    #     for index, s in enumerate(spheres):
-    #         try:
-    #             logger.info("{0} volume: {1} A^3".format(s.name, round(s.mesh.volume)))
-    #             pymol_utilities.display_spheres_object(s, s.name, state=1, color=palette[index], alpha=alpha, mode=display_mode)
-    #         except:
-    #             logger.warning("Volume not calculated for pocket: {0}".format(s.name))
-    #
-    #     name_template = "p".join(spheres[0].name.split("p")[:-1])
-    #     if display_mode == "spheres":
-    #         cmd.group("{0}sg".format(name_template), "{0}*_g".format(name_template))
-    #     else:
-    #         cmd.group("{0}g".format(name_template), "{0}*".format(name_template))
-
-
 def load_calculation_cmdline(data_dir, prefix=None, display_mode=None, palette=None, alpha=None):
     """ Loads a pocket from memory and displays it in PyMOL
 

@@ -211,6 +211,7 @@ def run_cmd(options, in_directory=None):
         subprocess.check_output(opt_strs, stderr=subprocess.STDOUT)
     except subprocess.CalledProcessError:
         logger.error("Process Failed: {0}".format(" ".join(opt_strs)))
+        raise
 
     logger.debug("Shell command: {0}".format(" ".join(opt_strs)))
     if in_directory is not None:

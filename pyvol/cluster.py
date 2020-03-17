@@ -348,6 +348,10 @@ def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.
     from sklearn.preprocessing import normalize
     groups = np.unique(spheres.g)[:-1]
 
+    if spheres.xyzrg.shape[0] == 0:
+        logger.warning("Attempting to remove overlap in an empty sphere set")
+        return
+        
     if radii is None:
         radii = [np.amax(spheres.r)]
         spacing = radii[0]

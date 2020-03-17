@@ -98,11 +98,11 @@ def pocket(**opts):
             shutil.copyfile(opts.get("lig_file"), new_lig_file)
             opts["lig_file"] = new_lig_file
 
-    p_s = Spheres(pdb=opts.get("prot_file"))
+    p_s = Spheres(pdb=opts.get("prot_file"), name="{0}_prot".format(opts.get("prefix")))
     logger.debug("Protein geometry read from {0}".format(opts.get("prot_file")))
 
     if opts.get("lig_file") is not None:
-        l_s = Spheres(pdb=lig_file, r=opts.get("lig_incl_rad"))
+        l_s = Spheres(pdb=opts.get("lig_file"), r=opts.get("lig_incl_rad"), name="{0}_lig_incl".format(opts.get("prefix")))
         logger.debug("Ligand geometry read from {0}".format(opts.get("lig_file")))
         if opts.get("lig_incl_rad") is not None:
             logger.debug("Ligand-inclusion radius of {0} applied".format(opts.get("lig_incl_rad")))
@@ -110,23 +110,26 @@ def pocket(**opts):
         l_s = None
 
     pl_s = p_s + l_s
+    pl_s.name = "{0}_interior".format(opts.get("prefix"))
 
     pl_bs = pl_s.calculate_surface(probe_radius=opts.get("max_rad"))[0]
     logger.debug("Outer bulk-solvent surface calculated")
+    pl_bs.name = "{0}_boundary".format(opts.get("prefix"))
 
     pa_s = p_s + pl_bs
+    pa_s.name = "{0}_exterior".format(opts.get("prefix"))
     if (l_s is not None) and (opts.get("lig_excl_rad") is not None):
-        le_s = Spheres(xyz=l_s.xyzr, r=opts.get("lig_excl_rad"))
+        le_s = Spheres(xyz=l_s.xyzr, r=opts.get("lig_excl_rad"), name="{0}_lig_excl".format(opts.get("prefix")))
         le_bs = le_s.calculate_surface(probe_radius=opts.get("max_rad"))[0]
         pa_s = pa_s + le_bs
         logger.debug("Ligand-excluded radius of {0} applied".format(opts.get("lig_excl_rad")))
 
     if opts.get("mode") == "all":
-        all_pockets = pa_s.calculate_surface(probe_radius=opts.get("min_rad"), all_components=True, minimum_volume=opts.get("minimum_volume"))
+        all_pockets = pa_s.calculate_surface(probe_radius=opts.get("min_rad"), all_components=True, min_volume=opts.get("min_volume"))
         for index, pocket in enumerate(all_pockets):
             pocket.name = "{0}_p{1}".format(opts.get("prefix"), index)
         logger.info("Pockets calculated using mode 'all': {0}".format(len(all_pockets)))
-        if subdivide:
+        if opts.get("subdivide"):
             logger.warning("Subpocket clustering not currently supported when calculating all independent pockets")
     else:
         if opts.get("mode") == "largest":
@@ -168,7 +171,7 @@ def pocket(**opts):
 
         if bp_bs.mesh.volume > pl_bs.mesh.volume:
             logger.error("Binding pocket not correctly identified--try an alternative method to specify the binding pocket")
-            return None
+            return [], opts
         else:
             all_pockets = [bp_bs]
 

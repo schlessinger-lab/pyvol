@@ -70,6 +70,7 @@ class Spheres(object):
 
             if g is not None:
                 self.g = g
+
         elif bv is not None and r is not None:
             self.xyz = bv[:, 0:3] + r * bv[:, 3:6]
             self.r = r
@@ -117,6 +118,9 @@ class Spheres(object):
         else:
             self.name = None
 
+        unique_ind = np.unique(self.xyzrg, axis=0, return_index=True)[1]
+        self.xyzrg = self.xyzrg[sorted(unique_ind), :]
+
 
     def __add__(self, other):
         """ Create a new Spheres object by overloading addition to concatenate xyzr contents; does not add meshes (just spheres)
@@ -141,7 +145,7 @@ class Spheres(object):
         return Spheres(xyzrg=np.copy(self.xyzrg))
 
 
-    def calculate_surface(self, probe_radius=1.4, cavity_atom=None, coordinate=None, all_components=False, exclusionary_radius=2.5, largest_only=False, noh=True, minimum_volume=200):
+    def calculate_surface(self, probe_radius=1.4, cavity_atom=None, coordinate=None, all_components=False, exclusionary_radius=2.5, largest_only=False, noh=True, min_volume=200):
         """Calculate the SAS for a given probe radius
 
         Args:
@@ -188,8 +192,8 @@ class Spheres(object):
               faces (float nx3): vertex connectivity graph
             """
             try:
-                verts_raw = pd.read_csv("{0}.vert".format(msms_template), sep='\s+', skiprows=3, dtype=np.float_, header=None, encoding='latin1').values
-                faces = pd.read_csv("{0}.face".format(msms_template), sep='\s+', skiprows=3, usecols=[0, 1, 2], dtype=np.int_, header=None, encoding='latin1').values
+                verts_raw = pd.read_csv("{0}.vert".format(msms_template), sep=r'\s+', skiprows=3, dtype=np.float_, header=None, encoding='latin1').values
+                faces = pd.read_csv("{0}.face".format(msms_template), sep=r'\s+', skiprows=3, usecols=[0, 1, 2], dtype=np.int_, header=None, encoding='latin1').values
             except IOError:
                 logger.error("MSMS failed to run correctly for {0}".format(msms_template))
                 raise MSMSError("MSMS failed to run correctly for {0}".format(msms_template))
@@ -231,9 +235,11 @@ class Spheres(object):
                         largest_mesh = tm
                         bspheres = Spheres(bv=verts_raw, r=probe_radius, mesh=tm)
                 else:
-                    if tm.volume >= minimum_volume:
-                        bspheres = Spheres(bv=verts_raw, r=probe_radius, mesh=tm)
-                        spheres_list.append(bspheres)
+                    if min_volume is not None:
+                        if tm.volume < min_volume:
+                            continue
+                    bspheres = Spheres(bv=verts_raw, r=probe_radius, mesh=tm)
+                    spheres_list.append(bspheres)
 
             shutil.rmtree(tmpdir)
             if largest_only:
@@ -335,7 +341,6 @@ class Spheres(object):
         db = DBSCAN(eps=eps, min_samples=1).fit(self.xyz)
         values, indices = np.unique(db.labels_, return_index=True)
         self.xyzrg = self.xyzrg[indices, :]
-        logger.debug("All sufficiently similar spheres removed")
 
 
     def remove_ungrouped(self):
