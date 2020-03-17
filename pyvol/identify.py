@@ -198,7 +198,7 @@ def pocket_wrapper(**opts):
 
     all_pockets, opts = pocket(**opts)
 
-    utilities.clean_logger()
+    # utilities.clean_logger()
 
     return all_pockets, opts
 

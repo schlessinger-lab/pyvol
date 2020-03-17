@@ -120,6 +120,8 @@ def configure_logger(filename=None, stream_level=None, file_level=None):
 
     """
 
+    clean_logger()
+
     if stream_level is None:
         stream_level = "INFO"
     if file_level is None:
