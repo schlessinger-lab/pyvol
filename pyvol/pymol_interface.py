@@ -106,7 +106,7 @@ def load_calculation_cmdline(data_dir, prefix=None, display_mode=None, palette=N
         if os.path.isfile(data_dir):
             data_dir = os.path.dirname(data_dir)
         else:
-            logger.error("Ambiguous/unparseable data_dir input: {0}".format(data_dir)")
+            logger.error("Ambiguous/unparseable data_dir input: {0}".format(data_dir))
             raise ValueError
 
     input_opts = {}
