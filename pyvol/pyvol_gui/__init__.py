@@ -1,6 +1,6 @@
 
 
-__version__ = "1.5.a4"
+__version__ = "1.5.b5"
 
 import logging
 import os
@@ -19,7 +19,7 @@ def __init_plugin__(app=None):
         from pymol import cmd
         from pyvol import pymol_interface
         cmd.extend('pocket', pymol_interface.pymol_pocket_cmdline)
-        cmd.extend('load_pocket', pymol_interface.load_pocket)
+        cmd.extend('load_pocket', pymol_interface.load_calculation_cmdline)
         # cmd.extend('pose_report', pymol_interface.pose_report)
         logger.debug("PyVOL successfully imported")
     except:
@@ -164,6 +164,7 @@ def uninstall_pyvol(form):
     msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
     msg.setMinimumSize(QtCore.QSize(600, 200)) # Doesn't seem to work
     msg.exec_()
+    print("messagebox popped up")
 
     refresh_installation_status(form)
 
@@ -471,29 +472,25 @@ def run_gui_load(form):
     from pyvol import pymol_interface
 
     # Loading Parameters
-    pocket_file = form.pocket_file_ledit.text()
+    pocket_dir = form.pocket_dir_ledit.text()
+    prefix = form.load_prefix_ledit.text()
     if form.load_solid_rbutton.isChecked():
         display_mode = "solid"
     elif form.load_mesh_rbutton.isChecked():
         display_mode = "mesh"
     elif form.load_spheres_rbutton.isChecked():
         display_mode = "spheres"
-    color = form.load_color_ledit.text()
+    palette = form.load_color_ledit.text()
     alpha = form.load_alpha_ledit.text()
-    prefix = form.load_prefix_ledit.text()
 
-    if color == "":
+    if prefix == "":
+        prefix = None
+    if palette == "":
         color = None
     if alpha == "":
         alpha = None
-    if prefix == "":
-        prefix = None
 
-    if not os.path.isfile(pocket_file):
-        logger.error("Supplied file not found: {0}".format(pocket_file))
-        return
-    else:
-        pymol_interface.load_pocket(pocket_file, name=prefix, display_mode=display_mode, color=color, alpha=alpha)
+    pymol_interface.load_calculation_cmdline(pocket_dir, prefix=prefix, display_mode=display_mode, palette=color, alpha=alpha)
 
 def run_gui_pyvol(form):
     """ Runs a PyVOL calculation
@@ -503,32 +500,25 @@ def run_gui_pyvol(form):
 
     # Basic Parameters
     protein = form.prot_sele_ledit.text()
-    excl_org = form.excl_org_cbox.isChecked()
+    protein_only = form.excl_org_cbox.isChecked()
     min_rad = form.min_rad_ledit.text()
     max_rad = form.max_rad_ledit.text()
-    constrain_inputs = form.constrain_cbox.isChecked()
 
     # Pocket Selection
-    minimum_volume = None
+    min_volume = None
     ligand = None
-    lig_incl_rad = None
-    lig_excl_rad = None
     residue = None
     resid = None
-    pocket_coordinate = None
+    coordinate = None
 
     if form.all_rbutton.isChecked():
         mode = "all"
-        minimum_volume = form.min_volume_ledit.text()
+        min_volume = form.min_volume_ledit.text()
     elif form.largest_rbutton.isChecked():
         mode = "largest"
     elif form.ligand_rbutton.isChecked():
         mode = "specific"
         ligand = form.lig_sele_ledit.text()
-        if form.lig_incl_rad_ledit.text() != "":
-            lig_incl_rad = form.lig_incl_rad_ledit.text()
-        if form.lig_excl_rad_ledit.text() != "":
-            lig_excl_rad = form.lig_excl_rad_ledit.text()
     elif form.residue_rbutton.isChecked():
         mode = "specific"
         residue = form.residue_sele_ledit.text()
@@ -537,15 +527,12 @@ def run_gui_pyvol(form):
         resid = form.resid_ledit.text()
     elif form.coordinate_rbutton.isChecked():
         mode = "specific"
-        pocket_coordinate = form.coordinate_ledit.text()
+        coordinate = form.coordinate_ledit.text()
 
     # Partitioning Parameters
     subdivide = form.subdivide_cbox.isChecked()
-    if not subdivide:
-        subdivide = None
     max_clusters = form.max_clusters_ledit.text()
     min_subpocket_rad = form.min_internal_rad_ledit.text()
-    min_subpocket_surf_rad = form.min_surf_rad_ledit.text()
 
     # Display and Output Options
     if form.solid_rbutton.isChecked():
@@ -554,16 +541,12 @@ def run_gui_pyvol(form):
         display_mode = "mesh"
     elif form.spheres_rbutton.isChecked():
         display_mode = "spheres"
-    color = form.color_ledit.text()
     alpha = form.alpha_ledit.text()
-    prefix = form.prefix_ledit.text()
     palette = form.palette_ledit.text()
     if palette == "":
         palette = None
-    if prefix == "":
-        prefix = None
-    output_dir = form.output_dir_ledit.text()
-    if output_dir == "":
-        output_dir = None
+    project_dir = form.project_dir_ledit.text()
+    if project_dir == "":
+        project_dir = None
 
-    pymol_interface.pocket(protein=protein, mode=mode, ligand=ligand, pocket_coordinate=pocket_coordinate, residue=residue, resid=resid, prefix=prefix, min_rad=min_rad, max_rad=max_rad, lig_excl_rad=lig_excl_rad, lig_incl_rad=lig_incl_rad, display_mode=display_mode, color=color, alpha=alpha, output_dir=output_dir, subdivide=subdivide, minimum_volume=minimum_volume, min_subpocket_rad=min_subpocket_rad, min_subpocket_surf_rad=min_subpocket_surf_rad, max_clusters=max_clusters, excl_org=excl_org, constrain_inputs=constrain_inputs, palette=palette)
+    pymol_interface.pymol_pocket_cmdline(protein=protein, protein_only=protein_only, min_rad=min_rad, max_rad=max_rad, mode=mode, min_volume=min_volume, ligand=ligand, residue=residue, resid=resid, coordinates=coordinate, display_mode=display_mode, palette=palette, alpha=alpha, project_dir=project_dir subdivide=subdivide, min_subpocket_rad=min_subpocket_rad, max_clusters=max_clusters)

@@ -90,7 +90,7 @@ def display_pockets(pockets, **opts):
     #         cmd.group("{0}g".format(name_template), "{0}*".format(name_template))
 
 
-def load_pocket(spheres_file, name=None, display_mode="solid", color='marine', alpha=0.85):
+def load_calculation_cmdline(data_dir, prefix=None, display_mode=None, palette=None, alpha=None):
     """ Loads a pocket from memory and displays it in PyMOL
 
     Args:
@@ -102,8 +102,26 @@ def load_pocket(spheres_file, name=None, display_mode="solid", color='marine', a
 
     """
 
-    spheres = Spheres(spheres_file=spheres_file, name=name)
-    pymol_utilities.display_spheres_object(spheres, spheres.name, state=1, color=color, alpha=alpha, mode=display_mode)
+    if not os.path.isdir(data_dir):
+        if os.path.isfile(data_dir):
+            data_dir = os.path.dirname(data_dir)
+        else:
+            logger.error("Ambiguous/unparseable data_dir input: {0}".format(data_dir)")
+            raise ValueError
+
+    input_opts = {}
+    if prefix is not None:
+        input_opts["display_prefix"] = prefix
+    if display_mode is not None:
+        input_opts["display_mode"] = display_mode
+    if palette is not None:
+        input_opts["palette"] = palette
+    if alpha is not None:
+        input_opts["alpha"] = alpha
+
+
+    pockets, opts = identify.load_calculation(data_dir, input_opts=input_opts)
+    display_pockets(pockets, **opts)
     logger.info("Loading {0} with mode {1}".format(spheres.name, display_mode))
 
 

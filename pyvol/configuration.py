@@ -118,7 +118,7 @@ def clean_opts(input_opts):
     if not isinstance(opts["protein_only"], bool):
         opts["protein_only"] = False
     opts["display_mode"] = input_opts.get("display_mode")
-    if not opts["display_mode"] in ["solid", "mesh", "pseudoatom"]:
+    if not opts["display_mode"] in ["solid", "mesh", "spheres"]:
         opts["display_mode"] = "solid"
     opts["palette"] = input_opts.get("palette")
     if opts.get("palette") is not None:
