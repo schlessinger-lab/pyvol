@@ -21,13 +21,6 @@ PyVOL Identify Module
     :undoc-members:
     :show-inheritance:
 
-PyVOL Poses Module
-------------------
-
-.. automodule:: pyvol.poses
-    :members:
-    :undoc-members:
-    :show-inheritance:
 
 PyVOL Pymol Interface Module
 ----------------------------
@@ -68,13 +61,3 @@ PyVOL Main Entry Point
   :members:
   :undoc-members:
   :show-inheritance:
-
-.. pymol imports throw this off
-
-  PyVOL GUI
-  ---------
-
-  .. automodule:: pyvol.pyvol_gui.__init__
-      :members:
-      :undoc-members:
-      :show-inheritance:
