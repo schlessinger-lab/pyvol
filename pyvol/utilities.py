@@ -13,7 +13,7 @@ import types
 logger = logging.getLogger(__name__)
 
 def calculate_rotation_matrix(ref_vector, new_vector):
-    """ Calculates the 3D rotation matrix to convert from ref_vector to new_vector
+    """ Calculates the 3D rotation matrix to convert from ref_vector to new_vector; not used in main PyVOL calculations
 
     Args:
         ref_vector (3x1 ndarray): original vector
@@ -71,7 +71,6 @@ def closest_vertex_normals(ref_mesh, query_mesh, ref_coordinates=None, ref_radiu
         reftree = scipy.spatial.cKDTree(ref_mesh.vertices)
         ref_groups = reftree.query_ball_point(ref_coordinates, ref_radius, n_jobs=-1)
         ref_indices = np.unique(list(itertools.chain.from_iterable(ref_groups)))
-        # ref_vertices = ref_mesh.vertices[ref_indices, :]
     else:
         ref_indices = np.arange(1, ref_mesh.vertices.shape[0])
 
@@ -145,6 +144,10 @@ def configure_logger(filename=None, stream_level=None, file_level=None):
         main_logger.addHandler(fh)
 
 def clean_logger():
+    """ Removes current handlers from the main PyVOL logger so that new ones can be assigned
+
+    """
+
     main_logger = logging.getLogger("pyvol")
     main_logger.handlers = []
 
@@ -259,5 +262,9 @@ def sphere_multiprocessing(spheres, radii, workers=None, **kwargs):
 
 
 if sys.version_info < (3,):
+    """ Necessary workaround to allow correct pickling of methods in Python 2.x
+
+    """
+
     import copy_reg
     copy_reg.pickle(types.MethodType, _pickle_method)

@@ -13,4 +13,4 @@ if __name__ == "__main__":
     if args.template:
         configuration.defaults_to_file(args.cfg_file)
     else:
-        identify.pocket(**configuration.file_to_opts(args.cfg_file))
+        identify.pocket_wrapper(**configuration.file_to_opts(args.cfg_file))

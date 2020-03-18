@@ -61,27 +61,7 @@ def pocket(**opts):
     """Calculates the SES for a binding pocket
 
     Args:
-      prot_file (str): filename for the input pdb file containing the peptidee
-      mode (str): pocket identification mode (can be largest, all, or specific) (Default value = "largest")
-      lig_file (str): filename for the input pdb file containing a ligand (Default value = None)
-      coordinate ([float]): 3D coordinate used for pocket specification (Default value = None)
-      resid (str): residue identifier for pocket specification (Default value = None)
-      coordinates ([float]): 3D coordinate of an atom in a surrounding residue used for pocket specification (Default value = None)
-      min_rad (float): radius for SES calculations (Default value = 1.4)
-      max_rad (float): radius used to identify the outer, bulk solvent exposed surface (Default value = 3.4)
-      lig_excl_rad (float): maximum distance from a provided ligand that can be included in calculated pockets (Default value = None)
-      lig_incl_rad (float): minimum distance from a provided ligand that should be included in calculated pockets when solvent border is ambiguous (Default value = None)
-      subdivide (bool): calculate subpockets? (Default value = False)
-      min_volume (float): minimum volume of pockets returned when running in 'all' mode (Default value = 200)
-      min_subpocket_rad (float): minimum radius that identifies distinct subpockets (Default value = 1.7)
-      min_subpocket_surf_rad (float): radius used to calculate subpocket surfaces (Default value = 1.0)
-      max_clusters (int): maximum number of clusters (Default value = None)
-      min_cluster_size (int): minimum number of spheres in a proper cluster; used to eliminate insignificant subpockets (Default value = 50)
-      inclusion_radius_buffer (float): buffer radius in excess of the nonextraneous radius from the identified pocket used to identify atoms pertinent to subpocket clustering (Default value = 1.0)
-      radial_sampling (float): radial sampling used for subpocket clustering (Default value = 0.1)
-      prefix (str): identifying string for output (Default value = None)
-      output_dir (str): filename of the directory in which to place all output; can be absolute or relative (Default value = None)
-      constrain_inputs (bool): restrict quantitative input parameters to tested values? (Default value = False)
+      opts (dict): dictionary containing all PyVOL options (see pyvol.configuration.clean_opts for details)
 
     Returns:
       pockets ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct pocket or subpocket
@@ -186,6 +166,13 @@ def pocket(**opts):
 def pocket_wrapper(**opts):
     """ wrapper for pocket that configures the logger, sanitizes inputs, and catches errors; useful when running from the command line or PyMOL but split from the core code for programmatic usage
 
+    Args:
+      opts (dict): dictionary containing all PyVOL options (see pyvol.configuration.clean_opts for details)
+
+    Returns:
+      pockets ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct pocket or subpocket
+      output_opts (dict): dictionary containing the actual options used in the pocket calculation
+
     """
 
     opts = configuration.clean_opts(opts)
@@ -194,14 +181,11 @@ def pocket_wrapper(**opts):
 
     log_file = os.path.join(opts.get("output_dir"), "{0}.log".format(opts.get("prefix")))
     utilities.configure_logger(filename=log_file, stream_level=opts.get("logger_stream_level"), file_level=opts.get("logger_file_level"))
-
     logger.debug("Logger configured")
 
-    all_pockets, opts = pocket(**opts)
+    all_pockets, output_opts = pocket(**opts)
 
-    # utilities.clean_logger()
-
-    return all_pockets, opts
+    return all_pockets, output_opts
 
 
 def subpockets(bounding_spheres, ref_spheres, **opts):
@@ -210,19 +194,10 @@ def subpockets(bounding_spheres, ref_spheres, **opts):
     Args:
       bounding_spheres (Spheres): a Spheres object containing both the peptide and solvent exposed face external spheres
       ref_spheres (Spheres): a Spheres object holding the interior spheres that define the pocket to be subdivided
-      min_rad (float): radius for original SES calculations (Default value = 1.4)
-      max_rad (float): radius originally used to identify the outer, bulk solvent exposed surface (Default value = 3.4)
-      min_subpocket_rad (float): minimum radius that identifies distinct subpockets (Default value = 1.7)
-      min_subpocket_surf_rad (float): radius used to calculate subpocket surfaces (Default value = 1.0)
-      max_subpocket_rad (float): maximum spheres radius used for subpocket clustering (Default value = None)
-      sampling (float): radial sampling frequency for clustering (Default value = 0.1)
-      inclusion_radius_buffer (float): defines the inclusion distance for nonextraneous spheres in combination with min_rad and max_rad (Default value = 1.0)
-      min_cluster_size (int): minimum number of spheres that can constitute a proper clusterw (Default value = 50)
-      max_clusters (int): maximum number of clusters (Default value = None)
-      prefix (str): identifying string for output (Default value = None)
+      opts (dict): a dictionary containing all PyVOL options (see pyvol.configuration.clean_opts for details)
 
     Returns:
-      pockets ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct subpocket
+      grouped_list ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct subpocket
 
     """
 

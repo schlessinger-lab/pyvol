@@ -10,7 +10,6 @@ from pyvol.identify import pocket_wrapper
 @pytest.mark.parametrize("min_rad", [1.4, 1.6])
 @pytest.mark.parametrize("max_rad", [3.2, 3.4, 3.6])
 @pytest.mark.parametrize("mode,lig_file,resid,coordinates", [("all", None, None, None), ("largest", None, None, None),("specific", None, "B513", None), ("specific","/home/rsmith/research/pyvol_development/pyvol/tests/1uwh_B_lig.pdb", None, None), ("specific", None, None, "95.6,29.8,68.5")])
-# @pytest.mark.parametrize("mode,lig_file,resid,coordinates", [("specific", "/home/rsmith/research/pyvol_development/pyvol/tests/1uwh_B_lig.pdb", None, None)])
 def test_specification(prot_file, min_rad, max_rad, mode, lig_file, resid, coordinates):
     opts = {
         "prot_file": prot_file,

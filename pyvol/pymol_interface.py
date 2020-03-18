@@ -21,6 +21,10 @@ except:
 def display_pockets(pockets, **opts):
     """ Display a list of pockets
 
+    Args:
+      pockets ([Spheres]): list of spheres object to display
+      opts (dict): a dictionary containing all PyVOL options (see pyvol.configuration.clean_opts for details)
+
     """
 
     opts["palette"] = pymol_utilities.construct_palette(color_list=opts.get("palette"), max_value=len(pockets))
@@ -37,11 +41,11 @@ def load_calculation_cmdline(data_dir, prefix=None, display_mode=None, palette=N
     """ Loads a pocket from memory and displays it in PyMOL
 
     Args:
-      spheres_file (str): filename
-      name (str): internal display name (Default value = None)
+      data_dir (str): directory containing PyVOL output (by default ends in .pyvol)
+      prefix (str): internal display name (Default value = None)
       display_mode (str): display mode (Default value = "solid")
-      color (str): PyMOL color string (Default value = 'marine')
-      alpha (float): transparency value (Default value = 0.85)
+      palette (str): comma-separated list of PyMOL color strings (Default value = None)
+      alpha (float): transparency value (Default value = 1.0)
 
     """
 
@@ -70,6 +74,9 @@ def load_calculation_cmdline(data_dir, prefix=None, display_mode=None, palette=N
 
 def pymol_pocket_cmdline(protein=None, ligand=None, prot_file=None, lig_file=None, min_rad=1.4, max_rad=3.4, constrain_radii=True, mode="largest", coordinates=None, residue=None, resid=None, lig_excl_rad=None, lig_incl_rad=None, min_volume=200, subdivide=False, max_clusters=None, min_subpocket_rad=1.7, max_subpocket_rad=3.4, min_subpocket_surf_rad=1.0, radial_sampling=0.1, inclusion_radius_buffer=1.0, min_cluster_size=50, project_dir=None, output_dir=None, prefix=None, logger_stream_level="INFO", logger_file_level="DEBUG", protein_only=False, display_mode="solid", alpha=0.85, palette=None):
     """ PyMOL-compatible command line entry point
+
+    Args:
+      opts (dict): all of the options are collated into the standard PyVOL option dictionary (see pyvol.configure.clean_opts for argument details)
 
     """
 
@@ -110,6 +117,17 @@ def pymol_pocket_cmdline(protein=None, ligand=None, prot_file=None, lig_file=Non
     pymol_pocket(**opts)
 
 def pymol_pocket(**opts):
+    """ Perform PyMOL-dependent processing of inputs to generate input files for PyVOL pocket processing
+
+    Args:
+      opts (dict): dictionary containing all PyVOL options (see pyvol.configuration.clean_opts for details)
+
+    Returns:
+      pockets ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct pocket or subpocket
+      output_opts (dict): dictionary containing the actual options used in the pocket calculation
+
+    """
+
 
     boolean_args = ["constrain_radii", "subdivide", "protein_only"]
     for arg in boolean_args:

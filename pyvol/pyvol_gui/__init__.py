@@ -1,6 +1,6 @@
 
 
-__version__ = "1.6.2"
+__version__ = "1.6.3"
 
 import logging
 import os
@@ -164,7 +164,6 @@ def uninstall_pyvol(form):
     msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
     msg.setMinimumSize(QtCore.QSize(600, 200)) # Doesn't seem to work
     msg.exec_()
-    print("messagebox popped up")
 
     refresh_installation_status(form)
 
