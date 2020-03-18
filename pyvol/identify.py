@@ -149,7 +149,7 @@ def pocket(**opts):
                 else:
                     resid = int(resid)
                 coordinate = utilities.coordinates_for_resid(opts.get("prot_file"), resid=resid, chain=chain)
-                logger.info("Specific pocket identified from residue: {0} -> {1}".format(opts.get("resid"), coordinate))
+                logger.info("Specific pocket identified from residue: {0} -> {1} (truncated)".format(opts.get("resid"), coordinate[0,:]))
             elif l_s is not None:
                 lig_coords = l_s.xyz
                 coordinate = np.mean(l_s.xyz, axis=0).reshape(1, -1)

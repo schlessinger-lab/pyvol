@@ -1,6 +1,6 @@
 
 
-__version__ = "1.6.1"
+__version__ = "1.6.2"
 
 import logging
 import os
@@ -80,8 +80,8 @@ def browse_pocket_file(form):
 
     """
 
-    pocket_file_name = QtWidgets.QFileDialog.getOpenFileNames(None, 'Open file', os.getcwd(), filter='Pocket Files (*.obj *.csv)')[0][0]
-    form.pocket_file_ledit.setText(pocket_file_name)
+    pocket_file_name = QtWidgets.QFileDialog.getOpenFileNames(None, 'Open file', os.getcwd(), filter='Pocket Files (*.pyvol)')[0][0]
+    form.pocket_dir_ledit.setText(pocket_file_name)
 
 def install_pypi_pyvol():
     """ Attempts a de novo PyVOL installation using pip

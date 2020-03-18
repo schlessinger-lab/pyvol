@@ -66,7 +66,7 @@ def display_pseudoatom_group(spheres, name, color='gray60', palette=None):
     group_name = "{0}_g".format(name)
     cmd.group(group_name, "{0}.*".format(name))
     cmd.show("spheres", group_name)
-    logger.debug("Pseudoatom group of {0} spheres created with group name {1}".format(spheres.shape[0], group_name))
+    logger.debug("Pseudoatom group of {0} spheres created with group name {1}".format(spheres.xyzrg.shape[0], group_name))
     return group_name
 
 
