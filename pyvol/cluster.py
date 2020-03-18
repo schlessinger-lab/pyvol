@@ -1,4 +1,6 @@
 
+""" Contains functions to cluster spheres objects in memory; used in subpocket clustering. """
+
 from .spheres import Spheres
 import itertools
 import logging

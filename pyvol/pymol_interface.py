@@ -1,4 +1,6 @@
 
+""" Front facing PyMOL functions """
+
 from . import configuration
 from . import identify
 from . import pymol_utilities
@@ -23,7 +25,7 @@ def display_pockets(pockets, **opts):
 
     Args:
       pockets ([Spheres]): list of spheres object to display
-      opts (dict): a dictionary containing all PyVOL options (see pyvol.configuration.clean_opts for details)
+      opts (dict): a dictionary containing all PyVOL options (see pyvol.pymol_interface.pymol_pocket_cmdline for details)
 
     """
 
@@ -72,11 +74,41 @@ def load_calculation_cmdline(data_dir, prefix=None, display_mode=None, palette=N
     logger.info("Loading {0} with mode {1}".format(spheres.name, display_mode))
 
 
-def pymol_pocket_cmdline(protein=None, ligand=None, prot_file=None, lig_file=None, min_rad=1.4, max_rad=3.4, constrain_radii=True, mode="largest", coordinates=None, residue=None, resid=None, lig_excl_rad=None, lig_incl_rad=None, min_volume=200, subdivide=False, max_clusters=None, min_subpocket_rad=1.7, max_subpocket_rad=3.4, min_subpocket_surf_rad=1.0, radial_sampling=0.1, inclusion_radius_buffer=1.0, min_cluster_size=50, project_dir=None, output_dir=None, prefix=None, logger_stream_level="INFO", logger_file_level="DEBUG", protein_only=False, display_mode="solid", alpha=0.85, palette=None):
+def pymol_pocket_cmdline(protein=None, ligand=None, prot_file=None, lig_file=None, min_rad=1.4, max_rad=3.4, constrain_radii=True, mode="largest", coordinates=None, residue=None, resid=None, lig_excl_rad=None, lig_incl_rad=None, min_volume=200, subdivide=False, max_clusters=None, min_subpocket_rad=1.7, max_subpocket_rad=3.4, min_subpocket_surf_rad=1.0, radial_sampling=0.1, inclusion_radius_buffer=1.0, min_cluster_size=50, project_dir=None, output_dir=None, prefix=None, logger_stream_level="INFO", logger_file_level="DEBUG", protein_only=False, display_mode="solid", alpha=1.0, palette=None):
     """ PyMOL-compatible command line entry point
 
     Args:
-      opts (dict): all of the options are collated into the standard PyVOL option dictionary (see pyvol.configure.clean_opts for argument details)
+      protein (str): PyMOL-only PyMOL selection string for the protein (Default value = None)
+      ligand (str): PyMOL-only PyMOL selection string for the ligand (Default value = None)
+      prot_file (str): filename for the input pdb file containing the peptide--redundant with protein argument (Default value =- )
+      lig_file (str): filename for the input pdb file containing a ligand--redundant with ligand argument (Default value = None)
+      min_rad (float): radius for SES calculations (Default value = 1.4)
+      max_rad (float): radius used to identify the outer, bulk solvent exposed surface (Default value = 3.4)
+      constrain_radii (bool): restrict input radii to tested values? (Default value = False)
+      mode (str): pocket identification mode (can be largest, all, or specific) (Default value = "largest")
+      coordinates ([float]): 3D coordinate used for pocket specification (Default value = None)
+      residue (str): Pymol-only PyMOL selection string for a residue to use for pocket specification (Default value=None)
+      resid (str): residue identifier for pocket specification (Default value = None)
+      lig_excl_rad (float): maximum distance from a provided ligand that can be included in calculated pockets (Default value = None)
+      lig_incl_rad (float): minimum distance from a provided ligand that should be included in calculated pockets when solvent border is ambiguous (Default value = None)
+      min_volume (float): minimum volume of pockets returned when running in 'all' mode (Default value = 200)
+      subdivide (bool): calculate subpockets? (Default value = False)
+      max_clusters (int): maximum number of clusters (Default value = None)
+      min_subpocket_rad (float): minimum radius that identifies distinct subpockets (Default value = 1.7)
+      max_subpocket_rad (float): maximum sampling radius used in subpocket identification (Default value = 3.4)
+      min_subpocket_surf_rad (float): radius used to calculate subpocket surfaces (Default value = 1.0)
+      inclusion_radius_buffer (float): buffer radius in excess of the nonextraneous radius from the identified pocket used to identify atoms pertinent to subpocket clustering (Default value = 1.0)
+      radial_sampling (float): radial sampling used for subpocket clustering (Default value = 0.1)
+      min_cluster_size (int): minimum number of spheres in a proper cluster; used to eliminate insignificant subpockets (Default value = 50)
+      project_dir (str): parent directory in which to create the output directory if the output directory is unspecified (Default value = None)
+      output_dir (str): filename of the directory in which to place all output; can be absolute or relative (Default value = None)
+      prefix (str): identifying string for output (Default value = None)
+      logger_stream_level (str): sets the logger level for stdio output (Default value = "INFO")
+      logger_file_level (str): sets the logger level for file output (Default value = "DEBUG")
+      protein_only (bool): PyMOL-only include only peptides in protein file
+      display_mode (str): PyMOL-only display mode for calculated pockets (Default value = "solid")
+      alpha (float): PyMOL-only display option specifying translucency of CGO objects (Default value = 1.0)
+      palette (str): PyMOL-only display option representing a comma separated list of PyMOL color strings (Default value = None)
 
     """
 
@@ -120,7 +152,7 @@ def pymol_pocket(**opts):
     """ Perform PyMOL-dependent processing of inputs to generate input files for PyVOL pocket processing
 
     Args:
-      opts (dict): dictionary containing all PyVOL options (see pyvol.configuration.clean_opts for details)
+      opts (dict): dictionary containing all PyVOL options (see pyvol.pymol_interface.pymol_pocket_cmdline for details)
 
     Returns:
       pockets ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct pocket or subpocket
@@ -173,7 +205,7 @@ def pymol_pocket(**opts):
         opts["residue"] = None
     else:
         if opts.get("residue") is not None:
-            opts["coordinates"] = cmd.get_coords(opts.get("residue"), 1)
+            opts["coordinates"] = cmd.get_coords("{0} and sidechain".format(opts.get("residue")), 1)
 
     pockets, output_opts = identify.pocket_wrapper(**opts)
 

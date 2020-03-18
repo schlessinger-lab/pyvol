@@ -1,4 +1,6 @@
 
+""" PyMOL convenience functions used by the front-end contained in pymol_interface. """
+
 import logging
 
 logger = logging.getLogger(__name__)

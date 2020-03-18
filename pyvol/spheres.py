@@ -1,4 +1,6 @@
 
+""" Defines the Spheres class which holds geometric information and performs basic operations on its data """
+
 from . import utilities
 from .exceptions import *
 from Bio.PDB import PDBParser

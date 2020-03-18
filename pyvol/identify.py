@@ -61,7 +61,7 @@ def pocket(**opts):
     """Calculates the SES for a binding pocket
 
     Args:
-      opts (dict): dictionary containing all PyVOL options (see pyvol.configuration.clean_opts for details)
+      opts (dict): dictionary containing all PyVOL options (see pyvol.pymol_interface.pymol_pocket_cmdline for details)
 
     Returns:
       pockets ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct pocket or subpocket
@@ -167,7 +167,7 @@ def pocket_wrapper(**opts):
     """ wrapper for pocket that configures the logger, sanitizes inputs, and catches errors; useful when running from the command line or PyMOL but split from the core code for programmatic usage
 
     Args:
-      opts (dict): dictionary containing all PyVOL options (see pyvol.configuration.clean_opts for details)
+      opts (dict): dictionary containing all PyVOL options (see pyvol.pymol_interface.pymol_pocket_cmdline for details)
 
     Returns:
       pockets ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct pocket or subpocket

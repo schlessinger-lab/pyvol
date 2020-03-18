@@ -152,7 +152,7 @@ def clean_logger():
     main_logger.handlers = []
 
 
-def coordinates_for_resid(pdb_file, resid, chain=None, model=0):
+def coordinates_for_resid(pdb_file, resid, chain=None, model=0, sidechain_only=True):
     """ Extract the 3D coordinates for all atoms in a specified residue from a pdb file
 
     Args:
@@ -160,6 +160,7 @@ def coordinates_for_resid(pdb_file, resid, chain=None, model=0):
       resid (int): residue number
       chain (str): chain identifier (Default value = None)
       model (int): model identifier (Default value = 0)
+      sidechain_only (bool): return only sidechain atom coordinates? (Default value = True)
 
     Returns:
       coordinates ([[float]]): 3xN array containing all atomic positions
@@ -177,7 +178,7 @@ def coordinates_for_resid(pdb_file, resid, chain=None, model=0):
         if len(res) != 1:
             logger.error("Ambiguous or absent residue definition: {0} {2} {1}".format(pdb_file, resid, chain))
             return None
-    return np.array([atom.get_coord() for atom in res.get_atoms()])
+    return np.asarray([atom.get_coord() for atom in res.get_atoms() if atom.name not in ["C", "O", "CA", "N", "H", "HA"]])
 
 
 def _pickle_method(m):

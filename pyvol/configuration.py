@@ -1,4 +1,6 @@
 
+""" Handles options for PyVOL. Reads configuration files and objects and converts them to option dictionaries and then back again. Accepts and parses string input for all parameters from commandline/gui inputs. """
+
 from . import utilities
 import configparser
 import logging
