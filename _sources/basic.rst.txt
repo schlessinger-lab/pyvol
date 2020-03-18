@@ -41,6 +41,7 @@ Input Constraint
 By default, basic input radii parameters are compared and constrained to tested ranges using the `constrain_radii` argument. This can be turned off when running outside of the GUI, but in practice that is never useful. While edge cases are possible in which violating constraints is useful, in practice these constraints represent effective ranges. In particular, setting the minimum radius to absurdly low values will start fitting pockets in even intramolecular spaces and provide meaningless output if not a full crash.
 
 .. code-block:: python
+
   # arguments constrain_radii
   pocket prot_file=<protein_pdb_filename>, min_rad=<1.4>, max_rad=<3.4>, constrain_radii=True
   pocket protein=<"PyMOL selection string">, min_rad=<1.4>, max_rad=<3.4>, constrain_radii=True
