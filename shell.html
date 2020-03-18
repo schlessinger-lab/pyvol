@@ -93,7 +93,7 @@
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Shell Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#running-from-the-shell">Running from the Shell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#template-configuration-file-generation">Template Configuration File Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#notes-on-output">Notes on Output</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#re-running-previous-calculations">Re-running Previous Calculations</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="load_previous.html">Loading Previous Results</a></li>
@@ -180,9 +180,13 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="notes-on-output">
-<h2>Notes on Output<a class="headerlink" href="#notes-on-output" title="Permalink to this headline">¶</a></h2>
-<p>Currently, PyVOL only reports standard log output to stdout when run this way. So if an output directory is not provided, there is no easy way to retrieve the results.</p>
+<div class="section" id="re-running-previous-calculations">
+<h2>Re-running Previous Calculations<a class="headerlink" href="#re-running-previous-calculations" title="Permalink to this headline">¶</a></h2>
+<p>Each PyVOL job writes the configuration file to recapitulate the exact run. After modifying a configuration file, unset the <cite>prefix</cite> and <cite>output_dir</cite> parameters in order to direct the output of the new run into a new folder.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">When unsetting parameters in the configuration file, delete the entire line including the parameter name rather than just leaving the definition blank. For some parameters, leaving the definition blank angers the configuration file reader.</p>
+</div>
 </div>
 </div>
 

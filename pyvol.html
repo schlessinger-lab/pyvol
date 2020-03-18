@@ -96,7 +96,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.cluster">PyVOL Cluster Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.identify">PyVOL Identify Module</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-pyvol.poses">PyVOL Poses Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.pymol_interface">PyVOL Pymol Interface Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.pymol_utilities">PyVOL Pymol Utilities Module</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#module-pyvol.spheres">PyVOL Spheres Module</a></li>
@@ -402,60 +401,6 @@ prefix (str): identifying prefix for the output files</dd>
 <dd>all_pockets ([Spheres]): a list of Spheres objects each of which contains the complete information about a distinct pocket or subpocket
 output_dir (str): output directory, relative or absolute
 prefix (str): identifying prefix for output files</dd>
-</dl>
-</dd></dl>
-
-</div>
-<div class="section" id="module-pyvol.poses">
-<span id="pyvol-poses-module"></span><h2>PyVOL Poses Module<a class="headerlink" href="#module-pyvol.poses" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
-<dt id="pyvol.poses.compound_occupancy">
-<code class="descclassname">pyvol.poses.</code><code class="descname">compound_occupancy</code><span class="sig-paren">(</span><em>pose_file, pocket_file, output_dir, output_prefix=None, name_parameter='_Name', scoring_parameter='r_i_glide_gscore', pocket_tolerance=3, panelx=250, panely=200, molsPerRow=4, rowsPerPage=6, palette=[(1, 0.2, 0.2), (1, 0.55, 0.15), (1, 1, 0.2), (0.2, 1, 0.2), (0.3, 0.3, 1), (0.5, 1, 1), (1, 0.5, 1)]</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.poses.compound_occupancy" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a report that highlights 2D compound representations by subpocket occupancy according to the poses in a provided sdf file</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>pose_file (str): input SDF file containing docked compound poses
-pocket_file (str): input csv containing the spheres’ 5 dimensional array describing subpocket geometry; output with a “_spa.csv” ending
-output_dir (str): output directory for all files
-output_prefix (str): output prefix
-name_parameter (str): SDF property key for the molecule name
-scoring_parameter (str): SDF property key for whichever property should be shown in the report
-pocket_tolerance (float): maximum distance (Angstrom) at which an atom outside of the defined subpocket volumes is still associated with a subpocket
-panelx (int): horizontal width of the drawing space for each molecule
-panely (int): vertical height of the drawing space for each molecule
-molsPerRow (int): number of molecules to fit on a row (total width is &lt;= panelx * molsPerRow)
-rowsPerPage (int): number of rows of molecules to fit on each page (total height is &lt;= panely * rowsPerPage)
-palette ([(float,float,float)]): list of tuples of fractional RGB values that controls the highlighting colors</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="pyvol.poses.draw_molecules_with_subpockets">
-<code class="descclassname">pyvol.poses.</code><code class="descname">draw_molecules_with_subpockets</code><span class="sig-paren">(</span><em>molecules, output_dir, output_prefix, palette=[(1, 0.2, 0.2), (1, 0.55, 0.15), (1, 1, 0.2), (0.2, 1, 0.2), (0.3, 0.3, 1), (0.5, 1, 1), (1, 0.5, 1)], panelx=250, panely=200, molsPerRow=4, rowsPerPage=6, name_parameter='_Name', scoring_parameter='r_i_glide_gscore'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.poses.draw_molecules_with_subpockets" title="Permalink to this definition">¶</a></dt>
-<dd><p>Creates a report that highlights the 2D representation of docked molecules to indicate subpocket occupancy</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>molecules ([rdkit.Chem.rdchem.Mol]): list of rdkit molecules to draw
-output_dir (str): output directory
-output_prefix (str): output prefix
-palette ([(float,float,float)]): list of tuples of fractional RGB values; TODO: allow input of pymol style color strings
-panelx (int): horizontal width of the drawing space for each molecule
-panely (int): vertical height of the drawing space for each molecule
-molsPerRow (int): number of molecules to fit on a row (total width is &lt;= panelx * molsPerRow)
-rowsPerPage (int): number of rows of molecules to fit on each page (total height is &lt;= panely * rowsPerPage)
-name_parameter (str): SDF property key for the molecule name
-scoring_parameter (str): SDF property key for whichever property should be shown in the report</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="pyvol.poses.set_atom_subpockets">
-<code class="descclassname">pyvol.poses.</code><code class="descname">set_atom_subpockets</code><span class="sig-paren">(</span><em>molecule</em>, <em>groups</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.poses.set_atom_subpockets" title="Permalink to this definition">¶</a></dt>
-<dd><p>Apply calculated subpocket groups to each atom in a molecule</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>molecule (rdkit.Chem.rdchem.Mol): rdkit molecule object
-groups ([int]): list of subpocket identifiers</dd>
 </dl>
 </dd></dl>
 

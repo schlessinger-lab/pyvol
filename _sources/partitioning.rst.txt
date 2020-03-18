@@ -12,26 +12,40 @@ PyVOL can deterministically divide a binding pocket into subpockets. This can be
 Enabling Subpocket Partitioning
 -------------------------------
 
-Subpocket partitioning is enabled in the GUI by selecting the `Subdivide` checkbox (command-line `subdivide`).
+Subpocket partitioning is enabled by setting the `subdivide` argument to `True`. In the GUI, this is done by selecting the `Subdivide` checkbox.
 
 .. code-block:: python
 
-   pocket <protein_selection>, subdivide=True
+  # arguments: subdivide
+  pocket prot_file=<protein_pdb_filename>, subdivide=True
+  pocket protein=<"PyMOL selection string">, subdivide=True
 
-Limiting the Number of Subpockets
----------------------------------
-
-Parameters controlling the number of sub-pockets identified generally perform well using defaults; however, they can be easily adjusted as needed. The two most important parameters are the `Maximum Sub-pockets` (command-line `max_clusters`) and the `Minimum Internal Radius` (command-line `min_subpocket_rad`). PyVOL clusters volume into the maximum number regions that make physical sense according to its hierarchical clustering algorithm. This means that there is a maximum number of clusters that is determined by the `Minimum Internal Radius` (the smallest sphere used to identify new regions) and the radial sampling frequency. Through its PyMOL interface, PyVOL currently fixes the radial sampling frequency at 10 A^-1. Larger values of the `Minimum Internal Radius` prohibit unique identification of smaller regions. The other parameter, `Maximum Sub-pockets`, sets the maximum number of clusters calculated. If the number of clusters originally determined is greater than the supplied maximum, clusters are iteratively merged using a metric that is related to the edge-weighted surface area between adjacent clusters.
-
-.. code-block:: python
-
-   pocket <protein_selection>, subdivide=True, min_subpocket_rad=<1.7>, max_clusters=<10>
-
-Smoothness of the Subpocket Surfaces
+Controlling the Number of Subpockets
 ------------------------------------
 
-The size of the probe used to calculate surface accesibility of subpockets can be set with the `Minimum Surface Radius` (command-line `min_subpocket_surf_rad`) in the Partitioning Parameters section of the GUI. Calculation stability is less sensitive to the value of this parameter than the overall `Minimum Radius`. In practice, it should be set to a value slightly smaller than the overall `Minimum Radius` but not aphysically small. Unless changing the `Minimum Radius` used for overall calculations, the default value should be left unchanged.
+Parameters controlling the number of sub-pockets identified generally perform well using defaults; however, they can be easily adjusted as needed. The two most important parameters are controlled with the `max_clusters` and `min_subpocket_rad` arguments. PyVOL clusters volume into the maximum number regions that make physical sense according to its hierarchical clustering algorithm. This means that there is a maximum number of clusters that is determined by the `min_subpocket_rad` (the smallest sphere used to identify new regions). Larger values of the `min_subpocket_rad` prohibit unique identification of smaller regions and can cause partitioning to fail altogether. Setting the maximum number of clusters simply sets an upper bound to the number of subpockets identified. If the number of clusters originally determined is greater than the supplied maximum, clusters are iteratively merged using a metric that is related to an edge-biased surface area between adjacent clusters.
 
 .. code-block:: python
 
-   pocket <protein_selection>, subdivide=True, min_subpocket_surf_rad=<1.2>
+  # arguments: min_subpocket_rad, max_clusters
+  pocket prot_file=<protein_pdb_filename>, subdivide=True, min_subpocket_rad=<1.7>, max_clusters=<10>
+  pocket protein=<"PyMOL selection string">, subdivide=True, min_subpocket_rad=<1.7>, max_clusters=<10>
+
+Other Partitioning Parameters
+-----------------------------
+
+The size of the probe used to calculate surface accesibility of subpockets can be set with the `min_subpocket_surf_rad`. Calculation stability is less sensitive to the value of this parameter than the overall minimum probe radius. In practice, it should be set to a value slightly smaller than the overall minimum radius but not aphysically small. Unless changing the minimum used for overall calculations, the default value should be left unchanged.
+
+PyVOL currently defaults to performing radial sampling frequency at 10 A^-1 but this can be adjust using the `radial_sampling` argument. Larger `radial_smapling` values should significantly improve calculation speed at the cost of pocket resolution.
+
+PyVOL isolates the pocket to be subdivided prior to running partitioning. The local environment of the pocket is isolated by identifying all atoms within a set distance of the surface calculated for the pocket of interest. This distance is set to the maximum radius used for bulk solvent surface identification plus a buffer. The magnitude of this buffer is by default 1 A and can be set using the `inclusion_radius_buffer` argument.
+
+The maximum sampled internal radius of subpockets can be set with the `max_subpocket_rad` argument. Varying this parameter above ~2.7 A is unlikely to alter results. The only practical use case for setting this variable are when using an unusually low maximum radius in determining bulk solvent surfaces. If internal pocket cross sections are larger than the external probe used, setting the `max_subpocket_rad` to a higher value can permit proper clustering. For the majority of users, this parameter should never be adjusted.
+
+The minimum number of tangent surface spheres belonging to a subpocket can be set with the `min_cluster_size`. The purpose of this filter is to remove small, aphysical sphere groupings before clustering. In practice, this never needs to be adjusted.
+
+.. code-block:: python
+
+  # arguments: min_subpocket_surf_rad, radial_sampling, max_subpocket_rad, min_cluster_size
+  pocket prot_file=<protein_pdb_filename>, subdivide=True, min_subpocket_rad=<1.7>, max_clusters=<10>, min_subpocket_surf_rad=<10>, radial_sampling=<0.1>, max_subpocket_rad=<3.4>, min_cluster_size=<50>
+  pocket protein=<"PyMOL selection string">, subdivide=True, min_subpocket_rad=<1.7>, max_clusters=<10> min_subpocket_surf_rad=<10>, radial_sampling=<0.1>, max_subpocket_rad=<3.4>, min_cluster_size=<50>

@@ -167,7 +167,7 @@
 <h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<p>PyVOL is a python library packaged into a <a class="reference external" href="https://pymol.org/2/">PyMOL</a> GUI for identifying protein binding pockets, partitioning them into sub-pockets, and calculating their volumes. PyVOL can be run as a PyMOL plugin through its GUI or the PyMOL prompt, as an imported python library, or as a command-line program. Visualization of results is exclusively supported through PyMOL though exported surfaces are compatible with standard 3D geometry visualization programs. The project is hosted on github by the Schlessinger Lab. Please access the repository to view code or submit bugs. The package has been most extensively tested with PyMOL 2.3+ running Python 3.7. Support for all python versions 2.7+ is intended but not as thoroughly tested. Support for PyMOL 1.7.4+ without the GUI is under development. Unfortunately, PyVOL can not currently run on MacOS Catalina due to its restrictions on running 32-bit executables. The Mac-compatible MSMS executable is not yet available in a 64-bit form.</p>
+<p>PyVOL is a python library packaged into a <a class="reference external" href="https://pymol.org/2/">PyMOL</a> GUI for identifying protein binding pockets, partitioning them into sub-pockets, and calculating their volumes. PyVOL can be run as a PyMOL plugin through its GUI or the PyMOL prompt, as an imported python library, or as a command-line program. Visualization of results is exclusively supported through PyMOL though exported surfaces are compatible with standard 3D geometry visualization programs. The project is hosted on github by the Schlessinger Lab. Please access the repository to view code or submit bugs. The package has been most extensively tested with PyMOL 2.3+ running Python 3.7. Support for all python versions 2.7+ is intended but not as thoroughly tested. Support for PyMOL 1.7.4+ without the GUI is as yet incomplete. Unfortunately, PyVOL can not currently run on MacOS Catalina due to its restrictions on running 32-bit executables. The Mac-compatible MSMS executable is not yet available in a 64-bit form.</p>
 </div>
 <div class="section" id="quick-installation-into-pymol-2-0">
 <h2>Quick Installation into PyMOL 2.0+<a class="headerlink" href="#quick-installation-into-pymol-2-0" title="Permalink to this headline">¶</a></h2>
@@ -177,8 +177,8 @@
 <div class="section" id="example-basic-run">
 <h2>Example Basic Run<a class="headerlink" href="#example-basic-run" title="Permalink to this headline">¶</a></h2>
 <p>A simple calculation using the PyMOL prompt is to load a protein of interest and then run the <cite>pocket</cite> command. This is an example for the Sorafenib-bound structure of BRAF:</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fetch</span> <span class="s1">&#39;1UWH&#39;</span>
-<span class="n">pocket</span> <span class="s2">&quot;1UWH and chain B&quot;</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fetch</span> <span class="s1">&#39;1uwh&#39;</span>
+<span class="n">pocket</span> <span class="n">protein</span><span class="o">=</span><span class="s2">&quot;1uwh and chain B&quot;</span>
 </pre></div>
 </div>
 </div>

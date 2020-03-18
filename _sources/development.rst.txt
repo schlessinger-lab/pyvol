@@ -5,6 +5,8 @@ Development
 Package Design
 --------------
 
+This page is current to 1.4.0 and will be updated.
+
 The main PyVOL algorithm is run from identify.py. There are two interfaces to this module which prepare user supplied inputs: `pyvol/pymol_interface.py` and the commandline entry point in `pyvol/__main__.py`. The PyMOL interface can be accessed directly through the PyMOL prompt or run using the included GUI. The command line entry point is evoked using a configuration file. The main entry point for accessing with the API is through `pyvol/identify.py`.
 
 Algorithm Design
