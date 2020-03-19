@@ -4,7 +4,7 @@ Basic Usage
 
 PyVOL accepts inputs from the PyMOL prompt, the PyMOL GUI, and configuration files via the system shell. The PyMOL prompt and configuration file inputs are fully featured while the GUI contains a slightly simplified interface with a few enforced defaults. Programmatic invocation is also supported and covered through module documentation.
 
-The next few sections describe the parameters controlling Basic Usage, :ref:`pocket_specification:Pocket Specification`, :ref:`partitioning:Partitioning Options`, and :ref:`display:Output and Display Options`. With the exception of PyMOL-specific arguments, parameter names and argument handling are identical across all inputs.
+The next few sections describe the parameters controlling Basic Usage, :ref:`pocket_specification:Pocket Specification`, :ref:`partitioning:Partitioning Options`, and :ref:`output:Output and Display Options`. With the exception of PyMOL-specific arguments, parameter names and argument handling are identical across all inputs.
 
 .. figure:: _static/basic_parameters_gui.png
   :align: center

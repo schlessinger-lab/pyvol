@@ -36,11 +36,11 @@ Other Partitioning Parameters
 
 The size of the probe used to calculate surface accesibility of subpockets can be set with the `min_subpocket_surf_rad`. Calculation stability is less sensitive to the value of this parameter than the overall minimum probe radius. In practice, it should be set to a value slightly smaller than the overall minimum radius but not less than 1.0 Å. Unless changing the minimum used for overall calculations, the default value should be left unchanged.
 
-PyVOL currently defaults to performing radial sampling frequency at 10 Å<sup>-1</sup> but this can be adjusted using the `radial_sampling` argument. Larger `radial_sampling` values should significantly improve calculation speed but at the cost of pocket resolution.
+PyVOL currently defaults to performing radial sampling frequency at 0.1 Å⁻¹ but this can be adjusted using the `radial_sampling` argument. Larger `radial_sampling` values should significantly improve calculation speed but at the cost of pocket resolution.
 
 PyVOL isolates the pocket to be subdivided prior to running partitioning. The local environment of the pocket is isolated by identifying all atoms within a set distance of the surface calculated for the pocket of interest. This distance is set to the maximum radius used for bulk solvent surface identification plus a buffer. The magnitude of this buffer is by default 1 A and can be set using the `inclusion_radius_buffer` argument.
 
-The maximum sampled internal radius of subpockets can be set with the `max_subpocket_rad` argument. Varying this parameter above ~2.7 A is unlikely to alter results. The only practical scenario for setting this variable is when an unusually low maximum radius is used in determining bulk solvent surfaces. If internal pocket cross sections are larger than the external probe used, setting the `max_subpocket_rad` to a higher value can permit proper clustering. For the majority of users, this parameter should never be adjusted.
+The maximum sampled internal radius of subpockets can be set with the `max_subpocket_rad` argument. Varying this parameter above ~2.7 Å is unlikely to alter results. The only practical scenario for setting this variable is when an unusually low maximum radius is used in determining bulk solvent surfaces. If internal pocket cross sections are larger than the external probe used, setting the `max_subpocket_rad` to a higher value can permit proper clustering. For the majority of users, this parameter should never be adjusted.
 
 The minimum number of tangent surface spheres belonging to a subpocket can be set with the `min_cluster_size`. The purpose of this filter is to remove small, aphysical sphere groupings before clustering. In practice, this never needs to be adjusted.
 
