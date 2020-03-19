@@ -19,7 +19,7 @@ PyVOL Documentation
   basic
   pocket_specification
   partitioning
-  display
+  output
   shell
   load_previous
   development

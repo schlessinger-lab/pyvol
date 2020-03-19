@@ -22,7 +22,7 @@ A template configuration file with default values supplied can be generated usin
 
    python -m pyvol -t <output_template.cfg>
 
-Re-running Previous Calculations
+Rerunning Previous Calculations
 --------------------------------
 
 Each PyVOL job writes the configuration file to recapitulate the exact run. After modifying a configuration file, unset the `prefix` and `output_dir` parameters in order to direct the output of the new run into a new folder.
@@ -30,4 +30,4 @@ Each PyVOL job writes the configuration file to recapitulate the exact run. Afte
 
 .. note::
 
-  When unsetting parameters in the configuration file, delete the entire line including the parameter name rather than just leaving the definition blank. For some parameters, leaving the definition blank angers the configuration file reader.
+  When unsetting parameters in the configuration file, delete the entire line including the parameter name rather than just leaving the definition blank. For some parameters, leaving the definition blank confuses the configuration file reader.
