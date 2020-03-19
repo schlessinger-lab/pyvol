@@ -4,7 +4,7 @@ Installation
 
 PyVOL consists of a back-end and a GUI. The back-end has been packaged into installers that contain all dependencies, but normal distribution is through PyPI and accessed through `pip`. PyVOL can consequently be installed into any python environment. For convenience, the PyVOL GUI contains an installer for easy installation into PyMOL 2.0+.
 
-.. figure:: _static/installation_parameters_gui.png
+.. figure:: _static/installation_settings_gui.png
   :align: center
 
   GUI section that installs, updates, and uninstalls the PyVOL backend as well as confirming availability of the MSMS binary.
