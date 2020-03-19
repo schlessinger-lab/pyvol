@@ -238,7 +238,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
   (master_doc, 'pyvol.tex', 'PyVOL Documentation',
-   'Ryan Smith', 'manual'),
+   'Ryan H.B. Smith', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of
