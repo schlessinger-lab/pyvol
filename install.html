@@ -86,9 +86,9 @@
               <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#installation-into-pymol-from-pypi-using-the-gui">Installation into PyMOL from PyPI using the GUI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#installation-into-pymol-using-a-packaged-installer-using-the-gui">Installation into PyMOL Using a Packaged Installer using the GUI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#installation-into-pymol-using-the-pymol-prompt">Installation into PyMOL using the PyMOL Prompt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gui-installation-into-pymol-from-pypi">GUI Installation into PyMOL from PyPI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#gui-installation-into-pymol-from-a-packaged-installer">GUI Installation into PyMOL from a Packaged Installer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#pymol-prompt-installation-into-pymol">PyMOL Prompt Installation into PyMOL</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#manual-installation">Manual Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#msms-installation">MSMS Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#updating">Updating</a></li>
@@ -98,7 +98,7 @@
 <li class="toctree-l1"><a class="reference internal" href="basic.html">Basic Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pocket_specification.html">Pocket Specification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="partitioning.html">Partitioning Options</a></li>
-<li class="toctree-l1"><a class="reference internal" href="display.html">Output and Display Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output.html">Output and Display Options</a></li>
 <li class="toctree-l1"><a class="reference internal" href="shell.html">Shell Interface</a></li>
 <li class="toctree-l1"><a class="reference internal" href="load_previous.html">Loading Previous Results</a></li>
 <li class="toctree-l1"><a class="reference internal" href="development.html">Development</a></li>
@@ -170,18 +170,18 @@
   <div class="section" id="installation">
 <h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
 <p>PyVOL consists of a back-end and a GUI. The back-end has been packaged into installers that contain all dependencies, but normal distribution is through PyPI and accessed through <cite>pip</cite>. PyVOL can consequently be installed into any python environment. For convenience, the PyVOL GUI contains an installer for easy installation into PyMOL 2.0+.</p>
-<div class="section" id="installation-into-pymol-from-pypi-using-the-gui">
-<h2>Installation into PyMOL from PyPI using the GUI<a class="headerlink" href="#installation-into-pymol-from-pypi-using-the-gui" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="gui-installation-into-pymol-from-pypi">
+<h2>GUI Installation into PyMOL from PyPI<a class="headerlink" href="#gui-installation-into-pymol-from-pypi" title="Permalink to this headline">¶</a></h2>
 <p>Download the <a class="reference download external" download="" href="https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-installer.zip"><code class="xref download docutils literal notranslate"><span class="pre">basic</span> <span class="pre">GUI</span> <span class="pre">installer</span></code></a> and then use the PyMOL plugin manager to install that file: <span class="menuselection">Plugins ‣ Plugin Manager ‣ Install New Plugin ‣ Install from local file ‣</span> <span class="guilabel">Choose file…</span></p>
-<p>This installs the PyVOL GUI. Select <span class="menuselection">Plugins ‣ PyVOL ‣ Settings ‣</span> <span class="guilabel">Install PyVOL from PyPI</span> to fetch PyVOL and any missing dependencies. Once PyVOL has been installed, the location of MSMS must be added to the path. In the <cite>MSMS Settings</cite> panel, common locations for the executable can be searched. Once an executable has been identified and is displayed, <span class="guilabel">Change MSMS Path</span> can be clicked to make that executable visible to the back-end. The GUI should then display that it can find MSMS. For academic users and non-academic users with the Schrodinger incentive PyMOL distribution, installation is now complete. For all others <a class="reference internal" href="#msms-installation"><span class="std std-ref">MSMS Installation</span></a>.</p>
+<p>This installs the PyVOL GUI. Select <span class="menuselection">Plugins ‣ PyVOL ‣ Settings ‣</span> <span class="guilabel">Install PyVOL from PyPI</span> to fetch PyVOL and any missing dependencies. Once PyVOL has been installed, the location of MSMS must be added to the path. In the <cite>MSMS Settings</cite> panel, common locations for the executable can be searched. Once an executable has been identified and is displayed, <span class="guilabel">Change MSMS Path</span> can be clicked to make that executable visible to the back-end. The GUI should then display that it can find MSMS. For academic users and non-academic users with the Schrodinger incentive PyMOL distribution, installation is now complete. For all others refer to <a class="reference internal" href="#msms-installation"><span class="std std-ref">MSMS Installation</span></a>.</p>
 </div>
-<div class="section" id="installation-into-pymol-using-a-packaged-installer-using-the-gui">
-<h2>Installation into PyMOL Using a Packaged Installer using the GUI<a class="headerlink" href="#installation-into-pymol-using-a-packaged-installer-using-the-gui" title="Permalink to this headline">¶</a></h2>
-<p>A larger installer with cached copies of PyVOL and its dependencies is also available. This option is useful if deploying PyVOL onto computers without internet access or if accessing a stable snapshot of a working build is necessary for some reason. <a class="reference download external" download="" href="https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-full-installer.zip"><code class="xref download docutils literal notranslate"><span class="pre">full</span> <span class="pre">GUI</span> <span class="pre">installer</span></code></a> and then use the PyMOL plugin manager to install that file: <span class="menuselection">Plugins ‣ Plugin Manager ‣ Install New Plugin ‣ Install from local file ‣</span> <span class="guilabel">Choose file…</span></p>
-<p>This installs the PyVOL GUI. Select <span class="menuselection">Plugins ‣ PyVOL ‣ Settings ‣</span> <span class="guilabel">Install PyVOL from Cache</span> to install PyVOL and any missing dependencies from the installer. Once PyVOL has been installed, the location of MSMS must be added to the path. In the <cite>MSMS Settings</cite> panel, common locations for the executable can be searched. Once an executable has been identified and is displayed, <span class="guilabel">Change MSMS Path</span> can be clicked to make that executable visible to the back-end. The GUI should then display that it can find MSMS. For academic users and non-academic users with the Schrodinger incentive PyMOL distribution, installation is now complete. For all others <a class="reference internal" href="#msms-installation"><span class="std std-ref">MSMS Installation</span></a>.</p>
+<div class="section" id="gui-installation-into-pymol-from-a-packaged-installer">
+<h2>GUI Installation into PyMOL from a Packaged Installer<a class="headerlink" href="#gui-installation-into-pymol-from-a-packaged-installer" title="Permalink to this headline">¶</a></h2>
+<p>A larger installer with cached copies of PyVOL and its dependencies is also available. This option is useful if deploying PyVOL onto computers without internet access or if accessing a stable snapshot of a working build is necessary for some reason. Download the <a class="reference download external" download="" href="https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-full-installer.zip"><code class="xref download docutils literal notranslate"><span class="pre">full</span> <span class="pre">GUI</span> <span class="pre">installer</span></code></a> and then use the PyMOL plugin manager to install that file: <span class="menuselection">Plugins ‣ Plugin Manager ‣ Install New Plugin ‣ Install from local file ‣</span> <span class="guilabel">Choose file…</span></p>
+<p>This installs the PyVOL GUI. Select <span class="menuselection">Plugins ‣ PyVOL ‣ Settings ‣</span> <span class="guilabel">Install PyVOL from Cache</span> to install PyVOL and any missing dependencies from the installer. Once PyVOL has been installed, the location of MSMS must be added to the path. In the <cite>MSMS Settings</cite> panel, common locations for the executable can be searched. Once an executable has been identified and is displayed, <span class="guilabel">Change MSMS Path</span> can be clicked to make that executable visible to the back-end. The GUI should then display that it can find MSMS. For academic users and non-academic users with the Schrodinger incentive PyMOL distribution, installation is now complete. For all others refer to <a class="reference internal" href="#msms-installation"><span class="std std-ref">MSMS Installation</span></a>.</p>
 </div>
-<div class="section" id="installation-into-pymol-using-the-pymol-prompt">
-<h2>Installation into PyMOL using the PyMOL Prompt<a class="headerlink" href="#installation-into-pymol-using-the-pymol-prompt" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="pymol-prompt-installation-into-pymol">
+<h2>PyMOL Prompt Installation into PyMOL<a class="headerlink" href="#pymol-prompt-installation-into-pymol" title="Permalink to this headline">¶</a></h2>
 <p>Installation of the PyMOL back-end using the PyMOL prompt is also supported. This should work even in earlier versions of PyMOL (1.7.4+) where the GUI is non-functional. Simply run the following command on the prompt:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">install_pyvol</span>
 </pre></div>
@@ -197,7 +197,7 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip install bio-pyvol
 </pre></div>
 </div>
-<p>Again, for academic users and non-academic users with the Schrodinger incentive PyMOL distribution, installation is now complete. For all others, see manual <a class="reference internal" href="#msms-installation"><span class="std std-ref">MSMS Installation</span></a>.</p>
+<p>Again, for academic users and non-academic users with the Schrodinger incentive PyMOL distribution, installation is now complete. For all others, refer to manual <a class="reference internal" href="#msms-installation"><span class="std std-ref">MSMS Installation</span></a>.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">When using command-line installation commands, make sure to use the right python environment. By default, pip will use the system python, but PyMOL often includes its own python environment. To check which python environment to use, run <cite>import sys; print(sys.executable)</cite> on the PyMOL prompt. If that is anything besides the system default python, use <cite>&lt;PyMOL python executable&gt; -m pip install bio-pyvol</cite> to install PyVOL into the PyMOL-accessible environment.</p>
@@ -253,7 +253,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Ryan Smith
+        &copy; Copyright 2019, Ryan H.B. Smith
 
     </p>
   </div>

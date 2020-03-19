@@ -2,7 +2,7 @@
 Loading Previous Results
 ========================
 
-PyMOL can not load custom CGO objects back into sessions correctly, so any PyMOL session containing PyVOL surfaces will have issues. PyMOL log files can be used but can take a while to run on slower computers.
+PyMOL cannot load custom CGO objects back into sessions correctly, so any PyMOL session containing PyVOL surfaces will have issues. PyMOL log files can be used but can take a while to run on slower computers.
 
 .. figure:: _static/loading_parameters_gui.png
   :align: center

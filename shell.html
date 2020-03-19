@@ -35,7 +35,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Loading Previous Results" href="load_previous.html" />
-    <link rel="prev" title="Output and Display Options" href="display.html" /> 
+    <link rel="prev" title="Output and Display Options" href="output.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -89,11 +89,11 @@
 <li class="toctree-l1"><a class="reference internal" href="basic.html">Basic Usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="pocket_specification.html">Pocket Specification</a></li>
 <li class="toctree-l1"><a class="reference internal" href="partitioning.html">Partitioning Options</a></li>
-<li class="toctree-l1"><a class="reference internal" href="display.html">Output and Display Options</a></li>
+<li class="toctree-l1"><a class="reference internal" href="output.html">Output and Display Options</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Shell Interface</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#running-from-the-shell">Running from the Shell</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#template-configuration-file-generation">Template Configuration File Generation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#re-running-previous-calculations">Re-running Previous Calculations</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#rerunning-previous-calculations">Rerunning Previous Calculations</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="load_previous.html">Loading Previous Results</a></li>
@@ -180,12 +180,12 @@
 </pre></div>
 </div>
 </div>
-<div class="section" id="re-running-previous-calculations">
-<h2>Re-running Previous Calculations<a class="headerlink" href="#re-running-previous-calculations" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="rerunning-previous-calculations">
+<h2>Rerunning Previous Calculations<a class="headerlink" href="#rerunning-previous-calculations" title="Permalink to this headline">¶</a></h2>
 <p>Each PyVOL job writes the configuration file to recapitulate the exact run. After modifying a configuration file, unset the <cite>prefix</cite> and <cite>output_dir</cite> parameters in order to direct the output of the new run into a new folder.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">When unsetting parameters in the configuration file, delete the entire line including the parameter name rather than just leaving the definition blank. For some parameters, leaving the definition blank angers the configuration file reader.</p>
+<p class="last">When unsetting parameters in the configuration file, delete the entire line including the parameter name rather than just leaving the definition blank. For some parameters, leaving the definition blank confuses the configuration file reader.</p>
 </div>
 </div>
 </div>
@@ -201,7 +201,7 @@
         <a href="load_previous.html" class="btn btn-neutral float-right" title="Loading Previous Results" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="display.html" class="btn btn-neutral float-left" title="Output and Display Options" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="output.html" class="btn btn-neutral float-left" title="Output and Display Options" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
@@ -210,7 +210,7 @@
 
   <div role="contentinfo">
     <p>
-        &copy; Copyright 2019, Ryan Smith
+        &copy; Copyright 2019, Ryan H.B. Smith
 
     </p>
   </div>

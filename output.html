@@ -1,0 +1,254 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Output and Display Options &mdash; PyVOL 1.6.4 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Shell Interface" href="shell.html" />
+    <link rel="prev" title="Partitioning Options" href="partitioning.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> PyVOL
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.6.4
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="basic.html">Basic Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pocket_specification.html">Pocket Specification</a></li>
+<li class="toctree-l1"><a class="reference internal" href="partitioning.html">Partitioning Options</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Output and Display Options</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#file-output-options">File Output Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#logger-options">Logger Options</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#display-options">Display Options</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="shell.html">Shell Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="load_previous.html">Loading Previous Results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="development.html">Development</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pyvol.html">PyVOL Package</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">PyVOL</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Output and Display Options</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/output.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="output-and-display-options">
+<h1>Output and Display Options<a class="headerlink" href="#output-and-display-options" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="file-output-options">
+<h2>File Output Options<a class="headerlink" href="#file-output-options" title="Permalink to this headline">¶</a></h2>
+<p>PyVOL always creates an output directory. It looks for a project directory (<cite>project_dir</cite> argument) and then creates an output directory (<cite>output_dir</cite>) within it. If a project directory is not provided, the current working directory is used. The output directory and all included files are named by default using a prefix consisting of a timestamp followed by a system-compatible chunk of the protein identifier (filename or selection string). The prefix can be set using the <cite>prefix</cite> argument.</p>
+<p>A minimum of six files are produced in a completed calculation: 1) input protein geometry (<cite>prefix`_prot.pdb), 2) a configuration file recording all options to recapitulate a calculation (`prefix</cite>.cfg), 3) a detailed log output (<cite>prefix</cite>.log), 4) a report of all calculated volumes (<cite>prefix</cite>.rept), and pocket geometry information contained in two files: 5) surface geometry (<cite>prefix`_p`n</cite>.obj) and 6) tangent sphere definitions (<cite>prefix`_p`n</cite>.xyzrg). If multiple pockets are calculated (e.g., <cite>all</cite> and <cite>subdivide</cite> runs), pocket geometry files are written for each.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># arguments: project_dir, output_dir, prefix</span>
+<span class="n">pocket</span> <span class="n">prot_file</span><span class="o">=&lt;</span><span class="n">protein_pdb_filename</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">project_dir</span><span class="o">=&lt;</span><span class="n">directory</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=&lt;</span><span class="n">sub</span><span class="o">-</span><span class="n">directory</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=&lt;</span><span class="n">identifier</span><span class="o">&gt;</span>
+<span class="n">pocket</span> <span class="n">protein</span><span class="o">=&lt;</span><span class="s2">&quot;PyMOL selection string&quot;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">project_dir</span><span class="o">=&lt;</span><span class="n">directory</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">output_dir</span><span class="o">=&lt;</span><span class="n">sub</span><span class="o">-</span><span class="n">directory</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=&lt;</span><span class="n">identifier</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="logger-options">
+<h2>Logger Options<a class="headerlink" href="#logger-options" title="Permalink to this headline">¶</a></h2>
+<p>PyVOL output is done through loggers. Logger handler levels can be configured via the <cite>logger_stream_level</cite> and <cite>logger_file_level</cite> arguments. The <cite>logger_stream_level</cite> controls the level of information printed to the screen during runs. The <cite>logger_file_level</cite> sets the amount of information written to the log file. Default levels of the stream and file handlers are respectively “INFO” and “DEBUG”. This provides a more limited summary at run time with further details written to file.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># arguments: project_dir, output_dir, prefix</span>
+<span class="n">pocket</span> <span class="n">prot_file</span><span class="o">=&lt;</span><span class="n">protein_pdb_filename</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">logger_stream_level</span><span class="o">=</span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span> <span class="n">logger_file_level</span><span class="o">=</span><span class="s2">&quot;DEBUG&quot;</span>
+<span class="n">pocket</span> <span class="n">protein</span><span class="o">=&lt;</span><span class="s2">&quot;PyMOL selection string&quot;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">logger_stream_level</span><span class="o">=</span><span class="s2">&quot;INFO&quot;</span><span class="p">,</span> <span class="n">logger_file_level</span><span class="o">=</span><span class="s2">&quot;DEBUG&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="display-options">
+<h2>Display Options<a class="headerlink" href="#display-options" title="Permalink to this headline">¶</a></h2>
+<p>When running through PyMOL or loading previous results into a PyMOL session, calculated surfaces can be visualized in any of three different ways by setting the <cite>display_mode</cite> parameter. Surfaces can be represented using a solid mesh (<cite>solid</cite>), a wireframe mesh (<cite>mesh</cite>), or a group of spheres (<cite>spheres</cite>). Transparency (when applicable) is set with the <cite>alpha</cite> argument: a float [0,0, 1.0] that is equal to (1 - transparency). The displayed color of surfaces is controlled using the <cite>palette</cite> parameter. For non-programmatic invocation, the palette is interpreted as a comma-separated list of PyMOL color strings or parentheses-demarcated RGB floats. A default palette is automatically selected, and additional colors are automatically interpolated when more surfaces need to be displayed.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># arguments: display_mode, alpha, palette</span>
+<span class="n">pocket</span> <span class="n">protein</span><span class="o">=&lt;</span><span class="s2">&quot;PyMOL selection string&quot;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">display_mode</span><span class="o">=</span><span class="n">mesh</span>
+<span class="n">pocket</span> <span class="n">protein</span><span class="o">=&lt;</span><span class="s2">&quot;PyMOL selection string&quot;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">display_mode</span><span class="o">=</span><span class="n">solid</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.85</span>
+<span class="n">pocket</span> <span class="n">protein</span><span class="o">=&lt;</span><span class="s2">&quot;PyMOL selection string&quot;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">display_mode</span><span class="o">=</span><span class="n">spheres</span>
+<span class="n">pocket</span> <span class="n">protein</span><span class="o">=&lt;</span><span class="s2">&quot;PyMOL selection string&quot;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="nb">all</span><span class="p">,</span> <span class="n">display_mode</span><span class="o">=</span><span class="n">solid</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s2">&quot;tv_red,tv_orange,(0.34,0.26,0.74)&quot;</span>
+<span class="n">pocket</span> <span class="n">protein</span><span class="o">=&lt;</span><span class="s2">&quot;PyMOL selection string&quot;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">largest</span><span class="p">,</span> <span class="n">subdivide</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">display_mode</span><span class="o">=</span><span class="n">mesh</span><span class="p">,</span> <span class="n">palette</span><span class="o">=</span><span class="s2">&quot;marine,forest_green,magenta,cyan&quot;</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Specifying non-standard colors for display purposes can be syntactically difficult. The easiest way to match RGB values, for instance to other figure elements, is to edit the produced configuration file and reload the results into PyMOL using <a class="reference internal" href="load_previous.html#loading-previous-results"><span class="std std-ref">Loading Previous Results</span></a>.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="shell.html" class="btn btn-neutral float-right" title="Shell Interface" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="partitioning.html" class="btn btn-neutral float-left" title="Partitioning Options" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Ryan H.B. Smith
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
