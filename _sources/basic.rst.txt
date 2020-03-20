@@ -1,3 +1,5 @@
+.. |rarr| unicode:: U+2192 .. right arrow
+
 ===========
 Basic Usage
 ===========
