@@ -23,7 +23,7 @@ In the default `largest` mode, PyVOL determines all surfaces with inward-facing 
 All Mode
 --------
 
-When running in `all` mode, PyVOL determines all surfaces with inward-facing normals with volumes over a minimum threshold defined by the `Minimum Volume` (`min_volume` argument). This functions similarly to the `largest` mode except that 1) all surfaces are returned rather than just the largest, 2) if the largest surface has a volume less than `Minimum Volume`, no surface will be returned at all, and 3) subpocket partitioning cannot occur on the output from this mode. By default the minimum volume is set to 200 Å³. This is a heuristically determined threshold that is generally useful at distinguishing between artifacts and interesting pockets.
+When running in `all` mode, PyVOL determines all surfaces with inward-facing normals with volumes over a minimum threshold defined by the `Minimum Volume` (`min_volume` argument). This functions similarly to the `largest` mode except that 1) all surfaces are returned rather than just the largest, 2) if the largest surface has a volume less than `Minimum Volume`, no surface will be returned at all, and 3) subpocket partitioning cannot occur on the output from this mode. By default the minimum volume is set to 200 Å:superscript:`3`. This is a heuristically determined threshold that is generally useful at distinguishing between artifacts and interesting pockets.
 
 .. code-block:: python
 
