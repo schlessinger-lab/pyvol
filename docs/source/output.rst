@@ -5,7 +5,7 @@ Output and Display Options
 .. figure:: _static/display_parameters_gui.png
   :align: center
 
-  GUI section controlling output and display options with argument mapping: Display Mode radio button -> `display_mode`, Palette -> `palette`, Alpha -> `alpha`, and Project Dir -> `project_dir`
+  GUI section controlling output and display options with argument mapping: Display Mode radio button |rarr| `display_mode`, Palette |rarr| `palette`, Alpha |rarr| `alpha`, and Project Dir |rarr| `project_dir`
 
 File Output Options
 -------------------
