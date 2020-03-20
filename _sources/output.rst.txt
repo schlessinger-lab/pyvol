@@ -2,6 +2,11 @@
 Output and Display Options
 ==========================
 
+.. figure:: _static/display_parameters_gui.png
+  :align: center
+
+  GUI section controlling output and display options with argument mapping: Display Mode radio button -> `display_mode`, Palette -> `palette`, Alpha -> `alpha`, and Project Dir -> `project_dir`
+
 File Output Options
 -------------------
 
@@ -30,6 +35,11 @@ PyVOL output is done through loggers. Logger handler levels can be configured vi
 
 Display Options
 ---------------
+
+.. figure:: _static/display_v01.png
+  :align: center
+
+  Examples of the three primary display modes.
 
 When running through PyMOL or loading previous results into a PyMOL session, calculated surfaces can be visualized in any of three different ways by setting the `display_mode` parameter. Surfaces can be represented using a solid mesh (`solid`), a wireframe mesh (`mesh`), or a group of spheres (`spheres`). Transparency (when applicable) is set with the `alpha` argument: a float [0,0, 1.0] that is equal to (1 - transparency). The displayed color of surfaces is controlled using the `palette` parameter. For non-programmatic invocation, the palette is interpreted as a comma-separated list of PyMOL color strings or parentheses-demarcated RGB floats. A default palette is automatically selected, and additional colors are automatically interpolated when more surfaces need to be displayed.
 

@@ -2,12 +2,12 @@
 Partitioning Options
 ====================
 
-PyVOL can deterministically divide a binding pocket into subpockets. This can be run on the output of any surface determination that results in a single returned surface. PyVOL currently calculates *de novo* complete binding pocket surfaces prior to partitioning because determination of the overall pocket is computationally trivial relative to subdivision.
+PyVOL can deterministically divide a binding pocket into subpockets. This can be run on the output of any surface determination that results in a single returned surface. PyVOL currently calculates *de novo* complete binding pocket surfaces prior to partitioning because determination of the overall pocket is computationally trivial relative to subdivision. Processing time scales with the volume and complexity of the studied pocket. Most jobs take just seconds, but partitioning a pocket with total volume exceeding 1000-1500 Å:superscript:`3` can extend computation time past one minute.
 
 .. figure:: _static/partitioning_parameters_gui.png
   :align: center
 
-  GUI section controlling user binding pocket partition into subpockets
+  GUI section controlling user binding pocket partition into subpockets with argument mapping: Subdivide -> `subdivide`, Max subpockets -> `max_clusters`, and Subpocket radius -> `min_subpocket_rad`
 
 Enabling Subpocket Partitioning
 -------------------------------

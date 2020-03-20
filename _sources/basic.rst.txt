@@ -9,7 +9,7 @@ The next few sections describe the parameters controlling Basic Usage, :ref:`poc
 .. figure:: _static/basic_parameters_gui.png
   :align: center
 
-  The Basic Parameters section of the PyVOL GUI
+  The Basic Parameters section of the PyVOL GUI with parameter mapping: Protein PyMOL Selection -> `protein`, Minimum Radius -> `min_rad`, and Maximum Radius -> `max_rad`
 
 Protein Selection
 -----------------
@@ -23,6 +23,11 @@ When providing input through PyMOL, the Boolean `protein_only` argument (checkbo
   # arguments: protein, prot_file
   pocket prot_file=<protein_pdb_filename>
   pocket protein=<"PyMOL selection string">, protein_only=True
+
+.. figure:: _static/basic_v01.png
+  :align: center
+
+  Demonstration of the effects of varying the minimum and maximum probe radii. The smaller minimum radius of 1.2 Å (left column) shows surface topology slightly better than the larger minimum radius of 1.6 Å (right column). However, the smaller radius can connect regions for which the connections are smaller than that tolerated by small molecules. The smaller maximum radius of 2.8 Å (top row) includes excludes an extra region from the bulk solvent relative to the larger maximum radius of 3.4 Å (bottom row). In this case, all parameter combinations with the exception of the 1.2  minimum radius and 3.4  maximum radius identify a pocket closely conforming to the volume occupied by the bound small molecule. The top left panel was produced with the command: `pocket protein='3k5v and chain A', protein_only=True, min_rad=1.2, max_rad=2.8`.
 
 Minimum and Maximum Probe Radii
 -------------------------------

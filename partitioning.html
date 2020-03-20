@@ -165,10 +165,10 @@
             
   <div class="section" id="partitioning-options">
 <h1>Partitioning Options<a class="headerlink" href="#partitioning-options" title="Permalink to this headline">¶</a></h1>
-<p>PyVOL can deterministically divide a binding pocket into subpockets. This can be run on the output of any surface determination that results in a single returned surface. PyVOL currently calculates <em>de novo</em> complete binding pocket surfaces prior to partitioning because determination of the overall pocket is computationally trivial relative to subdivision.</p>
+<p>PyVOL can deterministically divide a binding pocket into subpockets. This can be run on the output of any surface determination that results in a single returned surface. PyVOL currently calculates <em>de novo</em> complete binding pocket surfaces prior to partitioning because determination of the overall pocket is computationally trivial relative to subdivision. Processing time scales with the volume and complexity of the studied pocket. Most jobs take just seconds, but partitioning a pocket with total volume exceeding 1000-1500 Å:superscript:<cite>3</cite> can extend computation time past one minute.</p>
 <div class="figure align-center" id="id1">
 <img alt="_images/partitioning_parameters_gui.png" src="_images/partitioning_parameters_gui.png" />
-<p class="caption"><span class="caption-text">GUI section controlling user binding pocket partition into subpockets</span></p>
+<p class="caption"><span class="caption-text">GUI section controlling user binding pocket partition into subpockets with argument mapping: Subdivide -&gt; <cite>subdivide</cite>, Max subpockets -&gt; <cite>max_clusters</cite>, and Subpocket radius -&gt; <cite>min_subpocket_rad</cite></span></p>
 </div>
 <div class="section" id="enabling-subpocket-partitioning">
 <h2>Enabling Subpocket Partitioning<a class="headerlink" href="#enabling-subpocket-partitioning" title="Permalink to this headline">¶</a></h2>

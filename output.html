@@ -165,6 +165,10 @@
             
   <div class="section" id="output-and-display-options">
 <h1>Output and Display Options<a class="headerlink" href="#output-and-display-options" title="Permalink to this headline">¶</a></h1>
+<div class="figure align-center" id="id1">
+<img alt="_images/display_parameters_gui.png" src="_images/display_parameters_gui.png" />
+<p class="caption"><span class="caption-text">GUI section controlling output and display options with argument mapping: Display Mode radio button -&gt; <cite>display_mode</cite>, Palette -&gt; <cite>palette</cite>, Alpha -&gt; <cite>alpha</cite>, and Project Dir -&gt; <cite>project_dir</cite></span></p>
+</div>
 <div class="section" id="file-output-options">
 <h2>File Output Options<a class="headerlink" href="#file-output-options" title="Permalink to this headline">¶</a></h2>
 <p>PyVOL always creates an output directory. It looks for a project directory (<cite>project_dir</cite> argument) and then creates an output directory (<cite>output_dir</cite>) within it. If a project directory is not provided, the current working directory is used. The output directory and all included files are named by default using a prefix consisting of a timestamp followed by a system-compatible chunk of the protein identifier (filename or selection string). The prefix can be set using the <cite>prefix</cite> argument.</p>
@@ -186,6 +190,10 @@
 </div>
 <div class="section" id="display-options">
 <h2>Display Options<a class="headerlink" href="#display-options" title="Permalink to this headline">¶</a></h2>
+<div class="figure align-center" id="id2">
+<img alt="_images/display_v01.png" src="_images/display_v01.png" />
+<p class="caption"><span class="caption-text">Examples of the three primary display modes.</span></p>
+</div>
 <p>When running through PyMOL or loading previous results into a PyMOL session, calculated surfaces can be visualized in any of three different ways by setting the <cite>display_mode</cite> parameter. Surfaces can be represented using a solid mesh (<cite>solid</cite>), a wireframe mesh (<cite>mesh</cite>), or a group of spheres (<cite>spheres</cite>). Transparency (when applicable) is set with the <cite>alpha</cite> argument: a float [0,0, 1.0] that is equal to (1 - transparency). The displayed color of surfaces is controlled using the <cite>palette</cite> parameter. For non-programmatic invocation, the palette is interpreted as a comma-separated list of PyMOL color strings or parentheses-demarcated RGB floats. A default palette is automatically selected, and additional colors are automatically interpolated when more surfaces need to be displayed.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># arguments: display_mode, alpha, palette</span>
 <span class="n">pocket</span> <span class="n">protein</span><span class="o">=&lt;</span><span class="s2">&quot;PyMOL selection string&quot;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">display_mode</span><span class="o">=</span><span class="n">mesh</span>
