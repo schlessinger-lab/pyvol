@@ -5,6 +5,11 @@ Introduction
 
 .. marker-start-readme
 
+.. figure:: _static/overview_image_v01.png
+  :align: center
+
+  PyVOL Pocket Identification
+
 Overview
 --------
 

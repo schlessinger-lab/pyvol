@@ -2,12 +2,12 @@
 Partitioning Options
 ====================
 
-PyVOL can deterministically divide a binding pocket into subpockets. This can be run on the output of any surface determination that results in a single returned surface. PyVOL currently calculates *de novo* complete binding pocket surfaces prior to partitioning because determination of the overall pocket is computationally trivial relative to subdivision.
+PyVOL can deterministically divide a binding pocket into subpockets. This can be run on the output of any surface determination that results in a single returned surface. PyVOL currently calculates *de novo* complete binding pocket surfaces prior to partitioning because determination of the overall pocket is computationally trivial relative to subdivision. Processing time scales with the volume and complexity of the studied pocket. Most jobs take just seconds, but partitioning a pocket with total volume exceeding 1000-1500 Å:superscript:`3` can extend computation time past one minute.
 
 .. figure:: _static/partitioning_parameters_gui.png
   :align: center
 
-  GUI section controlling user binding pocket partition into subpockets
+  GUI section controlling user binding pocket partition into subpockets with argument mapping: Subdivide -> `subdivide`, Max subpockets -> `max_clusters`, and Subpocket radius -> `min_subpocket_rad`
 
 Enabling Subpocket Partitioning
 -------------------------------
@@ -36,7 +36,7 @@ Other Partitioning Parameters
 
 The size of the probe used to calculate surface accesibility of subpockets can be set with the `min_subpocket_surf_rad`. Calculation stability is less sensitive to the value of this parameter than the overall minimum probe radius. In practice, it should be set to a value slightly smaller than the overall minimum radius but not less than 1.0 Å. Unless changing the minimum used for overall calculations, the default value should be left unchanged.
 
-PyVOL currently defaults to performing radial sampling frequency at 0.1 inverse Å but this can be adjusted using the `radial_sampling` argument. Larger `radial_sampling` values should significantly improve calculation speed but at the cost of pocket resolution.
+PyVOL currently defaults to performing radial sampling frequency at 10 Å:superscript:`-1` but this can be adjusted using the `radial_sampling` argument. Larger `radial_sampling` values should significantly improve calculation speed but at the cost of pocket resolution.
 
 PyVOL isolates the pocket to be subdivided prior to running partitioning. The local environment of the pocket is isolated by identifying all atoms within a set distance of the surface calculated for the pocket of interest. This distance is set to the maximum radius used for bulk solvent surface identification plus a buffer. The magnitude of this buffer is by default 1 A and can be set using the `inclusion_radius_buffer` argument.
 

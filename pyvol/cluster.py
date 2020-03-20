@@ -428,5 +428,3 @@ def remove_overlap(spheres, radii=None, spacing=0.1, iterations=20, tolerance=0.
 
             spheres.xyzrg[group_indices[altered_group_indices]] = group_data[altered_group_indices]
             spheres.xyzrg[other_indices[altered_other_indices]] = other_data[altered_other_indices]
-
-    logger.debug("Removed overlap between proper groups for {0}".format(np.round(spheres.name, decimals=2)))
