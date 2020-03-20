@@ -7,7 +7,7 @@ PyVOL runs in one of three modes (`largest`, `specific` or `all`). By default it
 .. figure:: _static/pocket_specification_gui.png
   :align: center
 
-  GUI section controlling user specification of binding pockets with parameter mapping: primary radio buttons -> `mode`, Minimum Volume -> `min_volume`, Ligand: PyMOL Selection -> `ligand`, Residue PyMOL Selection -> `residue`, Residue Id -> `resid`, and Coordinate -> `coordinates`
+  GUI section controlling user specification of binding pockets with parameter mapping: primary radio buttons |rarr| `mode`, Minimum Volume |rarr| `min_volume`, Ligand: PyMOL Selection |rarr| `ligand`, Residue PyMOL Selection |rarr| `residue`, Residue Id |rarr| `resid`, and Coordinate |rarr| `coordinates`
 
 .. figure:: _static/spec_v01.png
   :align: center

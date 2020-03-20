@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Development &mdash; PyVOL 1.6.4 documentation</title>
+  <title>Development &mdash; PyVOL 1.6.6 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                1.6.4
+                1.6.6
               </div>
             
           
@@ -99,6 +99,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#version-incrementation">Version Incrementation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#distribution">Distribution</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#testing">Testing</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="pyvol.html">PyVOL Package</a></li>
@@ -170,8 +171,9 @@
 <h1>Development<a class="headerlink" href="#development" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="package-design">
 <h2>Package Design<a class="headerlink" href="#package-design" title="Permalink to this headline">¶</a></h2>
-<p>This page is current to 1.4.0 and will be updated.</p>
-<p>The main PyVOL algorithm is run from identify.py. There are two interfaces to this module which prepare user supplied inputs: <cite>pyvol/pymol_interface.py</cite> and the commandline entry point in <cite>pyvol/__main__.py</cite>. The PyMOL interface can be accessed directly through the PyMOL prompt or run using the included GUI. The command line entry point is evoked using a configuration file. The main entry point for accessing with the API is through <cite>pyvol/identify.py</cite>.</p>
+<p>The main PyVOL algorithm is run from <cite>identify.pocket</cite>. Input option sanitization and logger configuration have been split into <cite>identify.pocket_wrapper</cite>. The pocket identification logic occurs within <cite>identify.pocket</cite> with almost all direct data manipulation handled by the class methods of <cite>Spheres</cite>. If enabled, subpocket clustering occurs in <cite>identify.subpockets</cite> with data manipulation occurring in <cite>cluster</cite>. Frequently used functions have been split into <cite>utilities</cite>. Configuration file reading and writing as well as input parameter checking is done in <cite>configuration</cite>.</p>
+<p>The PyMOL interface is contained in <cite>pymol_interface</cite> though integration into the PyMOL environment is actually handled in <cite>pyvol_gui.__init__</cite>. Display and other PyMOL-specific functions are defined in <cite>pymol_utilities</cite>.</p>
+<p>The two primary interfaces are via configuration file (invoked through the command line using the entry point in <cite>__main__</cite> that is created on installation) and via PyMOL. PyMOL is extended with all commands, and the GUI provides a limited interface to these functions. Programmatic invocation is also supported. If standard output options are reasonable, using the <cite>identify.pocket_wrapper</cite> entry point is better. For more customization, directly call <cite>identify.pocket</cite> after calling <cite>configuration.clean_opts</cite> on a dictionary containing all required options.</p>
 </div>
 <div class="section" id="algorithm-design">
 <h2>Algorithm Design<a class="headerlink" href="#algorithm-design" title="Permalink to this headline">¶</a></h2>
@@ -180,19 +182,23 @@
 </div>
 <div class="section" id="gui-design">
 <h2>GUI Design<a class="headerlink" href="#gui-design" title="Permalink to this headline">¶</a></h2>
-<p>The GUI was developed using Qt Designer and run using PyQT5. PyQT does not run in earlier PyMOL distributions.</p>
+<p>The GUI was developed using Qt Designer and run using PyQT5. PyQT does not run in PyMOL 1.x distributions, so the GUI is only available in PyMOL 2.0+.</p>
 </div>
 <div class="section" id="version-incrementation">
 <h2>Version Incrementation<a class="headerlink" href="#version-incrementation" title="Permalink to this headline">¶</a></h2>
-<p>PyVOL uses a standard incrementation scheme. The version of the back-end must be updated in <cite>setup.py</cite>, <cite>pyvol/__init__.py</cite>, and <cite>docs/source/conf.py</cite>. The GUI version is set in <cite>pyvolgui/__init__.py</cite>, and the the version of the GUI that the back-end expects is set again in <cite>pyvol/__init__.py</cite>.</p>
+<p>PyVOL uses a standard incrementation scheme. The version of the back-end must be updated in <cite>setup.py</cite>, <cite>pyvol/__init__.py</cite>, and <cite>docs/source/conf.py</cite>. The GUI version is set in <cite>pyvolgui/__init__.py</cite>, and the the version of the GUI that the back-end expects is set again in <cite>pyvol/__init__.py</cite>. Experimental code is pushed with an alpha or beta designation (a or b before the final digit). GUI versions should only change when the GUI files are changed, but the version is intended to catch up to the backend version rather than the next available incrementation.</p>
 </div>
 <div class="section" id="distribution">
 <h2>Distribution<a class="headerlink" href="#distribution" title="Permalink to this headline">¶</a></h2>
-<p>The code is hosted on github by the Schlessinger Lab. The PyVOL backend is distributed through PyPI. This process of uploading to PyPI is automated in the <cite>dev/build.sh</cite> script. Installers are packaged using the <cite>dev/package_plugins.sh</cite> script. Documentation is generated and pushed to the github-hosted documentation website with the <cite>dev/document.sh</cite> script. All three are combined in the <cite>dev/rebuild.sh</cite> script. The plugin will be available both from the github page and through the official PyMOL wiki.</p>
+<p>The code is hosted on github by the Schlessinger Lab. The PyVOL backend is distributed through PyPI. This process of uploading to PyPI is automated in the <cite>dev/build.sh</cite> script. Installers are packaged using the <cite>dev/package_plugins.sh</cite> script. Documentation is generated and pushed to the github-hosted documentation website with the <cite>dev/document.sh</cite> script. All three are combined in the <cite>dev/rebuild.sh</cite> script. The plugin will be available both from the github page and (eventually) through the official PyMOL wiki.</p>
 </div>
 <div class="section" id="documentation">
 <h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h2>
-<p>Documentation is largely in the google style but being switched to sphinx style. Module documentation is collated using <cite>sphinx-apidoc</cite>. The documentation website is built using the <cite>sphinx-rtd-theme</cite> and maintained on the gh-pages branch of PyVOL. The <cite>pyvol_manual.pdf</cite> is generated using sphinx’s evocation of pdfTeX. PyPI can apparently not parse rst files, so the README.rst is converted to a md file using pandoc just prior to deployment.</p>
+<p>Documentation is in the Sphinx/RTD style. Module documentation is collated using <cite>sphinx-apidoc</cite>. The documentation website is built using the <cite>sphinx-rtd-theme</cite> and maintained on the gh-pages branch of PyVOL. The <cite>pyvol_manual.pdf</cite> is generated using sphinx’s evocation of pdfTeX. PyPI can apparently not parse rst files, so the README.rst is converted to a md file using pandoc just prior to deployment.</p>
+</div>
+<div class="section" id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this headline">¶</a></h2>
+<p>Integration testing of the non-PyMOL components is performed using pytest out of <cite>tests/test_pyvol.py</cite>. These are invoked by running <cite>python -m pytest</cite> in the root pyvol directory. These tests have been run using pytest version 5.3.5. Installing <cite>pytest-xdist</cite> is recommended for efficiency’s sake.</p>
 </div>
 </div>
 

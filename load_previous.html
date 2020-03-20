@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Loading Previous Results &mdash; PyVOL 1.6.4 documentation</title>
+  <title>Loading Previous Results &mdash; PyVOL 1.6.6 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                1.6.4
+                1.6.6
               </div>
             
           
@@ -162,8 +162,8 @@
 <h1>Loading Previous Results<a class="headerlink" href="#loading-previous-results" title="Permalink to this headline">¶</a></h1>
 <p>PyMOL cannot load custom CGO objects back into sessions correctly, so any PyMOL session containing PyVOL surfaces will have issues. PyMOL log files can be used but can take a while to run on slower computers.</p>
 <div class="figure align-center" id="id1">
-<img alt="_images/loading_parameters_gui.png" src="_images/loading_parameters_gui.png" />
-<p class="caption"><span class="caption-text">GUI section that loads previous calculations into PyMOL for visualization</span></p>
+<img alt="_images/load_parameters_gui.png" src="_images/load_parameters_gui.png" />
+<p class="caption"><span class="caption-text">GUI section that loads previous calculations into PyMOL for visualization with parameter mapping: Pocket Directory <a href="#id2"><span class="problematic" id="id3">|rarr|</span></a> <cite>data_dir</cite> and Display Prefix <a href="#id4"><span class="problematic" id="id5">|rarr|</span></a> <cite>prefix</cite></span></p>
 </div>
 <p>The PyMOL <cite>load_pocket</cite> command allows previous results to be read back in from file and displayed. A display prefix and display options (previously described <a class="reference internal" href="output.html#display-options"><span class="std std-ref">Display Options</span></a>) can be provided to overwrite configuration file values. <cite>load_pocket</cite> requires the directory holding the data from a previous calculation as its first parameter. This corresponds to the <cite>output_dir</cite> for new calculations and by default ends in ‘.pyvol’. If a data file is instead provided, PyVOL instead processes the encompassing directory.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">load_pocket</span> <span class="o">&lt;</span><span class="n">directory</span><span class="o">&gt;</span>

@@ -7,7 +7,7 @@ PyVOL can deterministically divide a binding pocket into subpockets. This can be
 .. figure:: _static/partitioning_parameters_gui.png
   :align: center
 
-  GUI section controlling user binding pocket partition into subpockets with argument mapping: Subdivide -> `subdivide`, Max subpockets -> `max_clusters`, and Subpocket radius -> `min_subpocket_rad`
+  GUI section controlling user binding pocket partition into subpockets with argument mapping: Subdivide |rarr| `subdivide`, Max subpockets |rarr| `max_clusters`, and Subpocket radius |rarr| `min_subpocket_rad`
 
 Enabling Subpocket Partitioning
 -------------------------------
