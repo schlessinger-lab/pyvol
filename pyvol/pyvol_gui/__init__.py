@@ -1,6 +1,6 @@
 
 
-__version__ = "1.6.4"
+__version__ = "1.6.7"
 
 import logging
 import os
@@ -83,7 +83,7 @@ def browse_pocket_file(form):
     pocket_file_name = QtWidgets.QFileDialog.getOpenFileNames(None, 'Open file', os.getcwd(), filter='Pocket Files (*.pyvol)')[0][0]
     form.pocket_dir_ledit.setText(pocket_file_name)
 
-def install_pypi_pyvol():
+def install_pypi_pyvol(form):
     """ Attempts a de novo PyVOL installation using pip
 
     """
@@ -103,7 +103,7 @@ def install_remote_pyvol(form):
     """ GUI wrapper for de novo PyVOL installation using pip
 
     """
-    install_pypi_pyvol()
+    install_pypi_pyvol(form)
     refresh_installation_status(form)
 
 def install_cached_pyvol():

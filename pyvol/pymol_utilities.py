@@ -72,7 +72,7 @@ def display_pseudoatom_group(spheres, name, color='gray60', palette=None):
     return group_name
 
 
-def display_spheres_object(spheres, name, state=1, color='marine', alpha=0.7, mode="solid", palette=None):
+def display_spheres_object(spheres, name, state=1, color='marine', alpha=1.0, mode="solid", palette=None):
     """ Loads a mesh object into a cgo list for display in PyMOL
 
     Args:
@@ -80,13 +80,14 @@ def display_spheres_object(spheres, name, state=1, color='marine', alpha=0.7, mo
       name (str): display name
       state (int): model state (Default value = 1)
       color (str): PyMOL color string (Default value = 'marine')
-      alpha (float): transparency value (Default value = 0.7)
+      alpha (float): transparency value (Default value = 1.0)
       mode (str): display mode (Default value = "solid")
       palette ([str]): palette (Default value = None)
 
     """
 
     alpha = float(alpha)
+    print(alpha)
     if spheres is None:
         return None
 
@@ -115,7 +116,7 @@ def mesh_to_solid_CGO(mesh, color='gray60', alpha=1.0):
       cgobuffer (str): CGO buffer that contains the instruction to load a solid object
 
     """
-
+    print(alpha)
     cgobuffer = [cgo.BEGIN, cgo.TRIANGLES, cgo.ALPHA, alpha]
     color_values = cmd.get_color_tuple(cmd.get_color_index(color))
 
