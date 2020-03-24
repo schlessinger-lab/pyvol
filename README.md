@@ -6,6 +6,14 @@ title: 'PyVOL: Protein Pocket Visualization, Segmentation, and Characterization'
 
 ![image](https://img.shields.io/pypi/l/bio_pyvol.svg)
 
+![](_static/overview_image_v01.png)
+
+> align
+>
+> :   center
+>
+> PyVOL Pocket Identification
+
 Overview
 ========
 
@@ -20,7 +28,7 @@ is hosted on github by the Schlessinger Lab. Please access the
 repository to view code or submit bugs. The package has been most
 extensively tested with PyMOL 2.3+ running Python 3.7. Support for all
 python versions 2.7+ is intended but not as thoroughly tested. Support
-for PyMOL 1.7.4+ without the GUI is under development. Unfortunately,
+for PyMOL 1.7.4+ without the GUI is as yet incomplete. Unfortunately,
 PyVOL can not currently run on MacOS Catalina due to its restrictions on
 running 32-bit executables. The Mac-compatible MSMS executable is not
 yet available in a 64-bit form.
@@ -54,6 +62,6 @@ interest and then run the pocket command. This is an example for the
 Sorafenib-bound structure of BRAF:
 
 ``` {.sourceCode .python}
-fetch '1UWH'
-pocket "1UWH and chain B"
+fetch '1uwh'
+pocket protein="1uwh and chain B"
 ```
