@@ -3,6 +3,7 @@ PyVOL: Protein Pocket Visualization, Segmentation, and Characterization
 =======================================================================
 
 ![image](https://img.shields.io/pypi/v/bio_pyvol.svg) ![image](https://img.shields.io/pypi/l/bio_pyvol.svg)
+
 See the [Full Project Documentation](https://schlessingerlab.github.io/pyvol/).
 ![image](docs/source/_static/overview_image_v01.png)
 
