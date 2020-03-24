@@ -35,7 +35,7 @@ def display_pockets(pockets, **opts):
         logger.info("No pockets found to display.")
 
     for index, pocket in enumerate(pockets):
-        logger.info("Pocket {0} ({1}) Volume: \t{2} A^3\t({3})".format(index, pocket.name, np.round(pocket.mesh.volume), opts.get("palette")[index]))
+        logger.info("Pocket {0} ({1}) \tVolume: {2} A^3".format(index, pocket.name, np.round(pocket.mesh.volume)))
         pymol_utilities.display_spheres_object(pocket, pocket.name, state=1, color=opts.get("palette")[index], alpha=opts.get("alpha"), mode=opts.get("display_mode"))
 
 
@@ -170,7 +170,6 @@ def pymol_pocket(**opts):
                 opts[arg] = False
             else:
                 logger.warning("Boolean argument {0} ({1}) not parsed correctly and reverting to default".format(arg, opts[arg]))
-
     opts = configuration.clean_opts(opts)
 
     if opts.get("protein") is None:
@@ -197,7 +196,7 @@ def pymol_pocket(**opts):
         cmd.save(opts.get("prot_file"), opts.get("protein"))
         logger.debug("Protein '{0}' saved to {1}".format(opts.get("protein"), opts.get("prot_file")))
 
-    if opts.get("ligand") is not None:
+    if (opts.get("mode") == "specific") and (opts.get("ligand") is not None):
         cmd.save(opts.get("lig_file"), opts.get("ligand"))
         logger.debug("Ligand selection: {0}".format(opts.get("ligand")))
 

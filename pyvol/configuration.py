@@ -44,7 +44,7 @@ def clean_opts(input_opts):
     if opts.get("coordinates") is not None:
         if isinstance(opts.get("coordinates"), str):
             try:
-                opts["coordinates"] = np.asarray([float(x) for x in opts.get("coordinates").split(",")]).reshape(-1,3)
+                opts["coordinates"] = np.asarray([float(x) for x in opts.get("coordinates").split(" ")]).reshape(-1,3)
             except:
                 logger.error("Coordinates argument not parsed from str correctly: {0}".format(opts.get("coordinates")))
                 raise ValueError
@@ -103,9 +103,10 @@ def clean_opts(input_opts):
     if opts.get("prot_file") is None:
         opts["prot_file"] = os.path.join(opts.get("output_dir"), "{0}_prot.pdb".format(opts.get("prefix")))
 
+    opts["ligand"] = input_opts.get("ligand")
+    opts["lig_file"] = input_opts.get("lig_file")
     if (opts.get("ligand") is not None) and (opts.get("lig_file") is None):
         opts["lig_file"] = os.path.join(opts.get("output_dir"), "{0}_lig.pdb".format(opts.get("prefix")))
-
 
     opts["logger_stream_level"] = input_opts.get("logger_stream_level")
     if opts["logger_stream_level"] not in ["DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"]:
@@ -126,20 +127,21 @@ def clean_opts(input_opts):
     if opts.get("palette") is not None:
         palette_valid = False
         if isinstance(opts.get("palette"), str):
-            fragments = re.split(r"[\(\)]", opts.get("palette"))
+            fragments = list(filter(None, re.split(",", opts.get("palette").strip("\'").strip("\""))))
             cleaned_pieces = []
             for fragment in fragments:
-                pieces = list(filter(None, fragment.split(",")))
-
-                if len(pieces) > 0:
+                pieces = list(filter(None, fragment.split(" ")))
+                if len(pieces) > 1:
                     try:
                         rgb = [float(piece) for piece in pieces]
                         cleaned_pieces.append(rgb)
                     except:
                         cleaned_pieces.extend(pieces)
+                else:
+                    cleaned_pieces.append(pieces[0])
             opts["palette"] = cleaned_pieces
 
-    if opts.get("alpha") is not None:
+    if input_opts.get("alpha") is not None:
         opts["alpha"] = float(input_opts.get("alpha"))
     else:
         opts["alpha"] = 1.0

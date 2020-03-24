@@ -2,6 +2,7 @@
 """ PyMOL convenience functions used by the front-end contained in pymol_interface. """
 
 import logging
+import math
 
 logger = logging.getLogger(__name__)
 
@@ -10,7 +11,7 @@ try:
 except:
     logger.warning("PyMOL not imported")
 
-def construct_palette(color_list=None, max_value=7, min_value=1):
+def construct_palette(color_list=None, max_value=7, min_value=0):
     """ Construct a palette
 
     Args:
@@ -24,23 +25,38 @@ def construct_palette(color_list=None, max_value=7, min_value=1):
     """
     if color_list is None:
         color_list = ['tv_red', 'tv_orange', 'tv_yellow', 'tv_green', 'tv_blue', 'aquamarine', 'violet']
-    if max_value <= len(color_list):
-        logger.debug("Input palette accepted")
-        return color_list[:max_value]
 
-    colors = [cmd.get_color_tuple(x) for x in color_list]
-    output_range = max_value - min_value + 1
+    colors = []
+    for color in color_list:
+        if  isinstance(color, str):
+            colors.append(cmd.get_color_tuple(color))
+        else:
+            colors.append(tuple(color))
+    output_range = max_value - min_value
 
     palette = []
+    if output_range <= len(colors):
+        for color in colors[:max_value]:
+            palette.append('0x%02x%02x%02x' % tuple([int(255 * x) for x in color]))
+    elif (output_range > len(colors)) and (len(colors) > 1):
+        step = float(len(colors)) / float(output_range)
+        for i in range(output_range):
+            ix = float(i) * step
 
-    color_vectors = len(colors) - 1
-    steps = output_range / color_vectors
-    for cv in range(color_vectors):
-        for x in range(steps):
-            fx = float(x) / steps
-            cl = [fx * colors[cv + 1][i] + (1 - fx) * colors[cv][i] for i in range(3)]
-            cn = '0x%02x%02x%02x' % tuple([255 * x for x in cl])
-            palette.append(cn)
+            # get the indices of the surrounding colors correcting for floating point imprecision
+            lower_ind = max(int(math.floor(ix)), 0)
+            upper_ind = min(int(math.ceil(ix)), len(colors) - 1)
+            fx = ix - lower_ind
+
+            if lower_ind == upper_ind:
+                # special case where interpolation is exactly at an input color
+                palette.append('0x%02x%02x%02x' % tuple([int(255 * x) for x in colors[lower_ind]]))
+            else:
+                color = [fx * colors[lower_ind][i] + (1 - fx) * colors[upper_ind][i] for i in range(3)]
+                palette.append('0x%02x%02x%02x' % tuple([int(255 * x) for x in color]))
+    else:
+        logger.error("Palette overriden from default but only provided with one value for a multi-sphere object output. Either provide multiple colors to permit interpolation or leave at default.")
+        raise ValueError
     logger.debug("Palette constructed with {0} colors".format(len(palette)))
     return palette
 
@@ -72,7 +88,7 @@ def display_pseudoatom_group(spheres, name, color='gray60', palette=None):
     return group_name
 
 
-def display_spheres_object(spheres, name, state=1, color='marine', alpha=1.0, mode="solid", palette=None):
+def display_spheres_object(spheres, name, state=1, color='marine', alpha=1.0, mode="solid"):
     """ Loads a mesh object into a cgo list for display in PyMOL
 
     Args:
@@ -87,7 +103,6 @@ def display_spheres_object(spheres, name, state=1, color='marine', alpha=1.0, mo
     """
 
     alpha = float(alpha)
-    print(alpha)
     if spheres is None:
         return None
 
@@ -101,10 +116,10 @@ def display_spheres_object(spheres, name, state=1, color='marine', alpha=1.0, mo
                 cmd.load_cgo(mesh_to_wireframe_CGO(spheres.mesh, color=color, alpha=alpha), name, state)
             return None
     elif mode == "spheres":
-        return display_pseudoatom_group(spheres, name, color=color, palette=None)
+        return display_pseudoatom_group(spheres, name, color=color)
 
 
-def mesh_to_solid_CGO(mesh, color='gray60', alpha=1.0):
+def mesh_to_solid_CGO(mesh, color, alpha=1.0):
     """Creates a solid CGO object for a mesh for display in PyMOL
 
     Args:
@@ -116,7 +131,7 @@ def mesh_to_solid_CGO(mesh, color='gray60', alpha=1.0):
       cgobuffer (str): CGO buffer that contains the instruction to load a solid object
 
     """
-    print(alpha)
+
     cgobuffer = [cgo.BEGIN, cgo.TRIANGLES, cgo.ALPHA, alpha]
     color_values = cmd.get_color_tuple(cmd.get_color_index(color))
 
@@ -134,7 +149,7 @@ def mesh_to_solid_CGO(mesh, color='gray60', alpha=1.0):
     return cgobuffer
 
 
-def mesh_to_wireframe_CGO(mesh, color='gray60', alpha=1.0):
+def mesh_to_wireframe_CGO(mesh, color_tuple, alpha=1.0):
     """Creates a wireframe CGO object for a mesh for display in PyMOL
 
     Args:

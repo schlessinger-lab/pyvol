@@ -219,7 +219,7 @@
               <item row="7" column="0">
                <widget class="QRadioButton" name="coordinate_rbutton">
                 <property name="text">
-                 <string>Coordinate: (e.g. &amp;0.0, 1.3, 3.4)</string>
+                 <string>Coordinate: (e.g. &amp;x y z)</string>
                 </property>
                </widget>
               </item>

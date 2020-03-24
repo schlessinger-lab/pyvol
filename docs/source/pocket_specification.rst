@@ -86,7 +86,7 @@ A bordering residue can be supplied to localize a pocket. Once again, this can b
 Coordinate Specification
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
-The final method for specifying a pocket of interest is through providing a coordinate that is within the pocket using the `coordinates` argument. PyVOL identifies the closest atom in the protein selection to the supplied coordinate and uses it to define the surface of the calculated pocket. The coordinate value is accepted as a string of three floats with commas in between values (e.g., "23.1, 47.2, -12.7").
+The final method for specifying a pocket of interest is through providing a coordinate that is within the pocket using the `coordinates` argument. PyVOL identifies the closest atom in the protein selection to the supplied coordinate and uses it to define the surface of the calculated pocket. The coordinate value is accepted as a string of three floats with spaces in between values (e.g., "23.1 47.2 -12.7").
 
 .. code-block:: python
 
