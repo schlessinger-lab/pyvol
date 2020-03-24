@@ -6,7 +6,7 @@ if [ -d "${pyvol_dev_root}/_build" ]; then
 fi
 
 cd "${pyvol_dev_root}/pyvol"
-pandoc -s -o README.md README.rst
+# pandoc -s -o README.md README.rst
 
 cd ${docs_dir}
 make html
