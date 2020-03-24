@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>PyVOL Package &mdash; PyVOL 1.6.7 documentation</title>
+  <title>PyVOL Package &mdash; PyVOL 1.6.8 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                1.6.7
+                1.6.8
               </div>
             
           
@@ -491,7 +491,7 @@ output_opts (dict): dictionary containing the actual options used in the pocket 
 <p>PyMOL convenience functions used by the front-end contained in pymol_interface.</p>
 <dl class="function">
 <dt id="pyvol.pymol_utilities.construct_palette">
-<code class="descclassname">pyvol.pymol_utilities.</code><code class="descname">construct_palette</code><span class="sig-paren">(</span><em>color_list=None</em>, <em>max_value=7</em>, <em>min_value=1</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_utilities.construct_palette" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pyvol.pymol_utilities.</code><code class="descname">construct_palette</code><span class="sig-paren">(</span><em>color_list=None</em>, <em>max_value=7</em>, <em>min_value=0</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_utilities.construct_palette" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a palette</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -518,7 +518,7 @@ palette ([str]): palette (Default value = None)</dd>
 
 <dl class="function">
 <dt id="pyvol.pymol_utilities.display_spheres_object">
-<code class="descclassname">pyvol.pymol_utilities.</code><code class="descname">display_spheres_object</code><span class="sig-paren">(</span><em>spheres</em>, <em>name</em>, <em>state=1</em>, <em>color='marine'</em>, <em>alpha=1.0</em>, <em>mode='solid'</em>, <em>palette=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_utilities.display_spheres_object" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pyvol.pymol_utilities.</code><code class="descname">display_spheres_object</code><span class="sig-paren">(</span><em>spheres</em>, <em>name</em>, <em>state=1</em>, <em>color='marine'</em>, <em>alpha=1.0</em>, <em>mode='solid'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_utilities.display_spheres_object" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads a mesh object into a cgo list for display in PyMOL</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -534,7 +534,7 @@ palette ([str]): palette (Default value = None)</dd>
 
 <dl class="function">
 <dt id="pyvol.pymol_utilities.mesh_to_solid_CGO">
-<code class="descclassname">pyvol.pymol_utilities.</code><code class="descname">mesh_to_solid_CGO</code><span class="sig-paren">(</span><em>mesh</em>, <em>color='gray60'</em>, <em>alpha=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_utilities.mesh_to_solid_CGO" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pyvol.pymol_utilities.</code><code class="descname">mesh_to_solid_CGO</code><span class="sig-paren">(</span><em>mesh</em>, <em>color</em>, <em>alpha=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_utilities.mesh_to_solid_CGO" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a solid CGO object for a mesh for display in PyMOL</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -548,7 +548,7 @@ alpha (float): transparency value (Default value = 1.0)</dd>
 
 <dl class="function">
 <dt id="pyvol.pymol_utilities.mesh_to_wireframe_CGO">
-<code class="descclassname">pyvol.pymol_utilities.</code><code class="descname">mesh_to_wireframe_CGO</code><span class="sig-paren">(</span><em>mesh</em>, <em>color='gray60'</em>, <em>alpha=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_utilities.mesh_to_wireframe_CGO" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">pyvol.pymol_utilities.</code><code class="descname">mesh_to_wireframe_CGO</code><span class="sig-paren">(</span><em>mesh</em>, <em>color_tuple</em>, <em>alpha=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_utilities.mesh_to_wireframe_CGO" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a wireframe CGO object for a mesh for display in PyMOL</p>
 <dl class="docutils">
 <dt>Args:</dt>

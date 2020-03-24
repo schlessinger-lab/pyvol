@@ -43,7 +43,7 @@ Display Options
 
   Examples of the three primary display modes.
 
-When running through PyMOL or loading previous results into a PyMOL session, calculated surfaces can be visualized in any of three different ways by setting the `display_mode` parameter. Surfaces can be represented using a solid mesh (`solid`), a wireframe mesh (`mesh`), or a group of spheres (`spheres`). Transparency (when applicable) is set with the `alpha` argument: a float [0,0, 1.0] that is equal to (1 - transparency). The displayed color of surfaces is controlled using the `palette` parameter. For non-programmatic invocation, the palette is interpreted as a comma-separated list of PyMOL color strings or parentheses-demarcated RGB floats. A default palette is automatically selected, and additional colors are automatically interpolated when more surfaces need to be displayed.
+When running through PyMOL or loading previous results into a PyMOL session, calculated surfaces can be visualized in any of three different ways by setting the `display_mode` parameter. Surfaces can be represented using a solid mesh (`solid`), a wireframe mesh (`mesh`), or a group of spheres (`spheres`). Transparency (when applicable) is set with the `alpha` argument: a float [0,0, 1.0] that is equal to (1 - transparency). The displayed color of surfaces is controlled using the `palette` parameter. For non-programmatic invocation, the palette is interpreted as a comma-separated list of PyMOL color strings or space-separated RGB floats. A default palette is automatically selected, and additional colors are automatically interpolated when more surfaces need to be displayed. If 5 colors need to be chosen from an input palette of 4 colors, the first and fifth palette colors are the first and fourth of the input colors. The second color contains 2/3 of the first and 1/3 of the second input colors through linear interpolation. The second through fourth colors are similarly interpolated.
 
 .. code-block:: python
 
@@ -51,7 +51,7 @@ When running through PyMOL or loading previous results into a PyMOL session, cal
   pocket protein=<"PyMOL selection string">, display_mode=mesh
   pocket protein=<"PyMOL selection string">, display_mode=solid, alpha=0.85
   pocket protein=<"PyMOL selection string">, display_mode=spheres
-  pocket protein=<"PyMOL selection string">, mode=all, display_mode=solid, palette="tv_red,tv_orange,(0.34,0.26,0.74)"
+  pocket protein=<"PyMOL selection string">, mode=all, display_mode=solid, palette="tv_red,tv_orange,0.34 0.26 0.74"
   pocket protein=<"PyMOL selection string">, mode=largest, subdivide=True, display_mode=mesh, palette="marine,forest_green,magenta,cyan"
 
 .. note::

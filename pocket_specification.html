@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Pocket Specification &mdash; PyVOL 1.6.7 documentation</title>
+  <title>Pocket Specification &mdash; PyVOL 1.6.8 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                1.6.7
+                1.6.8
               </div>
             
           
@@ -170,7 +170,7 @@
             
   <div class="section" id="pocket-specification">
 <h1>Pocket Specification<a class="headerlink" href="#pocket-specification" title="Permalink to this headline">¶</a></h1>
-<p>PyVOL runs in one of three modes (<cite>largest</cite>, <cite>specific</cite> or <cite>all</cite>). By default it runs in <cite>largest</cite> mode and returns only the single volume and geometry corresponding to the largest pocket identified when calculating <cite>all</cite> pockets. However, manual identification of the pocket of interest is often preferable. This can be done through specification of a ligand, a residue, or a coordinate. If any specification is given, the mode automatically changes to <cite>specific</cite>. The <cite>specific</cite> mode is the fastest by a small margin because it calculates the fewest surfaces.</p>
+<p>PyVOL runs in one of three modes (<cite>largest</cite>, <cite>specific</cite> or <cite>all</cite>). By default it runs in <cite>largest</cite> mode and returns only the single volume and geometry corresponding to the largest pocket identified when calculating <cite>all</cite> pockets. However, manual identification of the pocket of interest is often preferable. This can be done through specification of a ligand, a residue, or a coordinate. If any specification is given, the mode must be changed to <cite>specific</cite> in order to process that parameter. The <cite>specific</cite> mode is the fastest by a small margin because it calculates the fewest surfaces.</p>
 <div class="figure align-center" id="id1">
 <img alt="_images/pocket_specification_gui.png" src="_images/pocket_specification_gui.png" />
 <p class="caption"><span class="caption-text">GUI section controlling user specification of binding pockets with parameter mapping: primary radio buttons → <cite>mode</cite>, Minimum Volume → <cite>min_volume</cite>, Ligand: PyMOL Selection → <cite>ligand</cite>, Residue PyMOL Selection → <cite>residue</cite>, Residue Id → <cite>resid</cite>, and Coordinate → <cite>coordinates</cite></span></p>
@@ -233,7 +233,7 @@
 </div>
 <div class="section" id="coordinate-specification">
 <h3>Coordinate Specification<a class="headerlink" href="#coordinate-specification" title="Permalink to this headline">¶</a></h3>
-<p>The final method for specifying a pocket of interest is through providing a coordinate that is within the pocket using the <cite>coordinates</cite> argument. PyVOL identifies the closest atom in the protein selection to the supplied coordinate and uses it to define the surface of the calculated pocket. The coordinate value is accepted as a string of three floats with commas in between values (e.g., “23.1, 47.2, -12.7”).</p>
+<p>The final method for specifying a pocket of interest is through providing a coordinate that is within the pocket using the <cite>coordinates</cite> argument. PyVOL identifies the closest atom in the protein selection to the supplied coordinate and uses it to define the surface of the calculated pocket. The coordinate value is accepted as a string of three floats with spaces in between values (e.g., “23.1 47.2 -12.7”).</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># arguments: coordinates</span>
 <span class="n">pocket</span> <span class="n">prot_file</span><span class="o">=&lt;</span><span class="n">protein_pdb_filename</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">specific</span><span class="p">,</span> <span class="n">coordinates</span><span class="o">=</span><span class="s2">&quot;x,y,z&quot;</span>
 <span class="n">pocket</span> <span class="n">protein</span><span class="o">=&lt;</span><span class="s2">&quot;PyMOL selection string&quot;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">specific</span><span class="p">,</span> <span class="n">coordinates</span><span class="o">=</span><span class="s2">&quot;x,y,z&quot;</span>
