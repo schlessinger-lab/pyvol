@@ -4,7 +4,7 @@
 Pocket Specification
 ====================
 
-PyVOL runs in one of three modes (`largest`, `specific` or `all`). By default it runs in `largest` mode and returns only the single volume and geometry corresponding to the largest pocket identified when calculating `all` pockets. However, manual identification of the pocket of interest is often preferable. This can be done through specification of a ligand, a residue, or a coordinate. If any specification is given, the mode automatically changes to `specific`. The `specific` mode is the fastest by a small margin because it calculates the fewest surfaces.
+PyVOL runs in one of three modes (`largest`, `specific` or `all`). By default it runs in `largest` mode and returns only the single volume and geometry corresponding to the largest pocket identified when calculating `all` pockets. However, manual identification of the pocket of interest is often preferable. This can be done through specification of a ligand, a residue, or a coordinate. If any specification is given, the mode must be changed to `specific` in order to process that parameter. The `specific` mode is the fastest by a small margin because it calculates the fewest surfaces.
 
 .. figure:: _static/pocket_specification_gui.png
   :align: center
