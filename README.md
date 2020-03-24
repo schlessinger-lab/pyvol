@@ -3,7 +3,7 @@ PyVOL: Protein Pocket Visualization, Segmentation, and Characterization
 =======================================================================
 
 ![image](https://img.shields.io/pypi/v/bio_pyvol.svg) ![image](https://img.shields.io/pypi/l/bio_pyvol.svg)
-See the [Full Project Documentation] (https://schlessingerlab.github.io/pyvol/).
+See the [Full Project Documentation](https://schlessingerlab.github.io/pyvol/).
 ![image](docs/source/_static/overview_image_v01.png)
 
 
@@ -31,7 +31,7 @@ Quick Installation into PyMOL 2.0+
 
 PyVOL can be installed into any python environment, but installing
 directly into PyMOL 2.0+ is easiest. Download the
-[basic GUI installer] (https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-installer.zip);
+[basic GUI installer](https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-installer.zip);
 and then use the PyMOL plugin manager to install that file:
 Plugins --&gt; Plugin Manager --&gt; Install New Plugin --&gt; Install from local file --&gt;
 Choose file...
@@ -45,7 +45,7 @@ executable has been identified and is displayed, Change MSMS Path can be
 clicked to make that executable visible to the back-end. The GUI should
 then display that it can find MSMS. For academic users and non-academic
 users with the Schrodinger incentive PyMOL distribution, installation is
-now complete. For all others see the full [installation documentation] (https://schlessingerlab.github.io/pyvol/install.html).
+now complete. For all others see the full [installation documentation](https://schlessingerlab.github.io/pyvol/install.html).
 
 Example Basic Run
 =================
