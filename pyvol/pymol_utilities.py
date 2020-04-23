@@ -23,8 +23,14 @@ def construct_palette(color_list=None, max_value=7, min_value=0):
       palette ([str]): list of color definitions
 
     """
+    output_range = max_value - min_value
+
+    default_color_list = ['tv_red', 'tv_orange', 'tv_yellow', 'tv_green', 'tv_blue', 'aquamarine', 'violet']
     if color_list is None:
-        color_list = ['tv_red', 'tv_orange', 'tv_yellow', 'tv_green', 'tv_blue', 'aquamarine', 'violet']
+        color_list = default_color_list
+    elif (output_range > 1) and len(colors) == 1:
+        logger.warning("Only a single color has been provided for multi-output visualization--supplementing the input palette with default values")
+        color_list.extend(default_color_list)
 
     colors = []
     for color in color_list:
@@ -32,7 +38,7 @@ def construct_palette(color_list=None, max_value=7, min_value=0):
             colors.append(cmd.get_color_tuple(color))
         else:
             colors.append(tuple(color))
-    output_range = max_value - min_value
+
 
     palette = []
     if output_range <= len(colors):
@@ -54,9 +60,7 @@ def construct_palette(color_list=None, max_value=7, min_value=0):
             else:
                 color = [fx * colors[lower_ind][i] + (1 - fx) * colors[upper_ind][i] for i in range(3)]
                 palette.append('0x%02x%02x%02x' % tuple([int(255 * x) for x in color]))
-    else:
-        logger.error("Palette overriden from default but only provided with one value for a multi-sphere object output. Either provide multiple colors to permit interpolation or leave at default.")
-        raise ValueError
+
     logger.debug("Palette constructed with {0} colors".format(len(palette)))
     return palette
 
