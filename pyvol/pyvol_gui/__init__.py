@@ -1,6 +1,6 @@
 
 
-__version__ = "1.6.8"
+__version__ = "1.6.9"
 
 import logging
 import os
@@ -32,8 +32,8 @@ def __init_plugin__(app=None):
     msms_exe = distutils.spawn.find_executable("msms")
     if msms_exe is None:
         try:
-            from pymol import plugins
-            msms_exe = plugins.pref_get("pyvol_msms_exe", default=None)
+            from pymol.plugins import pref_get
+            msms_exe = pref_get("pyvol_msms_exe")
 
             if msms_exe is not None:
                 sys.path.append(msms_exe)
@@ -284,6 +284,7 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
     incentive_msms_exe = None
 
     # First check the bundled directory
+
     if pyvol_installed:
         try:
             import pyvol
@@ -293,13 +294,13 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
             msms_dir = os.path.join(pyvol_dir, "pkgs", "msms_2.6.1")
 
             if platform.system() == 'Linux':
-                msms_exe = os.path.join(msms_dir, 'msms.x86_64Linux2.2.6.1')
+                default_msms_exe = os.path.join(msms_dir, 'Linux_x86_64', 'msms')
             elif platform.system() == 'Windows':
-                msms_exe = os.path.join(msms_dir, 'msms.win32.2.6.1.exe')
+                default_msms_exe = os.path.join(msms_dir, 'win32', 'msms.exe')
             elif platform.system() == 'Darwin':
-                msms_exe = os.path.join(msms_dir, 'msms.MacOSX.2.6.1')
+                default_msms_exe = os.path.join(msms_dir, 'MacOSX', 'msms')
 
-            if os.path.exists(msms_exe):
+            if os.path.exists(default_msms_exe):
                 default_msms_present = True
             else:
                 default_msms_exe = None
@@ -308,8 +309,11 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
 
     # Now check for the incentive msms
     bin_dir = os.path.dirname(sys.executable)
-    pymol_root_dir = os.path.dirname(bin_dir)
-    incentive_msms_exe = os.path.join(pymol_root_dir, "pkgs", "msms-2.6.1-2/bin/msms")
+    if os.path.exists(os.path.join(bin_dir, "pkgs")):
+        pymol_root_dir = bin_dir
+    else:
+        pymol_root_dir = os.path.dirname(bin_dir)
+    incentive_msms_exe = os.path.join(pymol_root_dir, "pkgs", "msms-2.6.1-2", "bin", "msms")
 
     if os.path.exists(incentive_msms_exe):
         incentive_msms_present = True
@@ -327,21 +331,22 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
             form.msms_new_label.setText("{0}".format(custom_msms_exe))
 
     form.msms_new_button.clicked.connect(lambda: refresh_installation_status(form, add_msms_source=True))
-    # form.msms_new_button.setEnabled(False)
     new_msms_exe = form.msms_new_label.text()
 
     enable_add_source = False
     if new_msms_exe is not None:
+        print("new_msms_exe", new_msms_exe)
         if os.path.exists(new_msms_exe):
-            # form.msms_new_button.setEnabled(True)
             enable_add_source = True
             if add_msms_source:
                 from pymol import plugins
                 plugins.pref_set("pyvol_msms_exe", new_msms_exe)
                 plugins.pref_save()
+                print(plugins.pref_get("pyvol_msms_exe"))
 
                 if new_msms_exe not in sys.path:
                     sys.path.append(new_msms_exe)
+                print(sys.path)
     form.msms_new_button.setEnabled(enable_add_source)
 
     form.check_source_button.clicked.connect(lambda: refresh_installation_status(form))
