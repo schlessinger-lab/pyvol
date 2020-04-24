@@ -36,6 +36,6 @@ setup(
         },
     include_package_data=True,
     package_data={
-        'pyvol': ['pkgs/msms_2.6.1/msms.*']
+        'pyvol': ['pkgs/msms_2.6.1/*']
         },
     )

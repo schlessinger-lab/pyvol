@@ -454,7 +454,7 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
                 gui_version = apply_color(__version__, "green")
             else:
                 gui_version = apply_color("{0} ({1} expected)".format(__version__, expected_gui_version), "blue")
-                status_msg = status_msg + "{0}--check whether the PyVOL backend is up-to-date and using the PyMOL plugin manager reinstall the newet version of the plugin from <a href='https://github.com/schlessingerlab/pyvol/blob/master/pyvolgui.zip'>github</a>.<br>".format(apply_color("GUI version mismatch", "red"))
+                status_msg = status_msg + "{0}--check whether the PyVOL backend is up-to-date and using the PyMOL plugin manager reinstall the newest version of the plugin from <a href='https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-installer.zip'>github</a>.<br>".format(apply_color("GUI version mismatch", "red"))
         except:
             gui_version = __version__
         form.install_status_browser.setText((
