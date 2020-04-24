@@ -1,6 +1,6 @@
 
 
-__version__ = "1.7.3"
+__version__ = "1.7.5"
 
 import logging
 import os
@@ -33,7 +33,7 @@ def __init_plugin__(app=None):
     if msms_exe is None:
         try:
             from pymol.plugins import pref_get
-            msms_exe = pref_get("pyvol_msms_exe")
+            msms_exe = pref_get("pyvol_included_msms")
 
             if msms_exe is not None:
                 sys.path.append(msms_exe)
@@ -73,7 +73,16 @@ def pyvol_window():
     form.browse_button.clicked.connect(lambda: browse_pocket_file(form))
     form.load_button.clicked.connect(lambda: run_gui_load(form))
 
+    form.install_remote_button.clicked.connect(lambda: install_remote_pyvol(form))
+    form.install_cache_button.clicked.connect(lambda: install_local_pyvol(form))
+
+    form.check_updates_button.clicked.connect(lambda: refresh_installation_status(form, check_for_updates=True))
+    form.update_button.clicked.connect(lambda: update_pyvol(form))
+
+    form.msms_included_cbox.stateChanged.connect(lambda: toggle_included_msms(form))
+
     dialog.show()
+
 
 def browse_pocket_file(form):
     """ Launches a window to select a file
@@ -82,6 +91,7 @@ def browse_pocket_file(form):
 
     pocket_file_name = QtWidgets.QFileDialog.getOpenFileNames(None, 'Open file', os.getcwd(), filter='Pocket Files (*.pyvol)')[0][0]
     form.pocket_dir_ledit.setText(pocket_file_name)
+
 
 def install_pypi_pyvol(form):
     """ Attempts a de novo PyVOL installation using pip
@@ -99,12 +109,14 @@ def install_pypi_pyvol(form):
         pass
     refresh_installation_status(form)
 
+
 def install_remote_pyvol(form):
     """ GUI wrapper for de novo PyVOL installation using pip
 
     """
     install_pypi_pyvol(form)
     refresh_installation_status(form)
+
 
 def install_cached_pyvol():
     import re
@@ -150,22 +162,6 @@ def install_local_pyvol(form):
     install_cached_pyvol()
     refresh_installation_status(form)
 
-def uninstall_pyvol(form):
-    """ Attempts to uninstall PyVOL using pip
-
-    """
-
-    subprocess.check_output([sys.executable, "-m", "pip", "uninstall", "-y", "bio-pyvol"])
-
-    msg = QtWidgets.QMessageBox()
-    msg.setIcon(QtWidgets.QMessageBox.Information)
-    msg.setWindowTitle("PyVOL Backend Uninstalled")
-    msg.setInformativeText("The PyVOL backend has been uninstalled; however, the plugin must also be uninstalled using PyMOL's plugin manager.")
-    msg.setStandardButtons(QtWidgets.QMessageBox.Ok)
-    msg.setMinimumSize(QtCore.QSize(600, 200)) # Doesn't seem to work
-    msg.exec_()
-
-    refresh_installation_status(form)
 
 def update_pypi_pyvol():
     """ Attempts to update PyVOL using pip
@@ -173,6 +169,7 @@ def update_pypi_pyvol():
     """
 
     subprocess.check_output([sys.executable, "-m", "pip", "install", "--upgrade", "bio-pyvol"])
+
 
 def update_pyvol(form):
     """ GUI wrapper for updating PyVOL using pip
@@ -191,7 +188,52 @@ def update_pyvol(form):
 
     refresh_installation_status(form)
 
-def refresh_installation_status(form, check_for_updates=False, add_msms_source=False):
+
+def toggle_included_msms(form):
+    """ GUI wrapper for toggling use of the included MSMS binaries
+
+    """
+
+    try:
+        from pymol import plugins
+        import pyvol
+        import platform
+
+        if form.msms_included_cbox.isChecked():
+            included_msms_exe = None
+            pyvol_dir = os.path.dirname(pyvol.__file__)
+            msms_dir = os.path.join(pyvol_dir, "pkgs", "msms_2.6.1")
+
+            if platform.system() == 'Linux':
+                included_msms_exe = os.path.join(msms_dir, 'Linux_x86_64', 'msms')
+            elif platform.system() == 'Windows':
+                included_msms_exe = os.path.join(msms_dir, 'win32', 'msms.exe')
+            elif platform.system() == 'Darwin':
+                included_msms_exe = os.path.join(msms_dir, 'MacOSX', 'msms')
+
+            if included_msms_exe is not None:
+                if os.path.isfile(included_msms_exe):
+                    plugins.pref_set("pyvol_msms_exe", included_msms_exe)
+                    plugins.pref_save()
+                    if included_msms_exe not in sys.path:
+                        sys.path.append(included_msms_exe)
+                else:
+                    logger.warning("MSMS exe not found at the expected location")
+            else:
+                logger.warning("Platform identification failed")
+        else:
+            plugins.pref_set("pyvol_msms_exe", None)
+            plugins.pref_save()
+            logger.info("PyVOL MSMS usage unset")
+
+    except:
+        logger.warning("Unable to alter PyMOL preferences")
+
+    refresh_installation_status(form)
+
+
+
+def refresh_installation_status(form, check_for_updates=False):
     """ Check for updates and adjust the GUI to reflect the current installation status and availability of updates
 
     Args:
@@ -278,10 +320,8 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
 
     # new options for finding msms
     msms_installed = False
-    default_msms_present = False
-    default_msms_exe = None
-    incentive_msms_present = False
-    incentive_msms_exe = None
+    included_msms_present = False
+    included_msms_exe = None
 
     # First check the bundled directory
 
@@ -294,62 +334,22 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
             msms_dir = os.path.join(pyvol_dir, "pkgs", "msms_2.6.1")
 
             if platform.system() == 'Linux':
-                default_msms_exe = os.path.join(msms_dir, 'Linux_x86_64', 'msms')
+                included_msms_exe = os.path.join(msms_dir, 'Linux_x86_64', 'msms')
             elif platform.system() == 'Windows':
-                default_msms_exe = os.path.join(msms_dir, 'win32', 'msms.exe')
+                included_msms_exe = os.path.join(msms_dir, 'win32', 'msms.exe')
             elif platform.system() == 'Darwin':
-                default_msms_exe = os.path.join(msms_dir, 'MacOSX', 'msms')
+                included_msms_exe = os.path.join(msms_dir, 'MacOSX', 'msms')
 
-            print("bundled", default_msms_exe, os.path.exists(default_msms_exe))
-            if os.path.exists(default_msms_exe):
-                default_msms_present = True
+            if os.path.exists(included_msms_exe):
+                included_msms_present = True
+                form.msms_pyvol_label.setText("{0}".format(apply_color(included_msms_exe, "black")))
+                form.msms_included_cbox.setEnabled(True)
             else:
-                default_msms_exe = None
+                included_msms_exe = None
+                form.msms_pyvol_label.setText("{0}".format(apply_color("(not found)", "red")))
+                form.msms_included_cbox.setEnabled(False)
         except:
             pass
-
-    # Now check for the incentive msms
-    bin_dir = os.path.dirname(sys.executable)
-    if os.path.exists(os.path.join(bin_dir, "pkgs")):
-        pymol_root_dir = bin_dir
-    else:
-        pymol_root_dir = os.path.dirname(bin_dir)
-    incentive_msms_exe = os.path.join(pymol_root_dir, "pkgs", "msms-2.6.1-2", "bin", "msms")
-    print("incentive", incentive_msms_exe, os.path.exists(incentive_msms_exe))
-
-    if os.path.exists(incentive_msms_exe):
-        incentive_msms_present = True
-    else:
-        incentive_msms_exe = None
-
-    test_custom = form.msms_custom_ledit.text()
-    if form.msms_default_rbutton.isChecked() and default_msms_present:
-        form.msms_new_label.setText("{0}".format(default_msms_exe))
-    elif form.msms_pymol_rbutton.isChecked() and incentive_msms_present:
-        form.msms_new_label.setText("{0}".format(incentive_msms_exe))
-    elif form.msms_custom_rbutton.isChecked():
-        custom_msms_exe = form.msms_custom_ledit.text()
-        if os.path.exists(custom_msms_exe):
-            form.msms_new_label.setText("{0}".format(custom_msms_exe))
-
-    form.msms_new_button.clicked.connect(lambda: refresh_installation_status(form, add_msms_source=True))
-    new_msms_exe = form.msms_new_label.text()
-
-    enable_add_source = False
-    if new_msms_exe is not None:
-        if os.path.exists(new_msms_exe):
-            enable_add_source = True
-            if add_msms_source:
-                from pymol import plugins
-                plugins.pref_set("pyvol_msms_exe", new_msms_exe)
-                plugins.pref_save()
-
-                if new_msms_exe not in sys.path:
-                    sys.path.append(new_msms_exe)
-    form.msms_new_button.setEnabled(enable_add_source)
-
-    form.check_source_button.clicked.connect(lambda: refresh_installation_status(form))
-    form.check_source_button.setEnabled(True)
 
     if pyvol_installed:
         msms_exe = distutils.spawn.find_executable("msms")
@@ -360,9 +360,9 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
                 msms_exe = None
 
     if msms_installed:
-        form.msms_status_label.setText("MSMS path: {0}".format(apply_color(msms_exe, "blue")))
+        form.msms_system_label.setText("{0}".format(apply_color(msms_exe, "blue")))
     else:
-        form.msms_status_label.setText("MSMS path: {0}".format(apply_color("not found", "red")))
+        form.msms_system_label.setText("{0}".format(apply_color("(not found)", "red")))
 
     if not pyvol_installed:
         gui_version = __version__
@@ -370,13 +370,11 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
         form.run_button.setEnabled(False)
         form.load_tab.setEnabled(False)
         form.tabWidget.setCurrentIndex(2)
+        form.check_updates_button.setEnabled(False)
+        form.update_button.setEnabled(False)
 
         form.install_remote_browser.setText("PyPI has not yet been queried.<br>")
         form.install_remote_button.setEnabled(True)
-        form.install_remote_button.setText("Install PyVOL from PyPI")
-        form.install_remote_button.clicked.connect(lambda: install_remote_pyvol(form))
-
-        form.install_status_button.setText("Install PyVOL from Cache")
 
         cache_present = False
         cache_version = None
@@ -393,24 +391,20 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
 
         if cache_present:
             status_msg = status_msg + "PyVOL can be installed from a local cache.<br>"
-            form.install_status_button.setEnabled(True)
-            form.install_status_button.clicked.connect(lambda: install_local_pyvol(form))
+            form.install_cache_button.setEnabled(True)
             form.install_status_browser.setText(status_msg)
         else:
             form.install_status_browser.setText("PyVOL is not currently installed.<br>")
-            form.install_status_button.setEnabled(False)
+            form.install_cache_button.setEnabled(False)
 
     if pyvol_installed:
         form.setWindowTitle("PyVOL v{0}".format(pyvol_version))
-        form.install_status_button.setText("Uninstall PyVOL")
-        form.install_status_button.clicked.connect(lambda: uninstall_pyvol(form))
-        form.install_status_button.setEnabled(True)
+        form.install_cache_button.setEnabled(False)
+        form.install_remote_button.setEnabled(False)
+        form.check_updates_button.setEnabled(True)
+        form.update_button.setEnabled(False)
 
-        if not check_for_updates:
-            form.install_remote_button.setText("Check for Updates")
-            form.install_remote_button.clicked.connect(lambda: refresh_installation_status(form, check_for_updates=True))
-            form.install_remote_button.setEnabled(True)
-        else:
+        if check_for_updates:
             update_available = False
 
             avail_pckgs = subprocess.check_output([sys.executable, "-m", "pip", "list", "--outdated", "--format=json"]).decode('utf-8').strip()
@@ -423,13 +417,9 @@ def refresh_installation_status(form, check_for_updates=False, add_msms_source=F
                     break
 
             if update_available:
-                form.install_remote_button.setText("Update PyVOL")
-                form.install_remote_button.clicked.connect(lambda: update_pyvol(form))
-                form.install_remote_button.setEnabled(True)
+                form.update_button.setEnabled(True)
             else:
-                form.install_remote_button.setText("Check for Updates")
-                form.install_remote_button.clicked.connect(lambda: refresh_installation_status(form, check_for_updates=True))
-                form.install_remote_button.setEnabled(True)
+                form.update_button.setEnabled(True)
                 form.install_remote_browser.setText(("Local PyVOL is up to date (version {0})<br>").format(pyvol_version))
 
         if msms_installed:
