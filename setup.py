@@ -7,7 +7,7 @@ README = (HERE / "README.md").read_text()
 
 setup(
     name="bio-pyvol",
-    version="1.7.0",
+    version="1.7.1",
     description="a PyMOL plugin and python package for visualization, comparison, and volume calculation of protein drug-binding sites",
     long_description=README,
     long_description_content_type="text/markdown",
@@ -36,6 +36,6 @@ setup(
         },
     include_package_data=True,
     package_data={
-        'pyvol': ['pkgs/msms_2.6.1/*']
+        'pyvol': ['pkgs/msms_2.6.1/*/msms*']
         },
     )

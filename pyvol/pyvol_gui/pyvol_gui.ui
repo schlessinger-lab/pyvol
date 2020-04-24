@@ -60,7 +60,7 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-36</y>
+            <y>0</y>
             <width>688</width>
             <height>587</height>
            </rect>
@@ -575,7 +575,7 @@
                 <string>Py&amp;VOL-bundled</string>
                </property>
                <property name="checked">
-                <bool>false</bool>
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -585,7 +585,7 @@
                 <string>Py&amp;MOL-bundled</string>
                </property>
                <property name="checked">
-                <bool>true</bool>
+                <bool>false</bool>
                </property>
               </widget>
              </item>
