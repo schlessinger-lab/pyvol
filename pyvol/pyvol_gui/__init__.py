@@ -1,6 +1,6 @@
 
 
-__version__ = "1.7.5"
+__version__ = "1.7.6"
 
 import logging
 import os
@@ -205,11 +205,11 @@ def toggle_included_msms(form):
             msms_dir = os.path.join(pyvol_dir, "pkgs", "msms_2.6.1")
 
             if platform.system() == 'Linux':
-                included_msms_exe = os.path.join(msms_dir, 'Linux_x86_64', 'msms')
+                included_msms_exe = os.path.join(msms_dir, 'Linux_x86_64')
             elif platform.system() == 'Windows':
-                included_msms_exe = os.path.join(msms_dir, 'win32', 'msms.exe')
+                included_msms_exe = os.path.join(msms_dir, 'win32')
             elif platform.system() == 'Darwin':
-                included_msms_exe = os.path.join(msms_dir, 'MacOSX', 'msms')
+                included_msms_exe = os.path.join(msms_dir, 'MacOSX')
 
             if included_msms_exe is not None:
                 if os.path.isfile(included_msms_exe):
@@ -334,11 +334,11 @@ def refresh_installation_status(form, check_for_updates=False):
             msms_dir = os.path.join(pyvol_dir, "pkgs", "msms_2.6.1")
 
             if platform.system() == 'Linux':
-                included_msms_exe = os.path.join(msms_dir, 'Linux_x86_64', 'msms')
+                included_msms_exe = os.path.join(msms_dir, 'Linux_x86_64')
             elif platform.system() == 'Windows':
-                included_msms_exe = os.path.join(msms_dir, 'win32', 'msms.exe')
+                included_msms_exe = os.path.join(msms_dir, 'win32')
             elif platform.system() == 'Darwin':
-                included_msms_exe = os.path.join(msms_dir, 'MacOSX', 'msms')
+                included_msms_exe = os.path.join(msms_dir, 'MacOSX')
 
             if os.path.exists(included_msms_exe):
                 included_msms_present = True
@@ -362,7 +362,16 @@ def refresh_installation_status(form, check_for_updates=False):
     if msms_installed:
         form.msms_system_label.setText("{0}".format(apply_color(msms_exe, "blue")))
     else:
-        form.msms_system_label.setText("{0}".format(apply_color("(not found)", "red")))
+        try:
+            from pymol.plugins import pref_get
+            msms_exe = pref_get("pyvol_included_msms")
+
+            if msms_exe is not None:
+                form.msms_system_label.setText("{0}".format(apply_color("MSMS executable identified but not able to be programmatically added to the path. Manually add the MSMS executable to path in order to run.", "red")))
+            else:
+                form.msms_system_label.setText("{0}".format(apply_color("(not found)", "red")))
+        except:
+            form.msms_system_label.setText("{0}".format(apply_color("(neither it nor plugin definition found)", "red")))
 
     if not pyvol_installed:
         gui_version = __version__
