@@ -5,5 +5,5 @@ if [ -z $1 ]; then
 fi
 
 sh document.sh
-sh build.sh
+sh build_pypi.sh
 sh package_plugin.sh $1
