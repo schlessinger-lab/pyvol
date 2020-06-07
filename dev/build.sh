@@ -20,6 +20,7 @@ if [ -d "dist" ]; then
   rm pyvol/pyvol_gui/cached_source/bio-pyvol-*.tar.gz
   cp dist/bio-pyvol-*.tar.gz pyvol/pyvol_gui/cached_source/
 
+  twine check dist/*
   twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
 fi
 
@@ -34,3 +35,5 @@ fi
 if [ -d "dist" ]; then
   rm -r "dist"
 fi
+
+conda-build . -c bioconda
