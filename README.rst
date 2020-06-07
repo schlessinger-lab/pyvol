@@ -9,7 +9,7 @@ PyVOL: Protein Pocket Visualization, Segmentation, and Characterization
 
 .. marker-start-introduction
 
-.. figure:: _static/overview_image_v01.png
+.. figure:: docs/source/_static/overview_image_v01.png
   :align: center
 
   PyVOL Pocket Identification
