@@ -3,16 +3,17 @@
 PyVOL: Protein Pocket Visualization, Segmentation, and Characterization
 ***********************************************************************
 
-.. image:: https://img.shields.io/pypi/v/bio_pyvol.svg
+|pypi| |license|
 
-.. image:: https://img.shields.io/pypi/l/bio_pyvol.svg
+.. |pypi| image:: https://img.shields.io/pypi/v/bio_pyvol.svg
+
+.. |license| image:: https://img.shields.io/pypi/l/bio_pyvol.svg
 
 .. marker-start-introduction
 
 .. figure:: docs/source/_static/overview_image_v01.png
   :align: center
 
-  PyVOL Pocket Identification
 
 Overview
 --------
