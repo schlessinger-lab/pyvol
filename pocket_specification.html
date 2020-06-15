@@ -21,9 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -173,11 +174,11 @@
 <p>PyVOL runs in one of three modes (<cite>largest</cite>, <cite>specific</cite> or <cite>all</cite>). By default it runs in <cite>largest</cite> mode and returns only the single volume and geometry corresponding to the largest pocket identified when calculating <cite>all</cite> pockets. However, manual identification of the pocket of interest is often preferable. This can be done through specification of a ligand, a residue, or a coordinate. If any specification is given, the mode must be changed to <cite>specific</cite> in order to process that parameter. The <cite>specific</cite> mode is the fastest by a small margin because it calculates the fewest surfaces.</p>
 <div class="figure align-center" id="id1">
 <img alt="_images/pocket_specification_gui.png" src="_images/pocket_specification_gui.png" />
-<p class="caption"><span class="caption-text">GUI section controlling user specification of binding pockets with parameter mapping: primary radio buttons → <cite>mode</cite>, Minimum Volume → <cite>min_volume</cite>, Ligand: PyMOL Selection → <cite>ligand</cite>, Residue PyMOL Selection → <cite>residue</cite>, Residue Id → <cite>resid</cite>, and Coordinate → <cite>coordinates</cite></span></p>
+<p class="caption"><span class="caption-text">GUI section controlling user specification of binding pockets with parameter mapping: primary radio buttons → <cite>mode</cite>, Minimum Volume → <cite>min_volume</cite>, Ligand: PyMOL Selection → <cite>ligand</cite>, Residue PyMOL Selection → <cite>residue</cite>, Residue Id → <cite>resid</cite>, and Coordinate → <cite>coordinates</cite></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 <div class="figure align-center" id="id2">
 <img alt="_images/spec_v01.png" src="_images/spec_v01.png" />
-<p class="caption"><span class="caption-text">Example of output using specification parameters. PyMOL commands to generate these panels consist of a specification argument in addition to this basic commmand: <cite>pocket protein=‘3kvg and chain A’, protein_only=True, palette=’tv_red,teal,magenta’</cite>. The first panel is produced by adding <cite>mode=all</cite>, the second with <cite>mode=largest</cite>, and the final with any of the following: 1) <cite>mode=specific, resid=A487</cite>, 2) <cite>mode=specific, residue=‘3k5v and chain A and resi 487’</cite>, 3) <cite>mode=specific, ligand=&lt;single atom from the bound small molecule&gt;</cite>, or 4) <cite>mode=specific, coordinate=‘12.3,42.2,48.6’</cite>.</span></p>
+<p class="caption"><span class="caption-text">Example of output using specification parameters. PyMOL commands to generate these panels consist of a specification argument in addition to this basic commmand: <cite>pocket protein=’3kvg and chain A’, protein_only=True, palette=’tv_red,teal,magenta’</cite>. The first panel is produced by adding <cite>mode=all</cite>, the second with <cite>mode=largest</cite>, and the final with any of the following: 1) <cite>mode=specific, resid=A487</cite>, 2) <cite>mode=specific, residue=’3k5v and chain A and resi 487’</cite>, 3) <cite>mode=specific, ligand=&lt;single atom from the bound small molecule&gt;</cite>, or 4) <cite>mode=specific, coordinate=’12.3,42.2,48.6’</cite>.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 <div class="section" id="all-mode">
 <h2>All Mode<a class="headerlink" href="#all-mode" title="Permalink to this headline">¶</a></h2>
@@ -218,8 +219,8 @@
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">SDF format ligand files are not currently supported for input using <cite>lig_file</cite> because that would increase the number of software dependencies. Reading the sdf file into PyMOL and then passing the ligand into PyVOL using the <cite>ligand</cite> argument is the current solution.</p>
+<p class="admonition-title">Note</p>
+<p>SDF format ligand files are not currently supported for input using <cite>lig_file</cite> because that would increase the number of software dependencies. Reading the sdf file into PyMOL and then passing the ligand into PyVOL using the <cite>ligand</cite> argument is the current solution.</p>
 </div>
 </div>
 <div class="section" id="residue-specification">

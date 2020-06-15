@@ -21,9 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -174,232 +175,232 @@
 <div class="section" id="module-pyvol.cluster">
 <span id="pyvol-cluster-module"></span><h2>PyVOL Cluster Module<a class="headerlink" href="#module-pyvol.cluster" title="Permalink to this headline">¶</a></h2>
 <p>Contains functions to cluster spheres objects in memory; used in subpocket clustering.</p>
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.cluster.cluster_within_r">
-<code class="descclassname">pyvol.cluster.</code><code class="descname">cluster_within_r</code><span class="sig-paren">(</span><em>spheres</em>, <em>radius</em>, <em>allow_new=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.cluster_within_r" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.cluster.</code><code class="sig-name descname">cluster_within_r</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spheres</span></em>, <em class="sig-param"><span class="n">radius</span></em>, <em class="sig-param"><span class="n">allow_new</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.cluster_within_r" title="Permalink to this definition">¶</a></dt>
 <dd><p>Cluster spheres with the same radius using DBSCAN, modifying input data in situ</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>spheres (Spheres): complete set of input spheres
+<dl class="simple">
+<dt>Args:</dt><dd><p>spheres (Spheres): complete set of input spheres
 radius (float): radius at which clustering is to occur
-allow_new (bool): permit new clusters? (Default value = True)</dd>
+allow_new (bool): permit new clusters? (Default value = True)</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.cluster.cluster_between_r">
-<code class="descclassname">pyvol.cluster.</code><code class="descname">cluster_between_r</code><span class="sig-paren">(</span><em>spheres</em>, <em>ref_radius</em>, <em>target_radius</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.cluster_between_r" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.cluster.</code><code class="sig-name descname">cluster_between_r</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spheres</span></em>, <em class="sig-param"><span class="n">ref_radius</span></em>, <em class="sig-param"><span class="n">target_radius</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.cluster_between_r" title="Permalink to this definition">¶</a></dt>
 <dd><p>Cluster spheres from a target radius to a reference radius, modifying input data in situ</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>spheres (Spheres): complete set of input spheres
+<dl class="simple">
+<dt>Args:</dt><dd><p>spheres (Spheres): complete set of input spheres
 ref_radius (float): radius from which cluster identities will be drawn
-target_radius (float): radius to which cluster identities will be propagated</dd>
+target_radius (float): radius to which cluster identities will be propagated</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.cluster.cluster_improperly_grouped">
-<code class="descclassname">pyvol.cluster.</code><code class="descname">cluster_improperly_grouped</code><span class="sig-paren">(</span><em>spheres</em>, <em>radius</em>, <em>min_cluster_size=1</em>, <em>max_clusters=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.cluster_improperly_grouped" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.cluster.</code><code class="sig-name descname">cluster_improperly_grouped</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spheres</span></em>, <em class="sig-param"><span class="n">radius</span></em>, <em class="sig-param"><span class="n">min_cluster_size</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">max_clusters</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.cluster_improperly_grouped" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reassigns improperly clustered spheres to ‘proper’ clusters, modifying input data in situ</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>spheres (Spheres): complete set of input spheres
+<dl class="simple">
+<dt>Args:</dt><dd><p>spheres (Spheres): complete set of input spheres
 radius (float): radius at which closest groups are identified
 min_cluster_size (int): minimum number of spheres in a ‘proper’ cluster (Default value = 1)
-max_clusters (int): maximum number of ‘proper’ clusters (Default value = None)</dd>
+max_clusters (int): maximum number of ‘proper’ clusters (Default value = None)</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.cluster.extract_groups">
-<code class="descclassname">pyvol.cluster.</code><code class="descname">extract_groups</code><span class="sig-paren">(</span><em>spheres</em>, <em>surf_radius=None</em>, <em>prefix=None</em>, <em>group_names=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.extract_groups" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.cluster.</code><code class="sig-name descname">extract_groups</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spheres</span></em>, <em class="sig-param"><span class="n">surf_radius</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">prefix</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">group_names</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.extract_groups" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extracts spheres belonging to each cluster from the complete input set and optionally calculates bounded surfaces</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>spheres (Spheres): complete set of input spheres
+<dl class="simple">
+<dt>Args:</dt><dd><p>spheres (Spheres): complete set of input spheres
 surf_radius: radius used to calculate bounding spheres for individual groups (Default value = None)
-prefix: prefix to identify new surfaces (Default value = None)</dd>
-<dt>Returns:</dt>
-<dd>group_list ([Spheres]): a list of Spheres objects each corresponding to a different cluster</dd>
+prefix: prefix to identify new surfaces (Default value = None)</p>
+</dd>
+<dt>Returns:</dt><dd><p>group_list ([Spheres]): a list of Spheres objects each corresponding to a different cluster</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.cluster.hierarchically_cluster_spheres">
-<code class="descclassname">pyvol.cluster.</code><code class="descname">hierarchically_cluster_spheres</code><span class="sig-paren">(</span><em>spheres</em>, <em>ordered_radii</em>, <em>min_new_radius=None</em>, <em>min_cluster_size=10</em>, <em>max_clusters=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.hierarchically_cluster_spheres" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.cluster.</code><code class="sig-name descname">hierarchically_cluster_spheres</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spheres</span></em>, <em class="sig-param"><span class="n">ordered_radii</span></em>, <em class="sig-param"><span class="n">min_new_radius</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_cluster_size</span><span class="o">=</span><span class="default_value">10</span></em>, <em class="sig-param"><span class="n">max_clusters</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.hierarchically_cluster_spheres" title="Permalink to this definition">¶</a></dt>
 <dd><p>Cluster spheres by grouping spheres at large radius and propagating those assignments down to smaller radii</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>spheres (Spheres): complete set of input spheres
+<dl class="simple">
+<dt>Args:</dt><dd><p>spheres (Spheres): complete set of input spheres
 ordered_radii ([float]): list of radii ordered from largest to smallest
 min_new_radius (float): smallest spheres to keep (Default value = None)
 min_cluster_size (int): minimum number of spheres in a cluster (Default value = 10)
-max_clusters (int): maximum number of clusters (Default value = None)</dd>
+max_clusters (int): maximum number of clusters (Default value = None)</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.cluster.identify_closest_grouped">
-<code class="descclassname">pyvol.cluster.</code><code class="descname">identify_closest_grouped</code><span class="sig-paren">(</span><em>spheres</em>, <em>group</em>, <em>radius</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.identify_closest_grouped" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.cluster.</code><code class="sig-name descname">identify_closest_grouped</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spheres</span></em>, <em class="sig-param"><span class="n">group</span></em>, <em class="sig-param"><span class="n">radius</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.identify_closest_grouped" title="Permalink to this definition">¶</a></dt>
 <dd><p>Identifies the closest ‘properly’ grouped cluster to a specified group</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>spheres (Spheres): complete set of input spheres
+<dl class="simple">
+<dt>Args:</dt><dd><p>spheres (Spheres): complete set of input spheres
 group (float): group for which to identify the closest clusters
-radius (float): radius at which to perform the search</dd>
-<dt>Returns:</dt>
-<dd>group (float): passthrough of input group
+radius (float): radius at which to perform the search</p>
+</dd>
+<dt>Returns:</dt><dd><p>group (float): passthrough of input group
 closest (float): id of the closest cluster
-magnitude (int): number of pairwise closest connections between the queried group and the closest identified cluster</dd>
+magnitude (int): number of pairwise closest connections between the queried group and the closest identified cluster</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.cluster.merge_sphere_list">
-<code class="descclassname">pyvol.cluster.</code><code class="descname">merge_sphere_list</code><span class="sig-paren">(</span><em>s_list</em>, <em>r=None</em>, <em>g=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.merge_sphere_list" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Args:</dt>
-<dd>s_list ([Spheres]): list of input spheres
+<code class="sig-prename descclassname">pyvol.cluster.</code><code class="sig-name descname">merge_sphere_list</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s_list</span></em>, <em class="sig-param"><span class="n">r</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">g</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.merge_sphere_list" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Args:</dt><dd><p>s_list ([Spheres]): list of input spheres
 r (float): radius value to assign to output Spheres (Default value = None)
-g (float): group value to assign to output Spheres (Default value = None)</dd>
-<dt>Returns:</dt>
-<dd>merged_spheres (Spheres): a single Spheres object containing the merged input lists</dd>
+g (float): group value to assign to output Spheres (Default value = None)</p>
+</dd>
+<dt>Returns:</dt><dd><p>merged_spheres (Spheres): a single Spheres object containing the merged input lists</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.cluster.reassign_group">
-<code class="descclassname">pyvol.cluster.</code><code class="descname">reassign_group</code><span class="sig-paren">(</span><em>spheres</em>, <em>source_group</em>, <em>target_group</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.reassign_group" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.cluster.</code><code class="sig-name descname">reassign_group</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spheres</span></em>, <em class="sig-param"><span class="n">source_group</span></em>, <em class="sig-param"><span class="n">target_group</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.reassign_group" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reassign a group in place</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>spheres (Spheres): complete set of input spheres
+<dl class="simple">
+<dt>Args:</dt><dd><p>spheres (Spheres): complete set of input spheres
 source_group (float): group to change
-target_group (float): new group id</dd>
+target_group (float): new group id</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.cluster.reassign_groups_to_closest">
-<code class="descclassname">pyvol.cluster.</code><code class="descname">reassign_groups_to_closest</code><span class="sig-paren">(</span><em>spheres</em>, <em>group_list</em>, <em>radius</em>, <em>iterations=None</em>, <em>preserve_largest=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.reassign_groups_to_closest" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.cluster.</code><code class="sig-name descname">reassign_groups_to_closest</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spheres</span></em>, <em class="sig-param"><span class="n">group_list</span></em>, <em class="sig-param"><span class="n">radius</span></em>, <em class="sig-param"><span class="n">iterations</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">preserve_largest</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.reassign_groups_to_closest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reassign a group to the closest group as identified by maximum linkage; operates in place</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>spheres (Spheres): complete set of input spheres
+<dl class="simple">
+<dt>Args:</dt><dd><p>spheres (Spheres): complete set of input spheres
 group_list ([float]): list of group ids which are to be iteratively reassigned
 radius (float): radius at which searches are to take place
 iterations (int): number of times to attempt to reassign groups (Default value = None)
-preserve_largest: keep the group id of the group with more members? (Default value = False)</dd>
+preserve_largest: keep the group id of the group with more members? (Default value = False)</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.cluster.remove_interior">
-<code class="descclassname">pyvol.cluster.</code><code class="descname">remove_interior</code><span class="sig-paren">(</span><em>spheres</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.remove_interior" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.cluster.</code><code class="sig-name descname">remove_interior</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spheres</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.remove_interior" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove all spheres which are completely enclosed in larger spheres; operates in place</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>spheres (Spheres): complete set of input spheres</dd>
+<dl class="simple">
+<dt>Args:</dt><dd><p>spheres (Spheres): complete set of input spheres</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.cluster.remove_included_spheres">
-<code class="descclassname">pyvol.cluster.</code><code class="descname">remove_included_spheres</code><span class="sig-paren">(</span><em>spheres</em>, <em>ref_spheres</em>, <em>radius</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.remove_included_spheres" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.cluster.</code><code class="sig-name descname">remove_included_spheres</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spheres</span></em>, <em class="sig-param"><span class="n">ref_spheres</span></em>, <em class="sig-param"><span class="n">radius</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.remove_included_spheres" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes all spheres with centers within radius of ref_spheres</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.cluster.remove_overlap">
-<code class="descclassname">pyvol.cluster.</code><code class="descname">remove_overlap</code><span class="sig-paren">(</span><em>spheres</em>, <em>radii=None</em>, <em>spacing=0.1</em>, <em>iterations=20</em>, <em>tolerance=0.02</em>, <em>static_last_group=False</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.remove_overlap" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.cluster.</code><code class="sig-name descname">remove_overlap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spheres</span></em>, <em class="sig-param"><span class="n">radii</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">spacing</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">iterations</span><span class="o">=</span><span class="default_value">20</span></em>, <em class="sig-param"><span class="n">tolerance</span><span class="o">=</span><span class="default_value">0.02</span></em>, <em class="sig-param"><span class="n">static_last_group</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.cluster.remove_overlap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove overlap between groups; operates in place</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>spheres (Spheres): complete set of input spheres
+<dl class="simple">
+<dt>Args:</dt><dd><p>spheres (Spheres): complete set of input spheres
 radii ([float]): radii at which to perform searches for overlap (Default value = None)
 spacing (float): binning radius (Default value = 0.1)
 iterations (int): number of times to attempt overlap removal (Default value = 20)
 tolerance (float): overlap tolerance (Default value = 0.02)
-static_last_group (bool): don’t move the ‘other’ group but rather the first group twice as much (effectively leaves the group with the highest index in place while moving everything else around it)</dd>
+static_last_group (bool): don’t move the ‘other’ group but rather the first group twice as much (effectively leaves the group with the highest index in place while moving everything else around it)</p>
+</dd>
 </dl>
 </dd></dl>
 
 </div>
 <div class="section" id="module-pyvol.identify">
 <span id="pyvol-identify-module"></span><h2>PyVOL Identify Module<a class="headerlink" href="#module-pyvol.identify" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.identify.load_calculation">
-<code class="descclassname">pyvol.identify.</code><code class="descname">load_calculation</code><span class="sig-paren">(</span><em>data_dir</em>, <em>input_opts=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.load_calculation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.identify.</code><code class="sig-name descname">load_calculation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_dir</span></em>, <em class="sig-param"><span class="n">input_opts</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.load_calculation" title="Permalink to this definition">¶</a></dt>
 <dd><p>load the results of a calculation from file</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>data_dir (str): directory where previous calculation results are stored
-input_opts (dict): dictionary of pyvol options that is used to update the options read in from file</dd>
-<dt>Returns:</dt>
-<dd>pockets ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct pocket or subpocket
-opts (dict): updated PyVOL options dictionary</dd>
+<dl class="simple">
+<dt>Args:</dt><dd><p>data_dir (str): directory where previous calculation results are stored
+input_opts (dict): dictionary of pyvol options that is used to update the options read in from file</p>
+</dd>
+<dt>Returns:</dt><dd><p>pockets ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct pocket or subpocket
+opts (dict): updated PyVOL options dictionary</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.identify.pocket">
-<code class="descclassname">pyvol.identify.</code><code class="descname">pocket</code><span class="sig-paren">(</span><em>**opts</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.pocket" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.identify.</code><code class="sig-name descname">pocket</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">opts</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.pocket" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the SES for a binding pocket</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>opts (dict): dictionary containing all PyVOL options (see pyvol.pymol_interface.pymol_pocket_cmdline for details)</dd>
-<dt>Returns:</dt>
-<dd>pockets ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct pocket or subpocket</dd>
+<dl class="simple">
+<dt>Args:</dt><dd><p>opts (dict): dictionary containing all PyVOL options (see pyvol.pymol_interface.pymol_pocket_cmdline for details)</p>
+</dd>
+<dt>Returns:</dt><dd><p>pockets ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct pocket or subpocket</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.identify.pocket_wrapper">
-<code class="descclassname">pyvol.identify.</code><code class="descname">pocket_wrapper</code><span class="sig-paren">(</span><em>**opts</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.pocket_wrapper" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.identify.</code><code class="sig-name descname">pocket_wrapper</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">opts</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.pocket_wrapper" title="Permalink to this definition">¶</a></dt>
 <dd><p>wrapper for pocket that configures the logger, sanitizes inputs, and catches errors; useful when running from the command line or PyMOL but split from the core code for programmatic usage</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>opts (dict): dictionary containing all PyVOL options (see pyvol.pymol_interface.pymol_pocket_cmdline for details)</dd>
-<dt>Returns:</dt>
-<dd>pockets ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct pocket or subpocket
-output_opts (dict): dictionary containing the actual options used in the pocket calculation</dd>
+<dl class="simple">
+<dt>Args:</dt><dd><p>opts (dict): dictionary containing all PyVOL options (see pyvol.pymol_interface.pymol_pocket_cmdline for details)</p>
+</dd>
+<dt>Returns:</dt><dd><p>pockets ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct pocket or subpocket
+output_opts (dict): dictionary containing the actual options used in the pocket calculation</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.identify.subpockets">
-<code class="descclassname">pyvol.identify.</code><code class="descname">subpockets</code><span class="sig-paren">(</span><em>bounding_spheres</em>, <em>ref_spheres</em>, <em>**opts</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.subpockets" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="docutils">
-<dt>Args:</dt>
-<dd>bounding_spheres (Spheres): a Spheres object containing both the peptide and solvent exposed face external spheres
+<code class="sig-prename descclassname">pyvol.identify.</code><code class="sig-name descname">subpockets</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">bounding_spheres</span></em>, <em class="sig-param"><span class="n">ref_spheres</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">opts</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.subpockets" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>Args:</dt><dd><p>bounding_spheres (Spheres): a Spheres object containing both the peptide and solvent exposed face external spheres
 ref_spheres (Spheres): a Spheres object holding the interior spheres that define the pocket to be subdivided
-opts (dict): a dictionary containing all PyVOL options (see pyvol.configuration.clean_opts for details)</dd>
-<dt>Returns:</dt>
-<dd>grouped_list ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct subpocket</dd>
+opts (dict): a dictionary containing all PyVOL options (see pyvol.configuration.clean_opts for details)</p>
+</dd>
+<dt>Returns:</dt><dd><p>grouped_list ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct subpocket</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.identify.write_cfg">
-<code class="descclassname">pyvol.identify.</code><code class="descname">write_cfg</code><span class="sig-paren">(</span><em>**opts</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.write_cfg" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.identify.</code><code class="sig-name descname">write_cfg</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">opts</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.write_cfg" title="Permalink to this definition">¶</a></dt>
 <dd><p>write the processed configuration to file</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>output_dir (str): output directory, relative or absolute
-prefix (str): identifying prefix for the output files</dd>
+<dl class="simple">
+<dt>Args:</dt><dd><p>output_dir (str): output directory, relative or absolute
+prefix (str): identifying prefix for the output files</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.identify.write_report">
-<code class="descclassname">pyvol.identify.</code><code class="descname">write_report</code><span class="sig-paren">(</span><em>all_pockets</em>, <em>**opts</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.write_report" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.identify.</code><code class="sig-name descname">write_report</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">all_pockets</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">opts</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.identify.write_report" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write a brief report of calculated volumes to file</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>all_pockets ([Spheres]): a list of Spheres objects each of which contains the complete information about a distinct pocket or subpocket
+<dl class="simple">
+<dt>Args:</dt><dd><p>all_pockets ([Spheres]): a list of Spheres objects each of which contains the complete information about a distinct pocket or subpocket
 output_dir (str): output directory, relative or absolute
-prefix (str): identifying prefix for output files</dd>
+prefix (str): identifying prefix for output files</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -407,38 +408,37 @@ prefix (str): identifying prefix for output files</dd>
 <div class="section" id="module-pyvol.pymol_interface">
 <span id="pyvol-pymol-interface-module"></span><h2>PyVOL Pymol Interface Module<a class="headerlink" href="#module-pyvol.pymol_interface" title="Permalink to this headline">¶</a></h2>
 <p>Front facing PyMOL functions</p>
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.pymol_interface.display_pockets">
-<code class="descclassname">pyvol.pymol_interface.</code><code class="descname">display_pockets</code><span class="sig-paren">(</span><em>pockets</em>, <em>**opts</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.display_pockets" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.pymol_interface.</code><code class="sig-name descname">display_pockets</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pockets</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">opts</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.display_pockets" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display a list of pockets</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>pockets ([Spheres]): list of spheres object to display
-opts (dict): a dictionary containing all PyVOL options (see pyvol.pymol_interface.pymol_pocket_cmdline for details)</dd>
+<dl class="simple">
+<dt>Args:</dt><dd><p>pockets ([Spheres]): list of spheres object to display
+opts (dict): a dictionary containing all PyVOL options (see pyvol.pymol_interface.pymol_pocket_cmdline for details)</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.pymol_interface.load_calculation_cmdline">
-<code class="descclassname">pyvol.pymol_interface.</code><code class="descname">load_calculation_cmdline</code><span class="sig-paren">(</span><em>data_dir</em>, <em>prefix=None</em>, <em>display_mode=None</em>, <em>palette=None</em>, <em>alpha=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.load_calculation_cmdline" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.pymol_interface.</code><code class="sig-name descname">load_calculation_cmdline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data_dir</span></em>, <em class="sig-param"><span class="n">prefix</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">display_mode</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">palette</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.load_calculation_cmdline" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads a pocket from memory and displays it in PyMOL</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>data_dir (str): directory containing PyVOL output (by default ends in .pyvol)
+<dl class="simple">
+<dt>Args:</dt><dd><p>data_dir (str): directory containing PyVOL output (by default ends in .pyvol)
 prefix (str): internal display name (Default value = None)
 display_mode (str): display mode (Default value = “solid”)
 palette (str): comma-separated list of PyMOL color strings (Default value = None)
-alpha (float): transparency value (Default value = 1.0)</dd>
+alpha (float): transparency value (Default value = 1.0)</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.pymol_interface.pymol_pocket_cmdline">
-<code class="descclassname">pyvol.pymol_interface.</code><code class="descname">pymol_pocket_cmdline</code><span class="sig-paren">(</span><em>protein=None</em>, <em>ligand=None</em>, <em>prot_file=None</em>, <em>lig_file=None</em>, <em>min_rad=1.4</em>, <em>max_rad=3.4</em>, <em>constrain_radii=True</em>, <em>mode='largest'</em>, <em>coordinates=None</em>, <em>residue=None</em>, <em>resid=None</em>, <em>lig_excl_rad=None</em>, <em>lig_incl_rad=None</em>, <em>min_volume=200</em>, <em>subdivide=False</em>, <em>max_clusters=None</em>, <em>min_subpocket_rad=1.7</em>, <em>max_subpocket_rad=3.4</em>, <em>min_subpocket_surf_rad=1.0</em>, <em>radial_sampling=0.1</em>, <em>inclusion_radius_buffer=1.0</em>, <em>min_cluster_size=50</em>, <em>project_dir=None</em>, <em>output_dir=None</em>, <em>prefix=None</em>, <em>logger_stream_level='INFO'</em>, <em>logger_file_level='DEBUG'</em>, <em>protein_only=False</em>, <em>display_mode='solid'</em>, <em>alpha=1.0</em>, <em>palette=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.pymol_pocket_cmdline" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.pymol_interface.</code><code class="sig-name descname">pymol_pocket_cmdline</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">protein</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ligand</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">prot_file</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">lig_file</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_rad</span><span class="o">=</span><span class="default_value">1.4</span></em>, <em class="sig-param"><span class="n">max_rad</span><span class="o">=</span><span class="default_value">3.4</span></em>, <em class="sig-param"><span class="n">constrain_radii</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'largest'</span></em>, <em class="sig-param"><span class="n">coordinates</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">residue</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">resid</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">lig_excl_rad</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">lig_incl_rad</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_volume</span><span class="o">=</span><span class="default_value">200</span></em>, <em class="sig-param"><span class="n">subdivide</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">max_clusters</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_subpocket_rad</span><span class="o">=</span><span class="default_value">1.7</span></em>, <em class="sig-param"><span class="n">max_subpocket_rad</span><span class="o">=</span><span class="default_value">3.4</span></em>, <em class="sig-param"><span class="n">min_subpocket_surf_rad</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">radial_sampling</span><span class="o">=</span><span class="default_value">0.1</span></em>, <em class="sig-param"><span class="n">inclusion_radius_buffer</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">min_cluster_size</span><span class="o">=</span><span class="default_value">50</span></em>, <em class="sig-param"><span class="n">project_dir</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">output_dir</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">prefix</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">logger_stream_level</span><span class="o">=</span><span class="default_value">'INFO'</span></em>, <em class="sig-param"><span class="n">logger_file_level</span><span class="o">=</span><span class="default_value">'DEBUG'</span></em>, <em class="sig-param"><span class="n">protein_only</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">display_mode</span><span class="o">=</span><span class="default_value">'solid'</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">palette</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.pymol_pocket_cmdline" title="Permalink to this definition">¶</a></dt>
 <dd><p>PyMOL-compatible command line entry point</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>protein (str): PyMOL-only PyMOL selection string for the protein (Default value = None)
+<dl class="simple">
+<dt>Args:</dt><dd><p>protein (str): PyMOL-only PyMOL selection string for the protein (Default value = None)
 ligand (str): PyMOL-only PyMOL selection string for the ligand (Default value = None)
 prot_file (str): filename for the input pdb file containing the peptide–redundant with protein argument (Default value =- )
 lig_file (str): filename for the input pdb file containing a ligand–redundant with ligand argument (Default value = None)
@@ -468,20 +468,21 @@ logger_file_level (str): sets the logger level for file output (Default value = 
 protein_only (bool): PyMOL-only include only peptides in protein file
 display_mode (str): PyMOL-only display mode for calculated pockets (Default value = “solid”)
 alpha (float): PyMOL-only display option specifying translucency of CGO objects (Default value = 1.0)
-palette (str): PyMOL-only display option representing a comma separated list of PyMOL color strings (Default value = None)</dd>
+palette (str): PyMOL-only display option representing a comma separated list of PyMOL color strings (Default value = None)</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.pymol_interface.pymol_pocket">
-<code class="descclassname">pyvol.pymol_interface.</code><code class="descname">pymol_pocket</code><span class="sig-paren">(</span><em>**opts</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.pymol_pocket" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.pymol_interface.</code><code class="sig-name descname">pymol_pocket</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">opts</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_interface.pymol_pocket" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform PyMOL-dependent processing of inputs to generate input files for PyVOL pocket processing</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>opts (dict): dictionary containing all PyVOL options (see pyvol.pymol_interface.pymol_pocket_cmdline for details)</dd>
-<dt>Returns:</dt>
-<dd>pockets ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct pocket or subpocket
-output_opts (dict): dictionary containing the actual options used in the pocket calculation</dd>
+<dl class="simple">
+<dt>Args:</dt><dd><p>opts (dict): dictionary containing all PyVOL options (see pyvol.pymol_interface.pymol_pocket_cmdline for details)</p>
+</dd>
+<dt>Returns:</dt><dd><p>pockets ([Spheres]): a list of Spheres objects each of which contains the geometric information describing a distinct pocket or subpocket
+output_opts (dict): dictionary containing the actual options used in the pocket calculation</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -489,74 +490,74 @@ output_opts (dict): dictionary containing the actual options used in the pocket 
 <div class="section" id="module-pyvol.pymol_utilities">
 <span id="pyvol-pymol-utilities-module"></span><h2>PyVOL Pymol Utilities Module<a class="headerlink" href="#module-pyvol.pymol_utilities" title="Permalink to this headline">¶</a></h2>
 <p>PyMOL convenience functions used by the front-end contained in pymol_interface.</p>
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.pymol_utilities.construct_palette">
-<code class="descclassname">pyvol.pymol_utilities.</code><code class="descname">construct_palette</code><span class="sig-paren">(</span><em>color_list=None</em>, <em>max_value=7</em>, <em>min_value=0</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_utilities.construct_palette" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.pymol_utilities.</code><code class="sig-name descname">construct_palette</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">color_list</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_value</span><span class="o">=</span><span class="default_value">7</span></em>, <em class="sig-param"><span class="n">min_value</span><span class="o">=</span><span class="default_value">0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_utilities.construct_palette" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a palette</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>color_list ([str]): list of PyMOL color strings (Default value = None)
+<dl class="simple">
+<dt>Args:</dt><dd><p>color_list ([str]): list of PyMOL color strings (Default value = None)
 max_value (int): max palette index (Default value = 7)
-min_value (int): min palette index (Default value = 1)</dd>
-<dt>Returns:</dt>
-<dd>palette ([str]): list of color definitions</dd>
+min_value (int): min palette index (Default value = 1)</p>
+</dd>
+<dt>Returns:</dt><dd><p>palette ([str]): list of color definitions</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.pymol_utilities.display_pseudoatom_group">
-<code class="descclassname">pyvol.pymol_utilities.</code><code class="descname">display_pseudoatom_group</code><span class="sig-paren">(</span><em>spheres</em>, <em>name</em>, <em>color='gray60'</em>, <em>palette=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_utilities.display_pseudoatom_group" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.pymol_utilities.</code><code class="sig-name descname">display_pseudoatom_group</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spheres</span></em>, <em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">color</span><span class="o">=</span><span class="default_value">'gray60'</span></em>, <em class="sig-param"><span class="n">palette</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_utilities.display_pseudoatom_group" title="Permalink to this definition">¶</a></dt>
 <dd><p>Displays a collection of pseudoatoms</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>spheres (Spheres): Spheres object holding pocket geometry
+<dl class="simple">
+<dt>Args:</dt><dd><p>spheres (Spheres): Spheres object holding pocket geometry
 name (str): display name
 color (str): PyMOL color string (Default value = ‘gray60’)
-palette ([str]): palette (Default value = None)</dd>
+palette ([str]): palette (Default value = None)</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.pymol_utilities.display_spheres_object">
-<code class="descclassname">pyvol.pymol_utilities.</code><code class="descname">display_spheres_object</code><span class="sig-paren">(</span><em>spheres</em>, <em>name</em>, <em>state=1</em>, <em>color='marine'</em>, <em>alpha=1.0</em>, <em>mode='solid'</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_utilities.display_spheres_object" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.pymol_utilities.</code><code class="sig-name descname">display_spheres_object</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spheres</span></em>, <em class="sig-param"><span class="n">name</span></em>, <em class="sig-param"><span class="n">state</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">color</span><span class="o">=</span><span class="default_value">'marine'</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">mode</span><span class="o">=</span><span class="default_value">'solid'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_utilities.display_spheres_object" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads a mesh object into a cgo list for display in PyMOL</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>spheres (Spheres): Spheres object containing all geometry
+<dl class="simple">
+<dt>Args:</dt><dd><p>spheres (Spheres): Spheres object containing all geometry
 name (str): display name
 state (int): model state (Default value = 1)
 color (str): PyMOL color string (Default value = ‘marine’)
 alpha (float): transparency value (Default value = 1.0)
 mode (str): display mode (Default value = “solid”)
-palette ([str]): palette (Default value = None)</dd>
+palette ([str]): palette (Default value = None)</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.pymol_utilities.mesh_to_solid_CGO">
-<code class="descclassname">pyvol.pymol_utilities.</code><code class="descname">mesh_to_solid_CGO</code><span class="sig-paren">(</span><em>mesh</em>, <em>color</em>, <em>alpha=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_utilities.mesh_to_solid_CGO" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.pymol_utilities.</code><code class="sig-name descname">mesh_to_solid_CGO</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mesh</span></em>, <em class="sig-param"><span class="n">color</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_utilities.mesh_to_solid_CGO" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a solid CGO object for a mesh for display in PyMOL</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>mesh (Trimesh): Trimesh mesh object
+<dl class="simple">
+<dt>Args:</dt><dd><p>mesh (Trimesh): Trimesh mesh object
 color (str): PyMOL color string (Default value = ‘gray60’)
-alpha (float): transparency value (Default value = 1.0)</dd>
-<dt>Returns:</dt>
-<dd>cgobuffer (str): CGO buffer that contains the instruction to load a solid object</dd>
+alpha (float): transparency value (Default value = 1.0)</p>
+</dd>
+<dt>Returns:</dt><dd><p>cgobuffer (str): CGO buffer that contains the instruction to load a solid object</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.pymol_utilities.mesh_to_wireframe_CGO">
-<code class="descclassname">pyvol.pymol_utilities.</code><code class="descname">mesh_to_wireframe_CGO</code><span class="sig-paren">(</span><em>mesh</em>, <em>color_tuple</em>, <em>alpha=1.0</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_utilities.mesh_to_wireframe_CGO" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.pymol_utilities.</code><code class="sig-name descname">mesh_to_wireframe_CGO</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mesh</span></em>, <em class="sig-param"><span class="n">color_tuple</span></em>, <em class="sig-param"><span class="n">alpha</span><span class="o">=</span><span class="default_value">1.0</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.pymol_utilities.mesh_to_wireframe_CGO" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a wireframe CGO object for a mesh for display in PyMOL</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>mesh (Trimesh): Trimesh mesh object
+<dl class="simple">
+<dt>Args:</dt><dd><p>mesh (Trimesh): Trimesh mesh object
 color (str): PyMOL color string (Default value = ‘gray60’)
-alpha (float): transparency value (Default value = 1.0)</dd>
-<dt>Returns:</dt>
-<dd>cgobuffer (str): CGO buffer that contains the instruction to load a wireframe object</dd>
+alpha (float): transparency value (Default value = 1.0)</p>
+</dd>
+<dt>Returns:</dt><dd><p>cgobuffer (str): CGO buffer that contains the instruction to load a wireframe object</p>
+</dd>
 </dl>
 </dd></dl>
 
@@ -564,149 +565,149 @@ alpha (float): transparency value (Default value = 1.0)</dd>
 <div class="section" id="module-pyvol.spheres">
 <span id="pyvol-spheres-module"></span><h2>PyVOL Spheres Module<a class="headerlink" href="#module-pyvol.spheres" title="Permalink to this headline">¶</a></h2>
 <p>Defines the Spheres class which holds geometric information and performs basic operations on its data</p>
-<dl class="class">
+<dl class="py class">
 <dt id="pyvol.spheres.Spheres">
-<em class="property">class </em><code class="descclassname">pyvol.spheres.</code><code class="descname">Spheres</code><span class="sig-paren">(</span><em>xyz=None</em>, <em>r=None</em>, <em>xyzr=None</em>, <em>xyzrg=None</em>, <em>g=None</em>, <em>pdb=None</em>, <em>bv=None</em>, <em>mesh=None</em>, <em>name=None</em>, <em>spheres_file=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">pyvol.spheres.</code><code class="sig-name descname">Spheres</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">xyz</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">r</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">xyzr</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">xyzrg</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">g</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pdb</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">bv</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">mesh</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">spheres_file</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
-<dl class="method">
+<dl class="py method">
 <dt id="pyvol.spheres.Spheres.copy">
-<code class="descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.copy" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.copy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates a copy in memory of itself</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyvol.spheres.Spheres.calculate_surface">
-<code class="descname">calculate_surface</code><span class="sig-paren">(</span><em>probe_radius=1.4</em>, <em>cavity_atom=None</em>, <em>coordinate=None</em>, <em>all_components=False</em>, <em>exclusionary_radius=2.5</em>, <em>largest_only=False</em>, <em>noh=True</em>, <em>min_volume=200</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.calculate_surface" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">calculate_surface</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">probe_radius</span><span class="o">=</span><span class="default_value">1.4</span></em>, <em class="sig-param"><span class="n">cavity_atom</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">coordinate</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">all_components</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">exclusionary_radius</span><span class="o">=</span><span class="default_value">2.5</span></em>, <em class="sig-param"><span class="n">largest_only</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">noh</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">min_volume</span><span class="o">=</span><span class="default_value">200</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.calculate_surface" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate the SAS for a given probe radius</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>probe_radius (float): radius for surface calculations (Default value = 1.4)
+<dl class="simple">
+<dt>Args:</dt><dd><p>probe_radius (float): radius for surface calculations (Default value = 1.4)
 cavity_atom (int): id of a single atom which lies on the surface of the interior cavity of interest (Default value = None)
 coordinate ([float]): 3D coordinate to identify a cavity atom (Default value = None)
 all_components (bool): return all pockets? (Default value = False)
 exclusionary_radius (float): maximum permissibile distance to the closest identified surface element from the supplied coordinate (Default value = 2.5)
 largest_only (bool): return only the largest pocket? (Default value = False)
 noh (bool): remove waters before surface calculation? (Default value = True)
-minimum_volume (int): minimum volume of pockets returned when using ‘all_components’ (Default value = 200)</dd>
+minimum_volume (int): minimum volume of pockets returned when using ‘all_components’ (Default value = 200)</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyvol.spheres.Spheres.identify_nonextraneous">
-<code class="descname">identify_nonextraneous</code><span class="sig-paren">(</span><em>ref_spheres</em>, <em>radius</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.identify_nonextraneous" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">identify_nonextraneous</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ref_spheres</span></em>, <em class="sig-param"><span class="n">radius</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.identify_nonextraneous" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns all spheres less than radius away from any center in ref_spheres using cKDTree search built on the non-reference set</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>ref_spheres (Spheres): object that defines the pocket of interest
-radius (float): maximum distance to sphere centers to be considered nonextraneous</dd>
-<dt>Returns:</dt>
-<dd>nonextraneous (Spheres): a filtered Spheres object</dd>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ref_spheres (Spheres): object that defines the pocket of interest
+radius (float): maximum distance to sphere centers to be considered nonextraneous</p>
+</dd>
+<dt>Returns:</dt><dd><p>nonextraneous (Spheres): a filtered Spheres object</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyvol.spheres.Spheres.nearest">
-<code class="descname">nearest</code><span class="sig-paren">(</span><em>coordinate</em>, <em>max_radius=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.nearest" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">nearest</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinate</span></em>, <em class="sig-param"><span class="n">max_radius</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.nearest" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the index of the sphere closest to a coordinate; if max_radius is specified, the sphere returned must have a radius &lt;= max_radius</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>coordinate (float nx3): 3D input coordinate
-max_radius (float): maximum permissibile distance to the nearest sphere (Default value = None)</dd>
-<dt>Returns:</dt>
-<dd>nearest_index: index of the closest sphere</dd>
+<dl class="simple">
+<dt>Args:</dt><dd><p>coordinate (float nx3): 3D input coordinate
+max_radius (float): maximum permissibile distance to the nearest sphere (Default value = None)</p>
+</dd>
+<dt>Returns:</dt><dd><p>nearest_index: index of the closest sphere</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyvol.spheres.Spheres.propagate_groups_to_external">
-<code class="descname">propagate_groups_to_external</code><span class="sig-paren">(</span><em>coordinates</em>, <em>tolerance=3</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.propagate_groups_to_external" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">propagate_groups_to_external</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinates</span></em>, <em class="sig-param"><span class="n">tolerance</span><span class="o">=</span><span class="default_value">3</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.propagate_groups_to_external" title="Permalink to this definition">¶</a></dt>
 <dd><p>Propagates group identifications to an external set of coordinates</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>coordinates (Nx3 ndarray): coordinates of the external spheres
-tolerance (float): maximum distance exclusive of the radii of the internal spheres</dd>
-<dt>Returns:</dt>
-<dd>prop_groups ([int]): list of group identifications for the supplied external coordinates</dd>
+<dl class="simple">
+<dt>Args:</dt><dd><p>coordinates (Nx3 ndarray): coordinates of the external spheres
+tolerance (float): maximum distance exclusive of the radii of the internal spheres</p>
+</dd>
+<dt>Returns:</dt><dd><p>prop_groups ([int]): list of group identifications for the supplied external coordinates</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyvol.spheres.Spheres.nearest_coord_to_external">
-<code class="descname">nearest_coord_to_external</code><span class="sig-paren">(</span><em>coordinates</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.nearest_coord_to_external" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">nearest_coord_to_external</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">coordinates</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.nearest_coord_to_external" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the coordinate of the sphere closest to the supplied coordinates</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>coordinates (float nx3): set of coordinates</dd>
-<dt>Returns:</dt>
-<dd>coordinate (float 1x3): coordinate of internal sphere closest to the supplied coordinates</dd>
+<dl class="simple">
+<dt>Args:</dt><dd><p>coordinates (float nx3): set of coordinates</p>
+</dd>
+<dt>Returns:</dt><dd><p>coordinate (float 1x3): coordinate of internal sphere closest to the supplied coordinates</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyvol.spheres.Spheres.remove_duplicates">
-<code class="descname">remove_duplicates</code><span class="sig-paren">(</span><em>eps=0.01</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.remove_duplicates" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">remove_duplicates</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">eps</span><span class="o">=</span><span class="default_value">0.01</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.remove_duplicates" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove duplicate spheres by identifying centers closer together than eps using DBSCAN</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>eps (float): DBSCAN input parameter (Default value = 0.01)</dd>
+<dl class="simple">
+<dt>Args:</dt><dd><p>eps (float): DBSCAN input parameter (Default value = 0.01)</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyvol.spheres.Spheres.remove_ungrouped">
-<code class="descname">remove_ungrouped</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.remove_ungrouped" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">remove_ungrouped</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.remove_ungrouped" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove all spheres that did not adequately cluster with the remainder of the set</p>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyvol.spheres.Spheres.remove_groups">
-<code class="descname">remove_groups</code><span class="sig-paren">(</span><em>groups</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.remove_groups" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">remove_groups</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">groups</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.remove_groups" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remove all spheres with specified group affiliations</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>groups ([float]): list of groups to remove</dd>
+<dl class="simple">
+<dt>Args:</dt><dd><p>groups ([float]): list of groups to remove</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="pyvol.spheres.Spheres.write">
-<code class="descname">write</code><span class="sig-paren">(</span><em>filename</em>, <em>contents='xyzrg'</em>, <em>output_mesh=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.write" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span></em>, <em class="sig-param"><span class="n">contents</span><span class="o">=</span><span class="default_value">'xyzrg'</span></em>, <em class="sig-param"><span class="n">output_mesh</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.spheres.Spheres.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes the contents of _xyzrg to a space delimited file</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>filename (str): filename to write the report and mesh if indicated
+<dl class="simple">
+<dt>Args:</dt><dd><p>filename (str): filename to write the report and mesh if indicated
 contents (str): string describing which columns to write to file (Default value = “xyzrg”)
-output_mesh (bool): write mesh to file? (Default value = True)</dd>
+output_mesh (bool): write mesh to file? (Default value = True)</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="pyvol.spheres.Spheres.xyzrg">
-<code class="descname">xyzrg</code><a class="headerlink" href="#pyvol.spheres.Spheres.xyzrg" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">xyzrg</code><a class="headerlink" href="#pyvol.spheres.Spheres.xyzrg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the coordinates, radii, and group ids</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="pyvol.spheres.Spheres.xyzr">
-<code class="descname">xyzr</code><a class="headerlink" href="#pyvol.spheres.Spheres.xyzr" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">xyzr</code><a class="headerlink" href="#pyvol.spheres.Spheres.xyzr" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve coordinates and radii</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="pyvol.spheres.Spheres.xyz">
-<code class="descname">xyz</code><a class="headerlink" href="#pyvol.spheres.Spheres.xyz" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">xyz</code><a class="headerlink" href="#pyvol.spheres.Spheres.xyz" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the coordinates</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="pyvol.spheres.Spheres.r">
-<code class="descname">r</code><a class="headerlink" href="#pyvol.spheres.Spheres.r" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">r</code><a class="headerlink" href="#pyvol.spheres.Spheres.r" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the radii</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py method">
 <dt id="pyvol.spheres.Spheres.g">
-<code class="descname">g</code><a class="headerlink" href="#pyvol.spheres.Spheres.g" title="Permalink to this definition">¶</a></dt>
+<em class="property">property </em><code class="sig-name descname">g</code><a class="headerlink" href="#pyvol.spheres.Spheres.g" title="Permalink to this definition">¶</a></dt>
 <dd><p>Retrieve the group indices</p>
 </dd></dl>
 
@@ -715,121 +716,120 @@ output_mesh (bool): write mesh to file? (Default value = True)</dd>
 </div>
 <div class="section" id="module-pyvol.utilities">
 <span id="pyvol-utilities-module"></span><h2>PyVOL Utilities Module<a class="headerlink" href="#module-pyvol.utilities" title="Permalink to this headline">¶</a></h2>
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.utilities.calculate_rotation_matrix">
-<code class="descclassname">pyvol.utilities.</code><code class="descname">calculate_rotation_matrix</code><span class="sig-paren">(</span><em>ref_vector</em>, <em>new_vector</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.calculate_rotation_matrix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.utilities.</code><code class="sig-name descname">calculate_rotation_matrix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ref_vector</span></em>, <em class="sig-param"><span class="n">new_vector</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.calculate_rotation_matrix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates the 3D rotation matrix to convert from ref_vector to new_vector; not used in main PyVOL calculations</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>ref_vector (3x1 ndarray): original vector
-new_vector (3x1 ndarray): target vector</dd>
-<dt>Returns:</dt>
-<dd>rot_matrix (3x3 ndarray): rotation matrix to convert the original vector to the target vector</dd>
+<dl class="simple">
+<dt>Args:</dt><dd><p>ref_vector (3x1 ndarray): original vector
+new_vector (3x1 ndarray): target vector</p>
+</dd>
+<dt>Returns:</dt><dd><p>rot_matrix (3x3 ndarray): rotation matrix to convert the original vector to the target vector</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.utilities.closest_vertex_normals">
-<code class="descclassname">pyvol.utilities.</code><code class="descname">closest_vertex_normals</code><span class="sig-paren">(</span><em>ref_mesh</em>, <em>query_mesh</em>, <em>ref_coordinates=None</em>, <em>ref_radius=2</em>, <em>interface_gap=2</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.closest_vertex_normals" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.utilities.</code><code class="sig-name descname">closest_vertex_normals</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">ref_mesh</span></em>, <em class="sig-param"><span class="n">query_mesh</span></em>, <em class="sig-param"><span class="n">ref_coordinates</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">ref_radius</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">interface_gap</span><span class="o">=</span><span class="default_value">2</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.closest_vertex_normals" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the location and normal for the closest point between two meshes</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>ref_mesh (trimesh): origin mesh
+<dl class="simple">
+<dt>Args:</dt><dd><p>ref_mesh (trimesh): origin mesh
 query_mesh (trimesh): target mesh
 ref_coordinates (3xN ndarray): coordinates used to specify the pertinent subregion on the ref_mesh
 ref_radius (float): radius used to identify points on the ref_mesh that are sufficiently close to the ref_coordinates
-interface_gap (float): maximum distance between the ref and query meshes at the identified point</dd>
-<dt>Returns:</dt>
-<dd>mean_pos (3x1 ndarray): coordinate of the central point between the meshes
-mean_normal (3x1 ndarray): normalized vector pointing from the ref_mesh to the query_mesh</dd>
+interface_gap (float): maximum distance between the ref and query meshes at the identified point</p>
+</dd>
+<dt>Returns:</dt><dd><p>mean_pos (3x1 ndarray): coordinate of the central point between the meshes
+mean_normal (3x1 ndarray): normalized vector pointing from the ref_mesh to the query_mesh</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.utilities.check_dir">
-<code class="descclassname">pyvol.utilities.</code><code class="descname">check_dir</code><span class="sig-paren">(</span><em>location</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.check_dir" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.utilities.</code><code class="sig-name descname">check_dir</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">location</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.check_dir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Ensure that a specified directory exists</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>location (str): target directory</dd>
+<dl class="simple">
+<dt>Args:</dt><dd><p>location (str): target directory</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.utilities.configure_logger">
-<code class="descclassname">pyvol.utilities.</code><code class="descname">configure_logger</code><span class="sig-paren">(</span><em>filename=None</em>, <em>stream_level=None</em>, <em>file_level=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.configure_logger" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.utilities.</code><code class="sig-name descname">configure_logger</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filename</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">stream_level</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">file_level</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.configure_logger" title="Permalink to this definition">¶</a></dt>
 <dd><p>Configures the base logger</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>filename (str): target filename is the log is to be written to file (Default value = None)
+<dl class="simple">
+<dt>Args:</dt><dd><p>filename (str): target filename is the log is to be written to file (Default value = None)
 stream_level (str): log level for the stream handler (Default value = None)
-file_level (str): log level for the file handler (Default value = None)</dd>
+file_level (str): log level for the file handler (Default value = None)</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.utilities.clean_logger">
-<code class="descclassname">pyvol.utilities.</code><code class="descname">clean_logger</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.clean_logger" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.utilities.</code><code class="sig-name descname">clean_logger</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.clean_logger" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes current handlers from the main PyVOL logger so that new ones can be assigned</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.utilities.coordinates_for_resid">
-<code class="descclassname">pyvol.utilities.</code><code class="descname">coordinates_for_resid</code><span class="sig-paren">(</span><em>pdb_file</em>, <em>resid</em>, <em>chain=None</em>, <em>model=0</em>, <em>sidechain_only=True</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.coordinates_for_resid" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.utilities.</code><code class="sig-name descname">coordinates_for_resid</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pdb_file</span></em>, <em class="sig-param"><span class="n">resid</span></em>, <em class="sig-param"><span class="n">chain</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">model</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">sidechain_only</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.coordinates_for_resid" title="Permalink to this definition">¶</a></dt>
 <dd><p>Extract the 3D coordinates for all atoms in a specified residue from a pdb file</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>pdb_file (str): filename of the specified pdb file
+<dl class="simple">
+<dt>Args:</dt><dd><p>pdb_file (str): filename of the specified pdb file
 resid (int): residue number
 chain (str): chain identifier (Default value = None)
 model (int): model identifier (Default value = 0)
-sidechain_only (bool): return only sidechain atom coordinates? (Default value = True)</dd>
-<dt>Returns:</dt>
-<dd>coordinates ([[float]]): 3xN array containing all atomic positions</dd>
+sidechain_only (bool): return only sidechain atom coordinates? (Default value = True)</p>
+</dd>
+<dt>Returns:</dt><dd><p>coordinates ([[float]]): 3xN array containing all atomic positions</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.utilities.run_cmd">
-<code class="descclassname">pyvol.utilities.</code><code class="descname">run_cmd</code><span class="sig-paren">(</span><em>options</em>, <em>in_directory=None</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.run_cmd" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.utilities.</code><code class="sig-name descname">run_cmd</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">options</span></em>, <em class="sig-param"><span class="n">in_directory</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.run_cmd" title="Permalink to this definition">¶</a></dt>
 <dd><p>Run a program using the command line</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>options ([str]): list of command line options
-in_directory (str): directory in which to run the command (Default value = None)</dd>
+<dl class="simple">
+<dt>Args:</dt><dd><p>options ([str]): list of command line options
+in_directory (str): directory in which to run the command (Default value = None)</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.utilities.surface_multiprocessing">
-<code class="descclassname">pyvol.utilities.</code><code class="descname">surface_multiprocessing</code><span class="sig-paren">(</span><em>args</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.surface_multiprocessing" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.utilities.</code><code class="sig-name descname">surface_multiprocessing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">args</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.surface_multiprocessing" title="Permalink to this definition">¶</a></dt>
 <dd><p>A single surface calculation designed to be run in parallel</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>args: a tuple containing:</dt>
-<dd>spheres (Spheres): a Spheres object containing all surface producing objects
+<dl class="simple">
+<dt>Args:</dt><dd><dl class="simple">
+<dt>args: a tuple containing:</dt><dd><p>spheres (Spheres): a Spheres object containing all surface producing objects
 probe_radius (float): radius to use for probe calculations
-kwargs (dict): all remaining arguments accepted by the surface calculation algorithm</dd>
+kwargs (dict): all remaining arguments accepted by the surface calculation algorithm</p>
+</dd>
 </dl>
 </dd>
-<dt>Returns:</dt>
-<dd>surface (Spheres): the input Spheres object but with calculated surface parameters</dd>
+<dt>Returns:</dt><dd><p>surface (Spheres): the input Spheres object but with calculated surface parameters</p>
+</dd>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="pyvol.utilities.sphere_multiprocessing">
-<code class="descclassname">pyvol.utilities.</code><code class="descname">sphere_multiprocessing</code><span class="sig-paren">(</span><em>spheres</em>, <em>radii</em>, <em>workers=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.sphere_multiprocessing" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">pyvol.utilities.</code><code class="sig-name descname">sphere_multiprocessing</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">spheres</span></em>, <em class="sig-param"><span class="n">radii</span></em>, <em class="sig-param"><span class="n">workers</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="headerlink" href="#pyvol.utilities.sphere_multiprocessing" title="Permalink to this definition">¶</a></dt>
 <dd><p>A wrapper function to calculate multiple surfaces using multiprocessing</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>spheres (Spheres): input Spheres object
+<dl class="simple">
+<dt>Args:</dt><dd><p>spheres (Spheres): input Spheres object
 radii ([float]): list of radii at which surfaces will be calculated
 workers (int): number of workers (Default value = None)
-kwargs (dict): all remaining arguments accepted by surface calculation that are constant across parallel calculations</dd>
-<dt>Returns:</dt>
-<dd>surfaces ([Spheres]): a list of Spheres object each with its surface calculated</dd>
+kwargs (dict): all remaining arguments accepted by surface calculation that are constant across parallel calculations</p>
+</dd>
+<dt>Returns:</dt><dd><p>surfaces ([Spheres]): a list of Spheres object each with its surface calculated</p>
+</dd>
 </dl>
 </dd></dl>
 

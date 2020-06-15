@@ -21,9 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -172,7 +173,7 @@
 <p>PyVOL consists of a back-end and a GUI. The back-end has been packaged into installers that contain all dependencies, but normal distribution is through PyPI and accessed through <cite>pip</cite>. PyVOL can consequently be installed into any python environment. For convenience, the PyVOL GUI contains an installer for easy installation into PyMOL 2.0+.</p>
 <div class="figure align-center" id="id1">
 <img alt="_images/installation_settings_gui.png" src="_images/installation_settings_gui.png" />
-<p class="caption"><span class="caption-text">GUI section that installs, updates, and uninstalls the PyVOL backend as well as confirming availability of the MSMS binary.</span></p>
+<p class="caption"><span class="caption-text">GUI section that installs, updates, and uninstalls the PyVOL backend as well as confirming availability of the MSMS binary.</span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 <div class="section" id="gui-installation-into-pymol-from-pypi">
 <h2>GUI Installation into PyMOL from PyPI<a class="headerlink" href="#gui-installation-into-pymol-from-pypi" title="Permalink to this headline">¶</a></h2>
@@ -203,8 +204,8 @@
 </div>
 <p>Again, for academic users and non-academic users with the Schrodinger incentive PyMOL distribution, installation is now complete. For all others, refer to manual <a class="reference internal" href="#msms-installation"><span class="std std-ref">MSMS Installation</span></a>.</p>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">When using command-line installation commands, make sure to use the right python environment. By default, pip will use the system python, but PyMOL often includes its own python environment. To check which python environment to use, run <cite>import sys; print(sys.executable)</cite> on the PyMOL prompt. If that is anything besides the system default python, use <cite>&lt;PyMOL python executable&gt; -m pip install bio-pyvol</cite> to install PyVOL into the PyMOL-accessible environment.</p>
+<p class="admonition-title">Note</p>
+<p>When using command-line installation commands, make sure to use the right python environment. By default, pip will use the system python, but PyMOL often includes its own python environment. To check which python environment to use, run <cite>import sys; print(sys.executable)</cite> on the PyMOL prompt. If that is anything besides the system default python, use <cite>&lt;PyMOL python executable&gt; -m pip install bio-pyvol</cite> to install PyVOL into the PyMOL-accessible environment.</p>
 </div>
 </div>
 <div class="section" id="msms-installation">

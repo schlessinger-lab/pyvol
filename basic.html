@@ -21,9 +21,10 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script type="text/javascript" src="_static/jquery.js"></script>
-        <script type="text/javascript" src="_static/underscore.js"></script>
-        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -169,7 +170,7 @@
 <p>The next few sections describe the parameters controlling Basic Usage, <a class="reference internal" href="pocket_specification.html#pocket-specification"><span class="std std-ref">Pocket Specification</span></a>, <a class="reference internal" href="partitioning.html#partitioning-options"><span class="std std-ref">Partitioning Options</span></a>, and <a class="reference internal" href="output.html#output-and-display-options"><span class="std std-ref">Output and Display Options</span></a>. With the exception of PyMOL-specific arguments, parameter names and argument handling are identical across all inputs.</p>
 <div class="figure align-center" id="id1">
 <img alt="_images/basic_parameters_gui.png" src="_images/basic_parameters_gui.png" />
-<p class="caption"><span class="caption-text">The Basic Parameters section of the PyVOL GUI with parameter mapping: Protein PyMOL Selection -&gt; <cite>protein</cite>, Minimum Radius -&gt; <cite>min_rad</cite>, and Maximum Radius -&gt; <cite>max_rad</cite></span></p>
+<p class="caption"><span class="caption-text">The Basic Parameters section of the PyVOL GUI with parameter mapping: Protein PyMOL Selection -&gt; <cite>protein</cite>, Minimum Radius -&gt; <cite>min_rad</cite>, and Maximum Radius -&gt; <cite>max_rad</cite></span><a class="headerlink" href="#id1" title="Permalink to this image">¶</a></p>
 </div>
 <div class="section" id="protein-selection">
 <h2>Protein Selection<a class="headerlink" href="#protein-selection" title="Permalink to this headline">¶</a></h2>
@@ -177,12 +178,12 @@
 <p>When providing input through PyMOL, the Boolean <cite>protein_only</cite> argument (checkbox in the GUI) can be set to restrict the <cite>protein</cite> selection to peptide atoms. This is enabled in the GUI by default and excludes all waters, solvent molecules, and other small-molecules from the pocket boundary. This is normally useful, but if a co-factor should be considered part of the binding site and excluded from the available volume, it can make sense to group it with the peptide for the purpose of calculating the solvent excluded surface.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># arguments: protein, prot_file</span>
 <span class="n">pocket</span> <span class="n">prot_file</span><span class="o">=&lt;</span><span class="n">protein_pdb_filename</span><span class="o">&gt;</span>
-<span class="n">pocket</span> <span class="n">protein</span><span class="o">=&lt;</span><span class="s2">&quot;PyMOL selection string&quot;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">protein_only</span><span class="o">=</span><span class="bp">True</span>
+<span class="n">pocket</span> <span class="n">protein</span><span class="o">=&lt;</span><span class="s2">&quot;PyMOL selection string&quot;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">protein_only</span><span class="o">=</span><span class="kc">True</span>
 </pre></div>
 </div>
 <div class="figure align-center" id="id2">
 <img alt="_images/basic_v01.png" src="_images/basic_v01.png" />
-<p class="caption"><span class="caption-text">Demonstration of the effects of varying the minimum and maximum probe radii. The smaller minimum radius of 1.2 Å (left column) shows surface topology slightly better than the larger minimum radius of 1.6 Å (right column). However, the smaller radius can connect regions for which the connections are smaller than that tolerated by small molecules. The smaller maximum radius of 2.8 Å (top row) includes excludes an extra region from the bulk solvent relative to the larger maximum radius of 3.4 Å (bottom row). In this case, all parameter combinations with the exception of the 1.2  minimum radius and 3.4  maximum radius identify a pocket closely conforming to the volume occupied by the bound small molecule. The top left panel was produced with the command: <cite>pocket protein=‘3k5v and chain A’, protein_only=True, min_rad=1.2, max_rad=2.8</cite>.</span></p>
+<p class="caption"><span class="caption-text">Demonstration of the effects of varying the minimum and maximum probe radii. The smaller minimum radius of 1.2 Å (left column) shows surface topology slightly better than the larger minimum radius of 1.6 Å (right column). However, the smaller radius can connect regions for which the connections are smaller than that tolerated by small molecules. The smaller maximum radius of 2.8 Å (top row) includes excludes an extra region from the bulk solvent relative to the larger maximum radius of 3.4 Å (bottom row). In this case, all parameter combinations with the exception of the 1.2  minimum radius and 3.4  maximum radius identify a pocket closely conforming to the volume occupied by the bound small molecule. The top left panel was produced with the command: <cite>pocket protein=’3k5v and chain A’, protein_only=True, min_rad=1.2, max_rad=2.8</cite>.</span><a class="headerlink" href="#id2" title="Permalink to this image">¶</a></p>
 </div>
 </div>
 <div class="section" id="minimum-and-maximum-probe-radii">
@@ -198,13 +199,13 @@
 <h2>Input Constraint<a class="headerlink" href="#input-constraint" title="Permalink to this headline">¶</a></h2>
 <p>By default, basic input radii parameters are compared and constrained to tested ranges using the <cite>constrain_radii</cite> argument. This can be turned off when running outside of the GUI, but in practice it is never useful to disable this feature. While edge cases are possible in which violating constraints is useful, in practice these constraints represent effective ranges. In particular, if the minimum radius is set to absurdly low values, the software will start fitting pockets even within intramolecular spaces and provide meaningless output if not fully crashing the program.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># arguments constrain_radii</span>
-<span class="n">pocket</span> <span class="n">prot_file</span><span class="o">=&lt;</span><span class="n">protein_pdb_filename</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">min_rad</span><span class="o">=&lt;</span><span class="mf">1.4</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">max_rad</span><span class="o">=&lt;</span><span class="mf">3.4</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">constrain_radii</span><span class="o">=</span><span class="bp">True</span>
-<span class="n">pocket</span> <span class="n">protein</span><span class="o">=&lt;</span><span class="s2">&quot;PyMOL selection string&quot;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">min_rad</span><span class="o">=&lt;</span><span class="mf">1.4</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">max_rad</span><span class="o">=&lt;</span><span class="mf">3.4</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">constrain_radii</span><span class="o">=</span><span class="bp">True</span>
+<span class="n">pocket</span> <span class="n">prot_file</span><span class="o">=&lt;</span><span class="n">protein_pdb_filename</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">min_rad</span><span class="o">=&lt;</span><span class="mf">1.4</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">max_rad</span><span class="o">=&lt;</span><span class="mf">3.4</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">constrain_radii</span><span class="o">=</span><span class="kc">True</span>
+<span class="n">pocket</span> <span class="n">protein</span><span class="o">=&lt;</span><span class="s2">&quot;PyMOL selection string&quot;</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">min_rad</span><span class="o">=&lt;</span><span class="mf">1.4</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">max_rad</span><span class="o">=&lt;</span><span class="mf">3.4</span><span class="o">&gt;</span><span class="p">,</span> <span class="n">constrain_radii</span><span class="o">=</span><span class="kc">True</span>
 </pre></div>
 </div>
 <div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Be careful about saving <cite>.pse</cite> PyMOL sessions with PyVOL-produced surfaces. PyMOL does not currently use plugins to load unfamiliar CGO objects, so calculated surfaces will not load correctly from a saved PyMOL session. On the other hand, it should be possible to recreate results using saved PyMOL <cite>.pml</cite> logs. Surfaces can be loaded back into a session using the <cite>Load Pocket</cite> (command-line <cite>load_pocket</cite>) commands.</p>
+<p class="admonition-title">Note</p>
+<p>Be careful about saving <cite>.pse</cite> PyMOL sessions with PyVOL-produced surfaces. PyMOL does not currently use plugins to load unfamiliar CGO objects, so calculated surfaces will not load correctly from a saved PyMOL session. On the other hand, it should be possible to recreate results using saved PyMOL <cite>.pml</cite> logs. Surfaces can be loaded back into a session using the <cite>Load Pocket</cite> (command-line <cite>load_pocket</cite>) commands.</p>
 </div>
 </div>
 </div>
