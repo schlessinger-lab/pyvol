@@ -9,7 +9,7 @@ from pyvol.identify import pocket_wrapper
 @pytest.mark.parametrize("prot_file", ["/home/rsmith/research/pyvol_development/pyvol/tests/1uwh_B_prot.pdb"])
 @pytest.mark.parametrize("min_rad", [1.4, 1.6])
 @pytest.mark.parametrize("max_rad", [3.2, 3.4, 3.6])
-@pytest.mark.parametrize("mode,lig_file,resid,coordinates", [("all", None, None, None), ("largest", None, None, None),("specific", None, "B513", None), ("specific","/home/rsmith/research/pyvol_development/pyvol/tests/1uwh_B_lig.pdb", None, None), ("specific", None, None, "95.6,29.8,68.5")])
+@pytest.mark.parametrize("mode,lig_file,resid,coordinates", [("all", None, None, None), ("largest", None, None, None),("specific", None, "B513", None), ("specific","/home/rsmith/research/pyvol_development/pyvol/tests/1uwh_B_lig.pdb", None, None), ("specific", None, None, "95.6 29.8 68.5")])
 def test_specification(prot_file, min_rad, max_rad, mode, lig_file, resid, coordinates):
     opts = {
         "prot_file": prot_file,
@@ -23,7 +23,7 @@ def test_specification(prot_file, min_rad, max_rad, mode, lig_file, resid, coord
     }
     pockets, opts = pocket_wrapper(**opts)
 
-    assert os.path.isfile(os.path.join(opts.get("output_dir"), "{0}.log".format(opts.get("prefix"))))
+    assert os.path.isfile(os.path.join(opts.get("output_dir"), "{0}.log". format(opts.get("prefix"))))
     assert os.path.isfile(os.path.join(opts.get("output_dir"), "{0}.rept".format(opts.get("prefix"))))
     assert os.path.isfile(os.path.join(opts.get("output_dir"), "{0}.cfg".format(opts.get("prefix"))))
     assert os.path.isfile(os.path.join(opts.get("output_dir"), "{0}_p0.xyzrg".format(opts.get("prefix"))))

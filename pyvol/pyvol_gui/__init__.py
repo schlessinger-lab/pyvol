@@ -23,7 +23,7 @@ def __init_plugin__(app=None):
         # cmd.extend('pose_report', pymol_interface.pose_report)
         logger.debug("PyVOL successfully imported")
     except:
-        logger.info("PyVOL not imported; installing from local cache or PyPI to use")
+        logger.info("PyVOL not imported; install from conda (or PyPI with manual msms installation)")
 
     # add MSMS path to PyMOL preferences
     import distutils
@@ -31,15 +31,7 @@ def __init_plugin__(app=None):
 
     msms_exe = distutils.spawn.find_executable("msms")
     if msms_exe is None:
-        try:
-            from pymol.plugins import pref_get
-            msms_exe = pref_get("pyvol_included_msms")
-
-            if msms_exe is not None:
-                sys.path.append(msms_exe)
-        except:
-            logger.warning("Cannot load PyMOL plugins module")
-
+        logger.info("MSMS not found in the path; confirm installation manually or reinstall using conda")
     # Try to link the GUI
 
     try:
@@ -93,12 +85,12 @@ def browse_pocket_file(form):
     form.pocket_dir_ledit.setText(pocket_file_name)
 
 
-def install_pypi_pyvol(form):
-    """ Attempts a de novo PyVOL installation using pip
+def install_remote_pyvol(form):
+    """ Attempts a de novo PyVOL installation using conda
 
     """
-
-    subprocess.check_output([sys.executable, "-m", "pip", "install", "bio-pyvol"])
+    from conda.cli import python_api
+    python_api.run_command(python_api.Commands.INSTALL, "bio-pyvol")
 
     try:
         from pymol import cmd
@@ -110,73 +102,12 @@ def install_pypi_pyvol(form):
     refresh_installation_status(form)
 
 
-def install_remote_pyvol(form):
-    """ GUI wrapper for de novo PyVOL installation using pip
+def update_pyvol():
+    """ Attempts to update PyVOL using conda
 
     """
-    install_pypi_pyvol(form)
-    refresh_installation_status(form)
-
-
-def install_cached_pyvol():
-    import re
-
-    installer_dir = os.path.dirname(os.path.realpath(__file__))
-    cache_dir = os.path.join(installer_dir, "cached_source")
-
-    if os.path.isdir(cache_dir):
-        bio_pyvol_gz = None
-        for f in os.listdir(cache_dir):
-            if re.match('bio-pyvol', f):
-                bio_pyvol_gz = os.path.join(cache_dir, f)
-                break
-
-        if bio_pyvol_gz is None:
-            logger.info("Cache directory found but no pyvol distribution")
-        else:
-            subprocess.check_output([sys.executable, "-m", "pip", "install", bio_pyvol_gz])
-
-            install_status = False
-            try:
-                from pymol import cmd
-                from pyvol import pymol_interface
-
-                cmd.extend('pocket', pymol_interface.pymol_pocket_cmdline)
-                # cmd.extend('load_pocket', pymol_interface.load_pocket)
-                install_status = True
-            except:
-                logger.warning("Installation questionable")
-
-            if install_status:
-                logger.info("Installation succeeded")
-
-                import shutil
-                shutil.rmtree(cache_dir)
-    else:
-        logger.info("Local cache not found; requires installation through command-line or GUI")
-
-def install_local_pyvol(form):
-    """ GUI wrapper for local PyVOL installation
-
-    """
-    install_cached_pyvol()
-    refresh_installation_status(form)
-
-
-def update_pypi_pyvol():
-    """ Attempts to update PyVOL using pip
-
-    """
-
-    subprocess.check_output([sys.executable, "-m", "pip", "install", "--upgrade", "bio-pyvol"])
-
-
-def update_pyvol(form):
-    """ GUI wrapper for updating PyVOL using pip
-
-    """
-
-    update_pypi_pyvol()
+    from conda.cli import python_api
+    python_api.run_command(python_api.Commands.UPDATE, "bio-pyvol")
 
     msg = QtWidgets.QMessageBox()
     msg.setIcon(QtWidgets.QMessageBox.Information)
@@ -187,50 +118,6 @@ def update_pyvol(form):
     msg.exec_()
 
     refresh_installation_status(form)
-
-
-def toggle_included_msms(form):
-    """ GUI wrapper for toggling use of the included MSMS binaries
-
-    """
-
-    try:
-        from pymol import plugins
-        import pyvol
-        import platform
-
-        if form.msms_included_cbox.isChecked():
-            included_msms_exe = None
-            pyvol_dir = os.path.dirname(pyvol.__file__)
-            msms_dir = os.path.join(pyvol_dir, "pkgs", "msms_2.6.1")
-
-            if platform.system() == 'Linux':
-                included_msms_exe = os.path.join(msms_dir, 'Linux_x86_64')
-            elif platform.system() == 'Windows':
-                included_msms_exe = os.path.join(msms_dir, 'win32')
-            elif platform.system() == 'Darwin':
-                included_msms_exe = os.path.join(msms_dir, 'MacOSX')
-
-            if included_msms_exe is not None:
-                if os.path.isfile(included_msms_exe):
-                    plugins.pref_set("pyvol_msms_exe", included_msms_exe)
-                    plugins.pref_save()
-                    if included_msms_exe not in sys.path:
-                        sys.path.append(included_msms_exe)
-                else:
-                    logger.warning("MSMS exe not found at the expected location")
-            else:
-                logger.warning("Platform identification failed")
-        else:
-            plugins.pref_set("pyvol_msms_exe", None)
-            plugins.pref_save()
-            logger.info("PyVOL MSMS usage unset")
-
-    except:
-        logger.warning("Unable to alter PyMOL preferences")
-
-    refresh_installation_status(form)
-
 
 
 def refresh_installation_status(form, check_for_updates=False):
@@ -323,34 +210,6 @@ def refresh_installation_status(form, check_for_updates=False):
     included_msms_present = False
     included_msms_exe = None
 
-    # First check the bundled directory
-
-    if pyvol_installed:
-        try:
-            import pyvol
-            import platform
-
-            pyvol_dir = os.path.dirname(pyvol.__file__)
-            msms_dir = os.path.join(pyvol_dir, "pkgs", "msms_2.6.1")
-
-            if platform.system() == 'Linux':
-                included_msms_exe = os.path.join(msms_dir, 'Linux_x86_64')
-            elif platform.system() == 'Windows':
-                included_msms_exe = os.path.join(msms_dir, 'win32')
-            elif platform.system() == 'Darwin':
-                included_msms_exe = os.path.join(msms_dir, 'MacOSX')
-
-            if os.path.exists(included_msms_exe):
-                included_msms_present = True
-                form.msms_pyvol_label.setText("{0}".format(apply_color(included_msms_exe, "black")))
-                form.msms_included_cbox.setEnabled(True)
-            else:
-                included_msms_exe = None
-                form.msms_pyvol_label.setText("{0}".format(apply_color("(not found)", "red")))
-                form.msms_included_cbox.setEnabled(False)
-        except:
-            pass
-
     if pyvol_installed:
         msms_exe = distutils.spawn.find_executable("msms")
         if msms_exe is not None:
@@ -362,16 +221,7 @@ def refresh_installation_status(form, check_for_updates=False):
     if msms_installed:
         form.msms_system_label.setText("{0}".format(apply_color(msms_exe, "blue")))
     else:
-        try:
-            from pymol.plugins import pref_get
-            msms_exe = pref_get("pyvol_included_msms")
-
-            if msms_exe is not None:
-                form.msms_system_label.setText("{0}".format(apply_color("MSMS executable identified but not able to be programmatically added to the path. Manually add the MSMS executable to path in order to run.", "red")))
-            else:
-                form.msms_system_label.setText("{0}".format(apply_color("(not found)", "red")))
-        except:
-            form.msms_system_label.setText("{0}".format(apply_color("(neither it nor plugin definition found)", "red")))
+        form.msms_system_label.setText("{0}".format(apply_color("not found", "red")))
 
     if not pyvol_installed:
         gui_version = __version__
@@ -382,29 +232,13 @@ def refresh_installation_status(form, check_for_updates=False):
         form.check_updates_button.setEnabled(False)
         form.update_button.setEnabled(False)
 
-        form.install_remote_browser.setText("PyPI has not yet been queried.<br>")
+        form.install_remote_browser.setText("Conda has not yet been queried.<br>")
         form.install_remote_button.setEnabled(True)
 
         cache_present = False
         cache_version = None
         installer_dir = os.path.dirname(os.path.realpath(__file__))
         cache_dir = os.path.join(installer_dir, "cached_source")
-
-        if os.path.isdir(cache_dir):
-            import re
-            bio_pyvol_gz = None
-            for f in os.listdir(cache_dir):
-                if re.match('bio-pyvol', f):
-                    cache_present = True
-                    break
-
-        if cache_present:
-            status_msg = status_msg + "PyVOL can be installed from a local cache.<br>"
-            form.install_cache_button.setEnabled(True)
-            form.install_status_browser.setText(status_msg)
-        else:
-            form.install_status_browser.setText("PyVOL is not currently installed.<br>")
-            form.install_cache_button.setEnabled(False)
 
     if pyvol_installed:
         form.setWindowTitle("PyVOL v{0}".format(pyvol_version))
@@ -421,7 +255,7 @@ def refresh_installation_status(form, check_for_updates=False):
             for pckg in avail:
                 if pckg["name"] == "bio-pyvol":
                     update_available = True
-                    form.install_remote_browser.setText(("A new version of PyVOL is available through PyPI:<br>"
+                    form.install_remote_browser.setText(("A new version of PyVOL is available through Conda:<br>"
                         "&nbsp;   pyvol: {0} -> {1}").format(pyvol_version, apply_color(pckg['latest_version'], "blue")))
                     break
 
@@ -452,7 +286,7 @@ def refresh_installation_status(form, check_for_updates=False):
                 gui_version = apply_color(__version__, "green")
             else:
                 gui_version = apply_color("{0} ({1} expected)".format(__version__, expected_gui_version), "blue")
-                status_msg = status_msg + "{0}--check whether the PyVOL backend is up-to-date and using the PyMOL plugin manager reinstall the newest version of the plugin from <a href='https://github.com/schlessingerlab/pyvol/blob/master/installers/pyvol-installer.zip'>github</a>.<br>".format(apply_color("GUI version mismatch", "red"))
+                status_msg = status_msg + "{0}--check whether the PyVOL backend is up-to-date and using the PyMOL plugin manager reinstall the newest version of the plugin from <a href='https://github.com/schlessinger-lab/pyvol/blob/master/installers/pyvol-installer.zip'>github</a>.<br>".format(apply_color("GUI version mismatch", "red"))
         except:
             gui_version = __version__
         form.install_status_browser.setText((

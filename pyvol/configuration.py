@@ -12,6 +12,29 @@ from datetime import datetime
 
 logger = logging.getLogger(__name__)
 
+_option_constraints = {
+    "general_min_rad_dflt": 1.4,
+    "general_max_rad_dflt": 3.4,
+    "general_min_rad_min": 1.2,
+    "general_min_rad_max": 2.0,
+    "general_max_rad_min": 2.0,
+    "general_max_rad_max": 5.0,
+    "general_constrain_radii": False,
+    "specification_min_volume_dflt": 200,
+    "partitioning_subdivide_dflt": False,
+    "partitioning_max_clusters_dflt": 50,
+    "partitioning_max_clusters_min": 2,
+    "partitioning_min_subpocket_rad_dflt": 1.7,
+    "partitioning_max_subpocket_rad_dflt": 3.4,
+    "partitioning_min_subpocket_surf_rad_dflt": 1.0,
+    "partitioning_radial_sampling_dflt": 0.1,
+    "partitioning_inclusion_radius_buffer_dflt": 1.0,
+    "partitioning_min_cluster_size_dflt": 5,
+    "pymol_protein_only_dflt": False,
+    "pymol_display_mode_dflt": "solid",
+    "pymol_alpha_dflt": 0.85,
+}
+
 def clean_opts(input_opts):
     """ Cleans opts and then returns the sanitized contents
 
@@ -35,9 +58,21 @@ def clean_opts(input_opts):
     opts["protein"] = input_opts.get("protein")
     opts["prot_file"] = input_opts.get("prot_file")
     opts["lig_file"] = input_opts.get("lig_file")
-    opts["min_rad"] = float(input_opts.get("min_rad", 1.4))
-    opts["max_rad"] = float(input_opts.get("max_rad", 3.4))
-    opts["constrain_radii"] = input_opts.get("constrain_inputs", False)
+
+    # reversion
+    # opts["min_rad"] = float(input_opts.get("min_rad", _option_constraints.get("general_min_rad_dflt")))
+    # opts["max_rad"] = float(input_opts.get("min_rad", _option_constraints.get("general_min_rad_dflt")))
+    try:
+        opts["min_rad"] = float(input_opts.get("min_rad", _option_constraints.get("general_min_rad_dflt")))
+    except:
+        logger.warning("Improper minimum radius parameter ({0}) removed and replaced with default ({1})".format(opts.get("min_rad"), _option_constraints.get("general_min_rad_dflt")))
+        opts["min_rad"] = _option_constraints.get("general_min_rad_dflt")
+    try:
+        opts["max_rad"] = float(input_opts.get("max_rad", _option_constraints.get("general_max_rad_dflt")))
+    except:
+        logger.warning("Improper maximum radius parameter ({0}) removed and replaced with default ({1})".format(opts.get("max_rad"), _option_constraints.get("general_max_rad_dflt")))
+        opts["max_rad"] = _option_constraints.get("general_max_rad_dflt")
+    opts["constrain_radii"] = input_opts.get("constrain_radii", _option_constraints.get("general_constrain_radii"))
 
     opts["mode"] = input_opts.get("mode")
     opts["coordinates"] = input_opts.get("coordinates")
@@ -57,28 +92,45 @@ def clean_opts(input_opts):
     opts["resid"] = input_opts.get("resid")
     opts["lig_excl_rad"] = input_opts.get("lig_excl_rad")
     if opts.get("lig_excl_rad") is not None:
-        opts["lig_excl_rad"] = float(opts["lig_excl_rad"])
+        try:
+            opts["lig_excl_rad"] = float(opts.get("lig_excl_rad"))
+        except:
+            logger.warning("Improper ligand exclusion radius parameter removed ({0})".format(opts.get("lig_excl_rad")))
+            opts["lig_excl_rad"] = None
     opts["lig_incl_rad"] = input_opts.get("lig_incl_rad")
     if opts.get("lig_incl_rad") is not None:
-        opts["lig_incl_rad"] = float(opts["lig_incl_rad"])
+        try:
+            opts["lig_incl_rad"] = float(opts["lig_incl_rad"])
+        except:
+            logger.warning("Improper ligand inclusion radius parameter removed ({0})".format(opts.get("lig_incl_rad")))
+            opts["lig_incl_rad"] = None
     opts["min_volume"] = input_opts.get("min_volume")
     if opts.get("min_volume") is not None:
-        opts["min_volume"] = float(input_opts.get("min_volume"))
+        try:
+            opts["min_volume"] = float(input_opts.get("min_volume"))
+        except:
+            logger.warning("Improper minimum volume parameter removed ({0})".format(opts.get("min_volume")))
+            opts["min_volume"] = None
     else:
         if opts.get("mode") == "all":
-            opts["min_volume"] = 200
+            logger.warning("Minimum volume parameter for pocket identification set to default ({0}) for a calculation in 'all' mode with no input parameter value".format(_option_constraints.get("specification_min_volume_dflt")))
+            opts["min_volume"] = _option_constraints.get("specification_min_volume_dflt")
 
-    opts["subdivide"] = input_opts.get("subdivide", False)
-    if not isinstance(opts["subdivide"], bool):
-        opts["subdivide"] = False
+    opts["subdivide"] = input_opts.get("subdivide", _option_constraints.get("partitioning_subdivide_dflt"))
+    if not isinstance(opts.get("subdivide"), bool):
+        logger.warning("Non-boolean subdivide parameter replaced by default ({0})".format(_option_constraints.get("partitioning_subdivide_dflt")))
+        opts["subdivide"] = _option_constraints.get("partitioning_subdivide_dflt")
     if opts["subdivide"]:
-        opts["max_clusters"] = int(input_opts.get("max_clusters", 50))
-        opts["min_subpocket_rad"] = float(input_opts.get("min_subpocket_rad", 1.7))
-        opts["max_subpocket_rad"] = float(input_opts.get("max_subpocket_rad", 3.4))
-        opts["min_subpocket_surf_rad"] = float(input_opts.get("min_subpocket_surf_rad", 1.0))
-        opts["radial_sampling"] = float(input_opts.get("radial_sampling", 0.1))
-        opts["inclusion_radius_buffer"] = float(input_opts.get("inclusion_radius_buffer", 1.0))
-        opts["min_cluster_size"] = int(input_opts.get("min_cluster_size", 50))
+        try:
+            opts["max_clusters"] = int(input_opts.get("max_clusters", _option_constraints.get("partitioning_max_clusters_dflt")))
+            opts["min_subpocket_rad"] = float(input_opts.get("min_subpocket_rad", _option_constraints.get("partitioning_min_subpocket_rad_dflt")))
+            opts["max_subpocket_rad"] = float(input_opts.get("max_subpocket_rad", _option_constraints.get("partitioning_max_subpocket_rad_dflt")))
+            opts["min_subpocket_surf_rad"] = float(input_opts.get("min_subpocket_surf_rad", _option_constraints.get("partitioning_min_subpocket_surf_rad_dflt")))
+            opts["radial_sampling"] = float(input_opts.get("radial_sampling", _option_constraints.get("partitioning_radial_sampling_dflt")))
+            opts["inclusion_radius_buffer"] = float(input_opts.get("inclusion_radius_buffer", _option_constraints.get("partitioning_inclusion_radius_buffer_dflt")))
+            opts["min_cluster_size"] = int(input_opts.get("min_cluster_size", _option_constraints.get("parttitioning_min_cluster_size_dflt")))
+        except:
+            raise ValueError("provided partitioning parameter unable to be cast to int/float; check inputs for a non-numeric value")
 
     opts["project_dir"] = input_opts.get("project_dir")
     opts["output_dir"] = input_opts.get("output_dir")
@@ -91,12 +143,14 @@ def clean_opts(input_opts):
         else:
             logger.error("No protein input detected: either prot_file or the PyMOL protein selection must be defined")
             raise ValueError("No protein geometry defined: provide either a protein file or protein PyMOL selection")
+        logger.info("Run prefix set to: {0}".format(opts.get("prefix")))
 
     if opts.get("output_dir") is None:
         if opts.get("project_dir") is not None:
             opts["output_dir"] = os.path.join(opts.get("project_dir"), "{0}.pyvol".format(opts.get("prefix")))
         else:
             opts["output_dir"] = os.path.join(os.getcwd(), "{0}.pyvol".format(opts.get("prefix")))
+        logger.info("Output directory set to: {0}".format(opts.get("output_dir")))
 
     utilities.check_dir(opts.get("output_dir"))
 
@@ -119,7 +173,7 @@ def clean_opts(input_opts):
     opts["ligand"] = input_opts.get("ligand")
     opts["protein_only"] = input_opts.get("protein_only")
     if not isinstance(opts["protein_only"], bool):
-        opts["protein_only"] = False
+        opts["protein_only"] = _option_constraints.get("pymol_protein_only_dflt")
     opts["display_mode"] = input_opts.get("display_mode")
     if not opts["display_mode"] in ["solid", "mesh", "spheres"]:
         opts["display_mode"] = "solid"
@@ -139,34 +193,42 @@ def clean_opts(input_opts):
                         cleaned_pieces.extend(pieces)
                 else:
                     cleaned_pieces.append(pieces[0])
-            opts["palette"] = cleaned_pieces
+            if len(cleaned_pieces) > 0:
+                logger.info("PyMOL palette parsed: {0}".format(",".join(cleaned_pieces)))
+                opts["palette"] = cleaned_pieces
+            else:
+                logger.warning("PyMOL palette unable to be parsed")
 
     if input_opts.get("alpha") is not None:
-        opts["alpha"] = float(input_opts.get("alpha"))
+        try:
+            opts["alpha"] = float(input_opts.get("alpha"))
+        except:
+            logger.warning("Improper alpha parameter removed ({0}) and set to default ({1})".format(opts.get("lig_incl_rad"), _option_constraints.get("pymol_alpha_dflt")))
+            opts["alpha"] = _option_constraints.get("pymol_alpha_dflt")
     else:
-        opts["alpha"] = 1.0
+        opts["alpha"] = _option_constraints.get("pymol_alpha_dflt")
 
     # Clean options
-    if opts["prot_file"] is None:
+    if opts.get("prot_file") is None:
         logger.error("A protein file must be provided--Terminating job")
         raise
 
-    if opts["constrain_radii"]:
-        if opts["min_rad"] < 1.2:
-            logger.info("Minimum radius constrained from {0} to 1.2".format(opts["min_rad"]))
-            opts["min_rad"] = 1.2
-        elif opts["min_rad"] > 2.0:
-            logger.info("Minimum radius constrained from {0} to 2.0".format(opts["min_rad"]))
-            opts["min_rad"] = 2.0
-
-        if opts["max_rad"] < 2.0:
-            logger.info("Maximum radius constrained from {0} to 2.0".format(opts["max_rad"]))
-            opts["max_rad"] = 2.0
-        elif opts["max_rad"] > 5.0:
-            logger.info("Maximum radius constrained from {0} to 5.0".format(opts["max_rad"]))
-            opts["max_rad"] = 5.0
+    if opts.get("constrain_radii"):
+        if opts.get("min_rad") < _option_constraints.get("general_min_rad_min"):
+            logger.warning("Minimum radius constrained from {0} to {1}".format(opts.get("min_rad"), _option_constraints.get("general_min_rad_min")))
+            opts["min_rad"] = _option_constraints.get("general_min_rad_min")
+        elif opts["min_rad"] > _option_constraints.get("general_min_rad_max"):
+            logger.info("Minimum radius constrained from {0} to {1}".format(opts.get("min_rad"), _option_constraints.get("general_min_rad_max")))
+            opts["min_rad"] = _option_constraints.get("general_min_rad_max")
+        if opts["max_rad"] < _option_constraints.get("general_max_rad_min"):
+            logger.info("Maximum radius constrained from {0} to 2.0".format(opts.get("max_rad"), _option_constraints.get("general_max_rad_min")))
+            opts["max_rad"] = _option_constraints.get("general_max_rad_min")
+        elif opts["max_rad"] > _option_constraints.get("general_max_rad_max"):
+            logger.info("Maximum radius constrained from {0} to 5.0".format(opts.get("max_rad"), _option_constraints.get("general_max_rad_max")))
+            opts["max_rad"] = _option_constraints.get("general_max_rad_max")
 
     if opts["mode"] in ["all", "largest"]:
+        logger.info("Running in all or largest mode: removing lig_file, coordinates, resid, lig_excl_rad, and lig_incl_rad parameters from input")
         opts["lig_file"] = None
         opts["coordinates"] = None
         opts["resid"] = None
@@ -175,24 +237,25 @@ def clean_opts(input_opts):
     else:
         if opts["lig_file"] is not None:
             if opts["mode"] is None:
-                logger.info("Pocket identified through provided ligand")
+                logger.info("Running in specific mode using the provided input ligand: removing resid and coordinates parameters from input")
             opts["mode"] = "specific"
             opts["resid"] = None
             opts["coordinates"] = None
         elif opts["resid"] is not None:
             if opts["mode"] is None:
-                logger.info("Pocket identified through resid: {0}".format(opts["resid"]))
+                logger.info("Running in specific mode using the provided residue id ({0}): removing coordinates parater from input".format(opts["resid"]))
             opts["mode"] = "specific"
             opts["coordinates"] = None
         elif opts["coordinates"] is not None:
-            logger.info("Pocket identified through coordinates: {0}".format(opts["coordinates"]))
+            logger.info("Running in specific mode using the provided coordinates: {0}".format(opts["coordinates"]))
             opts["mode"] = "specific"
         else:
+            logger.info("Defaulting to running in largest mode because no mode was specified and no parameters sufficient to specify a pocket were provided")
             opts["mode"] = "largest"
 
-    if opts["subdivide"]:
-        if opts["max_clusters"] <= 1:
-            logger.warning("Subpocket analysis impossible with maximum clusters of {0}; disabling subpocket analysis".format(opts["max_clusters"]))
+    if opts.get("subdivide"):
+        if opts.get("max_clusters") < _option_constraints.get("partitioning_max_clusters_min"):
+            logger.warning("Subpocket analysis impossible with maximum clusters of {0}; disabling subpocket analysis and removing max_clusters, min_subpocket_rad, max_cluster_rad, min_subpocket_surf_rad, radial_sampling, inclusion_radius_buffer, and min_cluster_size parameters if present".format(opts["max_clusters"]))
             opts["subdivide"] = False
             opts["max_clusters"] = None
             opts["min_subpocket_rad"] = None
@@ -307,27 +370,27 @@ def defaults_to_cfg():
     config.add_section("General")
     config.set("General", "prot_file")
     config.set("General", "lig_file")
-    config.set("General", "min_rad", "1.4")
-    config.set("General", "max_rad", "3.4")
-    config.set("General", "constrain_radii", "True")
+    config.set("General", "min_rad", _option_constraints.get("general_min_rad_dflt"))
+    config.set("General", "max_rad", _option_constraints.get("general_max_rad_dflt"))
+    config.set("General", "constrain_radii", _option_constraints.get("general_constrain_radii"))
 
     config.add_section("Specification")
-    config.set("Specification", "mode", "largest")
+    config.set("Specification", "mode")
     config.set("Specification", "coordinates")
     config.set("Specification", "resid")
     config.set("Specification", "lig_excl_rad")
     config.set("Specification", "lig_incl_rad")
-    config.set("Specification", "min_volume", "200")
+    config.set("Specification", "min_volume", _option_constraints.get("specification_min_volume_dflt"))
 
     config.add_section("Partitioning")
-    config.set("Partitioning", "subdivide", "False")
+    config.set("Partitioning", "subdivide", _option_constraints.get("partitioning_subdivide_dflt"))
     config.set("Partitioning", "max_clusters")
-    config.set("Partitioning", "min_subpocket_rad", "1.7")
-    config.set("Partitioning", "max_subpocket_rad", "3.4")
-    config.set("Partitioning", "min_subpocket_surf_rad", "1.0")
-    config.set("Partitioning", "radial_sampling", "0.1")
-    config.set("Partitioning", "inclusion_radius_buffer", "1.0")
-    config.set("Partitioning", "min_cluster_size", "50")
+    config.set("Partitioning", "min_subpocket_rad", _option_constraints.get("partitioning_min_subpocket_rad_dflt"))
+    config.set("Partitioning", "max_subpocket_rad", )
+    config.set("Partitioning", "min_subpocket_surf_rad", )
+    config.set("Partitioning", "radial_sampling", )
+    config.set("Partitioning", "inclusion_radius_buffer")
+    config.set("Partitioning", "min_cluster_size")
 
     config.add_section("Output")
     config.set("Output", "project_dir")

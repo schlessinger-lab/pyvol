@@ -3,7 +3,9 @@
 PyVOL: Protein Pocket Visualization, Segmentation, and Characterization
 ***********************************************************************
 
-|pypi| |license|
+|conda| |pypi| |license|
+
+.. |conda| image:: https://anaconda.org/conda-forge/bio-pyvol/badges/version.svg
 
 .. |pypi| image:: https://img.shields.io/pypi/v/bio_pyvol.svg
 
