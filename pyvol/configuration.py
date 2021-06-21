@@ -59,9 +59,6 @@ def clean_opts(input_opts):
     opts["prot_file"] = input_opts.get("prot_file")
     opts["lig_file"] = input_opts.get("lig_file")
 
-    # reversion
-    # opts["min_rad"] = float(input_opts.get("min_rad", _option_constraints.get("general_min_rad_dflt")))
-    # opts["max_rad"] = float(input_opts.get("min_rad", _option_constraints.get("general_min_rad_dflt")))
     try:
         opts["min_rad"] = float(input_opts.get("min_rad", _option_constraints.get("general_min_rad_dflt")))
     except:
