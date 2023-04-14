@@ -316,7 +316,7 @@ def run_gui_load(form):
         display_mode = "mesh"
     elif form.load_spheres_rbutton.isChecked():
         display_mode = "spheres"
-    palette = form.load_color_ledit.text()
+    palette = form.palette_ledit.text() # Previously: form.load_color_ledit.text(). These seems to be no load_color_ledit named line edit on the ui file.
     alpha = form.load_alpha_ledit.text()
 
     if prefix == "":
